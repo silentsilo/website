@@ -1,0 +1,68 @@
+name: Build and Deploy
+
+# Whatever this workflow builds becomes the site people download an encrypted
+# vault from, so the actions below are pinned to commits rather than to moving
+# tags. A tag can be repointed by whoever controls the action's repository; a
+# commit cannot.
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+
+      - name: Log in to the registry
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Two tags on one image: `latest` for the deployment to follow, and the
+      # commit, so the running build can be named and rolled back to.
+      - name: Build and push
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
+        with:
+          context: .
+          file: deploy/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/silentsilo/website:latest
+            ghcr.io/silentsilo/website:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Comma-separated, so several targets can be redeployed from one push.
+      # Skipped rather than failed when unset: a build that pushed a good
+      # image should not go red because no deployment is wired up yet.
+      - name: Trigger Coolify deploy
+        env:
+          WEBHOOKS: ${{ secrets.COOLIFY_WEBHOOKS }}
+          COOLIFY_API_TOKEN: ${{ secrets.COOLIFY_API_TOKEN }}
+        run: |
+          if [ -z "$WEBHOOKS" ]; then
+            echo "No COOLIFY_WEBHOOKS set, nothing to deploy to."
+            exit 0
+          fi
+          IFS=',' read -ra HOOKS <<< "$WEBHOOKS"
+          for hook in "${HOOKS[@]}"; do
+            hook=$(echo "$hook" | xargs)
+            [ -z "$hook" ] && continue
+            echo "Triggering deploy hook"
+            if [ -n "$COOLIFY_API_TOKEN" ]; then
+              curl -fsS -X GET "$hook" -H "Authorization: Bearer $COOLIFY_API_TOKEN"
+            else
+              curl -fsS -X GET "$hook"
+            fi
+          done

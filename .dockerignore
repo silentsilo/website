@@ -1,0 +1,10 @@
+# Stays at the repository root: the build context is the root, and this is
+# where Docker looks for it regardless of where the Dockerfile lives.
+node_modules
+.next
+out
+.git
+.github
+.claude
+*.md
+LICENSE
