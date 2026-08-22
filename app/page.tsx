@@ -29,6 +29,13 @@ import {
   RELEASED,
   RELEASES,
   REPO,
+  INSTALLER_SHA256,
+  LATEST_INSTALLER_NAME,
+  LATEST_INSTALLER_SIG,
+  VIRUSTOTAL_DETECTIONS,
+  VIRUSTOTAL_ENGINES,
+  VIRUSTOTAL_REPORT,
+  VIRUSTOTAL_SCANNED,
 } from "./links";
 
 export default function Home() {
@@ -93,6 +100,50 @@ export default function Home() {
               </>
             )}
           </span>
+
+          {/* The scan result belongs next to the download or nowhere: it is
+              there to answer "is this safe to run" at the moment somebody
+              asks it. Dated, because the answer is a third party's and can
+              change without the file changing. */}
+          {RELEASED && (
+            <div className={`scan${VIRUSTOTAL_DETECTIONS === 0 ? "" : " is-flagged"}`}>
+              <span className="scan-ring" aria-hidden>
+                {VIRUSTOTAL_DETECTIONS}
+              </span>
+              <div className="scan-body">
+                {/* Worded from the number rather than beside it, so a release
+                    that does pick up a detection cannot leave the reassuring
+                    sentence sitting there next to a figure contradicting it. */}
+                <p className="scan-head">
+                  {VIRUSTOTAL_DETECTIONS === 0
+                    ? "No engine flagged this installer"
+                    : `${VIRUSTOTAL_DETECTIONS} of ${VIRUSTOTAL_ENGINES} engines flagged this installer`}
+                </p>
+                <p className="scan-when">
+                  <span className="scan-ratio">
+                    {VIRUSTOTAL_DETECTIONS}/{VIRUSTOTAL_ENGINES}
+                  </span>{" "}
+                  on VirusTotal · {VIRUSTOTAL_SCANNED} ·{" "}
+                  <a href={VIRUSTOTAL_REPORT} target="_blank" rel="noreferrer">
+                    See the report
+                  </a>
+                </p>
+              </div>
+              {/* What lets somebody check the file themselves: the digest to
+                  compare, and the signature to verify it against. */}
+              <div className="scan-verify">
+                <span className="scan-vk">SHA-256</span>
+                <code className="scan-vv">{INSTALLER_SHA256}</code>
+                <span className="scan-vk">Signature</span>
+                <span className="scan-vv">
+                  <a href={LATEST_INSTALLER_SIG} target="_blank" rel="noreferrer">
+                    {LATEST_INSTALLER_NAME}.sig
+                  </a>{" "}
+                  <span className="scan-vnote">minisign</span>
+                </span>
+              </div>
+            </div>
+          )}
 
           <div className="chips" aria-label="Technical facts">
             <span className="chip">AES-256-GCM</span>

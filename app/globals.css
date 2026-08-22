@@ -465,6 +465,146 @@ button.shot-zoomable:focus-visible {
   margin-top: 1rem;
 }
 
+/* The VirusTotal result, under the download. Emerald rather than the accent
+   purple: this is the one place on the page reporting a measured outcome, and
+   it should read as a result, not as another link. */
+/* The scan result, under the download. Emerald, and the only place on the
+   page reporting a measured outcome, so it should read as a result rather
+   than as another link. */
+.scan {
+  --scan: var(--emerald);
+  /* Grid rather than a row, so the hash spans the whole card. Beside the ring
+     it loses 4rem and wraps onto a second line, which turns the one thing on
+     the page meant to be compared character by character into a mess. */
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 1.1rem;
+  /* fit-content sizes the card to the hash row, which is the widest thing in
+     it. The ceiling is headroom for a wider mono fallback, not a target. */
+  width: fit-content;
+  max-width: 37rem;
+  margin: 1.9rem auto 0;
+  padding: 1.15rem 1.4rem 1.15rem 1.25rem;
+  text-align: left;
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  border-radius: var(--radius);
+  background: rgba(52, 211, 153, 0.045);
+}
+
+.scan.is-flagged {
+  --scan: #fbbf24;
+  border-color: rgba(251, 191, 36, 0.24);
+  background: rgba(251, 191, 36, 0.05);
+}
+
+/* A ring, because that is the shape people already read as a scan verdict.
+   Drawn with borders rather than an SVG: one element, and it scales with the
+   font like everything around it. */
+.scan-ring {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 3.1rem;
+  height: 3.1rem;
+  border: 2px solid var(--scan);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.07);
+  font-family: var(--mono);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--scan);
+}
+
+.scan.is-flagged .scan-ring {
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.08);
+}
+
+.scan-body {
+  min-width: 0;
+}
+
+.scan-head {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.97rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.scan-when {
+  margin: 0.25rem 0 0;
+  color: var(--dim);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+/* The ratio people recognise from VirusTotal, kept in the sentence rather
+   than crammed into the ring where it would stop being readable. */
+.scan-ratio {
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Label and value, aligned in a grid so the two rows line up under each
+   other rather than drifting with the label widths. */
+.scan-verify {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.4rem 0.6rem;
+  margin-top: 0.9rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 0.66rem;
+  color: var(--dim);
+}
+
+.scan-vk {
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.scan-vv {
+  min-width: 0;
+  color: var(--muted);
+  word-break: break-all;
+}
+
+.scan-vnote {
+  color: var(--dim);
+}
+
+/* Complete and selectable: a truncated hash cannot be compared against
+   Get-FileHash, which is the only reason to print one. The chrome the global
+   `code` rule adds makes it look like an input box, so it comes off. */
+code.scan-vv {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: inherit;
+  user-select: all;
+}
+
+@media (max-width: 30rem) {
+  .scan {
+    width: auto;
+    gap: 0.9rem;
+    padding: 1rem 1.1rem;
+  }
+
+  .scan-ring {
+    width: 2.6rem;
+    height: 2.6rem;
+    font-size: 1.15rem;
+  }
+}
+
 .chips {
   display: flex;
   flex-wrap: wrap;
