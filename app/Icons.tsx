@@ -130,6 +130,22 @@ export function IconArrowRight({ size = 16, className }: Props) {
   );
 }
 
+export function IconChevronLeft({ size = 22, className }: Props) {
+  return (
+    <svg width={size} height={size} className={className} {...base}>
+      <path d="M14.5 5.5L8 12l6.5 6.5" />
+    </svg>
+  );
+}
+
+export function IconChevronRight({ size = 22, className }: Props) {
+  return (
+    <svg width={size} height={size} className={className} {...base}>
+      <path d="M9.5 5.5L16 12l-6.5 6.5" />
+    </svg>
+  );
+}
+
 export function IconHelp({ size = 18, className }: Props) {
   return (
     <svg width={size} height={size} className={className} {...base}>

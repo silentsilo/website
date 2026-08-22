@@ -815,6 +815,76 @@ button.shot-zoomable:focus-visible .zoom-hint {
   box-shadow: 0 40px 120px rgba(0, 0, 0, 0.7);
 }
 
+/* Fixed to the viewport rather than placed around the picture: the shots
+   vary in aspect ratio, and arrows that shift with each one are arrows the
+   hand has to hunt for again every time. */
+.lightbox-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--accent-hover);
+}
+
+.lightbox-nav.is-prev {
+  left: 1.2rem;
+}
+
+.lightbox-nav.is-next {
+  right: 1.2rem;
+}
+
+.lightbox-where {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.4rem 0.95rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  background: rgba(3, 5, 12, 0.72);
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Thumb reach beats symmetry on a phone: the arrows come down to the bottom
+   corners, beside the counter, instead of hugging the middle of the edges. */
+@media (max-width: 34rem) {
+  .lightbox-nav {
+    top: auto;
+    bottom: 1.15rem;
+    transform: none;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .lightbox-nav.is-prev {
+    left: 1rem;
+  }
+
+  .lightbox-nav.is-next {
+    right: 1rem;
+  }
+}
+
 .lightbox-close {
   position: fixed;
   top: 1.4rem;

@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { IconChevronLeft, IconChevronRight } from "./Icons";
+
 /** Long enough to read the caption under the shot, which is the point of it. */
 const AUTOPLAY_MS = 6000;
 
@@ -106,6 +108,17 @@ export function Showcase() {
      started choosing does not want the page choosing again a moment later. */
   const takeOver = useCallback(() => setRotating(false), []);
 
+  /* One step through the shots, wrapping, shared by the tab arrow keys and
+     by the lightbox. Wrapping rather than stopping at the ends: the tab list
+     already wraps, and a dead arrow reads as a broken one. */
+  const go = useCallback(
+    (dir: number) => {
+      takeOver();
+      setActive((i) => (i + dir + SHOTS.length) % SHOTS.length);
+    },
+    [takeOver],
+  );
+
   /* Someone who has asked the system for less movement has asked for this
      too, and a carousel is the most literal reading of the request. */
   useEffect(() => {
@@ -147,10 +160,13 @@ export function Showcase() {
   }, [rotating]);
 
   /* Only the active shot is in the DOM, so without this the first pass
-     through would blank between tabs while each one downloads. */
+     through would blank between tabs while each one downloads. Both
+     neighbours, because the lightbox goes backwards too. */
   useEffect(() => {
-    const next = SHOTS[(active + 1) % SHOTS.length];
-    if (next) new Image().src = next.src;
+    for (const dir of [1, -1]) {
+      const near = SHOTS[(active + dir + SHOTS.length) % SHOTS.length];
+      if (near) new Image().src = near.src;
+    }
   }, [active]);
 
   /* Arrow keys move between tabs, as the tab role promises. The roving
@@ -170,7 +186,14 @@ export function Showcase() {
     if (!zoomed) return;
     closeRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setZoomed(false);
+      if (e.key === "Escape") {
+        setZoomed(false);
+        return;
+      }
+      const dir = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (dir === 0) return;
+      e.preventDefault();
+      go(dir);
     };
     document.addEventListener("keydown", onKey);
     return () => {
@@ -179,7 +202,7 @@ export function Showcase() {
          keyboard user is not dropped at the top of the page. */
       zoomTriggerRef.current?.focus();
     };
-  }, [zoomed]);
+  }, [zoomed, go]);
 
   return (
     <div className="showcase" ref={rootRef}>
@@ -250,12 +273,54 @@ export function Showcase() {
           onClick={() => setZoomed(false)}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} />
+          <img
+            src={shot.src}
+            alt={shot.alt}
+            width={shot.width}
+            height={shot.height}
+            /* The backdrop closes; the picture does not. Once there are
+               arrows to aim at, a miss should not throw the reader out. */
+            onClick={(e) => e.stopPropagation()}
+          />
+
+          <button
+            type="button"
+            className="lightbox-nav is-prev"
+            aria-label="Previous screenshot"
+            onClick={(e) => {
+              e.stopPropagation();
+              go(-1);
+            }}
+          >
+            <IconChevronLeft />
+          </button>
+          <button
+            type="button"
+            className="lightbox-nav is-next"
+            aria-label="Next screenshot"
+            onClick={(e) => {
+              e.stopPropagation();
+              go(1);
+            }}
+          >
+            <IconChevronRight />
+          </button>
+
+          {/* Which one of how many. Without it the arrows are a promise with
+              no end in sight. */}
+          <span className="lightbox-where" aria-hidden>
+            {shot.tab} · {active + 1} / {SHOTS.length}
+          </span>
+
           <button
             type="button"
             className="lightbox-close"
             aria-label="Close"
             ref={closeRef}
+            onClick={(e) => {
+              e.stopPropagation();
+              setZoomed(false);
+            }}
           >
             Close
           </button>
