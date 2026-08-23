@@ -52,8 +52,9 @@ export default function Home() {
           </h1>
           <p>
             SilentSilo keeps your files and passwords in encrypted folders on
-            your own machine, unlocked with a hardware security key. If you
-            want sync, you point it at storage you already control.
+            your own machine. It unlocks with Windows Hello, a security key, or
+            your phone. If you want sync, you point it at storage you already
+            control.
           </p>
           {/* No download until there is one. A button pointing at a release
               that does not exist is the first thing a visitor finds out, on
