@@ -53,8 +53,8 @@ export default function Home() {
           <p>
             SilentSilo keeps your files and passwords in encrypted folders on
             your own machine. It unlocks with Windows Hello, a security key, or
-            your phone. If you want sync, you point it at storage you already
-            control.
+            your phone. If you want sync or backup, point it at storage you
+            already own.
           </p>
           {/* No download until there is one. A button pointing at a release
               that does not exist is the first thing a visitor finds out, on
@@ -85,6 +85,16 @@ export default function Home() {
               </>
             )}
           </div>
+          {/* The reassurance at the point of decision. The full answer lives
+              three screens down in "What you need"; whoever leaves at the
+              button never reads it there. */}
+          {RELEASED && (
+            <span className="cta-needs">
+              Windows 10 or 11. The fingerprint, face or PIN you already sign
+              in with is enough to unlock; there is nothing to buy.{" "}
+              <a href="#needs">What you need</a>
+            </span>
+          )}
           <span className="cta-note">
             {RELEASED ? (
               <>
@@ -149,6 +159,9 @@ export default function Home() {
           <div className="chips" aria-label="Technical facts">
             <span className="chip">AES-256-GCM</span>
             <span className="chip">FIDO2 hmac-secret</span>
+            {/* The one fact a scanner would otherwise miss: "No server" in the
+                headline reads as "no sync at all" if nothing contradicts it. */}
+            <span className="chip">S3, WebDAV, SFTP</span>
             <span className="chip">AGPL-3.0</span>
             <span className="chip">nothing to buy</span>
             <span className="chip">no tracking</span>
@@ -279,7 +292,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="block">
+        <section className="block" id="needs">
           <div className="block-head">
             <span className="kicker">Getting started</span>
             <h2>What you need</h2>
