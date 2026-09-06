@@ -202,7 +202,7 @@ export default function Security() {
         file beside them. The installer is signed on a machine here, with a
         key that never reaches a build server. The Linux and macOS
         extractors are built and signed by GitHub Actions, from a key held in
-        the core repository&apos;s secrets, because those two platforms cannot
+        that repository&apos;s secrets, because those two platforms cannot
         be built here; so for them the signature says the release pipeline
         produced the file, not that a key outside GitHub did. Worth knowing
         rather than glossed over, and the Windows extractor is signed with
