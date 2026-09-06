@@ -5,7 +5,7 @@ import "./globals.css";
 import { CipherField } from "./CipherField";
 import { SiteHeader } from "./SiteHeader";
 import { IconGitHub } from "./Icons";
-import { DOC_CRYPTO, DOC_FORMATS, RELEASED, RELEASES, REPO } from "./links";
+import { CORE_REPO, DOC_CRYPTO, DOC_FORMATS, RELEASED, RELEASES, REPO } from "./links";
 
 export const metadata: Metadata = {
   title: {
@@ -78,6 +78,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <a className="footer-gh" href={REPO}>
                   <IconGitHub size={16} />
                   <span>silentsilo/desktop</span>
+                </a>
+                <a className="footer-gh" href={CORE_REPO}>
+                  <IconGitHub size={16} />
+                  <span>silentsilo/core</span>
                 </a>
               </div>
 

@@ -54,8 +54,17 @@ export const VIRUSTOTAL_SCANNED = "22 August 2026";
 /** The update endpoint is public too, so claims about it can be read. */
 export const RELEASES_REPO = "https://github.com/silentsilo/releases";
 
+/**
+ * The engine: cryptography, persisted formats, sync and the extraction tool.
+ * Split out of the app repository so the part an auditor cares about can be
+ * read without the interface around it, and so a mobile client can use the
+ * same code rather than a second implementation of it.
+ */
+export const CORE_REPO = "https://github.com/silentsilo/core";
+
 const DOCS = `${REPO}/blob/main`;
-export const DOC_FORMATS = `${DOCS}/FORMATS.md`;
-export const DOC_CRYPTO = `${DOCS}/docs/CRYPTO.md`;
+const CORE_DOCS = `${CORE_REPO}/blob/main`;
+export const DOC_FORMATS = `${CORE_DOCS}/FORMATS.md`;
+export const DOC_CRYPTO = `${CORE_DOCS}/docs/CRYPTO.md`;
 export const DOC_STORAGE = `${DOCS}/docs/STORAGE.md`;
 export const DOC_BACKLOG = `${DOCS}/BACKLOG.md`;

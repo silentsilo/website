@@ -15,7 +15,7 @@ export default function Security() {
       <p className="lead">
         The threat model in plain language. The full specification, including
         formats and parameters, lives in the repository as{" "}
-        <a href="https://github.com/silentsilo/desktop/blob/main/docs/CRYPTO.md">
+        <a href="https://github.com/silentsilo/core/blob/main/docs/CRYPTO.md">
           docs/CRYPTO.md
         </a>{" "}
         and is the reference when the two disagree.
@@ -147,11 +147,11 @@ export default function Security() {
       <p>
         What exists instead is everything needed to review the design: the
         cryptography is specified in{" "}
-        <a href="https://github.com/silentsilo/desktop/blob/main/docs/CRYPTO.md">
+        <a href="https://github.com/silentsilo/core/blob/main/docs/CRYPTO.md">
           docs/CRYPTO.md
         </a>
         , the formats and their versions in{" "}
-        <a href="https://github.com/silentsilo/desktop/blob/main/FORMATS.md">
+        <a href="https://github.com/silentsilo/core/blob/main/FORMATS.md">
           FORMATS.md
         </a>
         , the threat model on this page including the parts that are
@@ -202,11 +202,16 @@ export default function Security() {
         file beside them. The installer is signed on a machine here, with a
         key that never reaches a build server. The Linux and macOS
         extractors are built and signed by GitHub Actions, from a key held in
-        that repository&apos;s secrets, because those two platforms cannot be
-        built here; so for them the signature says the release pipeline
+        the core repository&apos;s secrets, because those two platforms cannot
+        be built here; so for them the signature says the release pipeline
         produced the file, not that a key outside GitHub did. Worth knowing
         rather than glossed over, and the Windows extractor is signed with
-        the installer. The public half of the key is in the repository, in{" "}
+        the installer. The public half of the key is published in both
+        repositories, in{" "}
+        <a href="https://github.com/silentsilo/core/blob/main/SIGNING-PUBKEY.txt">
+          SIGNING-PUBKEY.txt
+        </a>
+        {" "}and in{" "}
         <a href="https://github.com/silentsilo/desktop/blob/main/src-tauri/tauri.conf.json">
           tauri.conf.json
         </a>
