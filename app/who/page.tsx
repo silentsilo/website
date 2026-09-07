@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { REPO } from "../links";
+import { DOC_FORMATS } from "../links";
 
 export const metadata: Metadata = {
   title: "Who makes this",
@@ -108,12 +108,11 @@ export default function Who() {
         without a licence to check, for as long as that machine runs.
       </p>
       <p>
-        The on-disk format is documented in the repository as{" "}
-        <a href={`${REPO}/blob/main/FORMATS.md`}>FORMATS.md</a>, so a silo
-        stays readable from the specification alone, and the licence lets
-        anyone fork the client and keep building it. What would stop is new
-        work: features, ports, signed updates. Nothing already in a silo
-        depends on me.
+        The on-disk format is documented in the core repository as{" "}
+        <a href={DOC_FORMATS}>FORMATS.md</a>, so a silo stays readable from
+        the specification alone, and the licence lets anyone fork the client
+        and keep building it. What would stop is new work: features, ports,
+        signed updates. Nothing already in a silo depends on me.
       </p>
       <p>
         One developer is also where this starts, not where it is meant to
