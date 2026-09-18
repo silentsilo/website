@@ -20,10 +20,10 @@ export const RELEASED = true;
  * the filename still carries the version, so update both with each tag.
  * Both are unused while `RELEASED` is false.
  */
-export const LATEST_TAG = "v1.0.0";
+export const LATEST_TAG = "v1.1.0";
 
 /** One string per release, everything else built from it. */
-export const LATEST_INSTALLER_NAME = "SilentSilo_1.0.0_x64-setup.exe";
+export const LATEST_INSTALLER_NAME = "SilentSilo_1.1.0_x64-setup.exe";
 export const LATEST_INSTALLER = `${REPO}/releases/latest/download/${LATEST_INSTALLER_NAME}`;
 
 /** The minisign signature published beside the installer, over the bytes as
