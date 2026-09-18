@@ -45,11 +45,11 @@ export const LATEST_INSTALLER_SIG = `${LATEST_INSTALLER}.sig`;
  * each release; the report URL is built from the hash.
  */
 export const INSTALLER_SHA256 =
-  "b5f59127ab5ddb918e512f1ce2a43ba87fe5175048e85b6dfe680bb4f4ff5f55";
+  "69bcaec41272ffa9be5b779bf105ffb6467c1474f94e43a5e3faba4601c51d61";
 export const VIRUSTOTAL_REPORT = `https://www.virustotal.com/gui/file/${INSTALLER_SHA256}`;
 export const VIRUSTOTAL_DETECTIONS = 0;
-export const VIRUSTOTAL_ENGINES = 71;
-export const VIRUSTOTAL_SCANNED = "22 August 2026";
+export const VIRUSTOTAL_ENGINES = 70;
+export const VIRUSTOTAL_SCANNED = "18 September 2026";
 
 /** The update endpoint is public too, so claims about it can be read. */
 export const RELEASES_REPO = "https://github.com/silentsilo/releases";
