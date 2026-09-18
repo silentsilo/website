@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import { HowItWorks } from "./HowItWorks";
 import { Showcase } from "./Showcase";
 import {
   IconArrowRight,
@@ -166,6 +167,26 @@ export default function Home() {
             <span className="chip">nothing to buy</span>
             <span className="chip">no tracking</span>
           </div>
+        </section>
+
+        <section className="block" id="how">
+          <div className="block-head">
+            <span className="kicker">How it works</span>
+            <h2>Everything stays in your hands</h2>
+            <p className="lead">
+              Your devices encrypt, your storage keeps the ciphertext, your keys
+              open it. There is no SilentSilo server in between, so there is
+              nothing in the middle to trust, subpoena or shut down.
+            </p>
+          </div>
+          <HowItWorks />
+          <p className="flow-note">
+            The provider sees encrypted objects, their sizes and when they
+            change, a hash of each file&apos;s content that can confirm a file
+            it already has, and the labels you gave your keys. It can
+            withhold data, which breaks sync, but it cannot read it, alter it
+            undetected, or add anything of its own.
+          </p>
         </section>
 
         <section className="block" id="tour">
@@ -396,47 +417,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="block">
-          <div className="block-head">
-            <span className="kicker">Sync</span>
-            <h2>Your devices never talk to each other</h2>
-            <p className="lead">
-              They each read and write encrypted records in storage you own. No
-              server sits between them, so there is nothing in the middle to
-              trust, subpoena or shut down.
-            </p>
-          </div>
-
-          <div className="flow" aria-hidden>
-            <div className="flow-node">
-              <strong>Laptop</strong>
-              <span>writes op 42</span>
-            </div>
-            <div className="flow-link">
-              <span className="flow-dot" />
-              <span className="flow-label">ciphertext</span>
-            </div>
-            <div className="flow-node is-store">
-              <strong>Your storage</strong>
-              <span>bucket · WebDAV · SFTP · folder</span>
-            </div>
-            <div className="flow-link">
-              <span className="flow-dot flow-dot-b" />
-              <span className="flow-label">ciphertext</span>
-            </div>
-            <div className="flow-node">
-              <strong>Desktop</strong>
-              <span>replays to 42</span>
-            </div>
-          </div>
-          <p className="flow-note">
-            The provider sees encrypted objects, their sizes and when they
-            change, a hash of each file&apos;s content that can confirm a file
-            it already has, and the labels you gave your keys. It can
-            withhold data, which breaks sync, but it cannot read it, alter it
-            undetected, or add anything of its own.
-          </p>
-        </section>
 
         <section className="block">
           <div className="block-head">
