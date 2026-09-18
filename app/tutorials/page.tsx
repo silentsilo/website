@@ -26,9 +26,11 @@ export default function Tutorials() {
       <h2>Setting up a backup</h2>
       <p>
         The app backs up to four kinds of place, and the app side is the same
-        for all of them: unlock the silo, open <strong>Backup</strong>, or{" "}
-        <strong>Copies</strong> if you are adding a second one. What differs
-        is what the storage wants from you first, so there is a guide each.
+        for all of them: unlock the silo, open{" "}
+        <strong>Settings &gt; Backup</strong>, or{" "}
+        <strong>Settings &gt; Copies</strong> if you are adding a second one.
+        What differs is what the storage wants from you first, so there is a
+        guide each.
       </p>
 
       <h3>
@@ -37,7 +39,7 @@ export default function Tutorials() {
       <p>
         Backblaze B2, Cloudflare R2, Wasabi, Amazon S3 or MinIO. Where each
         console hides its key creation, how to scope a key to one bucket, and
-        which of the five fields is wrong when it will not connect.
+        which of the six fields is wrong when it will not connect.
       </p>
 
       <h3>
@@ -55,7 +57,7 @@ export default function Tutorials() {
         <Link href="/tutorials/backup-webdav/">WebDAV</Link>
       </h3>
       <p>
-        Nextcloud, ownCloud, Synology, Box or Fastmail. Finding the WebDAV
+        Nextcloud, ownCloud, Synology or Fastmail. Finding the WebDAV
         address rather than the login page, and creating an app password you
         can revoke on its own.
       </p>
@@ -90,8 +92,9 @@ export default function Tutorials() {
       </h3>
       <p>
         Provisioning silos employees cannot lock the company out of: the
-        organisation key, three ways to onboard someone, and what to do the
-        day somebody leaves. Free, like everything else.
+        organisation key, the copy that actually holds it, how to onboard
+        someone, and what to do the day somebody leaves. Free, like
+        everything else.
       </p>
     </main>
   );

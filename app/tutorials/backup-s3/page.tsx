@@ -5,8 +5,34 @@ import { DOC_STORAGE } from "../../links";
 export const metadata: Metadata = {
   title: "Back up to an S3 bucket",
   description:
-    "Step by step for Backblaze B2, Cloudflare R2, Wasabi, Amazon S3 and MinIO: making a bucket, creating a key that reaches only that bucket, and filling in the five fields the app asks for.",
+    "Step by step for Backblaze B2, Cloudflare R2, Wasabi, Amazon S3 and MinIO: making a bucket, creating a key that reaches only that bucket, and filling in the six fields the app asks for.",
 };
+
+const AWS_POLICY = `{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket",
+        "s3:ListBucketMultipartUploads",
+        "s3:GetBucketVersioning",
+        "s3:GetBucketObjectLockConfiguration"
+      ],
+      "Resource": "arn:aws:s3:::YOUR-BUCKET"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject",
+        "s3:AbortMultipartUpload"
+      ],
+      "Resource": "arn:aws:s3:::YOUR-BUCKET/*"
+    }
+  ]
+}`;
 
 export default function BackupS3() {
   return (
@@ -14,7 +40,7 @@ export default function BackupS3() {
       <h1>Back up to an S3 bucket</h1>
       <p className="lead">
         The option most people end up on: cheap, unlimited in practice, and
-        yours. It asks for five values that are easy to get wrong, so this
+        yours. It asks for six values that are easy to get wrong, so this
         page walks each provider&apos;s console as it stands in August 2026
         and says exactly which button to press.
       </p>
@@ -47,25 +73,29 @@ export default function BackupS3() {
             <td>The name you chose when you created it.</td>
           </tr>
           <tr>
-            <td>Prefix</td>
+            <td>Folder inside the bucket</td>
             <td>
-              A folder inside the bucket. Defaults to{" "}
-              <code>silentsilo</code>. Give each silo its own.
+              Starts as <code>silentsilo</code>. Give each silo its own: the
+              app refuses a folder that already holds a different silo.
             </td>
           </tr>
           <tr>
-            <td>Access key ID and secret</td>
+            <td>Access key ID</td>
+            <td>The public half of the credential.</td>
+          </tr>
+          <tr>
+            <td>Secret access key</td>
             <td>
-              The credential. Create one that reaches this bucket and nothing
+              The secret half. Create one that reaches this bucket and nothing
               else.
             </td>
           </tr>
         </tbody>
       </table>
       <p>
-        Pick your provider in the app first. It fills in the endpoint shape,
-        the region and the path-style setting for you, which removes the two
-        mistakes that produce errors looking like network faults.
+        Pick your provider in the app first. It fills in the endpoint, the
+        region and the addressing style for you, which are the two settings
+        that produce errors looking like network faults.
       </p>
 
       <h2>Make the bucket first</h2>
@@ -77,6 +107,11 @@ export default function BackupS3() {
         though nobody can read them.
       </p>
       <p>
+        Use a normal storage class. Archive classes such as Glacier take hours
+        to hand a file back, and the app refuses them at the connection test
+        because every read it makes expects an answer now.
+      </p>
+      <p>
         If you want the copy that ransomware cannot erase, turn on object
         lock <em>while creating</em> the bucket: it almost never can be added
         later. That is a guide of its own, with the warnings it deserves, in{" "}
@@ -84,6 +119,18 @@ export default function BackupS3() {
           a copy nothing can erase
         </Link>
         .
+      </p>
+
+      <h2>One rule worth adding to any bucket</h2>
+      <p>
+        Files over 16 MB go up in parts. If the app is closed or the computer
+        dies in the middle of one, the parts already sent stay in the bucket,
+        billed, and no file listing shows them. The app clears them the next
+        time it uploads that file, and once a day it clears any older than a
+        day. As a second line of defence, add a lifecycle rule to the bucket
+        with the action <strong>AbortIncompleteMultipartUpload</strong>, set
+        to 7 days. Every provider on this page accepts that rule, and it costs
+        nothing.
       </p>
 
       <h2>Backblaze B2</h2>
@@ -133,7 +180,9 @@ export default function BackupS3() {
       <p>
         No charge for egress at all, which makes restoring a large silo
         painless. The token flow lives in a different place from the rest of
-        Cloudflare&apos;s API tokens, which is the only confusing part.
+        Cloudflare&apos;s API tokens, which is the only confusing part. R2 has
+        no object lock, so it is not the place for the copy nothing can
+        erase.
       </p>
       <ol>
         <li>
@@ -198,10 +247,9 @@ export default function BackupS3() {
 
       <h2>Amazon S3</h2>
       <p>
-        It works, and it is the most expensive way to do this. AWS itself
-        recommends against long-term access keys, and the app has no way to
-        use a temporary credential, so treat the key as something to scope
-        tightly and rotate.
+        It works, and it is the most expensive way to do this. The app needs a
+        permanent access key, so treat it as something to scope tightly and
+        replace now and then.
       </p>
       <ol>
         <li>Create the bucket. Block all public access, which is the default.</li>
@@ -209,10 +257,11 @@ export default function BackupS3() {
           In <strong>IAM</strong>, create a user with no console access.
         </li>
         <li>
-          Attach an inline policy allowing <code>s3:GetObject</code>,{" "}
-          <code>s3:PutObject</code>, <code>s3:DeleteObject</code> and{" "}
-          <code>s3:ListBucket</code> on that bucket and its contents, and
-          nothing else. Never use root credentials for this.
+          Open the user, choose <strong>Add permissions</strong>, then{" "}
+          <strong>Create inline policy</strong>, switch the editor to{" "}
+          <strong>JSON</strong> and paste the block below, replacing{" "}
+          <code>YOUR-BUCKET</code> with the bucket&apos;s name in both places.
+          Never use root credentials for this.
         </li>
         <li>
           Open the user&apos;s <strong>Security credentials</strong> tab and
@@ -220,6 +269,14 @@ export default function BackupS3() {
           you create it, and a user can hold at most two keys.
         </li>
       </ol>
+      <pre>
+        <code>{AWS_POLICY}</code>
+      </pre>
+      <p>
+        The first four actions let the app list the bucket, tidy up
+        interrupted uploads and ask whether the bucket has object lock. The
+        rest let it read, write and delete objects. Nothing else is needed.
+      </p>
       <p>
         Use the regional endpoint for the bucket rather than the global one,
         so <code>https://s3.eu-central-1.amazonaws.com</code> for a bucket in
@@ -245,35 +302,42 @@ export default function BackupS3() {
       <h2>Fill it in and save</h2>
       <ol>
         <li>
-          Unlock the silo and open <strong>Backup</strong>. To add a second
-          copy instead, use <strong>Copies</strong> and give it a name you
+          Unlock the silo and open <strong>Settings &gt; Backup</strong>. To
+          add a second copy instead, open <strong>Settings &gt; Copies</strong>
+          , press <strong>Add another place</strong> and give it a name you
           will recognise, like &quot;Backblaze&quot; or &quot;the office
           NAS&quot;.
         </li>
         <li>
-          Pick your provider, paste the five values, and press{" "}
-          <strong>Test connection</strong>. The app writes a small object and
-          reads it back, so a success means the credential really can write
-          rather than merely authenticate.
+          Choose <strong>Bucket</strong>, pick your provider, paste the six
+          values, and press <strong>Test connection</strong>. The app writes a
+          small object, reads it back and deletes it, so a success means the
+          credential really can write rather than merely authenticate.
         </li>
         <li>
-          Save. The first pass runs in the background and the panel says when
-          everything has arrived.
+          Press <strong>Save &amp; connect</strong>, or{" "}
+          <strong>Add this place</strong> for a second copy. The first pass
+          runs in the background, and the Backup page says when everything
+          has arrived.
         </li>
       </ol>
       <p>
-        If the test fails with something about a host or DNS, the path-style
-        setting is usually the culprit. If it fails with access denied, the
-        key is scoped to a different bucket than the name you typed.
+        If the test fails with something about a host or DNS, the addressing
+        style is usually the culprit: tick or untick{" "}
+        <strong>Path-style addressing</strong> and try again. If it fails
+        with access denied, the key is scoped to a different bucket than the
+        name you typed.
       </p>
 
       <h2>Then prove it</h2>
       <p>
-        Open <strong>Health</strong> and run the restore test. It rebuilds
-        the silo from the bucket in a temporary directory using only your
-        recovery code, compares it against what is on screen, and opens one
-        file for real. That is the difference between a bucket with objects
-        in it and a backup.
+        Open <strong>Settings &gt; Verification</strong>, go to{" "}
+        <strong>Test a recovery</strong>, type your recovery code and press{" "}
+        <strong>Try a recovery now</strong>. It rebuilds the silo from the
+        bucket in a temporary folder using only that code, compares it against
+        what is on screen, and opens one file for real. That is the difference
+        between a bucket with objects in it and a backup. It needs a recovery
+        code to exist, so if you turned yours off, create one first.
       </p>
       <p>
         The deeper reasoning about bucket settings, versioning and the

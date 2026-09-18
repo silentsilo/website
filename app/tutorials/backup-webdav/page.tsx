@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Back up over WebDAV",
   description:
-    "For Nextcloud, ownCloud, Synology, Box and Fastmail: finding the right address, creating an app password instead of using your account password, and what the app does with folders.",
+    "For Nextcloud, ownCloud, Synology and Fastmail: finding the right address, creating an app password instead of using your account password, and what the app does with folders.",
 };
 
 export default function BackupWebDav() {
@@ -13,7 +13,7 @@ export default function BackupWebDav() {
       <h1>Back up over WebDAV</h1>
       <p className="lead">
         If you already run a Nextcloud, own a Synology, or pay for something
-        that speaks WebDAV, this turns it into a backup target without buying
+        that speaks WebDAV, this turns it into a backup place without buying
         anything. The two things that go wrong are the address and the
         password, so both get their own section.
       </p>
@@ -43,8 +43,11 @@ export default function BackupWebDav() {
           <tr>
             <td>Synology</td>
             <td>
-              <code>https://nas.example.com:5006/silentsilo</code>, once the
-              WebDAV Server package is installed and HTTPS is enabled
+              <code>https://nas.example.com:5006/SHARED-FOLDER/silentsilo</code>
+              , once the WebDAV Server package is installed and HTTPS is
+              enabled. The first part of the path has to be a shared folder
+              that already exists in DSM: the app can make folders inside
+              one, but it cannot make a shared folder.
             </td>
           </tr>
           <tr>
@@ -54,18 +57,22 @@ export default function BackupWebDav() {
             </td>
           </tr>
           <tr>
-            <td>Box</td>
+            <td>Other services</td>
             <td>
-              <code>https://dav.box.com/dav/silentsilo</code>
+              Check the provider&apos;s help pages for whether WebDAV is still
+              offered and what the address is. Some large services have
+              retired it or limit it to certain plans.
             </td>
           </tr>
         </tbody>
       </table>
       <p>
         In Nextcloud the exact string is printed for you: open{" "}
-        <strong>Files</strong>, look at the bottom of the left sidebar, and
-        the WebDAV address is shown there. Copy it and add the folder name you
-        want the silo to use on the end.
+        <strong>Files</strong>, press <strong>Files settings</strong> at the
+        bottom of the left sidebar, and the WebDAV address is shown there.
+        Copy it and add the folder name you want the silo to use on the end.
+        Give each silo its own folder: the app refuses one that already holds
+        a different silo.
       </p>
       <p>
         Use <code>https://</code>. Over plain <code>http://</code> your
@@ -105,8 +112,9 @@ export default function BackupWebDav() {
       <h2>Setting it up in the app</h2>
       <ol>
         <li>
-          Unlock the silo and open <strong>Backup</strong>, or{" "}
-          <strong>Copies</strong> if this is a second place.
+          Unlock the silo and open <strong>Settings &gt; Backup</strong>, or{" "}
+          <strong>Settings &gt; Copies</strong> and{" "}
+          <strong>Add another place</strong> if this is a second place.
         </li>
         <li>
           Choose <strong>WebDAV</strong>.
@@ -118,26 +126,31 @@ export default function BackupWebDav() {
         </li>
         <li>
           Press <strong>Test connection</strong>. The app writes a small
-          object and reads it back, so a pass means the credential can really
-          write rather than just log in.
+          file, reads it back and deletes it, so a pass means the credential
+          can really write rather than just log in.
         </li>
-        <li>Save. The first pass runs in the background.</li>
+        <li>
+          Press <strong>Save &amp; connect</strong>, or{" "}
+          <strong>Add this place</strong> for a second copy. The first pass
+          runs in the background.
+        </li>
       </ol>
       <p>
-        You do not need to create the folder tree yourself. Unlike a bucket,
-        where a key with slashes in it is just a key, WebDAV needs each
-        collection to exist before anything can be written into it, so the app
-        creates the parents itself on every write.
+        You do not need to create the folder yourself. Unlike a bucket, a
+        WebDAV server needs each folder to exist before a file can go into
+        it, so the app creates the folders it needs on the way.
       </p>
 
       <h2>When it does not work</h2>
       <p>
-        A 401 means the password: if the account has two-factor
-        authentication, you need an app password rather than the one you
-        type at the login page. A 404 means the address is the web interface
-        rather than the WebDAV path. A 507 means the server is out of space.
-        If uploads start and then stall, check whether your server puts a
-        size limit on a single request, since large silos move large objects.
+        The error the app shows carries a number from the server. 401 means
+        the password: if the account has two-factor authentication, you need
+        an app password rather than the one you type at the login page. 404
+        means the address is the web interface rather than the WebDAV path,
+        or a folder in it that the server will not create. 507 means the
+        server is out of space. If uploads start and then stall, check
+        whether your server puts a size limit on a single request, since a
+        large file goes up in one piece.
       </p>
 
       <h2>What this is good for, and what it is not</h2>
@@ -153,16 +166,19 @@ export default function BackupWebDav() {
         <Link href="/tutorials/copies-nothing-can-erase/">
           separate guide
         </Link>
-        , or a copy that is simply offline. Marking the target as an archive
-        stops the app ever sending a delete, which is a promise the app keeps
-        rather than one the server enforces.
+        , or a copy that is simply offline. Ticking{" "}
+        <strong>Never delete anything here</strong> when you add a second
+        place stops the app ever sending a delete, which is a promise the app
+        keeps rather than one the server enforces.
       </p>
 
       <h2>Prove it works</h2>
       <p>
-        Open <strong>Health</strong> and run the restore test: it rebuilds
-        the silo from the server using only your recovery code and opens one
-        real file. Do it now rather than on the day your laptop dies.
+        Open <strong>Settings &gt; Verification</strong>, go to{" "}
+        <strong>Test a recovery</strong>, type your recovery code and press{" "}
+        <strong>Try a recovery now</strong>: it rebuilds the silo from the
+        server using only that code and opens one real file. Do it now rather
+        than on the day your laptop dies.
       </p>
     </main>
   );

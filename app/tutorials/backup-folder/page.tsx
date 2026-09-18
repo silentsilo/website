@@ -27,18 +27,26 @@ export default function BackupFolder() {
           letter.
         </li>
         <li>
-          Unlock the silo and open <strong>Backup</strong>, or{" "}
-          <strong>Copies</strong> if this is a second place.
+          Unlock the silo and open <strong>Settings &gt; Backup</strong>, or{" "}
+          <strong>Settings &gt; Copies</strong> and{" "}
+          <strong>Add another place</strong> if this is a second place.
         </li>
         <li>
-          Choose <strong>Folder</strong> and pick the directory.
+          Choose <strong>Folder</strong>, then <strong>Browse</strong> to pick
+          the directory. Pick an empty one, or one this silo already uses: the
+          app refuses a folder that holds a different silo, so each silo
+          needs a folder of its own.
         </li>
         <li>
           Press <strong>Test connection</strong>. The app writes a small
-          object and reads it back, which catches a share mounted read-only
-          before you rely on it.
+          file, reads it back and deletes it, which catches a share mounted
+          read-only before you rely on it.
         </li>
-        <li>Save. The first pass starts in the background.</li>
+        <li>
+          Press <strong>Save &amp; connect</strong>, or{" "}
+          <strong>Add this place</strong> for a second copy. The first pass
+          starts in the background.
+        </li>
       </ol>
       <p>
         If this is a second copy, give it a name you will recognise later:
@@ -51,13 +59,16 @@ export default function BackupFolder() {
         Uploading several hundred gigabytes over a home connection takes
         weeks. Filling an external disk takes an afternoon. If the silo
         already backs up somewhere, use <strong>Fill from the first copy</strong>{" "}
-        in the Copies panel: it copies the encrypted objects straight across,
-        never needs your key and decrypts nothing, can be stopped at any
-        point, and carries on from where it stopped when you run it again.
+        on the disk&apos;s row in Settings &gt; Copies: it copies the
+        encrypted files straight across, never needs your key and decrypts
+        nothing, shows how many bytes have moved so a large file does not look
+        like a stall, can be stopped at any point, and carries on from where
+        it stopped when you run it again.
       </p>
       <p>
-        It works in both directions, so a disk seeded at the office can then
-        fill a bucket from wherever the bandwidth is good.
+        The source is always the first place, the one on the Backup page. To
+        go the other way, fill a bucket from a disk seeded at the office, make
+        the disk the Backup connection and add the bucket as a copy.
       </p>
 
       <h2>The synced-folder trap</h2>
@@ -67,24 +78,24 @@ export default function BackupFolder() {
       </p>
       <p>
         Putting the <strong>backup</strong> in a Dropbox, OneDrive or Google
-        Drive folder is fine and works well. The backup is made of immutable
-        files with unique names, written once and never rewritten, so two
-        devices never touch the same file and there is nothing for a sync
-        client to conflict over.
+        Drive folder is fine and works well. The backup is made of files that
+        are written once and never changed afterwards, each with its own
+        name, so two computers never fight over the same file and there is
+        nothing for a sync client to conflict over.
       </p>
       <p>
         Putting the <strong>silo itself</strong> in one of those folders is a
-        different matter. A silo keeps its state in a single encrypted
-        snapshot that is rewritten whenever anything changes, and two
-        machines editing one file through a consumer sync client produces
-        conflict copies rather than a merge. As a backup of one computer it
-        is perfectly reasonable. As a way to share a silo between two
-        computers it does not work, and sharing the backup is what does.
+        different matter. A silo keeps its own state in one encrypted file
+        that changes every time you work in it, and two machines editing one
+        file through a consumer sync client produces conflict copies rather
+        than a merge. As a backup of one computer it is perfectly reasonable.
+        As a way to share a silo between two computers it does not work, and
+        sharing the backup is what does.
       </p>
       <p>
-        The app warns you when you pick a location that looks like a sync
-        folder, at the moment you pick it. It is advice rather than a
-        refusal: it is your disk.
+        The app warns you when you choose where a new silo lives and the
+        folder belongs to a sync client. It is advice rather than a refusal:
+        it is your disk.
       </p>
 
       <h2>What a local folder cannot do</h2>
@@ -96,8 +107,10 @@ export default function BackupFolder() {
         deleted folder, a dead machine, a botched restore.
       </p>
       <p>
-        You can mark a target as an archive, and the app then never sends it
-        a delete. That is a promise the app keeps, not one the disk enforces:
+        When you add a second place in Settings &gt; Copies you can tick{" "}
+        <strong>Never delete anything here</strong>, and the app then never
+        sends it a delete. That is a promise the app keeps, not one the disk
+        enforces:
         anything else on the machine can still erase the folder, and so can
         you. On storage that refuses deletion at its own level, the promise
         is enforced by the storage instead, which is the difference explained
@@ -118,11 +131,13 @@ export default function BackupFolder() {
 
       <h2>Prove it works</h2>
       <p>
-        Open <strong>Health</strong> and run the restore test. It rebuilds
-        the silo from the folder in a temporary directory, using only your
-        recovery code, and opens one real file. For an external disk, do it
-        while the disk is plugged in, then unplug it and put it somewhere
-        that is not the same building as your computer.
+        Open <strong>Settings &gt; Verification</strong>, go to{" "}
+        <strong>Test a recovery</strong>, type your recovery code and press{" "}
+        <strong>Try a recovery now</strong>. It rebuilds the silo from the
+        folder in a temporary directory, using only that code, and opens one
+        real file. For an external disk, do it while the disk is plugged in,
+        then unplug it and put it somewhere that is not the same building as
+        your computer.
       </p>
     </main>
   );

@@ -86,6 +86,10 @@ export default function ImmutableCopies() {
         point and also the catch, so read the warning below before you pick a
         long window.
       </p>
+      <p>
+        Backblaze B2, Wasabi, Amazon S3 and MinIO offer it. Cloudflare R2
+        does not, so a locked copy cannot live there.
+      </p>
 
       <h3>Setting it up</h3>
       <ol>
@@ -97,24 +101,40 @@ export default function ImmutableCopies() {
         <li>
           Set a <strong>default retention</strong>, in compliance mode. Two
           weeks is a sensible starting point. Without this step nothing is
-          actually locked: enabling the feature only makes locking possible,
-          and the default is what stamps each new object as it arrives.
+          actually locked: turning the feature on only makes locking
+          possible, and the default retention is what actually locks each
+          new file as it arrives.
         </li>
         <li>
           Add a <strong>lifecycle rule</strong> that removes noncurrent
           versions after the same period, so the bucket does not grow for
-          ever. Never add a plain expiration rule: SilentSilo&apos;s objects
-          are never overwritten, so they are all current versions, and a rule
-          expiring current versions deletes the archive rather than the
-          rubbish.
+          ever, and one with the action{" "}
+          <strong>AbortIncompleteMultipartUpload</strong> after 7 days, which
+          clears the pieces of a large upload that a crash cut short. Never
+          add a plain expiration rule: SilentSilo&apos;s files are never
+          overwritten, so they are all current versions, and a rule expiring
+          current versions deletes the archive rather than the rubbish.
         </li>
         <li>
-          Add the bucket in SilentSilo under Settings, Backup, and tick{" "}
+          Add the bucket in SilentSilo as a second place: open{" "}
+          <strong>Settings &gt; Copies</strong>, press{" "}
+          <strong>Add another place</strong>, fill in the bucket and tick{" "}
           <strong>Never delete anything here</strong>. The app then never
           sends a delete to it, so the two agree instead of the app being
-          refused all day.
+          refused all day. The box is only offered for a second place, not
+          for the connection on the Backup page, and that is the right
+          shape: the Backup connection is the one the app keeps tidy.
         </li>
       </ol>
+      <p>
+        When you tick the box the app asks the bucket whether it really has
+        object lock and warns you if it does not. On a bucket that is locked
+        the warning still appears when the access key is not allowed to ask,
+        so on Amazon S3 give the key{" "}
+        <code>s3:GetBucketObjectLockConfiguration</code> and{" "}
+        <code>s3:GetBucketVersioning</code>, as in the{" "}
+        <Link href="/tutorials/backup-s3/">S3 guide</Link>.
+      </p>
 
       <h3>What it actually protects</h3>
       <p>
@@ -129,8 +149,23 @@ export default function ImmutableCopies() {
       </p>
       <p>
         This is not a flaw to be fixed with a longer window, it is the shape
-        of the tool. What the lock buys you is that no attack can leave you
-        with nothing: there is always a recent, complete, restorable state.
+        of the tool. What the lock is for is that a recent, complete state
+        stays restorable whatever happens to the credentials.
+      </p>
+      <p>
+        Two more things to know before choosing the window. Content you
+        delete in the silo reaches the storage as a deletion only 30 days
+        later, so even the ordinary copy keeps a deleted file for a month;
+        the lock is for the case where the deletion did not come from you.
+        And the lock cuts both ways for keys: when you remove a security key
+        from the silo, the app deletes the small file that let that key open
+        it, and a locked bucket refuses that deletion like any other. A key
+        you have lost goes on opening the locked copy for as long as the
+        bucket keeps that file. The security keys page in Settings offers{" "}
+        <strong>Change the silo&apos;s encryption key</strong> for the copies
+        that accept overwrites; on a copy that never deletes, the old file
+        stays. Keep the window short, and keep your keys where you can find
+        them.
       </p>
       <p className="notice">
         <strong>Compliance mode binds you too.</strong> If you put something
@@ -181,22 +216,28 @@ export default function ImmutableCopies() {
       <h3>Burning a silo</h3>
       <ol>
         <li>
-          Add a <strong>plain folder</strong> as a target in SilentSilo, on
-          your hard disk, and let it sync completely. That folder is a full
-          copy of the silo: <code>vault.json</code>, an <code>ops/</code>{" "}
-          directory and a <code>blobs/</code> directory.
+          Add a <strong>plain folder</strong> on your hard disk as a second
+          place in <strong>Settings &gt; Copies</strong>, and let it fill
+          completely. That folder is a full copy of the silo. Inside it you
+          will find <code>vault.json</code>, <code>recovery.env</code>, a{" "}
+          <code>keys/</code> folder, a <code>snapshots/</code> folder, an{" "}
+          <code>ops/</code> folder and a <code>blobs/</code> folder. Every
+          one of them is needed to read the silo back: the recovery tool
+          opens the silo with <code>recovery.env</code> and{" "}
+          <code>keys/</code>, and rebuilds the file list from{" "}
+          <code>snapshots/</code> and <code>ops/</code> together.
         </li>
         <li>
           Burn that folder to the disc with any burning software, as data,
           and <strong>finalise</strong> the disc so it reads in other drives.
         </li>
         <li>
-          If the silo does not fit on one disc, split it deliberately:{" "}
-          <code>vault.json</code> and the whole of <code>ops/</code> on{" "}
-          <strong>every</strong> disc, since they are small and they describe
-          the structure, and <code>blobs/</code> divided across the rest.
-          Then a disc that goes missing costs you the files whose contents
-          were on it, rather than the ability to read anything at all.
+          If the silo does not fit on one disc, split it deliberately:
+          everything except <code>blobs/</code> on <strong>every</strong>{" "}
+          disc, since those parts are small and they describe the structure,
+          and <code>blobs/</code> divided across the rest. Then a disc that
+          goes missing costs you the files whose contents were on it, rather
+          than the ability to read anything at all.
         </li>
         <li>
           Write the date on the disc. It is a snapshot of that moment;
@@ -220,13 +261,21 @@ export default function ImmutableCopies() {
         not, you have found out now rather than in five years.
       </p>
       <p>
+        It needs a recovery code to exist. If you turned yours off in
+        Settings, the disc holds nothing the tool can open: create a code
+        before you burn, and burn again after you replace one.
+      </p>
+      <p>
         To get files back out, the same tool with a destination:{" "}
         <code>
           silentsilo-extract extract --from D:\ --code YOUR-RECOVERY-CODE --to
           C:\restored
         </code>
         . No SilentSilo installation, no account, no key. That is the point
-        of it existing.
+        of it existing. If the silo holds passwords, they come out too, in a{" "}
+        <code>_passwords</code> folder, <strong>readable by anyone</strong>{" "}
+        who opens those files. Import them into a password manager and
+        delete that folder as soon as you have.
       </p>
 
       <h3>Two things a good archive plan says out loud</h3>
@@ -239,10 +288,11 @@ export default function ImmutableCopies() {
       </p>
       <p>
         <strong>Store the code somewhere else.</strong> The disc holds
-        ciphertext and nothing more, which means the disc alone is safe to
-        keep at a relative&apos;s house. The disc plus your written recovery
-        code is the whole silo, so those two things do not belong in the same
-        drawer.
+        encrypted files plus what any archive shows, how many files, how big
+        and from when; nobody can read a file from it. That makes the disc
+        alone safe to keep at a relative&apos;s house. The disc plus your
+        written recovery code is the whole silo, so those two things do not
+        belong in the same drawer.
       </p>
 
       <h2>What a finished arrangement looks like</h2>
@@ -266,9 +316,9 @@ export default function ImmutableCopies() {
         </li>
       </ol>
       <p>
-        The Copies panel in Backup shows when each target was last written
-        to, which is the fact that quietly tells you a drive has been
-        unplugged since spring.
+        Settings &gt; Copies shows when each place was last written to, which
+        is the fact that quietly tells you a drive has been unplugged since
+        spring.
       </p>
       <p>
         The provider-by-provider settings, the exact lifecycle rules and the
