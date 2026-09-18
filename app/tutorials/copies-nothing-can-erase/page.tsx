@@ -116,7 +116,7 @@ export default function ImmutableCopies() {
         </li>
       </ol>
 
-      <h3>What it actually guarantees</h3>
+      <h3>What it actually protects</h3>
       <p>
         The retention window runs from when each object is{" "}
         <strong>written</strong>, not from when something tries to delete it.

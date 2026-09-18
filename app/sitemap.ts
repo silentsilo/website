@@ -16,6 +16,7 @@ const PAGES = [
   "principles",
   "privacy",
   "who",
+  "legal",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

@@ -78,6 +78,11 @@ export default function Security() {
         folder names, and the structure of the tree.
       </p>
       <p>
+        Each stored file also carries a hash of its unencrypted content in
+        the clear. A provider that already has a copy of a file can confirm
+        you stored it, and the same file in two silos carries the same hash.
+      </p>
+      <p>
         <strong>Someone holding your silo folder:</strong> ciphertext and a
         public salt. Without an enrolled security key or the recovery code,
         that is where it ends.
@@ -182,13 +187,14 @@ export default function Security() {
         are encrypted individually, so they are not readable from the
         working index. Copied passwords are kept out of Windows Clipboard
         History and Cloud Clipboard, and cleared after 45 seconds. At startup
-        the process asks Windows to close the injection paths the system
-        would otherwise walk on an attacker&apos;s behalf, and to refuse any
-        image that is not Microsoft-signed, which stops a DLL dropped beside
-        the executable from being loaded. Those are requests to the
-        operating system: a Windows build that does not know a policy simply
-        declines it, and the app starts anyway rather than refusing to run
-        over a mitigation it cannot have.
+        the process asks Windows to disable extension points, the injection
+        paths such as AppInit_DLLs and window hooks that the system would
+        otherwise walk on an attacker&apos;s behalf. That is a request to the
+        operating system: a Windows build that does not know the policy
+        declines it, and the app starts anyway. It does not stop a DLL
+        dropped beside the executable. The install is per-user, so whoever
+        can write there can replace the executable itself, and no policy a
+        process sets for itself prevents that.
       </p>
       <p>
         Also out of scope: someone using your already-unlocked session, and a
@@ -199,14 +205,15 @@ export default function Security() {
       <h2>Checking what you downloaded</h2>
       <p>
         The installer and the extraction tool are published with a signature
-        file beside them. The installer is signed on a machine here, with a
-        key that never reaches a build server. The Linux and macOS
-        extractors are built and signed by GitHub Actions, from a key held in
-        that repository&apos;s secrets, because those two platforms cannot
-        be built here; so for them the signature says the release pipeline
-        produced the file, not that a key outside GitHub did. Worth knowing
-        rather than glossed over, and the Windows extractor is signed with
-        the installer. The public half of the key is published in both
+        file beside them. The Windows installer is built on a machine here
+        and carries an Authenticode signature from a certificate on a
+        hardware token that no build server can reach. The signature file
+        beside it, which the updater checks, comes from one update key, and
+        that same key is also held in the repository&apos;s secrets, because
+        the Linux and macOS extractors are built and signed by GitHub
+        Actions. So the update signature says the release process produced
+        the file, not that it never touched GitHub. Worth knowing rather than
+        glossed over. The public half of the key is published in both
         repositories, in{" "}
         <a href="https://github.com/silentsilo/core/blob/main/SIGNING-PUBKEY.txt">
           SIGNING-PUBKEY.txt

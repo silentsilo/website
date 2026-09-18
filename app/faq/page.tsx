@@ -57,7 +57,10 @@ export default function Faq() {
         Use another way in. You can enrol several keys, plus Windows Hello on
         each machine you use, and any of them opens the silo. The recovery
         code is the last one, which is why setup makes you write it down.
-        Once you are back in, remove the lost key so it stops working.
+        Once you are back in, remove the lost key, then change the
+        silo&apos;s encryption key in Settings. Removing a key alone does not
+        stop it working. On storage that keeps versions, only the key
+        change counts.
       </p>
 
       <h2>What if I lose the key and the recovery code?</h2>

@@ -93,6 +93,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <Link href="/principles/">Principles</Link>
                   <Link href="/privacy/">Privacy</Link>
                   <Link href="/who/">Who makes this</Link>
+                  <Link href="/legal/">Legal notice</Link>
                 </div>
                 <div className="footer-col">
                   <h2>Get it</h2>

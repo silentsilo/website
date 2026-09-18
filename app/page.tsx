@@ -234,7 +234,8 @@ export default function Home() {
               <h3>Locks with the machine</h3>
               <p>
                 Locking, suspending or disconnecting the workstation locks
-                the silo and wipes the decrypted working copy.
+                the silo and deletes the files you opened from it. Its index
+                stays on disk only encrypted.
               </p>
             </article>
             <article className="feat">
@@ -360,11 +361,12 @@ export default function Home() {
               <p>
                 Portable, encrypted, holding its own index, content and key
                 envelopes. Put it on an external drive or inside a folder your
-                cloud client already syncs.
+                cloud client already syncs, as a backup of this one computer.
               </p>
               <p>
-                Nothing decrypted is written inside it. The working copy lives
-                elsewhere and is wiped on lock.
+                Nothing decrypted is written inside it. The working copy of
+                the index lives elsewhere, encrypted even while the silo is
+                open.
               </p>
             </article>
             <article className="card">
@@ -428,7 +430,9 @@ export default function Home() {
             </div>
           </div>
           <p className="flow-note">
-            The provider sees opaque objects and one random identifier. It can
+            The provider sees encrypted objects, their sizes and when they
+            change, a hash of each file&apos;s content that can confirm a file
+            it already has, and the labels you gave your keys. It can
             withhold data, which breaks sync, but it cannot read it, alter it
             undetected, or add anything of its own.
           </p>
