@@ -30,6 +30,21 @@ const MACOS: Platform = {
   live: false,
   kind: "desktop",
 };
+const LINUX: Platform = {
+  name: "Linux",
+  state: "Planned",
+  unlock: "Security key",
+  live: false,
+  kind: "desktop",
+};
+/** macOS and Linux share one card in the wide drawing: they debut together. */
+const MAC_LINUX: Platform = {
+  name: "macOS · Linux",
+  state: "Planned",
+  unlock: "Security key · Touch ID on Mac",
+  live: false,
+  kind: "desktop",
+};
 const ANDROID: Platform = {
   name: "Android",
   state: "Coming soon",
@@ -373,8 +388,8 @@ const DESC =
   "Each device encrypts on its own and writes to storage you choose: an S3 bucket, WebDAV, an SFTP server or a " +
   "folder. The storage holds only encrypted objects; it sees sizes, times, key labels and content hashes, never names, contents " +
   "or passwords. There is no SilentSilo server. You unlock with a security key or the device's biometrics, and a " +
-  "recovery code on paper is the fallback. Windows is available now, Android is coming soon, macOS and iOS are planned. " +
-  "A browser extension for Chrome, Edge, Brave and Firefox is coming soon on Windows, and with the macOS app later: it fills passwords through the desktop app, never from storage.";
+  "recovery code on paper is the fallback. Windows is available now, Android is coming soon, macOS, Linux and iOS are planned. " +
+  "A browser extension for Chrome, Edge, Brave and Firefox is coming soon on Windows, and with the macOS and Linux apps later: it fills passwords through the desktop app, never from storage.";
 
 function Wide() {
   const live = "M300 182 C 360 182, 370 262, 430 262";
@@ -422,11 +437,11 @@ function Wide() {
 
       <Extension x={50} y={8} w={250} />
       <path className="how-link is-planned" d="M175 100 V 118" />
-      <Extension x={820} y={8} w={250} state="Planned, with macOS" />
+      <Extension x={820} y={8} w={250} state="Planned, with Mac and Linux" />
       <path className="how-link is-planned" d="M945 100 V 118" />
       <Device p={WINDOWS} x={50} y={118} w={250} h={128} />
       <Device p={ANDROID} x={50} y={354} w={250} h={128} />
-      <Device p={MACOS} x={820} y={118} w={250} h={128} />
+      <Device p={MAC_LINUX} x={820} y={118} w={250} h={128} />
       <Device p={IOS} x={820} y={354} w={250} h={128} />
 
       <text
@@ -473,28 +488,24 @@ function Tall() {
 
         <Hub x={40} y={222} w={320} />
 
-        <path
-          className="how-link is-planned"
-          d="M110 540 C 110 580, 70 580, 70 612"
-        />
-        <path className="how-link is-planned" d="M200 540 V 612" />
-        <path
-          className="how-link is-planned"
-          d="M290 540 C 290 580, 330 580, 330 612"
-        />
+        <path className="how-link is-planned" d="M90 540 C 90 580, 52 580, 52 612" />
+        <path className="how-link is-planned" d="M165 540 C 165 580, 151 580, 151 612" />
+        <path className="how-link is-planned" d="M235 540 C 235 580, 249 580, 249 612" />
+        <path className="how-link is-planned" d="M310 540 C 310 580, 348 580, 348 612" />
 
         <g className="how-device is-planned">
           {[
-            { p: ANDROID, cx: 70 },
-            { p: MACOS, cx: 200 },
-            { p: IOS, cx: 330 },
+            { p: ANDROID, cx: 52 },
+            { p: MACOS, cx: 151 },
+            { p: LINUX, cx: 249 },
+            { p: IOS, cx: 348 },
           ].map(({ p, cx }) => (
             <g key={p.name}>
               <rect
                 className="how-card"
-                x={cx - 60}
+                x={cx - 46}
                 y={612}
-                width="120"
+                width="92"
                 height="104"
                 rx="18"
               />
