@@ -61,6 +61,7 @@ const IOS: Platform = {
 };
 
 const STORES = ["S3 bucket", "WebDAV", "SFTP server", "Folder or USB"];
+const PLANNED_STORES = ["OneDrive", "Google Drive", "Dropbox"];
 
 /** What a provider's listing looks like: names that say nothing, sealed bytes. */
 const OBJECTS = [
@@ -183,7 +184,7 @@ function Packet({
 function Hub({ x, y, w }: { x: number; y: number; w: number }) {
   const cx = x + w / 2;
   const chipW = (w - 52) / 2;
-  const h = 318;
+  const h = 362;
   return (
     <g className="how-hub">
       <rect
@@ -233,24 +234,34 @@ function Hub({ x, y, w }: { x: number; y: number; w: number }) {
           </g>
         );
       })}
+      {/* Planned, drawn dimmed like the planned devices: names only. */}
+      <g className="how-planned-stores">
+        <text className="how-planned-tag" x={cx} y={y + 207} textAnchor="middle">
+          Planned
+        </text>
+        <rect x={x + 20} y={y + 214} width={w - 40} height={30} rx="15" />
+        <text x={cx} y={y + 233.5} textAnchor="middle">
+          {PLANNED_STORES.join(" · ")}
+        </text>
+      </g>
       <rect
         className="how-listing"
         x={x + 20}
-        y={y + 212}
+        y={y + 258}
         width={w - 40}
         height={88}
         rx="12"
       />
       {OBJECTS.map(([dir, name, size], i) => (
         <g key={name} className="how-object">
-          <text x={x + 34} y={y + 236 + i * 24}>
+          <text x={x + 34} y={y + 282 + i * 24}>
             <tspan className="how-object-dir">{dir}</tspan>
             <tspan>{name}</tspan>
           </text>
           <text
             className="how-object-size"
             x={x + w - 34}
-            y={y + 236 + i * 24}
+            y={y + 282 + i * 24}
             textAnchor="end"
           >
             {size}
@@ -386,7 +397,7 @@ function Extension({ x, y, w, state = "Coming soon" }: { x: number; y: number; w
 
 const DESC =
   "Each device encrypts on its own and writes to storage you choose: an S3 bucket, WebDAV, an SFTP server or a " +
-  "folder. The storage holds only encrypted objects; it sees sizes, times, key labels and content hashes, never names, contents " +
+  "folder; OneDrive, Google Drive and Dropbox are planned. The storage holds only encrypted objects; it sees sizes, times, key labels and content hashes, never names, contents " +
   "or passwords. There is no SilentSilo server. You unlock with a security key or the device's biometrics, and a " +
   "recovery code on paper is the fallback. Windows is available now, Android is coming soon, macOS, Linux and iOS are planned. " +
   "A browser extension for Chrome, Edge, Brave and Firefox is coming soon on Windows, and with the macOS and Linux apps later: it fills passwords through the desktop app, never from storage.";
@@ -396,7 +407,7 @@ function Wide() {
   return (
     <svg
       className="how-svg how-wide"
-      viewBox="0 0 1120 600"
+      viewBox="0 0 1120 650"
       role="img"
       aria-labelledby="how-title-w how-desc-w"
     >
@@ -453,8 +464,8 @@ function Wide() {
         Encrypted before it leaves
       </text>
 
-      <Sees x={560} y={500} anchor="middle" />
-      <Keys x={392} y={554} />
+      <Sees x={560} y={546} anchor="middle" />
+      <Keys x={392} y={600} />
     </svg>
   );
 }
@@ -464,7 +475,7 @@ function Tall() {
   return (
     <svg
       className="how-svg how-tall"
-      viewBox="0 0 400 1062"
+      viewBox="0 0 400 1106"
       role="img"
       aria-labelledby="how-title-t how-desc-t"
     >
@@ -488,10 +499,10 @@ function Tall() {
 
         <Hub x={40} y={222} w={320} />
 
-        <path className="how-link is-planned" d="M90 540 C 90 580, 52 580, 52 612" />
-        <path className="how-link is-planned" d="M165 540 C 165 580, 151 580, 151 612" />
-        <path className="how-link is-planned" d="M235 540 C 235 580, 249 580, 249 612" />
-        <path className="how-link is-planned" d="M310 540 C 310 580, 348 580, 348 612" />
+        <path className="how-link is-planned" d="M90 584 C 90 624, 52 624, 52 656" />
+        <path className="how-link is-planned" d="M165 584 C 165 624, 151 624, 151 656" />
+        <path className="how-link is-planned" d="M235 584 C 235 624, 249 624, 249 656" />
+        <path className="how-link is-planned" d="M310 584 C 310 624, 348 624, 348 656" />
 
         <g className="how-device is-planned">
           {[
@@ -504,29 +515,29 @@ function Tall() {
               <rect
                 className="how-card"
                 x={cx - 46}
-                y={612}
+                y={656}
                 width="92"
                 height="104"
                 rx="18"
               />
-              <DeviceIcon kind={p.kind} x={cx - 21} y={630} />
+              <DeviceIcon kind={p.kind} x={cx - 21} y={674} />
               <text
                 className="how-name how-name-sm"
                 x={cx}
-                y={688}
+                y={732}
                 textAnchor="middle"
               >
                 {p.name}
               </text>
-              <text className="how-state" x={cx} y={705} textAnchor="middle">
+              <text className="how-state" x={cx} y={749} textAnchor="middle">
                 {p.state}
               </text>
             </g>
           ))}
         </g>
 
-        <Sees x={200} y={762} anchor="middle" />
-        <Keys x={30} y={818} />
+        <Sees x={200} y={806} anchor="middle" />
+        <Keys x={30} y={862} />
       </g>
     </svg>
   );
