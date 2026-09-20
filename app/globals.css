@@ -768,12 +768,91 @@ code.scan-vv {
   }
 }
 
+/* ── Start in three steps ── */
+/* What the hero used to end with was a row of cipher names. This is the
+   same space spent on what a visitor has to do. */
+.steps-block {
+  width: 100%;
+  max-width: 62rem;
+  margin: 3rem auto 0;
+}
+
+.steps-block h2 {
+  margin: 0 0 1.1rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.015);
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.55;
+}
+
+.steps strong {
+  color: var(--text);
+}
+
+.step-link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+}
+
+.step-n {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  color: var(--accent-hover);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+@media (max-width: 820px) {
+  .steps {
+    grid-template-columns: 1fr;
+  }
+}
+
 .chips {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.55rem;
   padding: 2.4rem 0 0;
+}
+
+/* In a section rather than under the hero, so it sits above the cards it
+   describes instead of below the buttons. */
+.chips-facts {
+  padding: 0 0 2rem;
 }
 
 .chip {
@@ -822,7 +901,9 @@ section.block {
 
 .block-head p.lead {
   color: var(--muted);
-  margin: 0;
+  /* About 62 characters, measured the same way as .prose above. */
+  max-width: 40ch;
+  margin: 0 auto;
   font-size: 1.05rem;
 }
 
@@ -1582,7 +1663,7 @@ button.shot-zoomable:focus-visible .zoom-hint {
 .flow-note {
   color: var(--muted);
   font-size: 0.95rem;
-  max-width: 44rem;
+  max-width: 41ch;
   margin: 1.8rem auto 0;
   text-align: center;
 }
@@ -1787,8 +1868,12 @@ table.compare tbody tr:hover th {
 }
 
 /* ── Prose pages ── */
+/* Around 66 characters a line, counted on the page rather than assumed:
+   `ch` is the width of a zero, and this font's zero is half again as wide
+   as the letters beside it, so 66ch would have been 92 characters. The old
+   46rem was 93. */
 .prose {
-  max-width: 46rem;
+  max-width: 46ch;
   padding: 4rem 0 5rem;
 }
 

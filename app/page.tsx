@@ -62,9 +62,8 @@ export default function Home() {
           </h1>
           <p>
             SilentSilo keeps your files and passwords in encrypted folders on
-            your own machine. It unlocks with Windows Hello, a security key, or
-            your phone. If you want sync or backup, point it at storage you
-            already own.
+            your own machine. It unlocks with Windows Hello or a security key.
+            If you want sync or backup, point it at storage you already own.
           </p>
           {/* No download until there is one. A button pointing at a release
               that does not exist is the first thing a visitor finds out, on
@@ -95,21 +94,18 @@ export default function Home() {
               </>
             )}
           </div>
-          {/* The reassurance at the point of decision. The full answer lives
-              three screens down in "What you need"; whoever leaves at the
-              button never reads it there. */}
+          {/* One line, at the point of decision: whether it runs, what it
+              costs, and what it is. The detail is in the three steps below
+              and in "What you need" under them. */}
           {RELEASED && (
             <span className="cta-needs">
-              Windows 10 or 11. The fingerprint, face or PIN you already sign
-              in with is enough to unlock; there is nothing to buy.{" "}
-              <a href="#needs">What you need</a>
+              Windows 10 or 11 · free · open source
             </span>
           )}
           <span className="cta-note">
             {RELEASED ? (
               <>
-                {LATEST_TAG}, free and open source, AGPL-3.0.{" "}
-                <a href={RELEASES}>All releases</a> ·{" "}
+                {LATEST_TAG}, AGPL-3.0. <a href={RELEASES}>All releases</a> ·{" "}
                 <Link href="/principles/">What stays free</Link>
               </>
             ) : (
@@ -166,15 +162,38 @@ export default function Home() {
             </div>
           )}
 
-          <div className="chips" aria-label="Technical facts">
-            <span className="chip">AES-256-GCM</span>
-            <span className="chip">FIDO2 hmac-secret</span>
-            {/* The one fact a scanner would otherwise miss: "No server" in the
-                headline reads as "no sync at all" if nothing contradicts it. */}
-            <span className="chip">S3, WebDAV, SFTP</span>
-            <span className="chip">AGPL-3.0</span>
-            <span className="chip">nothing to buy</span>
-            <span className="chip">no tracking</span>
+          {/* What a first-time visitor actually has to do, in the place the
+              cipher suite used to sit. The technical facts moved down to
+              the decisions they belong to. */}
+          <div className="steps-block">
+            <h2>Start in three steps</h2>
+            <ol className="steps">
+              <li>
+                <span className="step-n">1</span>
+                <div>
+                  <strong>Install it.</strong> Windows 10 or 11. The installer
+                  is about the size of a photo.
+                </div>
+              </li>
+              <li>
+                <span className="step-n">2</span>
+                <div>
+                  <strong>Unlock it</strong> with the fingerprint, face or PIN
+                  you already sign in to Windows with. A security key works
+                  too.
+                </div>
+              </li>
+              <li>
+                <span className="step-n">3</span>
+                <div>
+                  <strong>Point it at storage you own</strong>, if you want a
+                  backup: a folder, an external drive, or a bucket.
+                  <Link className="step-link" href="/tutorials/">
+                    One guide for each
+                  </Link>
+                </div>
+              </li>
+            </ol>
           </div>
         </section>
 
@@ -195,6 +214,44 @@ export default function Home() {
             it already has, and the labels you gave your keys. It can
             withhold data, which breaks sync, but it cannot read it, alter it
             undetected, or add anything of its own.
+          </p>
+        </section>
+
+        <section className="block" id="needs">
+          <div className="block-head">
+            <span className="kicker">Getting started</span>
+            <h2>What you need</h2>
+          </div>
+          <ul className="needs">
+            <li>
+              <span className="needs-tick"><IconCheck size={16} /></span>
+              <div>
+                <strong>Windows 10 or 11</strong>, 64-bit. The installer is
+                about the size of a photo and takes a minute.
+              </div>
+            </li>
+            <li>
+              <span className="needs-tick"><IconCheck size={16} /></span>
+              <div>
+                <strong>Windows Hello, or a security key.</strong> A
+                fingerprint, face or PIN you already use is enough, so there
+                is no hardware to buy. A FIDO2 key works too and travels between
+                machines; it needs the <code>hmac-secret</code> extension,
+                which most current keys have.
+              </div>
+            </li>
+            <li>
+              <span className="needs-tick"><IconCheck size={16} /></span>
+              <div>
+                <strong>Somewhere to write the recovery code.</strong> Paper
+                is fine, and it is the only way back in if the key is lost.
+                Setup generates it and waits while you copy it down.
+              </div>
+            </li>
+          </ul>
+          <p className="needs-note">
+            Storage is optional and separate. A silo that never syncs is
+            usable without any storage at all.
           </p>
         </section>
 
@@ -323,43 +380,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="block" id="needs">
-          <div className="block-head">
-            <span className="kicker">Getting started</span>
-            <h2>What you need</h2>
-          </div>
-          <ul className="needs">
-            <li>
-              <span className="needs-tick"><IconCheck size={16} /></span>
-              <div>
-                <strong>Windows 10 or 11</strong>, 64-bit. The installer is
-                about the size of a photo and takes a minute.
-              </div>
-            </li>
-            <li>
-              <span className="needs-tick"><IconCheck size={16} /></span>
-              <div>
-                <strong>Windows Hello, or a security key.</strong> A
-                fingerprint, face or PIN you already use is enough, so there
-                is nothing to buy. A FIDO2 key works too and travels between
-                machines; it needs the <code>hmac-secret</code> extension,
-                which most current keys have.
-              </div>
-            </li>
-            <li>
-              <span className="needs-tick"><IconCheck size={16} /></span>
-              <div>
-                <strong>Somewhere to write the recovery code.</strong> Paper
-                is fine, and it is the only way back in if the key is lost.
-                Setup generates it and waits while you copy it down.
-              </div>
-            </li>
-          </ul>
-          <p className="needs-note">
-            Storage is optional and separate. A silo that never syncs is
-            fully usable, forever.
-          </p>
-        </section>
 
         <section className="block">
           <div className="block-head">
@@ -368,6 +388,18 @@ export default function Home() {
             <p className="lead">
               Each is documented, and each can be checked against the source.
             </p>
+          </div>
+          {/* The four facts an engineer scans for. They sat above the fold as
+              chips, where they answered a question nobody new to this asks;
+              here they label the decisions they come from. The threat model
+              has the rest. */}
+          <div className="chips chips-facts" aria-label="Technical facts">
+            <span className="chip">AES-256-GCM</span>
+            <span className="chip">FIDO2 hmac-secret</span>
+            {/* The one fact a scanner would otherwise miss: "No server" in the
+                headline reads as "no sync at all" if nothing contradicts it. */}
+            <span className="chip">S3, WebDAV, SFTP</span>
+            <span className="chip">AGPL-3.0</span>
           </div>
           <div className="grid">
             <article className="card">
@@ -568,8 +600,8 @@ export default function Home() {
               </pre>
               <p className="extract-foot">
                 The format it reads is written down in{" "}
-                <a href={DOC_FORMATS}>FORMATS.md</a>, so the archive outlives
-                both the tool and the project.
+                <a href={DOC_FORMATS}>FORMATS.md</a>, so the archive can be
+                read without the tool by anyone willing to follow the spec.
               </p>
             </div>
           </div>
