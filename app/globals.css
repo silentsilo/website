@@ -1948,9 +1948,34 @@ table.compare tbody tr:hover th {
    `ch` is the width of a zero, and this font's zero is half again as wide
    as the letters beside it, so 66ch would have been 92 characters. The old
    46rem was 93. */
+/* A reading column for the prose, with room on both sides of it for the
+   things that are not prose. Paragraphs keep their measure; tables, code,
+   notices and code break out, because a 60-character table is harder to
+   read, not easier. The contents list stays in the column: ten short lines
+   stretched over 960px read as a gap, not as a list. */
 .prose {
-  max-width: 46ch;
+  display: grid;
+  grid-template-columns:
+    [wide-start] minmax(0, 1fr)
+    [text-start] min(46ch, 100%) [text-end]
+    minmax(0, 1fr) [wide-end];
   padding: 4rem 0 5rem;
+}
+
+.prose > * {
+  grid-column: text;
+}
+
+.prose > table,
+.prose > .table-wrap,
+.prose > pre,
+.prose > .notice,
+.prose > figure {
+  grid-column: wide;
+  /* max-width, not width: `.prose table` sets width 100% further down. */
+  max-width: 60rem;
+  width: 100%;
+  justify-self: center;
 }
 
 .prose h1 {
