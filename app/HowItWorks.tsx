@@ -290,15 +290,37 @@ function NoServer({ cx, y }: { cx: number; y: number }) {
   );
 }
 
+/* Stacked in the tall drawing: at the size a phone needs, one of these
+   lines is wider than the 400 units the drawing has. */
 function Sees({
   x,
   y,
   anchor = "start",
+  stack = false,
 }: {
   x: number;
   y: number;
   anchor?: "start" | "middle";
+  stack?: boolean;
 }) {
+  if (stack) {
+    return (
+      <g className="how-sees">
+        <text className="how-sees-label" x={x} y={y} textAnchor={anchor}>
+          Storage sees
+        </text>
+        <text x={x} y={y + 21} textAnchor={anchor}>
+          sizes, times, key labels, content hashes
+        </text>
+        <text className="how-never-label" x={x} y={y + 50} textAnchor={anchor}>
+          Never sees
+        </text>
+        <text x={x} y={y + 71} textAnchor={anchor}>
+          names, contents, passwords
+        </text>
+      </g>
+    );
+  }
   return (
     <g className="how-sees">
       <text x={x} y={y} textAnchor={anchor}>
@@ -488,7 +510,9 @@ function Tall() {
       <Extension x={70} y={50} w={260} />
       <path className="how-link is-planned" d="M200 142 V 184" />
       <g transform="translate(0 162)">
-        <ellipse className="how-halo" cx="200" cy="390" rx="210" ry="300" />
+        {/* Inside the viewBox: the drawing runs to the edge of a phone
+            screen, and the halo has nowhere to bleed into. */}
+        <ellipse className="how-halo" cx="200" cy="390" rx="196" ry="300" />
 
         <Device p={WINDOWS} x={70} y={22} w={260} h={128} />
         <path className="how-link is-live" d={live} />
@@ -536,8 +560,8 @@ function Tall() {
           ))}
         </g>
 
-        <Sees x={200} y={806} anchor="middle" />
-        <Keys x={30} y={862} />
+        <Sees x={200} y={806} anchor="middle" stack />
+        <Keys x={30} y={906} />
       </g>
     </svg>
   );

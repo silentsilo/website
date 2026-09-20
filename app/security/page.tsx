@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function Security() {
   return (
-    <main className="wrap prose">
+    <main id="main" className="wrap prose">
       <h1>Security</h1>
       <p className="lead">
         The threat model in plain language. The full specification, including

@@ -56,6 +56,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(APP_SCHEMA) }}
         />
+        <a className="skip" href="#main">
+          Skip to content
+        </a>
         <div className="aurora" aria-hidden />
         <CipherField />
         <SiteHeader />
@@ -89,6 +92,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <div className="footer-col">
                   <h2>Read</h2>
                   <Link href="/security/">Security</Link>
+                  <Link href="/tutorials/">Tutorials</Link>
                   <Link href="/faq/">Questions</Link>
                   <Link href="/principles/">Principles</Link>
                   <Link href="/privacy/">Privacy</Link>

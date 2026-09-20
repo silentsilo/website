@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function Legal() {
   return (
-    <main className="wrap prose">
+    <main id="main" className="wrap prose">
       <h1>Legal notice</h1>
       <p className="lead">
         SilentSilo and this website are published by the company below.

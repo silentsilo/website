@@ -13,7 +13,7 @@ const RELEASES = `${REPO}/releases`;
 
 export default function ImmutableCopies() {
   return (
-    <main className="wrap prose">
+    <main id="main" className="wrap prose">
       <h1>A copy nothing can erase</h1>
       <p className="lead">
         Encryption stops someone reading your files. It does nothing at all
@@ -21,7 +21,31 @@ export default function ImmutableCopies() {
         survives the deletion.
       </p>
 
-      <h2>The problem, stated properly</h2>
+      <nav className="toc" aria-label="On this page">
+        <p className="toc-head">On this page</p>
+        <ol>
+          <li>
+            <a href="#the-problem-stated-properly">The problem, stated properly</a>
+          </li>
+          <li>
+            <a href="#which-one-you-want">Which one you want</a>
+          </li>
+          <li>
+            <a href="#object-lock-in-a-bucket">Object lock in a bucket</a>
+          </li>
+          <li>
+            <a href="#immutable-snapshots-on-a-nas">Immutable snapshots on a NAS</a>
+          </li>
+          <li>
+            <a href="#m-disc-when-you-want-it-to-be-physical">M-DISC, when you want it to be physical</a>
+          </li>
+          <li>
+            <a href="#what-a-finished-arrangement-looks-like">What a finished arrangement looks like</a>
+          </li>
+        </ol>
+      </nav>
+
+      <h2 id="the-problem-stated-properly">The problem, stated properly</h2>
       <p>
         Ransomware does not need to break your encryption. It runs as you, on
         your machine, with your rights, and that means it holds whatever your
@@ -43,7 +67,7 @@ export default function ImmutableCopies() {
         one, and they suit different things.
       </p>
 
-      <h2>Which one you want</h2>
+      <h2 id="which-one-you-want">Which one you want</h2>
       <table>
         <thead>
           <tr>
@@ -77,7 +101,7 @@ export default function ImmutableCopies() {
         itself.
       </p>
 
-      <h2>Object lock in a bucket</h2>
+      <h2 id="object-lock-in-a-bucket">Object lock in a bucket</h2>
       <p>
         Object lock tells the storage to refuse deletion of an object until a
         date passes. In <strong>compliance mode</strong> that refusal applies
@@ -175,7 +199,7 @@ export default function ImmutableCopies() {
         choose it short rather than long.
       </p>
 
-      <h2>Immutable snapshots on a NAS</h2>
+      <h2 id="immutable-snapshots-on-a-nas">Immutable snapshots on a NAS</h2>
       <p>
         If your backup lives at home on a NAS, the equivalent is a snapshot
         the sharing protocol cannot reach. A snapshot is a frozen view of the
@@ -202,7 +226,7 @@ export default function ImmutableCopies() {
         you also browse the web from.
       </p>
 
-      <h2>M-DISC, when you want it to be physical</h2>
+      <h2 id="m-disc-when-you-want-it-to-be-physical">M-DISC, when you want it to be physical</h2>
       <p>
         M-DISC is a Blu-ray disc whose recording layer is inorganic rather
         than dye. Writing changes the material, so the result is write-once
@@ -295,7 +319,7 @@ export default function ImmutableCopies() {
         belong in the same drawer.
       </p>
 
-      <h2>What a finished arrangement looks like</h2>
+      <h2 id="what-a-finished-arrangement-looks-like">What a finished arrangement looks like</h2>
       <ol>
         <li>
           Your computer, with <em>Keep a full copy on this computer</em> on.
@@ -325,6 +349,9 @@ export default function ImmutableCopies() {
         trap where versioning breaks key revocation are in{" "}
         <a href={DOC_STORAGE}>docs/STORAGE.md</a>. The threat model behind all
         of it is on the <Link href="/security/">security page</Link>.
+      </p>
+      <p className="tut-back">
+        <Link href="/tutorials/">All tutorials</Link>
       </p>
     </main>
   );

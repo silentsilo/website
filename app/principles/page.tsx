@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function Principles() {
   return (
-    <main className="wrap prose">
+    <main id="main" className="wrap prose">
       <h1>Principles</h1>
       <p className="lead">
         Short enough to hold us to. If a future version of SilentSilo breaks

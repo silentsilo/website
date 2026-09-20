@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function BackupFolder() {
   return (
-    <main className="wrap prose">
+    <main id="main" className="wrap prose">
       <h1>Back up to a folder, drive or network share</h1>
       <p className="lead">
         The plainest option and, in practice, one of the most useful. Point
@@ -18,7 +18,28 @@ export default function BackupFolder() {
         share, and a folder that Dropbox or OneDrive is already syncing.
       </p>
 
-      <h2>Setting it up</h2>
+      <nav className="toc" aria-label="On this page">
+        <p className="toc-head">On this page</p>
+        <ol>
+          <li>
+            <a href="#setting-it-up">Setting it up</a>
+          </li>
+          <li>
+            <a href="#filling-a-big-one-over-a-cable">Filling a big one over a cable</a>
+          </li>
+          <li>
+            <a href="#the-synced-folder-trap">The synced-folder trap</a>
+          </li>
+          <li>
+            <a href="#what-a-local-folder-cannot-do">What a local folder cannot do</a>
+          </li>
+          <li>
+            <a href="#prove-it-works">Prove it works</a>
+          </li>
+        </ol>
+      </nav>
+
+      <h2 id="setting-it-up">Setting it up</h2>
       <ol>
         <li>
           Plug in the disk or make sure the share is mounted. On Windows a
@@ -54,7 +75,7 @@ export default function BackupFolder() {
         from now, and a drive letter does not.
       </p>
 
-      <h2>Filling a big one over a cable</h2>
+      <h2 id="filling-a-big-one-over-a-cable">Filling a big one over a cable</h2>
       <p>
         Uploading several hundred gigabytes over a home connection takes
         weeks. Filling an external disk takes an afternoon. If the silo
@@ -71,7 +92,7 @@ export default function BackupFolder() {
         the disk the Backup connection and add the bucket as a copy.
       </p>
 
-      <h2>The synced-folder trap</h2>
+      <h2 id="the-synced-folder-trap">The synced-folder trap</h2>
       <p>
         This is the part worth reading twice, because the same word means two
         different things.
@@ -98,7 +119,7 @@ export default function BackupFolder() {
         it is your disk.
       </p>
 
-      <h2>What a local folder cannot do</h2>
+      <h2 id="what-a-local-folder-cannot-do">What a local folder cannot do</h2>
       <p>
         A copy on a disk that is always plugged in, reachable by the same
         account that runs the app, is not protection against ransomware. What
@@ -129,7 +150,7 @@ export default function BackupFolder() {
         genuinely offline, which no setting can beat.
       </p>
 
-      <h2>Prove it works</h2>
+      <h2 id="prove-it-works">Prove it works</h2>
       <p>
         Open <strong>Settings &gt; Verification</strong>, go to{" "}
         <strong>Test a recovery</strong>, type your recovery code and press{" "}
@@ -138,6 +159,9 @@ export default function BackupFolder() {
         real file. For an external disk, do it while the disk is plugged in,
         then unplug it and put it somewhere that is not the same building as
         your computer.
+      </p>
+      <p className="tut-back">
+        <Link href="/tutorials/">All tutorials</Link>
       </p>
     </main>
   );

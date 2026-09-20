@@ -10,7 +10,9 @@
   --border-subtle: rgba(139, 92, 246, 0.11);
   --text: #f8fafc;
   --muted: #9aa5c4;
-  --dim: #6b7594;
+  /* 5.0:1 on --surface, 5.5:1 on --bg. The old #6b7594 was 3.9:1 there,
+     under the 4.5:1 that body text needs. */
+  --dim: #7e88a8;
   --accent: #8b5cf6;
   --accent-hover: #a78bfa;
   --accent-soft: rgba(139, 92, 246, 0.13);
@@ -80,6 +82,26 @@ button.shot-zoomable:focus-visible {
 
 .card:focus-visible {
   border-radius: var(--radius);
+}
+
+/* The first stop for the keyboard, off screen until it is reached. */
+.skip {
+  position: fixed;
+  top: 0.6rem;
+  left: 0.6rem;
+  z-index: 60;
+  padding: 0.7rem 1.1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 700;
+  transform: translateY(-300%);
+}
+
+.skip:focus-visible {
+  transform: none;
+  text-decoration: none;
 }
 
 .wrap {
@@ -204,13 +226,20 @@ button.shot-zoomable:focus-visible {
     backdrop-filter 0.3s ease;
 }
 
-.site-header[data-scrolled="true"] {
+.site-header[data-scrolled="true"],
+.site-header[data-open="true"] {
   backdrop-filter: blur(18px) saturate(150%);
   background: rgba(8, 11, 22, 0.72);
   border-bottom-color: var(--border-subtle);
 }
 
-.site-header .wrap {
+.site-header[data-open="true"] {
+  background: rgba(8, 11, 22, 0.97);
+}
+
+/* The direct child only: the panel below has a wrap of its own, and it is
+   a column of rows rather than a bar. */
+.site-header > .wrap {
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -220,6 +249,7 @@ button.shot-zoomable:focus-visible {
 .brand {
   display: flex;
   align-items: center;
+  min-height: 44px;
   gap: 0.6rem;
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -321,6 +351,119 @@ button.shot-zoomable:focus-visible {
   border-color: var(--border);
   background: rgba(255, 255, 255, 0.06);
   text-decoration: none;
+}
+
+/* ── The compact bar, below 900px ── */
+/* Six icons with no labels were 28px wide and said nothing, and between 720
+   and 880px the row ran off the side of the screen. The narrow bar carries
+   the name, the download and a labelled way to the rest. */
+.nav-compact {
+  display: none;
+  margin-left: auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-get {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #7c3aed 0%, #5b5bd6 100%);
+  box-shadow: 0 4px 18px rgba(139, 92, 246, 0.32);
+  color: #fff;
+  font-size: 0.86rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.nav-get:hover {
+  text-decoration: none;
+  background: linear-gradient(135deg, #6d28d9 0%, #4f46e5 100%);
+}
+
+.nav-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0 0.75rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 650;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.nav-menu-btn:hover {
+  border-color: var(--border);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* The panel hangs off the header, which is sticky and so is already a
+   containing block for it. */
+.site-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  padding: 0.4rem 0 1rem;
+  /* Opaque, not glass: the hero headline behind it was legible through a
+     97% wash, and the panel has to be read, not admired. */
+  background: #080c17;
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.55);
+}
+
+.site-menu nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 52px;
+  padding: 0.3rem 0.2rem;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--muted);
+  font-size: 0.97rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.menu-row:last-child {
+  border-bottom: 0;
+}
+
+.menu-row svg {
+  flex: none;
+  opacity: 0.72;
+}
+
+.menu-row:hover {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.menu-row[data-active="true"] {
+  color: var(--text);
+}
+
+.menu-row[data-active="true"] svg {
+  opacity: 1;
+  color: var(--accent-hover);
 }
 
 /* ── Hero ── */
@@ -474,6 +617,17 @@ button.shot-zoomable:focus-visible {
   margin-top: 0.45rem;
 }
 
+/* A link in a line of small print is still a thing a thumb has to land on,
+   so it gets height of its own. */
+.cta-note a,
+.cta-needs a,
+.scan-when a,
+.scan-vv a {
+  display: inline-block;
+  padding: 0.85rem 0.25rem;
+  margin: 0 -0.25rem;
+}
+
 /* The VirusTotal result, under the download. Emerald rather than the accent
    purple: this is the one place on the page reporting a measured outcome, and
    it should read as a result, not as another link. */
@@ -492,7 +646,7 @@ button.shot-zoomable:focus-visible {
   /* fit-content sizes the card to the hash row, which is the widest thing in
      it. The ceiling is headroom for a wider mono fallback, not a target. */
   width: fit-content;
-  max-width: 37rem;
+  max-width: 43rem;
   margin: 1.9rem auto 0;
   padding: 1.15rem 1.4rem 1.15rem 1.25rem;
   text-align: left;
@@ -568,7 +722,7 @@ button.shot-zoomable:focus-visible {
   margin-top: 0.9rem;
   padding-top: 0.8rem;
   border-top: 1px solid var(--border-subtle);
-  font-size: 0.66rem;
+  font-size: 0.78rem;
   color: var(--dim);
 }
 
@@ -637,6 +791,7 @@ code.scan-vv {
 section.block {
   padding: 5rem 0;
   border-top: 1px solid var(--border-subtle);
+  scroll-margin-top: 80px;
 }
 
 /* Every section head sits on the page's centre line, like the hero. The
@@ -685,6 +840,9 @@ section.block {
 }
 
 .tab {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   border: 0;
   background: transparent;
   color: var(--muted);
@@ -1304,9 +1462,16 @@ button.shot-zoomable:focus-visible .zoom-hint {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.5rem 1.2rem;
-  margin: 2rem 0 2.4rem;
+  gap: 0 1.2rem;
+  margin: 1.6rem 0 2rem;
   font-size: 0.92rem;
+}
+
+.notfound-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.2rem;
 }
 
 /* ── Sync flow diagram ── */
@@ -1484,6 +1649,75 @@ table.compare tbody tr:hover th {
   background: rgba(139, 92, 246, 0.04);
 }
 
+/* A four-column table on a phone either scrolls sideways with nothing to
+   say so, which reads as broken text, or it stops being a grid. One card
+   per row, with each value carrying its column name, because a scroll hint
+   would still ask the reader to hold three columns in their head. The ARIA
+   roles in the markup keep it a table for a screen reader. */
+@media (max-width: 560px) {
+  .table-wrap {
+    border: 0;
+    background: none;
+    border-radius: 0;
+  }
+
+  table.compare {
+    display: block;
+    min-width: 0;
+  }
+
+  table.compare thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  table.compare tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  table.compare tbody tr {
+    display: block;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.012);
+    padding: 0.4rem 1rem 0.7rem;
+  }
+
+  table.compare tbody th,
+  table.compare tbody td {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    text-align: right;
+  }
+
+  table.compare tbody th {
+    font-size: 1rem;
+    text-align: left;
+    padding-bottom: 0.6rem;
+  }
+
+  table.compare tbody td::before {
+    content: attr(data-label);
+    color: var(--dim);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  table.compare tbody td:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
 /* ── Closing ── */
 .block-closing {
   padding-bottom: 6rem;
@@ -1574,6 +1808,9 @@ table.compare tbody tr:hover th {
   font-size: 1.3rem;
   letter-spacing: -0.025em;
   margin: 2.6rem 0 0.6rem;
+  /* The header is sticky, so a heading jumped to from the contents list
+     would otherwise land underneath it. */
+  scroll-margin-top: 88px;
 }
 
 .prose p,
@@ -1583,6 +1820,69 @@ table.compare tbody tr:hover th {
 
 .prose strong {
   color: var(--text);
+}
+
+/* Where a long page goes, before the reader is three screens into it. Built
+   from the h2s, so it cannot drift from the page it describes. */
+.toc {
+  margin: 0 0 2.5rem;
+  padding: 1.1rem 1.3rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.toc-head {
+  margin: 0 0 0.3rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--dim);
+}
+
+.toc ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: toc;
+}
+
+.toc li {
+  counter-increment: toc;
+}
+
+.toc a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 0.94rem;
+  color: var(--muted);
+}
+
+.toc a::before {
+  content: counter(toc) ".";
+  flex: none;
+  width: 1.6rem;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+
+.toc a:hover {
+  color: var(--text);
+}
+
+.tut-back {
+  margin: 3rem 0 0;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.tut-back a {
+  display: inline-block;
+  padding: 0.5rem 0;
+  font-weight: 600;
 }
 
 /* A paragraph that has to be read rather than skimmed past. Used where a
@@ -1629,6 +1929,9 @@ table.compare tbody tr:hover th {
 .prose code,
 code {
   font-family: var(--mono);
+  /* A path or a key name longer than a phone is wide breaks inside the
+     word rather than pushing the page sideways. */
+  overflow-wrap: anywhere;
   font-size: 0.88em;
   background: var(--surface-muted);
   border: 1px solid var(--border-subtle);
@@ -1688,7 +1991,8 @@ code {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.42rem 0.8rem;
+  min-height: 44px;
+  padding: 0.42rem 0.9rem;
   border-radius: 999px;
   border: 1px solid var(--border-subtle);
   font-family: var(--mono);
@@ -1711,22 +2015,41 @@ code {
 .footer-col {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.15rem;
 }
 
 .footer-col h2 {
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.13em;
   color: var(--dim);
-  margin: 0 0 0.2rem;
+  margin: 0 0 0.35rem;
 }
 
+/* Padding rather than a gap: a link in a list of links is a thing to hit
+   with a thumb, and the text alone is 24px tall. */
 .footer-col a {
+  display: inline-block;
+  padding: 0.65rem 0;
   color: var(--muted);
   font-size: 0.88rem;
   width: fit-content;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* Three columns hold down to about 560px. Below that the last one is a
+   sliver, and the mail addresses in it were cut off mid-domain. */
+@media (max-width: 560px) {
+  .footer-cols {
+    flex-direction: column;
+    gap: 1.8rem;
+  }
+
+  .footer-top {
+    gap: 2rem;
+  }
 }
 
 .footer-meta {
@@ -1752,50 +2075,47 @@ code {
 }
 
 /* ── Responsive ── */
-/* The nav collapses by shedding words, not by hiding behind a hamburger:
-   labels go first, then the GitHub label, leaving icons that stay on one
-   row down to the narrowest phone. Every item is reachable at every width. */
+/* One switch, at 900px: the pill nav needs about 700px of its own and
+   started running off the side well before the phone breakpoints. Below it
+   the bar carries the name, the download and the Menu button, and the six
+   pages move into the panel with their labels intact. */
 @media (max-width: 900px) {
-  .nav-github span {
+  .site-nav {
     display: none;
   }
 
-  .nav-github {
-    padding: 0.55rem 0.6rem;
+  .nav-compact {
+    display: flex;
   }
-}
 
-@media (max-width: 720px) {
-  .site-header .wrap {
+  .site-header > .wrap {
     gap: 0.75rem;
     height: 64px;
   }
-
-  .nav-link span {
-    display: none;
-  }
-
-  .nav-link {
-    padding: 0.5rem 0.6rem;
-  }
-
-  .nav-link svg {
-    width: 18px;
-    height: 18px;
-  }
 }
 
-/* Six icon-only links plus the GitHub mark overflow a narrow phone at the
-   padding above, so the last steps tighten them rather than dropping one:
-   every page stays reachable from every width. Measured at 320px, where
-   the row was 2px too wide before the second step. */
-@media (max-width: 560px) {
-  .nav-link {
-    padding: 0.5rem 0.42rem;
+/* The three items in the bar have to fit a 320px screen with the product
+   name still on it, so the padding and the type come down rather than any
+   of the three coming off. */
+@media (max-width: 420px) {
+  .brand {
+    font-size: 1rem;
+    gap: 0.45rem;
   }
 
-  .nav-pill {
-    padding: 0.24rem;
+  .nav-get {
+    padding: 0 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .nav-menu-btn {
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
+    gap: 0.3rem;
+  }
+
+  .site-header > .wrap {
+    gap: 0.4rem;
   }
 }
 
@@ -1803,19 +2123,27 @@ code {
   .wrap {
     padding: 0 1.1rem;
   }
-
-  .nav-link {
-    padding: 0.5rem 0.3rem;
-  }
-
-  .site-header .wrap {
-    gap: 0.5rem;
-  }
 }
 
-@media (max-width: 420px) {
-  .brand span {
-    display: none;
+@media (max-width: 360px) {
+  .brand {
+    font-size: 0.95rem;
+  }
+
+  .brand img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .nav-get {
+    padding: 0 0.5rem;
+    font-size: 0.78rem;
+    gap: 0.3rem;
+  }
+
+  .nav-menu-btn {
+    padding: 0 0.4rem;
+    font-size: 0.78rem;
   }
 }
 
@@ -1883,6 +2211,44 @@ code {
   .how-tall { display: block; }
 }
 
+/* The tall drawing is 400 units wide, so its type is only as large as the
+   box it lands in. On a phone that box was 327px, which turned 12px labels
+   into 10px ones. It takes the full width of the page instead, and the
+   labels are sized so the smallest of them still renders at 12px on a
+   320px screen. */
+@media (max-width: 480px) {
+  .how-tall {
+    max-width: none;
+    width: calc(100% + 3rem);
+    margin-left: -1.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .how-tall {
+    width: calc(100% + 2.2rem);
+    margin-left: -1.1rem;
+  }
+}
+
+.how-tall .how-state,
+.how-tall .how-unlock,
+.how-tall .how-chip-text,
+.how-tall .how-caption,
+.how-tall .how-hub-sub,
+.how-tall .how-object text,
+.how-tall .how-keys text,
+.how-tall .how-sees text,
+.how-tall .how-noserver text,
+.how-tall .how-planned-stores text,
+.how-tall .how-planned-stores .how-planned-tag {
+  font-size: 15px;
+}
+
+.how-tall .how-name-sm {
+  font-size: 15.5px;
+}
+
 .how-card {
   fill: var(--surface);
   stroke: var(--border-subtle);
@@ -1935,7 +2301,7 @@ code {
 
 .how-state {
   fill: var(--dim);
-  font-size: 12.5px;
+  font-size: 13.5px;
 }
 
 .how-device.is-live .how-state {
@@ -1965,7 +2331,7 @@ code {
 
 .how-hub-sub {
   fill: var(--muted);
-  font-size: 13px;
+  font-size: 13.5px;
 }
 
 .how-chip {
@@ -1975,7 +2341,7 @@ code {
 
 .how-chip-text {
   fill: var(--text);
-  font-size: 12.5px;
+  font-size: 13.5px;
   font-family: var(--mono);
 }
 
@@ -2027,13 +2393,13 @@ code {
 
 .how-noserver text {
   fill: var(--muted);
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 600;
 }
 
 .how-caption {
   fill: var(--dim);
-  font-size: 12.5px;
+  font-size: 13.5px;
 }
 
 .how-points {
@@ -2080,7 +2446,7 @@ code {
 
 .how-unlock {
   fill: var(--muted);
-  font-size: 12px;
+  font-size: 13.5px;
 }
 
 .how-glyph-key,
@@ -2122,7 +2488,7 @@ code {
 .how-object text {
   fill: var(--dim);
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 13.5px;
 }
 
 .how-object .how-object-dir {
@@ -2155,7 +2521,7 @@ code {
 
 .how-keys text {
   fill: var(--muted);
-  font-size: 13px;
+  font-size: 13.5px;
 }
 
 .how-glyph-paper {
@@ -2182,11 +2548,11 @@ code {
 
 .how-planned-stores text {
   fill: var(--dim);
-  font-size: 12px;
+  font-size: 13.5px;
 }
 
 .how-planned-stores .how-planned-tag {
-  font-size: 10.5px;
+  font-size: 13.5px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;

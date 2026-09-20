@@ -247,3 +247,28 @@ export function IconServer({ size = 18, className }: Props) {
     </svg>
   );
 }
+
+export function IconMenu({ size = 20, className }: Props) {
+  return (
+    <svg width={size} height={size} className={className} {...base}>
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  );
+}
+
+export function IconClose({ size = 20, className }: Props) {
+  return (
+    <svg width={size} height={size} className={className} {...base}>
+      <path d="M6 6l12 12M18 6 6 18" />
+    </svg>
+  );
+}
+
+export function IconMail({ size = 18, className }: Props) {
+  return (
+    <svg width={size} height={size} className={className} {...base}>
+      <rect x="2.8" y="5" width="18.4" height="14" rx="2.4" />
+      <path d="m3.4 7.2 8.6 6 8.6-6" />
+    </svg>
+  );
+}

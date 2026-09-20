@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function Who() {
   return (
-    <main className="wrap prose">
+    <main id="main" className="wrap prose">
       <h1>Who makes this</h1>
       <p className="lead">
         A security tool should say who is behind it. Anonymity is fine for

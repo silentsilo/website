@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function Privacy() {
   return (
-    <main className="wrap prose">
+    <main id="main" className="wrap prose">
       <h1>Privacy</h1>
       <p className="lead">
         The complete list of what is collected, by the site and by the app.

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function BackupSftp() {
   return (
-    <main className="wrap prose">
+    <main id="main" className="wrap prose">
       <h1>Back up over SFTP</h1>
       <p className="lead">
         Any machine you can reach over SSH becomes a backup place: a VPS, a
@@ -18,7 +18,34 @@ export default function BackupSftp() {
         because that is the step people click past.
       </p>
 
-      <h2>Prepare the server</h2>
+      <nav className="toc" aria-label="On this page">
+        <p className="toc-head">On this page</p>
+        <ol>
+          <li>
+            <a href="#prepare-the-server">Prepare the server</a>
+          </li>
+          <li>
+            <a href="#making-a-key">Making a key</a>
+          </li>
+          <li>
+            <a href="#setting-it-up-in-the-app">Setting it up in the app</a>
+          </li>
+          <li>
+            <a href="#the-fingerprint-and-why-it-is-a-step">The fingerprint, and why it is a step</a>
+          </li>
+          <li>
+            <a href="#when-it-does-not-work">When it does not work</a>
+          </li>
+          <li>
+            <a href="#what-this-gets-you">What this gets you</a>
+          </li>
+          <li>
+            <a href="#prove-it-works">Prove it works</a>
+          </li>
+        </ol>
+      </nav>
+
+      <h2 id="prepare-the-server">Prepare the server</h2>
       <ol>
         <li>
           Make a user for this, or use one you already have. It needs to be
@@ -48,7 +75,7 @@ export default function BackupSftp() {
         is exactly what is wanted here.
       </p>
 
-      <h2>Making a key</h2>
+      <h2 id="making-a-key">Making a key</h2>
       <p>
         A key is two files: a private one that stays with you, and a public
         one you give the server. On Windows, macOS or Linux, open a terminal
@@ -76,7 +103,7 @@ export default function BackupSftp() {
         key, not the <code>.pub</code> one: the public key opens nothing.
       </p>
 
-      <h2>Setting it up in the app</h2>
+      <h2 id="setting-it-up-in-the-app">Setting it up in the app</h2>
       <ol>
         <li>
           Unlock the silo, open <strong>Settings &gt; Backup</strong> (or{" "}
@@ -114,7 +141,7 @@ export default function BackupSftp() {
         </li>
       </ol>
 
-      <h2>The fingerprint, and why it is a step</h2>
+      <h2 id="the-fingerprint-and-why-it-is-a-step">The fingerprint, and why it is a step</h2>
       <p>
         An SSH client that accepts whatever key a server presents has not
         checked who the server is at all. Anyone able to answer on that
@@ -161,7 +188,7 @@ export default function BackupSftp() {
         rebuilt server is the innocent explanation, and it is not the only one.
       </p>
 
-      <h2>When it does not work</h2>
+      <h2 id="when-it-does-not-work">When it does not work</h2>
       <p>
         A refused connection right after several others usually is not you.
         Some servers turn away a few connections at random when they are
@@ -177,7 +204,7 @@ export default function BackupSftp() {
         confined to its home directory, or the other way round.
       </p>
 
-      <h2>What this gets you</h2>
+      <h2 id="what-this-gets-you">What this gets you</h2>
       <p>
         A copy on a machine you control, in a different place, reached with a
         credential separate from everything else. That is a real second copy
@@ -197,7 +224,7 @@ export default function BackupSftp() {
         same idea one layer down.
       </p>
 
-      <h2>Prove it works</h2>
+      <h2 id="prove-it-works">Prove it works</h2>
       <p>
         Open <strong>Settings &gt; Verification</strong>, go to{" "}
         <strong>Test a recovery</strong>, type your recovery code and press{" "}
@@ -205,6 +232,9 @@ export default function BackupSftp() {
         server in a temporary directory, using only that code, and opens one
         real file, which exercises the whole chain rather than just the
         connection.
+      </p>
+      <p className="tut-back">
+        <Link href="/tutorials/">All tutorials</Link>
       </p>
     </main>
   );

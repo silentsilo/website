@@ -39,9 +39,18 @@ import {
   VIRUSTOTAL_SCANNED,
 } from "./links";
 
+/** Row label, then one value per column, in the order of the header. */
+const COMPARE: [string, string, string, string][] = [
+  ["Account required", "Never", "Yes", "No"],
+  ["Unlock", "Hardware key", "Password", "Passphrase"],
+  ["Multi-device sync", "Your storage", "Their servers", "None"],
+  ["Works if the vendor dies", "Yes", "No", "Yes"],
+  ["Source available", "AGPL-3.0", "Varies", "Usually"],
+];
+
 export default function Home() {
   return (
-    <main>
+    <main id="main">
       <div className="wrap">
         <section className="hero">
           <span className="eyebrow">
@@ -480,47 +489,43 @@ export default function Home() {
             <span className="kicker">Compared</span>
             <h2>Where it sits</h2>
           </div>
+          {/* Below 560px the rows become cards, which is why every element
+              carries its role explicitly: `display: block` on a table strips
+              the implicit ones, and the column each value belongs to would
+              go with them. The labels come from data-label. */}
           <div className="table-wrap">
-            <table className="compare">
-              <thead>
-                <tr>
-                  <th scope="col" />
-                  <th scope="col">SilentSilo</th>
-                  <th scope="col">Hosted vaults</th>
-                  <th scope="col">Folder encryptors</th>
+            <table className="compare" role="table">
+              <thead role="rowgroup">
+                <tr role="row">
+                  <th role="columnheader" scope="col" />
+                  <th role="columnheader" scope="col">
+                    SilentSilo
+                  </th>
+                  <th role="columnheader" scope="col">
+                    Hosted vaults
+                  </th>
+                  <th role="columnheader" scope="col">
+                    Folder encryptors
+                  </th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">Account required</th>
-                  <td className="yes">Never</td>
-                  <td>Yes</td>
-                  <td>No</td>
-                </tr>
-                <tr>
-                  <th scope="row">Unlock</th>
-                  <td className="yes">Hardware key</td>
-                  <td>Password</td>
-                  <td>Passphrase</td>
-                </tr>
-                <tr>
-                  <th scope="row">Multi-device sync</th>
-                  <td className="yes">Your storage</td>
-                  <td>Their servers</td>
-                  <td>None</td>
-                </tr>
-                <tr>
-                  <th scope="row">Works if the vendor dies</th>
-                  <td className="yes">Yes</td>
-                  <td>No</td>
-                  <td>Yes</td>
-                </tr>
-                <tr>
-                  <th scope="row">Source available</th>
-                  <td className="yes">AGPL-3.0</td>
-                  <td>Varies</td>
-                  <td>Usually</td>
-                </tr>
+              <tbody role="rowgroup">
+                {COMPARE.map(([row, mine, hosted, folder]) => (
+                  <tr key={row} role="row">
+                    <th role="rowheader" scope="row">
+                      {row}
+                    </th>
+                    <td role="cell" className="yes" data-label="SilentSilo">
+                      {mine}
+                    </td>
+                    <td role="cell" data-label="Hosted vaults">
+                      {hosted}
+                    </td>
+                    <td role="cell" data-label="Folder encryptors">
+                      {folder}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

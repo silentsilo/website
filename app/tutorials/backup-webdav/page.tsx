@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function BackupWebDav() {
   return (
-    <main className="wrap prose">
+    <main id="main" className="wrap prose">
       <h1>Back up over WebDAV</h1>
       <p className="lead">
         If you already run a Nextcloud, own a Synology, or pay for something
@@ -18,7 +18,31 @@ export default function BackupWebDav() {
         password, so both get their own section.
       </p>
 
-      <h2>Finding the address</h2>
+      <nav className="toc" aria-label="On this page">
+        <p className="toc-head">On this page</p>
+        <ol>
+          <li>
+            <a href="#finding-the-address">Finding the address</a>
+          </li>
+          <li>
+            <a href="#create-an-app-password-not-your-account-password">Create an app password, not your account password</a>
+          </li>
+          <li>
+            <a href="#setting-it-up-in-the-app">Setting it up in the app</a>
+          </li>
+          <li>
+            <a href="#when-it-does-not-work">When it does not work</a>
+          </li>
+          <li>
+            <a href="#what-this-is-good-for-and-what-it-is-not">What this is good for, and what it is not</a>
+          </li>
+          <li>
+            <a href="#prove-it-works">Prove it works</a>
+          </li>
+        </ol>
+      </nav>
+
+      <h2 id="finding-the-address">Finding the address</h2>
       <p>
         The app wants the WebDAV address of a folder, not the address of the
         web interface you log in to. They look nothing alike, and pasting the
@@ -81,7 +105,7 @@ export default function BackupWebDav() {
         someone delete them.
       </p>
 
-      <h2>Create an app password, not your account password</h2>
+      <h2 id="create-an-app-password-not-your-account-password">Create an app password, not your account password</h2>
       <p>
         Give the app a credential you can revoke on its own, so pulling it
         does not mean changing the password you sign in with everywhere.
@@ -109,7 +133,7 @@ export default function BackupWebDav() {
         </li>
       </ol>
 
-      <h2>Setting it up in the app</h2>
+      <h2 id="setting-it-up-in-the-app">Setting it up in the app</h2>
       <ol>
         <li>
           Unlock the silo and open <strong>Settings &gt; Backup</strong>, or{" "}
@@ -141,7 +165,7 @@ export default function BackupWebDav() {
         it, so the app creates the folders it needs on the way.
       </p>
 
-      <h2>When it does not work</h2>
+      <h2 id="when-it-does-not-work">When it does not work</h2>
       <p>
         The error the app shows carries a number from the server. 401 means
         the password: if the account has two-factor authentication, you need
@@ -153,7 +177,7 @@ export default function BackupWebDav() {
         large file goes up in one piece.
       </p>
 
-      <h2>What this is good for, and what it is not</h2>
+      <h2 id="what-this-is-good-for-and-what-it-is-not">What this is good for, and what it is not</h2>
       <p>
         A Nextcloud you run is a genuinely separate copy: a different machine,
         different credentials, often a different building. That is worth
@@ -172,13 +196,16 @@ export default function BackupWebDav() {
         keeps rather than one the server enforces.
       </p>
 
-      <h2>Prove it works</h2>
+      <h2 id="prove-it-works">Prove it works</h2>
       <p>
         Open <strong>Settings &gt; Verification</strong>, go to{" "}
         <strong>Test a recovery</strong>, type your recovery code and press{" "}
         <strong>Try a recovery now</strong>: it rebuilds the silo from the
         server using only that code and opens one real file. Do it now rather
         than on the day your laptop dies.
+      </p>
+      <p className="tut-back">
+        <Link href="/tutorials/">All tutorials</Link>
       </p>
     </main>
   );

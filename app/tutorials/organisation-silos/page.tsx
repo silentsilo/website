@@ -12,7 +12,7 @@ const DOC_ORGS = `${REPO}/blob/main/docs/ORGANISATIONS.md`;
 
 export default function OrganisationSilos() {
   return (
-    <main className="wrap prose">
+    <main id="main" className="wrap prose">
       <h1>Silos for a team or a company</h1>
       <p className="lead">
         A company archiving into SilentSilo has one problem an individual does
@@ -21,7 +21,31 @@ export default function OrganisationSilos() {
         copy of the app can do all of it.
       </p>
 
-      <h2>The organisation key</h2>
+      <nav className="toc" aria-label="On this page">
+        <p className="toc-head">On this page</p>
+        <ol>
+          <li>
+            <a href="#the-organisation-key">The organisation key</a>
+          </li>
+          <li>
+            <a href="#two-places-not-one">Two places, not one</a>
+          </li>
+          <li>
+            <a href="#setting-up-one-employee">Setting up one employee</a>
+          </li>
+          <li>
+            <a href="#someone-remote">Someone remote</a>
+          </li>
+          <li>
+            <a href="#the-day-somebody-leaves">The day somebody leaves</a>
+          </li>
+          <li>
+            <a href="#what-actually-holds-it">What actually holds it</a>
+          </li>
+        </ol>
+      </nav>
+
+      <h2 id="the-organisation-key">The organisation key</h2>
       <p>
         When a silo is created, the screen where the first key is enrolled
         has a box named{" "}
@@ -51,7 +75,7 @@ export default function OrganisationSilos() {
         on its own storage, which is the last section of this page.
       </p>
 
-      <h2>Two places, not one</h2>
+      <h2 id="two-places-not-one">Two places, not one</h2>
       <p>
         The silo needs a backup the app keeps tidy and a copy the company
         never lets shrink, and the app offers those as two different things:
@@ -82,7 +106,7 @@ export default function OrganisationSilos() {
         holds a different silo.
       </p>
 
-      <h2>Setting up one employee</h2>
+      <h2 id="setting-up-one-employee">Setting up one employee</h2>
       <ol>
         <li>
           Make the two folders for them on storage the company controls.
@@ -125,7 +149,7 @@ export default function OrganisationSilos() {
         hand. Do it at the desk whenever you can.
       </p>
 
-      <h2>Someone remote</h2>
+      <h2 id="someone-remote">Someone remote</h2>
       <p>
         Do steps 1 to 5 at the IT desk and courier their key to them. They
         choose <strong>Copy one from backup storage</strong>, point it at the
@@ -146,7 +170,7 @@ export default function OrganisationSilos() {
         exists and is filling before the key goes in the post.
       </p>
 
-      <h2>The day somebody leaves</h2>
+      <h2 id="the-day-somebody-leaves">The day somebody leaves</h2>
       <ol>
         <li>
           Take <strong>both</strong> company keys out of the safe. Changing
@@ -183,7 +207,7 @@ export default function OrganisationSilos() {
         would be lying.
       </p>
 
-      <h2>What actually holds it</h2>
+      <h2 id="what-actually-holds-it">What actually holds it</h2>
       <p>
         The rules above are enforced by the app. The durable half is the copy
         the company controls: the one marked{" "}
@@ -195,6 +219,9 @@ export default function OrganisationSilos() {
         <a href={DOC_ORGS}>docs/ORGANISATIONS.md</a> in the repository, and the
         employee&apos;s side of the story is on the{" "}
         <Link href="/security/">security page</Link>.
+      </p>
+      <p className="tut-back">
+        <Link href="/tutorials/">All tutorials</Link>
       </p>
     </main>
   );

@@ -36,7 +36,7 @@ const AWS_POLICY = `{
 
 export default function BackupS3() {
   return (
-    <main className="wrap prose">
+    <main id="main" className="wrap prose">
       <h1>Back up to an S3 bucket</h1>
       <p className="lead">
         The option most people end up on: cheap, unlimited in practice, and
@@ -45,7 +45,43 @@ export default function BackupS3() {
         and says exactly which button to press.
       </p>
 
-      <h2>What the app needs</h2>
+      <nav className="toc" aria-label="On this page">
+        <p className="toc-head">On this page</p>
+        <ol>
+          <li>
+            <a href="#what-the-app-needs">What the app needs</a>
+          </li>
+          <li>
+            <a href="#make-the-bucket-first">Make the bucket first</a>
+          </li>
+          <li>
+            <a href="#one-rule-worth-adding-to-any-bucket">One rule worth adding to any bucket</a>
+          </li>
+          <li>
+            <a href="#backblaze-b2">Backblaze B2</a>
+          </li>
+          <li>
+            <a href="#cloudflare-r2">Cloudflare R2</a>
+          </li>
+          <li>
+            <a href="#wasabi">Wasabi</a>
+          </li>
+          <li>
+            <a href="#amazon-s3">Amazon S3</a>
+          </li>
+          <li>
+            <a href="#minio-or-anything-else-speaking-s3">MinIO, or anything else speaking S3</a>
+          </li>
+          <li>
+            <a href="#fill-it-in-and-save">Fill it in and save</a>
+          </li>
+          <li>
+            <a href="#then-prove-it">Then prove it</a>
+          </li>
+        </ol>
+      </nav>
+
+      <h2 id="what-the-app-needs">What the app needs</h2>
       <table>
         <thead>
           <tr>
@@ -98,7 +134,7 @@ export default function BackupS3() {
         that produce errors looking like network faults.
       </p>
 
-      <h2>Make the bucket first</h2>
+      <h2 id="make-the-bucket-first">Make the bucket first</h2>
       <p>
         Whichever provider you use, create the bucket before the key, because
         the key has to name it. Keep it <strong>private</strong>. SilentSilo
@@ -121,7 +157,7 @@ export default function BackupS3() {
         .
       </p>
 
-      <h2>One rule worth adding to any bucket</h2>
+      <h2 id="one-rule-worth-adding-to-any-bucket">One rule worth adding to any bucket</h2>
       <p>
         Files over 16 MB go up in parts. If the app is closed or the computer
         dies in the middle of one, the parts already sent stay in the bucket,
@@ -133,7 +169,7 @@ export default function BackupS3() {
         nothing.
       </p>
 
-      <h2>Backblaze B2</h2>
+      <h2 id="backblaze-b2">Backblaze B2</h2>
       <p>
         The preset the app offers first. Prices and egress allowances are
         theirs to set and to change, so check their current pricing page
@@ -176,7 +212,7 @@ export default function BackupS3() {
         path-style addressing, which the preset ticks for you.
       </p>
 
-      <h2>Cloudflare R2</h2>
+      <h2 id="cloudflare-r2">Cloudflare R2</h2>
       <p>
         No charge for egress at all, which makes restoring a large silo
         painless. The token flow lives in a different place from the rest of
@@ -216,7 +252,7 @@ export default function BackupS3() {
         so leave it on <code>auto</code>, and it does not want path-style.
       </p>
 
-      <h2>Wasabi</h2>
+      <h2 id="wasabi">Wasabi</h2>
       <ol>
         <li>
           Sign in to the Wasabi console as the root user and create a bucket,
@@ -245,7 +281,7 @@ export default function BackupS3() {
         rather than one you churn.
       </p>
 
-      <h2>Amazon S3</h2>
+      <h2 id="amazon-s3">Amazon S3</h2>
       <p>
         It works, and it is the most expensive way to do this. The app needs a
         permanent access key, so treat it as something to scope tightly and
@@ -283,7 +319,7 @@ export default function BackupS3() {
         Frankfurt.
       </p>
 
-      <h2>MinIO, or anything else speaking S3</h2>
+      <h2 id="minio-or-anything-else-speaking-s3">MinIO, or anything else speaking S3</h2>
       <p>
         Choose <strong>MinIO (self-hosted)</strong> or{" "}
         <strong>Other S3-compatible</strong>. Create a bucket and a user with
@@ -299,7 +335,7 @@ export default function BackupS3() {
         you accept. Over the internet it is not.
       </p>
 
-      <h2>Fill it in and save</h2>
+      <h2 id="fill-it-in-and-save">Fill it in and save</h2>
       <ol>
         <li>
           Unlock the silo and open <strong>Settings &gt; Backup</strong>. To
@@ -329,7 +365,7 @@ export default function BackupS3() {
         name you typed.
       </p>
 
-      <h2>Then prove it</h2>
+      <h2 id="then-prove-it">Then prove it</h2>
       <p>
         Open <strong>Settings &gt; Verification</strong>, go to{" "}
         <strong>Test a recovery</strong>, type your recovery code and press{" "}
@@ -343,6 +379,9 @@ export default function BackupS3() {
         The deeper reasoning about bucket settings, versioning and the
         lifecycle rule that can quietly delete an archive is in{" "}
         <a href={DOC_STORAGE}>STORAGE.md</a> in the repository.
+      </p>
+      <p className="tut-back">
+        <Link href="/tutorials/">All tutorials</Link>
       </p>
     </main>
   );

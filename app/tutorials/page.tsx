@@ -15,7 +15,7 @@ export const metadata: Metadata = {
  */
 export default function Tutorials() {
   return (
-    <main className="wrap prose">
+    <main id="main" className="wrap prose">
       <h1>Tutorials</h1>
       <p className="lead">
         Guides for the parts that are not about SilentSilo at all: arranging

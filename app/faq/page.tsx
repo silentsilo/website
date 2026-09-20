@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function Faq() {
   return (
-    <main className="wrap prose">
+    <main id="main" className="wrap prose">
       <h1>Questions</h1>
       <p className="lead">
         The ones worth answering before you trust something with your files.
