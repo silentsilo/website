@@ -961,6 +961,75 @@ section.block {
   margin-top: 1.3rem;
 }
 
+/* ── The reel, below 560px ── */
+/* One shot per screen, snapped, with a counter: the 760px frame scaled to
+   327px showed a picture of an interface rather than the interface. */
+.showcase-reel {
+  display: none;
+}
+
+@media (max-width: 560px) {
+  .showcase-tabbed {
+    display: none;
+  }
+
+  .showcase-reel {
+    display: block;
+    width: calc(100% + 3rem);
+    margin-left: -1.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .showcase-reel {
+    width: calc(100% + 2.2rem);
+    margin-left: -1.1rem;
+  }
+}
+
+.reel {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.reel::-webkit-scrollbar {
+  display: none;
+}
+
+.reel > li {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  padding: 0 1.1rem;
+}
+
+.reel .shot-frame {
+  max-width: none;
+}
+
+.reel-caption {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.reel-caption strong {
+  color: var(--text);
+}
+
+.reel-count {
+  margin: 1.1rem 0 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--dim);
+}
+
 /* ── Screenshot frame ── */
 .shot-frame {
   position: relative;
@@ -1021,7 +1090,7 @@ button.shot-zoomable:hover {
   position: absolute;
   right: 14px;
   bottom: 14px;
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--text);
@@ -1037,6 +1106,13 @@ button.shot-zoomable:hover {
 button.shot-zoomable:hover .zoom-hint,
 button.shot-zoomable:focus-visible .zoom-hint {
   opacity: 1;
+}
+
+/* No pointer to hover with, so the hint would never appear at all. */
+@media (hover: none) {
+  .zoom-hint {
+    opacity: 1;
+  }
 }
 
 /* ── Lightbox ── */

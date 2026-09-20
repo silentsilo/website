@@ -63,6 +63,11 @@ backend and writes them into its `docs/screenshots/`, and the ones this site
 uses are copied from there. The page above them says they are from the current
 build, and taking them any other way is how that stops being true.
 
+Only WebP is kept, at 1200 and 2400 wide. Copy the new PNGs into a folder,
+run `node scripts/shots.mjs <that folder>`, and delete the PNGs: the seven
+of them were 3.7 MB, and a phone was downloading 2400px images to show them
+327px wide.
+
 The social card is `public/og.png`, drawn by `scripts/og-image.mjs`. Change
 the script, run `npm run og`, commit the result.
 

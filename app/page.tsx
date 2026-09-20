@@ -258,9 +258,10 @@ export default function Home() {
         <section className="block" id="tour">
           <div className="block-head">
             <span className="kicker">The app</span>
-            <h2>The app, screen by screen</h2>
+            <h2>The Windows app, screen by screen</h2>
             <p className="lead">
-              Screenshots from the current build.
+              Screenshots from the Windows app, version{" "}
+              {LATEST_TAG.replace(/^v/, "")}.
             </p>
           </div>
           <Showcase />
