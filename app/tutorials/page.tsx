@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {
+  IconArrowRight,
+  IconDisk,
+  IconLock,
+  IconPerson,
+  IconServer,
+  IconTerminal,
+} from "../Icons";
 
 export const metadata: Metadata = {
   title: "Tutorials",
@@ -7,95 +15,152 @@ export const metadata: Metadata = {
     "Setting up a backup on every option SilentSilo offers, one guide each, plus how to keep a copy that nothing can erase.",
 };
 
-/**
- * The index. One entry per way of backing up, because the questions are
- * different for each: a bucket needs a key scoped to it, SFTP needs a
- * fingerprint checked, a folder needs someone to know what a synced one
- * does.
- */
+type Guide = {
+  href: string;
+  title: string;
+  what: string;
+  meta: string[];
+  icon: React.ReactNode;
+};
+
+/** One card per way of backing up. The order is the order most people should
+ *  consider them in: the free one first, the cheap one that scales second. */
+const BACKUP: Guide[] = [
+  {
+    href: "/tutorials/backup-folder/",
+    title: "A folder, drive or network share",
+    what:
+      "An external disk, a NAS share, or a folder your cloud client already syncs. Nothing to sign up for.",
+    meta: ["No account", "5 minutes"],
+    icon: <IconDisk size={20} />,
+  },
+  {
+    href: "/tutorials/backup-s3/",
+    title: "An S3 bucket",
+    what:
+      "Backblaze B2, Cloudflare R2, Wasabi, Amazon S3 or MinIO. Cheap, and it grows with you.",
+    meta: ["Account and card", "15 minutes"],
+    icon: <IconServer size={20} />,
+  },
+  {
+    href: "/tutorials/backup-webdav/",
+    title: "WebDAV",
+    what:
+      "Nextcloud, ownCloud, Synology or Fastmail. Use the storage you already pay for.",
+    meta: ["An account you have", "10 minutes"],
+    icon: <IconServer size={20} />,
+  },
+  {
+    href: "/tutorials/backup-sftp/",
+    title: "SFTP",
+    what:
+      "A VPS, a NAS with SSH, rsync.net or a Hetzner Storage Box. Keys rather than passwords.",
+    meta: ["A server of yours", "20 minutes"],
+    icon: <IconTerminal size={20} />,
+  },
+];
+
+const FURTHER: Guide[] = [
+  {
+    href: "/tutorials/copies-nothing-can-erase/",
+    title: "A copy nothing can erase",
+    what:
+      "Ransomware that reaches your machine reaches your backup credentials with it. This is the copy that survives that.",
+    meta: ["After the first backup"],
+    icon: <IconLock size={20} />,
+  },
+  {
+    href: "/tutorials/organisation-silos/",
+    title: "Silos for a team or a company",
+    what:
+      "Silos an employee cannot lock the company out of: the organisation key, onboarding, and the day somebody leaves.",
+    meta: ["For companies"],
+    icon: <IconPerson size={20} />,
+  },
+];
+
+function Card({ g }: { g: Guide }) {
+  return (
+    <Link className="tut-card" href={g.href}>
+      <span className="tut-card-icon" aria-hidden>
+        {g.icon}
+      </span>
+      <span className="tut-card-body">
+        <span className="tut-card-title">
+          {g.title}
+          <IconArrowRight />
+        </span>
+        <span className="tut-card-what">{g.what}</span>
+        <span className="tut-card-meta">
+          {g.meta.map((m) => (
+            <span key={m}>{m}</span>
+          ))}
+        </span>
+      </span>
+    </Link>
+  );
+}
+
 export default function Tutorials() {
   return (
     <main id="main" className="wrap prose">
       <h1>Tutorials</h1>
       <p className="lead">
-        Guides for the parts that are not about SilentSilo at all: arranging
-        storage so that a bad day stays a bad day rather than becoming a
-        permanent loss.
+        Backing up a silo means pointing it at storage you own. The app side is
+        the same wherever you point it. What differs is what the storage asks
+        for first, so there is one guide for each kind.
       </p>
 
-      <h2>Setting up a backup</h2>
-      <p>
-        The app backs up to four kinds of place, and the app side is the same
-        for all of them: unlock the silo, open{" "}
-        <strong>Settings &gt; Backup</strong>, or{" "}
-        <strong>Settings &gt; Copies</strong> if you are adding a second one.
-        What differs is what the storage wants from you first, so there is a
-        guide each.
-      </p>
+      <div className="notice">
+        <strong>The part that is the same everywhere:</strong> unlock the silo,
+        then open <strong>Settings &gt; Backup</strong>, or{" "}
+        <strong>Settings &gt; Copies</strong> when you are adding a second
+        place. Test connection has to pass before anything is saved.
+      </div>
 
-      <h3>
-        <Link href="/tutorials/backup-s3/">An S3 bucket</Link>
-      </h3>
+      <h2 id="set-up-a-backup">Set up a backup</h2>
       <p>
-        Backblaze B2, Cloudflare R2, Wasabi, Amazon S3 or MinIO. Where each
-        console hides its key creation, how to scope a key to one bucket, and
-        which of the six fields is wrong when it will not connect.
+        Pick one. You can add more places later, and a second place is the
+        point of Copies.
       </p>
+      <div className="tut-grid">
+        {BACKUP.map((g) => (
+          <Card key={g.href} g={g} />
+        ))}
+      </div>
 
-      <h3>
-        <Link href="/tutorials/backup-folder/">
-          A folder, drive or network share
-        </Link>
-      </h3>
-      <p>
-        Free and needs no account. Covers an external disk, a NAS share, and
-        the difference between putting the backup in a synced folder, which
-        works, and putting the silo there, which does not.
-      </p>
+      <h2 id="not-sure-which">Not sure which</h2>
+      <ul className="tut-pick">
+        <li>
+          <strong>You have an external disk or a NAS.</strong>{" "}
+          <Link href="/tutorials/backup-folder/">A folder or drive</Link>, and
+          nothing to pay.
+        </li>
+        <li>
+          <strong>You want the backup off your premises.</strong>{" "}
+          <Link href="/tutorials/backup-s3/">An S3 bucket</Link>. A few cents a
+          month for most people, and it grows without you doing anything.
+        </li>
+        <li>
+          <strong>You already pay for Nextcloud or a mailbox with storage.</strong>{" "}
+          <Link href="/tutorials/backup-webdav/">WebDAV</Link> uses it as it is.
+        </li>
+        <li>
+          <strong>You run a server and prefer keys.</strong>{" "}
+          <Link href="/tutorials/backup-sftp/">SFTP</Link>.
+        </li>
+      </ul>
 
-      <h3>
-        <Link href="/tutorials/backup-webdav/">WebDAV</Link>
-      </h3>
+      <h2 id="going-further">Going further</h2>
       <p>
-        Nextcloud, ownCloud, Synology or Fastmail. Finding the WebDAV
-        address rather than the login page, and creating an app password you
-        can revoke on its own.
+        Once a backup runs, these two are what turn it into something you can
+        count on.
       </p>
-
-      <h3>
-        <Link href="/tutorials/backup-sftp/">SFTP</Link>
-      </h3>
-      <p>
-        A VPS, a NAS with SSH, rsync.net or a Hetzner Storage Box. Keys
-        rather than passwords, and how to check the server fingerprint the
-        app asks you to confirm.
-      </p>
-
-      <h2>Going further</h2>
-      <h3>
-        <Link href="/tutorials/copies-nothing-can-erase/">
-          A copy nothing can erase
-        </Link>
-      </h3>
-      <p>
-        Ransomware that reaches your machine reaches your backup credentials
-        with it. This is the guide to the one copy that survives that: what
-        write-once actually means on a disc, on a NAS and in a bucket, what
-        each really protects against, and how to prove it works before you
-        need it.
-      </p>
-
-      <h3>
-        <Link href="/tutorials/organisation-silos/">
-          Silos for a team or a company
-        </Link>
-      </h3>
-      <p>
-        Provisioning silos employees cannot lock the company out of: the
-        organisation key, the copy that actually holds it, how to onboard
-        someone, and what to do the day somebody leaves. Free, like
-        everything else.
-      </p>
+      <div className="tut-grid">
+        {FURTHER.map((g) => (
+          <Card key={g.href} g={g} />
+        ))}
+      </div>
     </main>
   );
 }

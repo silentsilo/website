@@ -1948,34 +1948,13 @@ table.compare tbody tr:hover th {
    `ch` is the width of a zero, and this font's zero is half again as wide
    as the letters beside it, so 66ch would have been 92 characters. The old
    46rem was 93. */
-/* A reading column for the prose, with room on both sides of it for the
-   things that are not prose. Paragraphs keep their measure; tables, code,
-   notices and code break out, because a 60-character table is harder to
-   read, not easier. The contents list stays in the column: ten short lines
-   stretched over 960px read as a gap, not as a list. */
+/* One block, one left edge and one right edge: text, tables and code all
+   run the same width. Lines are long at this width, which is the trade the
+   owner asked for after seeing a narrow column with empty space beside it. */
 .prose {
-  display: grid;
-  grid-template-columns:
-    [wide-start] minmax(0, 1fr)
-    [text-start] min(46ch, 100%) [text-end]
-    minmax(0, 1fr) [wide-end];
+  max-width: 52rem;
+  margin: 0 auto;
   padding: 4rem 0 5rem;
-}
-
-.prose > * {
-  grid-column: text;
-}
-
-.prose > table,
-.prose > .table-wrap,
-.prose > pre,
-.prose > .notice,
-.prose > figure {
-  grid-column: wide;
-  /* max-width, not width: `.prose table` sets width 100% further down. */
-  max-width: 60rem;
-  width: 100%;
-  justify-self: center;
 }
 
 .prose h1 {
@@ -2307,7 +2286,7 @@ code {
 
 @media (max-width: 400px) {
   .wrap {
-    padding: 0 1.1rem;
+    padding: 0 1.25rem;
   }
 }
 
@@ -2742,4 +2721,129 @@ code {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+/* ── Tutorials index: one card per guide ── */
+.tut-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin: 1.2rem 0 2.4rem;
+}
+
+.tut-card {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.015);
+  padding: 1.1rem 1.15rem;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.tut-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.tut-card-icon {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+  border: 1px solid var(--border-subtle);
+  color: var(--accent-hover);
+}
+
+.tut-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.tut-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--text);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.015em;
+}
+
+.tut-card-title svg {
+  color: var(--accent-hover);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.tut-card:hover .tut-card-title svg,
+.tut-card:focus-visible .tut-card-title svg {
+  opacity: 1;
+  transform: none;
+}
+
+.tut-card-what {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.tut-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.15rem;
+}
+
+.tut-card-meta span {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--dim);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+}
+
+.tut-pick {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 2.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.tut-pick li {
+  border-left: 2px solid var(--border);
+  padding: 0.1rem 0 0.1rem 0.9rem;
+  color: var(--muted);
+}
+
+@media (max-width: 700px) {
+  .tut-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tut-card,
+  .tut-card-title svg {
+    transition: none;
+  }
+
+  .tut-card:hover {
+    transform: none;
+  }
 }
