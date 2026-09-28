@@ -47,7 +47,7 @@ export const LATEST_INSTALLER_SIG = `${LATEST_INSTALLER}.sig`;
 export const INSTALLER_SHA256 =
   "65bfb16f67f0122c5b88c025602a293c59d82a2dcdea2ac9939b32e103206030";
 export const VIRUSTOTAL_REPORT = `https://www.virustotal.com/gui/file/${INSTALLER_SHA256}`;
-export const VIRUSTOTAL_DETECTIONS = 1;
+export const VIRUSTOTAL_DETECTIONS: number = 1;
 export const VIRUSTOTAL_ENGINES = 70;
 export const VIRUSTOTAL_SCANNED = "28 September 2026";
 
