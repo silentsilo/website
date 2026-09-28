@@ -58,7 +58,7 @@ export default function Privacy() {
         </li>
         <li>
           <strong>Site icons, only if you switch them on.</strong> Off by
-          default. Turned on, the credentials list asks each saved site for
+          default. Turned on, the passwords list asks each saved site for
           its <code>favicon.ico</code> directly, which tells that site your IP
           address and the fact that you hold an account there, every time the
           list is drawn. It is the one request that goes to somebody we have
@@ -67,7 +67,7 @@ export default function Privacy() {
           loopback address, as localhost, or under .local or .internal is
           never asked. Any other name is asked, including a name on your own
           network that the app cannot tell from a public one. The toggle sits
-          above the list, in Credentials.
+          above the list, in Passwords.
         </li>
       </ul>
       <h2>The Android app</h2>
@@ -105,6 +105,32 @@ export default function Privacy() {
         <a href={RELEASES_REPO}>update endpoint</a> are both open source, so
         each claim above can be checked against the code that makes it.
       </p>
+
+      <h2 id="browser-extension">The browser extension</h2>
+      <p>
+        The SilentSilo extension for Chrome, Brave and Firefox works only
+        with the SilentSilo app on the same computer, and only once you turn
+        it on in the app. It makes no network requests and has no analytics.
+      </p>
+      <ul>
+        <li>
+          <strong>When you click its button</strong>, it reads the address
+          of the tab you are on and sends it to the SilentSilo app on your
+          computer, to find the logins saved for that site. It reads no other
+          tab, and of the page only the type and position of the fields it
+          may fill, never what is typed or shown.
+        </li>
+        <li>
+          <strong>When you confirm a fill</strong> in the app, with Windows
+          Hello or your security key, the app gives it one username and
+          password. It writes them into those two fields and does not keep
+          them.
+        </li>
+        <li>
+          <strong>It stores nothing:</strong> no logins, no list of sites, no
+          settings. It sends nothing to us or to anyone else.
+        </li>
+      </ul>
 
       <h2>What we could hand over</h2>
       <p>
