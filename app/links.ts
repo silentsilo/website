@@ -20,10 +20,10 @@ export const RELEASED = true;
  * the filename still carries the version, so update both with each tag.
  * Both are unused while `RELEASED` is false.
  */
-export const LATEST_TAG = "v1.2.0";
+export const LATEST_TAG = "v1.2.1";
 
 /** One string per release, everything else built from it. */
-export const LATEST_INSTALLER_NAME = "SilentSilo_1.2.0_x64-setup.exe";
+export const LATEST_INSTALLER_NAME = "SilentSilo_1.2.1_x64-setup.exe";
 export const LATEST_INSTALLER = `${REPO}/releases/latest/download/${LATEST_INSTALLER_NAME}`;
 
 /** The minisign signature published beside the installer, over the bytes as
@@ -45,11 +45,11 @@ export const LATEST_INSTALLER_SIG = `${LATEST_INSTALLER}.sig`;
  * each release; the report URL is built from the hash.
  */
 export const INSTALLER_SHA256 =
-  "65bfb16f67f0122c5b88c025602a293c59d82a2dcdea2ac9939b32e103206030";
+  "cbecd650d77ae90a3c9d607a3c62e45328280b74a136085f8b906b29a1fb7cdd";
 export const VIRUSTOTAL_REPORT = `https://www.virustotal.com/gui/file/${INSTALLER_SHA256}`;
-export const VIRUSTOTAL_DETECTIONS: number = 1;
-export const VIRUSTOTAL_ENGINES = 70;
-export const VIRUSTOTAL_SCANNED = "28 September 2026";
+export const VIRUSTOTAL_DETECTIONS: number = 0;
+export const VIRUSTOTAL_ENGINES = 71;
+export const VIRUSTOTAL_SCANNED = "29 September 2026";
 
 /** The update endpoint is public too, so claims about it can be read. */
 export const RELEASES_REPO = "https://github.com/silentsilo/releases";
