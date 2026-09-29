@@ -395,10 +395,25 @@ function Defs({
 }
 
 /** The browser extension: it talks to the desktop app on the same computer,
- *  never to the storage, and fills passwords only. Dimmed until it ships. */
-function Extension({ x, y, w, state = "Coming soon" }: { x: number; y: number; w: number; state?: string }) {
+ *  never to the storage, and fills passwords only. Dimmed where it has not
+ *  shipped. */
+function Extension({
+  x,
+  y,
+  w,
+  state,
+  browsers = "Chrome · Edge · Brave · Firefox",
+  live = false,
+}: {
+  x: number;
+  y: number;
+  w: number;
+  state: string;
+  browsers?: string;
+  live?: boolean;
+}) {
   return (
-    <g className="how-device is-planned how-extension">
+    <g className={`how-device how-extension ${live ? "is-live" : "is-planned"}`}>
       <rect className="how-card" x={x} y={y} width={w} height={92} rx="18" />
       <g transform={`translate(${x + 22} ${y + 18})`} className="how-glyph">
         <rect x="0" y="0" width="34" height="26" rx="4" />
@@ -407,22 +422,26 @@ function Extension({ x, y, w, state = "Coming soon" }: { x: number; y: number; w
       <text className="how-name how-name-sm" x={x + 70} y={y + 30}>
         Browser extension
       </text>
-      <text className="how-state" x={x + 70} y={y + 49}>
+      {live && <circle className="how-live-dot" cx={x + 74} cy={y + 45} r="3.5" />}
+      <text className="how-state" x={x + (live ? 84 : 70)} y={y + 49}>
         {state}
       </text>
       <text className="how-unlock" x={x + 22} y={y + 76}>
-        Chrome · Edge · Brave · Firefox
+        {browsers}
       </text>
     </g>
   );
 }
+
+/** Where the extension can be installed today; the rest follow review. */
+const LIVE_BROWSERS = "Chrome · Brave · Edge, Firefox soon";
 
 const DESC =
   "Each device encrypts on its own and writes to storage you choose: an S3 bucket, WebDAV, an SFTP server or a " +
   "folder; OneDrive, Google Drive and Dropbox are planned. The storage holds only encrypted objects; it sees sizes, times, key labels and content hashes, never names, contents " +
   "or passwords. There is no SilentSilo server. You unlock with a security key or the device's biometrics, and a " +
   "recovery code on paper is the fallback. Windows is available now, Android is coming soon, macOS, Linux and iOS are planned. " +
-  "A browser extension for Chrome, Edge, Brave and Firefox is coming soon on Windows, and with the macOS and Linux apps later: it fills passwords through the desktop app, never from storage.";
+  "The browser extension is available on Windows for Chrome and Brave, with Edge and Firefox soon, and comes with the macOS and Linux apps later: it fills passwords through the desktop app, never from storage.";
 
 function Wide() {
   const live = "M300 182 C 360 182, 370 262, 430 262";
@@ -468,8 +487,8 @@ function Wide() {
 
       <Hub x={430} y={141} w={260} />
 
-      <Extension x={50} y={8} w={250} />
-      <path className="how-link is-planned" d="M175 100 V 118" />
+      <Extension x={50} y={8} w={250} state="Available on Windows" browsers={LIVE_BROWSERS} live />
+      <path className="how-link is-live" d="M175 100 V 118" />
       <Extension x={820} y={8} w={250} state="Planned, with Mac and Linux" />
       <path className="how-link is-planned" d="M945 100 V 118" />
       <Device p={WINDOWS} x={50} y={118} w={250} h={128} />
@@ -507,8 +526,8 @@ function Tall() {
       <style>{`.how-tall .how-hub-box{fill:url(#t-hub)} .how-tall .how-link.is-live{stroke:url(#t-link)} .how-tall .how-halo{fill:url(#t-halo)}`}</style>
 
       <NoServer cx={200} y={0} />
-      <Extension x={70} y={50} w={260} />
-      <path className="how-link is-planned" d="M200 142 V 184" />
+      <Extension x={70} y={50} w={260} state="Available on Windows" browsers={LIVE_BROWSERS} live />
+      <path className="how-link is-live" d="M200 142 V 184" />
       <g transform="translate(0 162)">
         {/* Inside the viewBox: the drawing runs to the edge of a phone
             screen, and the halo has nowhere to bleed into. */}
