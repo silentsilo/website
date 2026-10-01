@@ -9,7 +9,7 @@ import sharp from "sharp";
  * Draws public/og.png, the card that shows up when someone pastes a link.
  *
  * Rendered in headless Chrome rather than by Satori, because the card has to
- * carry the site's own face: Plus Jakarta Sans, which ships as WOFF2 and
+ * carry the site's own face: Inter, which ships as WOFF2 and
  * which Satori cannot read, and the real logo rather than a square
  * approximation of it. Everything it needs is already in the repository, so
  * it still runs offline.
@@ -42,7 +42,7 @@ if (!browser) {
 }
 
 const FONT =
-  "node_modules/@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2";
+  "node_modules/@fontsource-variable/inter/files/inter-latin-opsz-normal.woff2";
 
 const font = (await readFile(FONT)).toString("base64");
 const icon = (await readFile("public/icon.svg")).toString("base64");
@@ -52,16 +52,18 @@ const icon = (await readFile("public/icon.svg")).toString("base64");
 const html = `<!doctype html>
 <html><head><meta charset="utf-8"><style>
   @font-face {
-    font-family: "Jakarta";
+    font-family: "Inter";
     src: url(data:font/woff2;base64,${font}) format("woff2");
-    font-weight: 200 800;
+    font-weight: 100 900;
   }
   * { box-sizing: border-box; margin: 0; }
   body {
     width: 1200px; height: 630px;
     display: flex; flex-direction: column; justify-content: center;
     padding: 0 90px;
-    font-family: "Jakarta";
+    font-family: "Inter";
+    font-optical-sizing: auto;
+    font-feature-settings: "cv11", "ss03";
     color: #f8fafc;
     background:
       radial-gradient(ellipse 70% 60% at 82% 8%, rgba(139, 92, 246, 0.22), transparent 62%),
@@ -69,23 +71,27 @@ const html = `<!doctype html>
   }
   .brand { display: flex; align-items: center; gap: 20px; }
   .brand img { width: 56px; height: 56px; border-radius: 14px; }
-  .brand span { font-size: 36px; font-weight: 800; letter-spacing: -0.03em; }
+  .brand span { font-size: 36px; font-weight: 660; letter-spacing: -0.025em; }
   h1 {
     margin-top: 44px;
-    font-size: 82px; line-height: 1.06; font-weight: 800;
-    letter-spacing: -0.042em;
+    font-size: 82px; line-height: 1.06; font-weight: 660;
+    letter-spacing: -0.035em;
   }
-  h1 em { font-style: normal; color: #a78bfa; }
+  h1 em {
+    font-style: normal; color: transparent;
+    background: linear-gradient(100deg, #c4b5fd 0%, #a5b4fc 50%, #67e8f9 100%);
+    -webkit-background-clip: text; background-clip: text;
+  }
   p { margin-top: 32px; font-size: 30px; line-height: 1.45; color: #9aa5c4; max-width: 880px; }
-  .line { margin-top: 44px; font-size: 25px; font-weight: 700; color: #7e88a8; letter-spacing: 0.01em; }
+  .line { margin-top: 44px; font-size: 25px; font-weight: 600; color: #7e88a8; letter-spacing: 0.01em; }
 </style></head><body>
   <div class="brand">
     <img src="data:image/svg+xml;base64,${icon}" alt="">
     <span>SilentSilo</span>
   </div>
   <h1>An encrypted vault.<br><em>No account. No server.</em></h1>
-  <p>Files and passwords in encrypted folders on your own machine, unlocked with Windows Hello or a security key.</p>
-  <div class="line">Windows 10 or 11 &middot; free &middot; open source</div>
+  <p>Files and passwords in encrypted folders on your computer and your phone, unlocked with Windows Hello, a fingerprint or a security key.</p>
+  <div class="line">Windows &middot; Android &middot; free &middot; open source</div>
 </body></html>`;
 
 const dir = mkdtempSync(join(tmpdir(), "og-"));

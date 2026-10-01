@@ -82,18 +82,19 @@ export default function OrganisationSilos() {
       </p>
       <ul>
         <li>
-          <strong>Settings &gt; Backup</strong> holds the main connection. It
+          <strong>Settings &gt; Backup</strong> holds the main connection,
+          tagged <strong>main</strong> in the list of copies. It
           is a working copy: the app deletes from it when the trash is
           emptied. Any of the four kinds of storage works; a folder on a
           company share, like <code>\\server\vaults\popescu</code>, is the
           simplest.
         </li>
         <li>
-          <strong>Settings &gt; Copies</strong> is where you add a second
-          place with <strong>Never delete anything here</strong> ticked. The
-          app only ever adds to it. That box is offered only for a second
-          place, so the company&apos;s copy is always this one: a second
-          folder on company storage, or a bucket with object lock as in{" "}
+          <strong>Add another copy</strong>, on the same page, is where you
+          add a second place with <strong>Never-delete copy</strong> ticked.
+          The app never deletes from it, but the storage has to refuse deletes
+          too: a company share where the employee&apos;s account can write
+          files but not delete them, or a bucket with object lock as in{" "}
           <Link href="/tutorials/copies-nothing-can-erase/">
             a copy nothing can erase
           </Link>
@@ -116,11 +117,13 @@ export default function OrganisationSilos() {
           <strong>This silo is administered by an organisation</strong>, and
           enrol the company&apos;s key. Windows Hello cannot be that key: it
           is sealed to one computer, and the company&apos;s key has to open
-          the silo from anywhere.
+          the silo from anywhere. The app then offers a recovery code:
+          create it, for the company safe (step 5). At the backup storage
+          step, choose <strong>Set up later</strong>; step 4 covers it.
         </li>
         <li>
           Enrol a <strong>second</strong> company key: open{" "}
-          <strong>Settings &gt; Security keys</strong>, tick{" "}
+          <strong>Settings &gt; Unlocking</strong>, tick{" "}
           <strong>Enrol as an organisation key</strong> and press{" "}
           <strong>Add security key</strong>. The app asks for the first
           company key before it accepts the second. Replacing an
@@ -129,15 +132,14 @@ export default function OrganisationSilos() {
         </li>
         <li>
           In <strong>Settings &gt; Backup</strong>, point the silo at the
-          working folder and let the first pass finish. Then in{" "}
-          <strong>Settings &gt; Copies</strong>, press{" "}
-          <strong>Add another place</strong>, point it at the company&apos;s
-          copy, tick <strong>Never delete anything here</strong> and press{" "}
-          <strong>Add this place</strong>.
+          working folder and let the first pass finish. Then, on the same
+          page, press <strong>Add another copy</strong>, point it at the
+          company&apos;s copy, tick <strong>Never-delete copy</strong> and
+          press <strong>Add this copy</strong>.
         </li>
         <li>
           In the same session, enrol the employee&apos;s own key from{" "}
-          <strong>Settings &gt; Security keys</strong> and hand it over. The
+          <strong>Settings &gt; Unlocking</strong> and hand it over. The
           recovery code goes in the company safe, not to them: their key is
           their way in, and IT can let them back in with the company key or
           the code from the safe.
@@ -152,7 +154,7 @@ export default function OrganisationSilos() {
       <h2 id="someone-remote">Someone remote</h2>
       <p>
         Do steps 1 to 5 at the IT desk and courier their key to them. They
-        choose <strong>Copy one from backup storage</strong>, point it at the
+        choose <strong>Set up from backup storage</strong>, point it at the
         working folder, touch the key, and work. No secret travels over
         email or chat. Sending the recovery code instead works as a last
         resort, but it is a code that opens the silo from anywhere: have
@@ -163,30 +165,30 @@ export default function OrganisationSilos() {
         Either way, their computer was set up without the company key
         present, so on it the company key shows as an ordinary key and the
         employee can remove it from the silo there. That removal reaches the
-        working folder. It does not reach the copy marked{" "}
-        <strong>Never delete anything here</strong>, which keeps the
-        company&apos;s way in whatever happens on their machine. For a
-        remote employee, that copy is the whole guarantee, so make sure it
-        exists and is filling before the key goes in the post.
+        working folder. It does not reach the never-delete copy, which keeps
+        the company&apos;s way in, as long as the storage does not let the
+        employee delete from it. For a remote employee that copy is what
+        protects the company, so make sure it exists, refuses deletes and is
+        filling before the key goes in the post.
       </p>
 
       <h2 id="the-day-somebody-leaves">The day somebody leaves</h2>
       <ol>
         <li>
-          Take <strong>both</strong> company keys out of the safe. Changing
+          Take <strong>both</strong> company keys out of the safe. Replacing
           the encryption key asks you to touch every key that is to keep
           opening the silo, and a key that is not plugged in cannot be kept.
         </li>
         <li>
-          On any machine, choose <strong>Copy one from backup storage</strong>
+          On any machine, choose <strong>Set up from backup storage</strong>
           , point it at the working folder, and open the silo with a company
           key.
         </li>
         <li>
-          Open <strong>Settings &gt; Security keys</strong> and use{" "}
-          <strong>Change the silo&apos;s encryption key</strong>, ticking only
-          the two company keys. The former employee&apos;s key stops opening
-          the silo, the working folder is re-sealed under a new key, and a
+          Open <strong>Settings &gt; Advanced</strong> and use{" "}
+          <strong>Replace the encryption key</strong>, ticking only the two
+          company keys. The former employee&apos;s key stops opening the
+          silo, the working folder moves to a new key, and a
           fresh recovery code is shown once. Write it down for the safe
           before closing the message.
         </li>
@@ -196,9 +198,9 @@ export default function OrganisationSilos() {
       </ol>
       <p>
         Step 3 is needed because merely removing their key is not enough on
-        storage that keeps what it is asked to delete: the copy marked{" "}
-        <strong>Never delete anything here</strong> keeps the small file
-        that let their key open the silo, and the key change leaves that
+        storage that keeps what it is asked to delete: the never-delete copy
+        keeps the small file that let their key open the silo, and replacing
+        the encryption key leaves that
         copy alone as well, since the app never rewrites a place it has
         promised not to delete from. Their old key would still open that one
         copy, which is what step 4 closes. What
@@ -210,11 +212,11 @@ export default function OrganisationSilos() {
       <h2 id="what-actually-holds-it">What actually holds it</h2>
       <p>
         The rules above are enforced by the app. The durable half is the copy
-        the company controls: the one marked{" "}
-        <strong>Never delete anything here</strong>, on company storage,
-        which keeps the company&apos;s way in whatever happens on the
-        employee&apos;s machine. App rules keep honest people honest; the
-        company-held copy is what holds. The full procedure, including the
+        the company controls: the never-delete copy on company storage that
+        the employee cannot delete from, which keeps the company&apos;s way
+        in whatever happens on the employee&apos;s machine. The app never
+        deletes from it; the storage&apos;s permissions are what stop anyone
+        else. The full procedure, including the
         sharp edges, is in{" "}
         <a href={DOC_ORGS}>docs/ORGANISATIONS.md</a> in the repository, and the
         employee&apos;s side of the story is on the{" "}

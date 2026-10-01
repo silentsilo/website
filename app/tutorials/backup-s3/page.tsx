@@ -339,20 +339,21 @@ export default function BackupS3() {
       <ol>
         <li>
           Unlock the silo and open <strong>Settings &gt; Backup</strong>. To
-          add a second copy instead, open <strong>Settings &gt; Copies</strong>
-          , press <strong>Add another place</strong> and give it a name you
-          will recognise, like &quot;Backblaze&quot; or &quot;the office
-          NAS&quot;.
+          add a second copy instead, press <strong>Add another copy</strong>{" "}
+          under the list of copies on that page and give it a name you will
+          recognise, like &quot;Backblaze&quot; or &quot;the office NAS&quot;.
         </li>
         <li>
-          Choose <strong>Bucket</strong>, pick your provider, paste the six
-          values, and press <strong>Test connection</strong>. The app writes a
-          small object, reads it back and deletes it, so a success means the
-          credential really can write rather than merely authenticate.
+          Choose <strong>A cloud bucket (S3)</strong>, pick your provider,
+          paste the six values, and press <strong>Test connection</strong>.
+          The app writes a small object, reads it back and deletes it, so a
+          success means the credential really can write rather than merely
+          authenticate. A second copy has no separate test:{" "}
+          <strong>Add this copy</strong> writes to it before saving.
         </li>
         <li>
           Press <strong>Save &amp; connect</strong>, or{" "}
-          <strong>Add this place</strong> for a second copy. The first pass
+          <strong>Add this copy</strong> for a second copy. The first pass
           runs in the background, and the Backup page says when everything
           has arrived.
         </li>
@@ -367,7 +368,7 @@ export default function BackupS3() {
 
       <h2 id="then-prove-it">Then prove it</h2>
       <p>
-        Open <strong>Settings &gt; Verification</strong>, go to{" "}
+        Open <strong>Settings &gt; Test backup</strong>, go to{" "}
         <strong>Test a recovery</strong>, type your recovery code and press{" "}
         <strong>Try a recovery now</strong>. It rebuilds the silo from the
         bucket in a temporary folder using only that code, compares it against

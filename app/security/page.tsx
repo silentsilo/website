@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { RELEASES_REPO } from "../links";
+import { MOBILE_REPO, PLAY_STORE, RELEASES_REPO } from "../links";
 
 export const metadata: Metadata = {
   title: "Security",
@@ -39,7 +39,7 @@ export default function Security() {
             <td>AES-256-GCM encrypted index</td>
           </tr>
           <tr>
-            <td>Credentials, including TOTP secrets</td>
+            <td>Passwords, including TOTP secrets</td>
             <td>
               Sealed one entry at a time, on top of the encrypted index
             </td>
@@ -64,7 +64,7 @@ export default function Security() {
         plus two things that involve neither us nor your storage and that
         both stay silent until you ask for them: the breach check in Health,
         which runs only when you press it and sends five characters of a
-        password hash to Have I Been Pwned, and site icons in Credentials,
+        password hash to Have I Been Pwned, and site icons in Passwords,
         off by default, which fetch each saved site&apos;s own icon from that
         site. The <Link href="/privacy/">privacy page</Link> lists all four.
       </p>
@@ -74,8 +74,11 @@ export default function Security() {
         ciphertext. Readable by design: one small manifest naming a random
         vault id, each envelope&apos;s credential id and label, and the
         ordinary shape of storage itself, meaning how many objects exist,
-        their sizes, and when they change. Not readable: contents, file and
-        folder names, and the structure of the tree.
+        their sizes, and when they change. Not readable: contents, the names
+        of your files and folders, and the structure of the tree. The name
+        of the silo folder itself, which you type when you connect, is
+        readable, and at OneDrive, Dropbox and Google Drive so is the account
+        it belongs to.
       </p>
       <p>
         Each stored file also carries a hash of its unencrypted content in
@@ -110,8 +113,9 @@ export default function Security() {
         A silo is exactly as strong as its weakest envelope. A memorable
         passphrase is around forty bits, and offering one would quietly make
         it the real security of the whole design. Unlocking is therefore
-        bound to hardware (a FIDO2 key, or the TPM behind Windows Hello), and
-        the only fallback is a generated 160-bit recovery code meant to be
+        bound to hardware (a FIDO2 key, the TPM behind Windows Hello, or a
+        key in an Android phone&apos;s secure hardware that its fingerprint
+        releases), and the only fallback is a generated 160-bit recovery code meant to be
         written on paper.
       </p>
 
@@ -119,9 +123,9 @@ export default function Security() {
       <p>
         Encryption does not stop a delete. Malware that reaches your storage
         credentials, or a plain mistake, can erase ciphertext it cannot
-        read. For anything you would grieve over, keep one backup target the
-        app cannot delete from: tick &quot;never delete anything here&quot;
-        when adding it, and on providers with object lock, set a retention
+        read. For anything you would grieve over, keep one never-delete
+        copy: tick &quot;Never-delete copy&quot; when adding it, and on
+        providers with object lock, set a retention
         window; in compliance mode not even the account owner can override
         it before it expires. Versioning alone is not protection, and one
         wrong lifecycle rule can quietly empty an archive. The full guide,
@@ -197,6 +201,11 @@ export default function Security() {
         process sets for itself prevents that.
       </p>
       <p>
+        On Android the app&apos;s screens are kept out of screenshots, screen
+        recordings and the recent-apps view. The same limit applies there:
+        software that controls an unlocked phone can reach what is open.
+      </p>
+      <p>
         Also out of scope: someone using your already-unlocked session, and a
         stolen security key together with your written recovery code. These
         are stated limits, not surprises.
@@ -227,6 +236,13 @@ export default function Security() {
         download against it in one command. The app carries that same key
         compiled in and verifies every update before installing it, so the
         release endpoint cannot serve you code that was not signed with it.
+      </p>
+      <p>
+        The Android app comes from{" "}
+        <a href={PLAY_STORE}>Google Play</a>, which signs what it delivers
+        with a key Google holds, as it does for every app there. The source
+        it is built from is in{" "}
+        <a href={MOBILE_REPO}>silentsilo/mobile</a>.
       </p>
       <p>
         This matters most for the extraction tool, which is what someone

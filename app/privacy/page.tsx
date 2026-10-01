@@ -25,15 +25,38 @@ export default function Privacy() {
 
       <h2>The app</h2>
       <p>
-        SilentSilo has no account and tracks nothing. Every network request
-        the app can make is on this list, each under your control:
+        SilentSilo has no account of its own and tracks nothing. Every
+        network request the app can make is on this list, each under your
+        control:
       </p>
       <ul>
         <li>
           <strong>Sync and backup</strong>, only if you configure it, and only
-          to storage you chose: your bucket, your server, your folder. What
-          the storage provider can and cannot see is described on the{" "}
+          to storage you chose: your OneDrive, Dropbox or Google Drive, your
+          bucket, your server, your folder. What the storage provider can and
+          cannot see is described on the{" "}
           <a href="/security/">security page</a>.
+        </li>
+        <li>
+          <strong>OneDrive, Dropbox and Google Drive</strong>, only if you
+          connect one. You sign in on the provider&apos;s own page, in your
+          browser; the app never sees the password. It then talks to that
+          provider only: its sign-in and token addresses
+          (login.microsoftonline.com, api.dropboxapi.com,
+          oauth2.googleapis.com) and its file service (graph.microsoft.com,
+          api.dropboxapi.com and content.dropboxapi.com,
+          www.googleapis.com). It asks for its own folder and nothing else in
+          the account: OneDrive&apos;s app folder, Dropbox&apos;s app folder,
+          and at Google only the files the app itself created. It also reads
+          your email address, to show which account is connected; that stays
+          on your device, as does the sign-in, in the system&apos;s credential
+          store. The provider sees your account, your IP address, the name of
+          the silo folder, and the sizes and times of what is written;
+          everything inside the folder is encrypted. To take the access back:
+          Microsoft at microsoft.com/consent, Dropbox under Settings, Apps,
+          Google at myaccount.google.com/linkedapps.
+          Removing the copy in SilentSilo ends the sign-in on that device, and
+          at Dropbox also on their side.
         </li>
         <li>
           <strong>The update check.</strong> At most once a day, the app asks
@@ -70,10 +93,19 @@ export default function Privacy() {
           above the list, in Passwords.
         </li>
       </ul>
+      <p>
+        SilentSilo&apos;s use of information received from Google APIs adheres
+        to the{" "}
+        <a href="https://developers.google.com/terms/api-services-user-data-policy">
+          Google API Services User Data Policy
+        </a>
+        , including the Limited Use requirements.
+      </p>
       <h2>The Android app</h2>
       <p>
-        The phone makes the sync and backup requests above, to the storage
-        you chose, and nothing else of its own. It has no update check: the
+        The phone makes the sync and backup requests above, including the
+        sign-in to OneDrive, Dropbox or Google Drive, to the storage you
+        chose, and nothing else of its own. It has no update check: the
         store delivers updates. What it reads on the phone, only when you
         turn the feature on:
       </p>
@@ -136,7 +168,10 @@ export default function Privacy() {
       <p>
         If compelled, we could produce what we hold: the update check rows
         on Cloudflare, each with a platform, a version, an outcome and a
-        time. That is the whole list. No
+        time. The consoles where Software Hive registered the app with
+        Microsoft, Dropbox and Google show how many accounts have connected
+        it, as a number; they do not show us who, and no file, token or
+        address passes through us. That is the whole list. No
         keys, no plaintext and no file names, for anyone: the design never
         sends them to us.
       </p>

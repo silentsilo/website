@@ -1,537 +1,529 @@
-﻿import Link from "next/link";
+import Link from "next/link";
+import {
+  ArrowRight,
+  ArrowsClockwise,
+  ArrowsLeftRight,
+  Browser,
+  CheckCircle,
+  Cloud,
+  Desktop,
+  DeviceMobile,
+  DownloadSimple,
+  Fingerprint,
+  FolderLock,
+  FolderSimple,
+  GithubLogo,
+  HardDrives,
+  Key,
+  LockKey,
+  MinusCircle,
+  Password,
+  Scroll,
+  ShieldCheck,
+  Stack,
+  Terminal,
+  Timer,
+  Vault,
+  XCircle,
+} from "@phosphor-icons/react/dist/ssr";
+import { DownloadButton } from "./DownloadButton";
 import { HowItWorks } from "./HowItWorks";
 import { Showcase } from "./Showcase";
+import { ThemedImg } from "./ThemedImg";
 import {
-  IconArrowRight,
-  IconBook,
-  IconCheck,
-  IconClipboard,
-  IconClock,
-  IconDisk,
-  IconDownload,
-  IconFolder,
-  IconGitHub,
-  IconKey,
-  IconLayers,
-  IconLock,
-  IconPointer,
-  IconServer,
-  IconShield,
-  IconSwap,
-  IconSync,
-  IconTerminal,
-  IconVault,
-} from "./Icons";
-import {
-  DOC_FORMATS,
-  DOC_STORAGE,
-  LATEST_INSTALLER,
-  LATEST_TAG,
-  RELEASED,
-  RELEASES,
-  REPO,
   INSTALLER_SHA256,
   LATEST_INSTALLER_NAME,
   LATEST_INSTALLER_SIG,
+  LATEST_TAG,
+  RELEASES,
+  REPO,
   VIRUSTOTAL_DETECTIONS,
   VIRUSTOTAL_ENGINES,
   VIRUSTOTAL_REPORT,
   VIRUSTOTAL_SCANNED,
 } from "./links";
+import { AVAILABLE_NAMES, PLANNED, PLATFORMS, type Platform } from "./platforms";
 
-/** Row label, then one value per column, in the order of the header. */
-const COMPARE: [string, string, string, string][] = [
-  ["Account required", "Never", "Yes", "No"],
-  ["Unlock", "Hardware key", "Password", "Passphrase"],
-  ["Multi-device sync", "Your storage", "Their servers", "None"],
-  ["Works if the vendor dies", "Yes", "No", "Yes"],
-  ["Source available", "AGPL-3.0", "Varies", "Usually"],
+/** How each answer reads for the person choosing: good, a cost, or neither. */
+type Tone = "good" | "bad" | "meh";
+type Cell = [string, Tone];
+
+/** Row label, then one cell per column, in the order of the header. */
+const COMPARE: [string, Cell, Cell, Cell][] = [
+  ["Account required", ["Never", "good"], ["Yes", "bad"], ["No", "good"]],
+  ["Unlock", ["Hardware key or biometrics", "good"], ["Password", "meh"], ["Passphrase", "meh"]],
+  ["Sync between devices", ["Through your storage", "good"], ["Through their servers", "meh"], ["None", "bad"]],
+  ["Works if the vendor disappears", ["Yes", "good"], ["No", "bad"], ["Yes", "good"]],
+  ["Source available", ["AGPL-3.0", "good"], ["Varies", "meh"], ["Usually", "meh"]],
 ];
 
+const TONE_ICON: Record<Tone, React.ReactNode> = {
+  good: <CheckCircle weight="fill" />,
+  bad: <XCircle weight="fill" />,
+  meh: <MinusCircle weight="fill" />,
+};
+
+function CompareCell({ cell, label, mine = false }: { cell: Cell; label: string; mine?: boolean }) {
+  const [text, tone] = cell;
+  return (
+    <td role="cell" className={`tone-${tone}${mine ? " is-mine" : ""}`} data-label={label}>
+      <span className="tone-icon" aria-hidden>
+        {TONE_ICON[tone]}
+      </span>
+      {text}
+    </td>
+  );
+}
+
+/** Names only: whether the providers' own logos may be shown is a question
+ *  for their brand rules, and the text says the same thing. */
+const STORAGE = ["OneDrive", "Dropbox", "Google Drive", "kDrive", "S3 bucket", "WebDAV", "SFTP", "A drive or NAS"];
+
+const SMALL_FEATURES: { icon: React.ReactNode; title: string; text: string }[] = [
+  {
+    icon: <FolderSimple weight="duotone" />,
+    title: "Files, like a folder",
+    text: "Drag in, search, open. On disk everything is encrypted, file names included.",
+  },
+  {
+    icon: <DeviceMobile weight="duotone" />,
+    title: "Phone backup",
+    text: "Photos, videos and contacts from Android, encrypted on the phone before they leave it.",
+  },
+  {
+    icon: <LockKey weight="duotone" />,
+    title: "Locks itself",
+    text: "When you lock the computer, when the phone sleeps, or after a time you choose.",
+  },
+  {
+    icon: <Stack weight="duotone" />,
+    title: "Several silos",
+    text: "Personal, family, work, each with its own keys. A company silo can keep a key the employee cannot remove.",
+  },
+  {
+    icon: <ArrowsLeftRight weight="duotone" />,
+    title: "In by CSV, out by CSV",
+    text: "From Bitwarden, LastPass, 1Password and Chrome, and back out whenever you want.",
+  },
+  {
+    icon: <Scroll weight="duotone" />,
+    title: "Recovery you can test",
+    text: "A printed sheet with the recovery code, and a check that rebuilds the silo from storage to prove it works.",
+  },
+];
+
+const TRUST: { icon: React.ReactNode; title: string; text: string; href: string; more: string }[] = [
+  {
+    icon: <Fingerprint weight="duotone" />,
+    title: "Unlocked by hardware",
+    text: "A security key, Windows Hello or the phone's fingerprint opens the silo. The fallback is a recovery code on paper, so there is no password to guess.",
+    href: "/security/",
+    more: "The threat model",
+  },
+  {
+    icon: <FolderLock weight="duotone" />,
+    title: "A silo is a folder you own",
+    text: "Encrypted, portable, with its own index and keys. Nothing decrypted is ever written inside it.",
+    href: "/principles/",
+    more: "What stays yours",
+  },
+  {
+    icon: <ArrowsClockwise weight="duotone" />,
+    title: "No middleman",
+    text: "Devices sync through storage you chose, never through a server of ours. There is no SilentSilo account to lose or leak.",
+    href: "#how",
+    more: "How it works",
+  },
+  {
+    icon: <HardDrives weight="duotone" />,
+    title: "Copies that outlast a bad day",
+    text: "Several destinations, a drive that is usually unplugged, and a copy the app never deletes from.",
+    href: "/tutorials/copies-nothing-can-erase/",
+    more: "A copy nothing can erase",
+  },
+];
+
+const PLATFORM_ICON: Record<Platform["id"], React.ReactNode> = {
+  windows: <Desktop weight="duotone" />,
+  android: <DeviceMobile weight="duotone" />,
+  extension: <Browser weight="duotone" />,
+  macos: <Desktop weight="duotone" />,
+  ios: <DeviceMobile weight="duotone" />,
+  linux: <Terminal weight="duotone" />,
+};
+
 export default function Home() {
+  const planned = PLANNED.map((p) => p.name).join(", ").replace(/, ([^,]*)$/, " and $1");
   return (
     <main id="main">
-      <div className="wrap">
-        <section className="hero">
-          <span className="eyebrow">
-            <span className="pulse" aria-hidden />
-            Local-first, end-to-end encrypted
-          </span>
-          <h1>
-            An encrypted vault. No account. <em>No server.</em>
-          </h1>
-          <p>
-            SilentSilo keeps your files and passwords in encrypted folders on
-            your own machine. It unlocks with Windows Hello or a security key.
-            If you want sync or backup, point it at storage you already own.
-          </p>
-          {/* No download until there is one. A button pointing at a release
-              that does not exist is the first thing a visitor finds out, on
-              a site whose whole argument is that you should not have to take
-              anybody's word for anything. */}
-          <div className="cta-row">
-            {RELEASED ? (
-              <>
-                <a className="btn btn-primary" href={LATEST_INSTALLER}>
-                  <IconDownload size={17} />
-                  Download for Windows
-                </a>
-                <a className="btn btn-ghost" href={REPO}>
-                  <IconGitHub size={16} />
-                  Source on GitHub
-                </a>
-              </>
-            ) : (
-              <>
-                <a className="btn btn-primary" href={REPO}>
-                  <IconGitHub size={16} />
-                  Read the source
-                </a>
-                <Link className="btn btn-ghost" href="/security/">
-                  Read the threat model
-                  <IconArrowRight />
-                </Link>
-              </>
-            )}
+      <section className="hero">
+        <div className="wrap hero-grid">
+          <div className="hero-copy">
+            <p className="eyebrow">
+              <ShieldCheck weight="duotone" />
+              Free and open source · No account
+            </p>
+            <h1>
+              Your files and passwords,{" "}
+              <span className="grad">encrypted on your own devices.</span>
+            </h1>
+            <p className="hero-lead">
+              Unlock with Windows Hello, your phone&apos;s fingerprint or a
+              security key. Keep the encrypted copy in your OneDrive, Dropbox,
+              Google Drive or storage you own. There is no SilentSilo server
+              in between.
+            </p>
+            <div className="cta-row">
+              <DownloadButton />
+              <a className="btn btn-ghost" href="#how">
+                How it works
+                <ArrowRight />
+              </a>
+            </div>
+            <p className="hero-meta">
+              {AVAILABLE_NAMES} now · {planned} planned · {LATEST_TAG}
+            </p>
           </div>
-          {/* One line, at the point of decision: whether it runs, what it
-              costs, and what it is. The detail is in the three steps below
-              and in "What you need" under them. */}
-          {RELEASED && (
-            <span className="cta-needs">
-              Windows 10 or 11 · free · open source
-            </span>
-          )}
-          <span className="cta-note">
-            {RELEASED ? (
-              <>
-                {LATEST_TAG}, AGPL-3.0. <a href={RELEASES}>All releases</a> ·{" "}
-                <Link href="/principles/">What stays free</Link>
-              </>
-            ) : (
-              <>
-                <strong>No build has been published yet.</strong> The source is
-                complete and buildable today; the download appears here on the
-                day there is a signed installer to point at. Free and open
-                source, AGPL-3.0. <Link href="/principles/">What stays free</Link>
-              </>
-            )}
-          </span>
 
-          {/* The scan result belongs next to the download or nowhere: it is
-              there to answer "is this safe to run" at the moment somebody
-              asks it. Dated, because the answer is a third party's and can
-              change without the file changing. */}
-          {RELEASED && (
-            <div className={`scan${VIRUSTOTAL_DETECTIONS === 0 ? "" : " is-flagged"}`}>
-              <span className="scan-ring" aria-hidden>
-                {VIRUSTOTAL_DETECTIONS}
-              </span>
-              <div className="scan-body">
-                {/* Worded from the number rather than beside it, so a release
-                    that does pick up a detection cannot leave the reassuring
-                    sentence sitting there next to a figure contradicting it. */}
-                <p className="scan-head">
-                  {VIRUSTOTAL_DETECTIONS === 0
-                    ? "No engine flagged this installer"
-                    : `${VIRUSTOTAL_DETECTIONS} of ${VIRUSTOTAL_ENGINES} engines flagged this installer`}
-                </p>
-                <p className="scan-when">
-                  <span className="scan-ratio">
-                    {VIRUSTOTAL_DETECTIONS}/{VIRUSTOTAL_ENGINES}
-                  </span>{" "}
-                  on VirusTotal · {VIRUSTOTAL_SCANNED} ·{" "}
-                  <a href={VIRUSTOTAL_REPORT} target="_blank" rel="noreferrer">
-                    See the report
-                  </a>
-                </p>
-              </div>
-              {/* What lets somebody check the file themselves: the digest to
-                  compare, and the signature to verify it against. */}
-              <div className="scan-verify">
-                <span className="scan-vk">SHA-256</span>
-                <code className="scan-vv">{INSTALLER_SHA256}</code>
-                <span className="scan-vk">Signature</span>
-                <span className="scan-vv">
-                  <a href={LATEST_INSTALLER_SIG} target="_blank" rel="noreferrer">
-                    {LATEST_INSTALLER_NAME}.sig
-                  </a>{" "}
-                  <span className="scan-vnote">minisign</span>
+          <div className="hero-visual">
+            <div className="window">
+              <div className="window-bar" aria-hidden>
+                <span className="window-title">SilentSilo</span>
+                <span className="window-controls">
+                  <i />
+                  <i />
+                  <i />
                 </span>
               </div>
+              <ThemedImg
+                base="/shots/hero"
+                sizes="(max-width: 900px) 100vw, 700px"
+                width={2400}
+                height={1585}
+                alt="The Windows app with a silo open on its passwords: a login selected beside the list of entries"
+              />
             </div>
-          )}
-
-          {/* What a first-time visitor actually has to do, in the place the
-              cipher suite used to sit. The technical facts moved down to
-              the decisions they belong to. */}
-          <div className="steps-block">
-            <h2>Start in three steps</h2>
-            <ol className="steps">
-              <li>
-                <span className="step-n">1</span>
-                <div>
-                  <strong>Install it.</strong> Windows 10 or 11. The installer
-                  is about the size of a photo.
-                </div>
-              </li>
-              <li>
-                <span className="step-n">2</span>
-                <div>
-                  <strong>Unlock it</strong> with the fingerprint, face or PIN
-                  you already sign in to Windows with. A security key works
-                  too.
-                </div>
-              </li>
-              <li>
-                <span className="step-n">3</span>
-                <div>
-                  <strong>Point it at storage you own</strong>, if you want a
-                  backup: a folder, an external drive, or a bucket.
-                  <Link className="step-link" href="/tutorials/">
-                    One guide for each
-                  </Link>
-                </div>
-              </li>
-            </ol>
+            <div className="float float-a" aria-hidden>
+              <span className="float-icon is-ok">
+                <CheckCircle weight="fill" />
+              </span>
+              <span>
+                <strong>Synced to Google Drive</strong>
+                <small>2 copies up to date</small>
+              </span>
+            </div>
+            <div className="float float-b" aria-hidden>
+              <span className="float-icon">
+                <LockKey weight="fill" />
+              </span>
+              <span>
+                <strong>Encrypted on this device</strong>
+                <small>AES-256-GCM</small>
+              </span>
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="block" id="how">
-          <div className="block-head">
-            <span className="kicker">How it works</span>
-            <h2>Everything stays in your hands</h2>
-            <p className="lead">
-              Your devices encrypt, your storage keeps the ciphertext, your keys
-              open it. There is no SilentSilo server in between, so there is
-              nothing in the middle to trust, subpoena or shut down.
+      <section className="works-with" aria-label="Storage it syncs and backs up with">
+        <div className="wrap works-row">
+          <span className="works-label">Sync and back up with</span>
+          <ul>
+            {STORAGE.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ul>
+          <Link className="works-more" href="/tutorials/">
+            A guide for each
+            <ArrowRight />
+          </Link>
+        </div>
+      </section>
+
+      <section className="sec" id="how">
+        <div className="wrap">
+          <div className="sec-head">
+            <p className="kicker">How it works</p>
+            <h2>Encrypted on your device, synced through your storage</h2>
+            <p>
+              Your devices encrypt, your storage keeps only ciphertext, and
+              only your keys open it. A change made on one device reaches the
+              others through that storage.
             </p>
           </div>
           <HowItWorks />
-          <p className="flow-note">
-            The provider sees encrypted objects, their sizes and when they
-            change, a hash of each file&apos;s content that can confirm a file
-            it already has, and the labels you gave your keys. It can
-            withhold data, which breaks sync, but it cannot read it, alter it
-            undetected, or add anything of its own.
-          </p>
-        </section>
+        </div>
+      </section>
 
-        <section className="block" id="needs">
-          <div className="block-head">
-            <span className="kicker">Getting started</span>
-            <h2>What you need</h2>
+      <section className="sec sec-alt" id="features">
+        <div className="wrap">
+          <div className="sec-head">
+            <p className="kicker">What it does</p>
+            <h2>Everything in the app, free for everyone</h2>
+            <p>
+              Every feature is in every copy. No paid tier, no licence key,
+              nothing metered.
+            </p>
           </div>
-          <ul className="needs">
-            <li>
-              <span className="needs-tick"><IconCheck size={16} /></span>
-              <div>
-                <strong>Windows 10 or 11</strong>, 64-bit. The installer is
-                about the size of a photo and takes a minute.
-              </div>
-            </li>
-            <li>
-              <span className="needs-tick"><IconCheck size={16} /></span>
-              <div>
-                <strong>Windows Hello, or a security key.</strong> A
-                fingerprint, face or PIN you already use is enough, so there
-                is no hardware to buy. A FIDO2 key works too and travels between
-                machines; it needs the <code>hmac-secret</code> extension,
-                which most current keys have.
-              </div>
-            </li>
-            <li>
-              <span className="needs-tick"><IconCheck size={16} /></span>
-              <div>
-                <strong>Somewhere to write the recovery code.</strong> Paper
-                is fine, and it is the only way back in if the key is lost.
-                Setup generates it and waits while you copy it down.
-              </div>
-            </li>
-          </ul>
-          <p className="needs-note">
-            Storage is optional and separate. A silo that never syncs is
-            usable without any storage at all.
-          </p>
-        </section>
 
-        <section className="block" id="tour">
-          <div className="block-head">
-            <span className="kicker">The app</span>
-            <h2>The Windows app, screen by screen</h2>
-            <p className="lead">
-              Screenshots from the Windows app, version{" "}
-              {LATEST_TAG.replace(/^v/, "")}.
+          <div className="bento">
+            <article className="tile tile-wide">
+              <div className="tile-text">
+                <span className="tile-icon">
+                  <Password weight="duotone" />
+                </span>
+                <h3>Passwords in the same silo</h3>
+                <p>
+                  Logins, cards, notes and SSH keys, with the one-time code
+                  beside the password and passkeys on Android. Copied
+                  secrets clear themselves.
+                </p>
+              </div>
+              <div className="mini mini-logins" aria-hidden>
+                <div className="mini-row">
+                  <span className="mini-avatar is-a">GH</span>
+                  <span className="mini-lines">
+                    <b>GitHub</b>
+                    <small>alex@example.com</small>
+                  </span>
+                  <span className="mini-otp">
+                    <Timer weight="bold" />
+                    381 552
+                  </span>
+                </div>
+                <div className="mini-row is-on">
+                  <span className="mini-avatar is-b">BA</span>
+                  <span className="mini-lines">
+                    <b>Bank</b>
+                    <small>•••••••••••</small>
+                  </span>
+                  <span className="mini-pill">Copied, clears in 45 s</span>
+                </div>
+                <div className="mini-row">
+                  <span className="mini-avatar is-c">MA</span>
+                  <span className="mini-lines">
+                    <b>Mail</b>
+                    <small>alex@example.com</small>
+                  </span>
+                </div>
+              </div>
+            </article>
+
+            <article className="tile">
+              <div className="tile-text">
+                <span className="tile-icon">
+                  <Browser weight="duotone" />
+                </span>
+                <h3>Fills your browser</h3>
+                <p>
+                  Chrome, Edge and Brave, after you confirm in the app. The
+                  extension holds no passwords.
+                </p>
+              </div>
+              <div className="mini mini-popup" aria-hidden>
+                <small>Logins for github.com</small>
+                <div className="mini-row is-on">
+                  <span className="mini-avatar is-a">GH</span>
+                  <span className="mini-lines">
+                    <b>GitHub</b>
+                    <small>alex@example.com</small>
+                  </span>
+                </div>
+                <span className="mini-confirm">
+                  <Fingerprint weight="fill" />
+                  Confirm in SilentSilo
+                </span>
+              </div>
+            </article>
+
+            <article className="tile">
+              <div className="tile-text">
+                <span className="tile-icon">
+                  <Cloud weight="duotone" />
+                </span>
+                <h3>Back up to what you have</h3>
+                <p>
+                  As many copies as you like, each with its own queue, one of
+                  them a copy the app never deletes from.
+                </p>
+              </div>
+              <ul className="mini mini-stores" aria-hidden>
+                {STORAGE.slice(0, 6).map((s) => (
+                  <li key={s}>{s}</li>
+                ))}
+              </ul>
+            </article>
+
+            <article className="tile tile-wide tile-key">
+              <div className="tile-text">
+                <span className="tile-icon">
+                  <Key weight="duotone" />
+                </span>
+                <h3>Change the key, not the data</h3>
+                <p>
+                  Lose a security key, retire it, and the silo moves to a new
+                  key without re-encrypting a single file. The retired one
+                  stops opening anything.
+                </p>
+              </div>
+              <div className="mini mini-keys" aria-hidden>
+                <span className="mini-key is-on">
+                  <Fingerprint weight="duotone" />
+                  Windows Hello
+                </span>
+                <span className="mini-key is-on">
+                  <Key weight="duotone" />
+                  YubiKey 5
+                </span>
+                <span className="mini-key is-off">
+                  <Key weight="duotone" />
+                  Old key, retired
+                </span>
+                <span className="mini-key is-on">
+                  <Vault weight="duotone" />
+                  Recovery code
+                </span>
+              </div>
+            </article>
+          </div>
+
+          <div className="features">
+            {SMALL_FEATURES.map((f) => (
+              <article className="feat" key={f.title}>
+                <span className="feat-icon">{f.icon}</span>
+                <div>
+                  <h3>{f.title}</h3>
+                  <p>{f.text}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="sec" id="tour">
+        <div className="wrap">
+          <div className="sec-head">
+            <p className="kicker">Inside the app</p>
+            <h2>The Windows app, as it ships</h2>
+            <p>
+              Taken from the current build, in the same light or dark theme
+              you are reading this in.
             </p>
           </div>
           <Showcase />
-        </section>
+        </div>
+      </section>
 
-        <section className="block">
-          <div className="block-head">
-            <span className="kicker">Features</span>
-            <h2>What the app does</h2>
-            <p className="lead">
-              The everyday details. The whole client is free under AGPL-3.0,
-              nothing cut and nothing metered.
+      <section className="sec sec-alt" id="platforms">
+        <div className="wrap">
+          <div className="sec-head">
+            <p className="kicker">Get it</p>
+            <h2>On your computer and your phone</h2>
+            <p>
+              Every device opens the same silo from the same storage. Platforms
+              that are not out yet say so, with no date until there is one.
             </p>
           </div>
-          <div className="features">
-            <article className="feat">
-              <span className="feat-icon"><IconFolder size={18} /></span>
-              <h3>Files, like a folder</h3>
-              <p>
-                Drag things in, search the whole silo, switch between grid
-                and list. On disk it is all ciphertext, names included.
-              </p>
-            </article>
-            <article className="feat">
-              <span className="feat-icon"><IconClock /></span>
-              <h3>TOTP built in</h3>
-              <p>
-                A login can hold its one-time secret too. The current code
-                sits next to the password, counting down.
-              </p>
-            </article>
-            <article className="feat">
-              <span className="feat-icon"><IconSwap /></span>
-              <h3>In by CSV, out by CSV</h3>
-              <p>
-                Imports from Bitwarden, LastPass, 1Password and Chrome.
-                Exports back to CSV whenever you want to leave.
-              </p>
-            </article>
-            <article className="feat">
-              <span className="feat-icon"><IconLayers /></span>
-              <h3>Several silos</h3>
-              <p>
-                Personal, family, work. Separate folders with separate keys;
-                the app only remembers where they are.
-              </p>
-            </article>
-            <article className="feat">
-              <span className="feat-icon"><IconPointer /></span>
-              <h3>In Explorer&apos;s menu</h3>
-              <p>
-                Right-click a file to upload it to the silo. Right-click
-                inside a folder to download into that spot.
-              </p>
-            </article>
-            <article className="feat">
-              <span className="feat-icon"><IconLock /></span>
-              <h3>Locks with the machine</h3>
-              <p>
-                Locking, suspending or disconnecting the workstation locks
-                the silo and deletes the files you opened from it. Its index
-                stays on disk only encrypted.
-              </p>
-            </article>
-            <article className="feat">
-              <span className="feat-icon"><IconClipboard /></span>
-              <h3>A clipboard that forgets</h3>
-              <p>
-                Copied secrets clear after 45 seconds and never reach
-                Windows Clipboard History or Cloud Clipboard.
-              </p>
-            </article>
-            <article className="feat">
-              <span className="feat-icon"><IconServer /></span>
-              <h3>Backup to what you have</h3>
-              <p>
-                An S3-compatible bucket, WebDAV, SFTP or a plain folder.
-                Sync needs nothing fancier than put, get, list.
-              </p>
-            </article>
-            <article className="feat">
-              <span className="feat-icon"><IconCheck size={18} /></span>
-              <h3>Prove the backup works</h3>
-              <p>
-                Rebuild the silo from its storage and your recovery code, in a
-                temporary folder, and compare. A backup nobody has restored is
-                a guess.
-              </p>
-            </article>
-            <article className="feat">
-              <span className="feat-icon"><IconKey /></span>
-              <h3>Change the key, not the data</h3>
-              <p>
-                Retire a lost security key and the silo gets a new key without
-                re-encrypting a single file. A revoked key stops opening what
-                it opened before.
-              </p>
-            </article>
-            <article className="feat">
-              <span className="feat-icon"><IconShield size={18} /></span>
-              <h3>Silos a company administers</h3>
-              <p>
-                Provision a silo with an organisation key the employee cannot
-                remove, and the archive survives them leaving. Chosen at
-                creation only, and visible on every device.
-              </p>
-            </article>
-            <article className="feat">
-              <span className="feat-icon"><IconBook size={18} /></span>
-              <h3>An emergency kit on paper</h3>
-              <p>
-                One printable sheet with the recovery code in boxes and the
-                steps to follow, written for the day you are calm enough to
-                file it and not the day you need it.
-              </p>
-            </article>
-          </div>
-        </section>
-
-
-        <section className="block">
-          <div className="block-head">
-            <span className="kicker">Design</span>
-            <h2>Four decisions carry the whole thing</h2>
-            <p className="lead">
-              Each is documented, and each can be checked against the source.
-            </p>
-          </div>
-          {/* The four facts an engineer scans for. They sat above the fold as
-              chips, where they answered a question nobody new to this asks;
-              here they label the decisions they come from. The threat model
-              has the rest. */}
-          <div className="chips chips-facts" aria-label="Technical facts">
-            <span className="chip">AES-256-GCM</span>
-            <span className="chip">FIDO2 hmac-secret</span>
-            {/* The one fact a scanner would otherwise miss: "No server" in the
-                headline reads as "no sync at all" if nothing contradicts it. */}
-            <span className="chip">S3, WebDAV, SFTP</span>
-            <span className="chip">AGPL-3.0</span>
-          </div>
-          <div className="grid">
-            <article className="card">
-              <span className="card-num">01</span>
-              <span className="icon"><IconKey /></span>
-              <h3>Unlocked by hardware</h3>
-              <p>
-                A FIDO2 key or Windows Hello derives what unwraps the silo,
-                through the <code>hmac-secret</code> extension. The only
-                fallback is a generated recovery code you write on paper.
-              </p>
-              <p>
-                No passphrase, deliberately. A memorable phrase is about forty
-                bits, and the silo would be exactly that strong.
-              </p>
-            </article>
-            <article className="card">
-              <span className="card-num">02</span>
-              <span className="icon"><IconFolder /></span>
-              <h3>A silo is a folder</h3>
-              <p>
-                Portable, encrypted, holding its own index, content and key
-                envelopes. Put it on an external drive or inside a folder your
-                cloud client already syncs, as a backup of this one computer.
-              </p>
-              <p>
-                Nothing decrypted is written inside it. The working copy of
-                the index lives elsewhere, encrypted even while the silo is
-                open.
-              </p>
-            </article>
-            <article className="card">
-              <span className="card-num">03</span>
-              <span className="icon"><IconSync /></span>
-              <h3>Sync without a middleman</h3>
-              <p>
-                An append-only log of encrypted operations, written to storage
-                you control. No conditional writes, no locks, and the machines
-                never have to be online together.
-              </p>
-            </article>
-            <article className="card">
-              <span className="card-num">04</span>
-              <span className="icon"><IconVault /></span>
-              <h3>Credentials in the same silo</h3>
-              <p>
-                Logins, cards, identities, SSH keys and notes, with TOTP
-                codes, a generator, CSV import and export. The same silo and
-                the same key hold them all.
-              </p>
-              <p>
-                Each login is encrypted on its own and syncs on its own, so
-                two machines can both add one while offline and keep both.
-              </p>
-            </article>
-          </div>
-        </section>
-
-
-        <section className="block">
-          <div className="block-head">
-            <span className="kicker">Archive</span>
-            <h2>Built to hold things for years</h2>
-            <p className="lead">
-              A vault you sync is one copy that moves around. An archive is
-              several copies that survive each other. SilentSilo keeps as
-              many as you point it at, and counts them honestly.
-            </p>
+          <div className="plat-grid">
+            {PLATFORMS.map((p) => (
+              <article className={`plat${p.available ? "" : " is-planned"}`} key={p.id}>
+                <div className="plat-head">
+                  <span className="plat-icon">{PLATFORM_ICON[p.id]}</span>
+                  <h3>{p.name}</h3>
+                  <span className={`plat-status${p.available ? " is-live" : ""}`}>
+                    {p.available ? "Available" : "Planned"}
+                  </span>
+                </div>
+                <p>{p.detail}</p>
+                {p.action && (
+                  <a className="plat-action" href={p.action.href}>
+                    {p.action.label}
+                    <ArrowRight />
+                  </a>
+                )}
+              </article>
+            ))}
           </div>
 
-          <div className="grid grid-3">
-            <article className="card">
-              <span className="icon"><IconLayers size={20} /></span>
-              <h3>More than one destination</h3>
-              <p>
-                Add as many places as you like. Each gets its own queue, so
-                one being unreachable never holds up another, and every
-                change lands on all of them eventually.
-              </p>
-            </article>
-            <article className="card">
-              <span className="icon"><IconDisk size={20} /></span>
-              <h3>A disk in a drawer counts</h3>
-              <p>
-                An external drive is a destination that is usually
-                unplugged. It shows its age in plain words, picks up where
-                it left off when it reappears, and stops asking in between.
-              </p>
-              <p>
-                Filling one is a copy of ciphertext, so it needs no key.
-                Seed it at the office, carry it home.
-              </p>
-            </article>
-            <article className="card">
-              <span className="icon"><IconLock size={20} /></span>
-              <h3>A copy that cannot be deleted</h3>
-              <p>
-                Mark a destination append-only and the app never sends it a
-                delete. Not when you empty the trash, not when it tidies up
-                after itself. Ransomware holding your credentials cannot
-                erase what it cannot delete.
-              </p>
-            </article>
+          <div className="get-more">
+            <details className="verify">
+              <summary>
+                <ShieldCheck weight="duotone" />
+                Check the Windows download before you run it
+              </summary>
+              <div className="verify-body">
+                <p>
+                  <strong>
+                    {VIRUSTOTAL_DETECTIONS === 0
+                      ? "No engine flagged this installer"
+                      : `${VIRUSTOTAL_DETECTIONS} of ${VIRUSTOTAL_ENGINES} engines flagged this installer`}
+                  </strong>{" "}
+                  on VirusTotal ({VIRUSTOTAL_DETECTIONS}/{VIRUSTOTAL_ENGINES},{" "}
+                  {VIRUSTOTAL_SCANNED}). <a href={VIRUSTOTAL_REPORT}>See the report</a>.
+                </p>
+                <dl>
+                  <dt>SHA-256</dt>
+                  <dd>
+                    <code>{INSTALLER_SHA256}</code>
+                  </dd>
+                  <dt>Signature</dt>
+                  <dd>
+                    <a href={LATEST_INSTALLER_SIG}>{LATEST_INSTALLER_NAME}.sig</a>{" "}
+                    (minisign, the key the app checks updates against)
+                  </dd>
+                </dl>
+                <p>
+                  <a href={RELEASES}>All releases</a>, with notes for each.
+                </p>
+              </div>
+            </details>
+            <Link className="way-out" href="/tutorials/get-files-out/">
+              <span className="feat-icon">
+                <Terminal weight="duotone" />
+              </span>
+              <span>
+                <strong>A way out on any system.</strong> A small tool reads a
+                backup with only the recovery code, on Windows, Linux or
+                macOS, without the app.
+              </span>
+              <ArrowRight />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="sec" id="trust">
+        <div className="wrap">
+          <div className="sec-head">
+            <p className="kicker">Why trust it</p>
+            <h2>Built so you do not have to take our word for it</h2>
+          </div>
+          <div className="trust-grid">
+            {TRUST.map((t) => (
+              <article className="card" key={t.title}>
+                <span className="icon">{t.icon}</span>
+                <h3>{t.title}</h3>
+                <p>{t.text}</p>
+                <Link className="card-link" href={t.href}>
+                  {t.more}
+                  <ArrowRight />
+                </Link>
+              </article>
+            ))}
           </div>
 
-          <p className="flow-note">
-            The Copies panel is the point of all this: how many complete
-            copies exist right now, how far behind each one is, and when
-            each was last written. It counts this computer as a copy only
-            when you have asked it to keep every file locally, because
-            otherwise it holds an index and fetches on demand.{" "}
-            <a href={DOC_STORAGE}>Setting up storage that survives a bad day</a>{" "}
-            walks through the provider settings.
-          </p>
-        </section>
-
-        <section className="block">
-          <div className="block-head">
-            <span className="kicker">Compared</span>
-            <h2>Where it sits</h2>
-          </div>
           {/* Below 560px the rows become cards, which is why every element
               carries its role explicitly: `display: block` on a table strips
-              the implicit ones, and the column each value belongs to would
-              go with them. The labels come from data-label. */}
+              the implicit ones. The labels come from data-label. */}
           <div className="table-wrap">
             <table className="compare" role="table">
               <thead role="rowgroup">
                 <tr role="row">
                   <th role="columnheader" scope="col" />
-                  <th role="columnheader" scope="col">
+                  <th role="columnheader" scope="col" className="is-mine">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/icon.svg" alt="" width={18} height={18} />
                     SilentSilo
                   </th>
                   <th role="columnheader" scope="col">
@@ -548,97 +540,45 @@ export default function Home() {
                     <th role="rowheader" scope="row">
                       {row}
                     </th>
-                    <td role="cell" className="yes" data-label="SilentSilo">
-                      {mine}
-                    </td>
-                    <td role="cell" data-label="Hosted vaults">
-                      {hosted}
-                    </td>
-                    <td role="cell" data-label="Folder encryptors">
-                      {folder}
-                    </td>
+                    <CompareCell cell={mine} label="SilentSilo" mine />
+                    <CompareCell cell={hosted} label="Hosted vaults" />
+                    <CompareCell cell={folder} label="Folder encryptors" />
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="block">
-          <div className="block-head">
-            <span className="kicker">Platforms</span>
-            <h2>Windows now, and a way out on any system</h2>
-            <p className="lead">
-              The app is Windows only today. Linux and macOS are open
-              questions with no date attached, which is the honest answer for
-              something you are deciding to trust with years of files.
-            </p>
-          </div>
-
-          <div className="extract">
-            <span className="extract-icon"><IconTerminal size={20} /></span>
+      <section className="sec sec-closing">
+        <div className="wrap">
+          <div className="closing">
             <div>
-              <h3>The way out does run everywhere</h3>
+              <h2>Open source, so you can check rather than believe</h2>
               <p>
-                <code>silentsilo-extract</code> is a small command-line tool
-                that reads a backup and writes your files back out. It needs
-                the folder and your recovery code, nothing else: no silo, no
-                security key, no account, no network beyond reading the
-                backup you point it at.
-              </p>
-              <p>
-                A release attaches separate binaries for Windows, Linux and
-                macOS, each signed with the same key as the app.
-                It is a deliberately plain program with almost no
-                dependencies, because the fewer things stand between a person
-                and their files, the more of that promise survives.
-              </p>
-              <pre className="extract-code">
-                <code>
-                  silentsilo-extract extract --from ./backup --code
-                  XXXX-XXXX --to ./out
-                </code>
-              </pre>
-              <p className="extract-foot">
-                The format it reads is written down in{" "}
-                <a href={DOC_FORMATS}>FORMATS.md</a>, so the archive can be
-                read without the tool by anyone willing to follow the spec.
+                The app is AGPL-3.0, the threat model says what is encrypted
+                with what, and the list of what is unfinished is public. Built
+                by one developer. <Link href="/who/">Who makes this</Link>
               </p>
             </div>
+            <div className="cta-row">
+              <a className="btn btn-ghost" href={REPO}>
+                <GithubLogo weight="fill" />
+                Read the source
+              </a>
+              <Link className="btn btn-ghost" href="/security/">
+                Read the threat model
+                <ArrowRight />
+              </Link>
+              <a className="btn btn-primary" href="#platforms">
+                <DownloadSimple weight="bold" />
+                Get SilentSilo
+              </a>
+            </div>
           </div>
-        </section>
-
-        <section className="block block-closing">
-          <div className="block-head">
-            <span className="kicker">Open</span>
-            <h2>Built where you can check it</h2>
-            <p className="lead">
-              The client is AGPL-3.0. The{" "}
-              <Link href="/security/">threat model</Link> states exactly what
-              is encrypted with what, and the list of what is deliberately
-              unfinished ships in the repository, in plain sight.
-            </p>
-          </div>
-          <p className="open-quote">
-            A security product that asks for trust should make checking
-            cheaper than believing.
-          </p>
-          <p className="signature">
-            Built by one developer who has no social accounts either.{" "}
-            <Link href="/who/">Who makes this</Link>
-          </p>
-          <div className="cta-row cta-row-closing">
-            <a className="btn btn-primary" href={REPO}>
-              <IconGitHub size={16} />
-              Read the source
-            </a>
-            <Link className="btn btn-ghost" href="/security/">
-              Read the threat model
-              <IconArrowRight />
-            </Link>
-          </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </main>
   );
 }

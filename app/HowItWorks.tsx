@@ -1,10 +1,11 @@
 /**
  * The whole product on one picture: devices around the storage the user owns,
- * nothing of ours in between. Drawn inline rather than shipped as an image, so
+ * nothing of ours in between, and a change going round them: made on one
+ * device, sealed there, stored, and pulled by the others. Drawn inline rather than shipped as an image, so
  * the text stays sharp, reads to a screen reader and changes with a release.
  *
- * Only Windows is live. The other platforms are drawn, dimmed and labelled for
- * what they are, so the picture does not promise more than the download does.
+ * Windows and Android are live. The other platforms are drawn, dimmed and
+ * labelled for what they are, so the picture does not promise more than the download does.
  * Two layouts, because one drawing scaled to a phone turns its labels to dust.
  */
 
@@ -47,9 +48,9 @@ const MAC_LINUX: Platform = {
 };
 const ANDROID: Platform = {
   name: "Android",
-  state: "Coming soon",
+  state: "Available now",
   unlock: "Fingerprint · NFC key",
-  live: false,
+  live: true,
   kind: "phone",
 };
 const IOS: Platform = {
@@ -60,8 +61,23 @@ const IOS: Platform = {
   kind: "phone",
 };
 
-const STORES = ["S3 bucket", "WebDAV", "SFTP server", "Folder or USB"];
-const PLANNED_STORES = ["OneDrive", "Google Drive", "Dropbox"];
+/** The storage kinds, grouped as the app's own picker groups them. */
+const STORE_GROUPS: [string, string[]][] = [
+  ["An account you have", ["OneDrive", "Google Drive", "Dropbox", "kDrive"]],
+  ["Storage you run or rent", ["S3 bucket", "WebDAV", "SFTP server", "Folder or USB"]],
+];
+
+/** One trip round the devices, in seconds, and where each leg of it falls,
+ *  as fractions of it: up from the phone, down to the computer, then the
+ *  other way. */
+const CYCLE = "8s";
+const LEGS = {
+  phoneUp: [0, 0.2],
+  toDesk: [0.25, 0.45],
+  deskUp: [0.52, 0.72],
+  toPhone: [0.77, 0.97],
+} as const;
+type Leg = keyof typeof LEGS;
 
 /** What a provider's listing looks like: names that say nothing, sealed bytes. */
 const OBJECTS = [
@@ -144,47 +160,13 @@ function Device({
   );
 }
 
-/** A sealed packet travelling the live link: what leaves is already encrypted. */
-function Packet({
-  path,
-  dur,
-  begin,
-}: {
-  path: string;
-  dur: string;
-  begin: string;
-}) {
-  return (
-    <g className="how-packet">
-      <rect x="-15" y="-9" width="30" height="18" rx="9" />
-      <rect
-        className="how-packet-lock"
-        x="-4"
-        y="-1.5"
-        width="8"
-        height="6"
-        rx="1.4"
-      />
-      <path
-        className="how-packet-lock"
-        d="M-2.4 -1.5v-2a2.4 2.4 0 0 1 4.8 0v2"
-      />
-      <animateMotion
-        dur={dur}
-        begin={begin}
-        repeatCount="indefinite"
-        path={path}
-        keyPoints="0;1"
-        keyTimes="0;1"
-      />
-    </g>
-  );
-}
+/** The height of the storage card, which everything below it hangs from. */
+const HUB_H = 442;
 
 function Hub({ x, y, w }: { x: number; y: number; w: number }) {
   const cx = x + w / 2;
   const chipW = (w - 52) / 2;
-  const h = 362;
+  const listY = y + 338;
   return (
     <g className="how-hub">
       <rect
@@ -192,10 +174,10 @@ function Hub({ x, y, w }: { x: number; y: number; w: number }) {
         x={x - 22}
         y={y - 22}
         width={w + 44}
-        height={h + 44}
+        height={HUB_H + 44}
         rx="46"
       />
-      <rect className="how-hub-box" x={x} y={y} width={w} height={h} rx="28" />
+      <rect className="how-hub-box" x={x} y={y} width={w} height={HUB_H} rx="28" />
       <g
         className="how-glyph how-glyph-hub"
         transform={`translate(${cx - 19} ${y + 22})`}
@@ -210,58 +192,76 @@ function Hub({ x, y, w }: { x: number; y: number; w: number }) {
       <text className="how-hub-sub" x={cx} y={y + 111} textAnchor="middle">
         Your account, your bill, your choice
       </text>
-      {STORES.map((label, i) => {
-        const chipX = x + 20 + (i % 2) * (chipW + 12);
-        const chipY = y + 128 + Math.floor(i / 2) * 38;
+      {STORE_GROUPS.map(([tag, stores], g) => {
+        const groupY = y + 142 + g * 98;
         return (
-          <g key={label}>
-            <rect
-              className="how-chip"
-              x={chipX}
-              y={chipY}
-              width={chipW}
-              height={29}
-              rx="14.5"
-            />
-            <text
-              className="how-chip-text"
-              x={chipX + chipW / 2}
-              y={chipY + 19}
-              textAnchor="middle"
-            >
-              {label}
+          <g key={tag}>
+            <text className="how-store-tag" x={cx} y={groupY} textAnchor="middle">
+              {tag}
             </text>
+            {stores.map((label, i) => {
+              const chipX = x + 20 + (i % 2) * (chipW + 12);
+              const chipY = groupY + 10 + Math.floor(i / 2) * 36;
+              return (
+                <g key={label}>
+                  <rect
+                    className="how-chip"
+                    x={chipX}
+                    y={chipY}
+                    width={chipW}
+                    height={28}
+                    rx="14"
+                  />
+                  <text
+                    className="how-chip-text"
+                    x={chipX + chipW / 2}
+                    y={chipY + 18.5}
+                    textAnchor="middle"
+                  >
+                    {label}
+                  </text>
+                </g>
+              );
+            })}
           </g>
         );
       })}
-      {/* Planned, drawn dimmed like the planned devices: names only. */}
-      <g className="how-planned-stores">
-        <text className="how-planned-tag" x={cx} y={y + 207} textAnchor="middle">
-          Planned
-        </text>
-        <rect x={x + 20} y={y + 214} width={w - 40} height={30} rx="15" />
-        <text x={cx} y={y + 233.5} textAnchor="middle">
-          {PLANNED_STORES.join(" · ")}
-        </text>
-      </g>
       <rect
         className="how-listing"
         x={x + 20}
-        y={y + 258}
+        y={listY}
         width={w - 40}
         height={88}
         rx="12"
       />
+      {/* The row a change lands as: lit when one arrives from either side. */}
+      <rect
+        className="how-landed"
+        x={x + 26}
+        y={listY + 7}
+        width={w - 52}
+        height={24}
+        rx="7"
+        opacity="0"
+      >
+        <animate
+          attributeName="opacity"
+          dur={CYCLE}
+          repeatCount="indefinite"
+          values="0;0;1;0;0;1;0;0"
+          keyTimes={`0;${LEGS.phoneUp[1]};${LEGS.phoneUp[1] + 0.02};${LEGS.toDesk[0] + 0.06};${LEGS.deskUp[1]};${LEGS.deskUp[1] + 0.02};${LEGS.toPhone[0] + 0.06};1`}
+        />
+      </rect>
       {OBJECTS.map(([dir, name, size], i) => (
         <g key={name} className="how-object">
-          <text x={x + 34} y={y + 282 + i * 24}>
+          <text x={x + 34} y={listY + 24 + i * 24}>
             <tspan className="how-object-dir">{dir}</tspan>
             <tspan>{name}</tspan>
           </text>
           <text
             className="how-object-size"
             x={x + w - 34}
-            y={y + 282 + i * 24}
+            y={listY + 24 + i * 24}
             textAnchor="end"
           >
             {size}
@@ -272,21 +272,74 @@ function Hub({ x, y, w }: { x: number; y: number; w: number }) {
   );
 }
 
-function NoServer({ cx, y }: { cx: number; y: number }) {
+/** One sealed change on one leg of the trip: hidden until its leg starts,
+ *  carried along the path, gone when it lands. */
+function Change({ path, leg }: { path: string; leg: Leg }) {
+  const [a, b] = LEGS[leg];
   return (
-    <g className="how-noserver">
-      <rect x={cx - 118} y={y} width="236" height="34" rx="17" />
-      <g
-        transform={`translate(${cx - 94} ${y + 17})`}
-        className="how-glyph how-glyph-dim"
-      >
-        <path d="M-9 4h14a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.4-1.5A4 4 0 0 0-9 4z" />
-        <path className="how-strike" d="M-11 8 9 -9" />
-      </g>
-      <text x={cx + 12} y={y + 21.5} textAnchor="middle">
-        No SilentSilo server
-      </text>
+    <g className="how-packet" opacity="0">
+      <rect x="-15" y="-9" width="30" height="18" rx="9" />
+      <rect className="how-packet-lock" x="-4" y="-1.5" width="8" height="6" rx="1.4" />
+      <path className="how-packet-lock" d="M-2.4 -1.5v-2a2.4 2.4 0 0 1 4.8 0v2" />
+      <animateMotion
+        dur={CYCLE}
+        repeatCount="indefinite"
+        path={path}
+        calcMode="linear"
+        keyPoints={a === 0 ? "0;1;1" : "0;0;1;1"}
+        keyTimes={a === 0 ? `0;${b};1` : `0;${a};${b};1`}
+      />
+      <animate
+        attributeName="opacity"
+        dur={CYCLE}
+        repeatCount="indefinite"
+        calcMode="discrete"
+        values={a === 0 ? "1;0" : "0;1;0"}
+        keyTimes={a === 0 ? `0;${b}` : `0;${a};${b}`}
+      />
     </g>
+  );
+}
+
+/** A device card lighting up as a change reaches it, at the end of `leg`. */
+function Arrive({
+  x,
+  y,
+  w,
+  h,
+  rx,
+  leg,
+}: {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  rx: number;
+  leg: Leg;
+}) {
+  const b = LEGS[leg][1];
+  return (
+    <rect className="how-arrive" x={x} y={y} width={w} height={h} rx={rx} opacity="0">
+      <animate
+        attributeName="opacity"
+        dur={CYCLE}
+        repeatCount="indefinite"
+        values="0;0;1;0;0"
+        keyTimes={`0;${b};${Math.min(b + 0.015, 0.99)};${Math.min(b + 0.12, 0.995)};1`}
+      />
+    </rect>
+  );
+}
+
+/** Says in words what the moving parts show, and stays when motion is off. */
+function FlowCaption({ cx, y }: { cx: number; y: number }) {
+  return (
+    <text className="how-flow" x={cx} y={y} textAnchor="middle">
+      <tspan x={cx}>A change made on one device is sealed there,</tspan>
+      <tspan x={cx} dy="22">
+        stored, and pulled by every other one.
+      </tspan>
+    </text>
   );
 }
 
@@ -316,7 +369,7 @@ function Sees({
           Never sees
         </text>
         <text x={x} y={y + 71} textAnchor={anchor}>
-          names, contents, passwords
+          file names, contents, passwords
         </text>
       </g>
     );
@@ -329,7 +382,7 @@ function Sees({
       </text>
       <text x={x} y={y + 22} textAnchor={anchor}>
         <tspan className="how-never-label">Never sees </tspan>
-        <tspan>names, contents, passwords</tspan>
+        <tspan>file names, contents, passwords</tspan>
       </text>
     </g>
   );
@@ -361,17 +414,24 @@ function Defs({
   id,
   from,
   to,
+  from2,
+  to2,
 }: {
   id: string;
   from: [number, number];
   to: [number, number];
+  /** The Android link, which runs elsewhere and needs a gradient of its own. */
+  from2: [number, number];
+  to2: [number, number];
 }) {
   return (
     <defs>
+      {/* Colours from the theme: a stop's colour takes a custom property only
+          through style, not through the attribute. */}
       <linearGradient id={`${id}-hub`} x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stopColor="#8b5cf6" stopOpacity="0.22" />
-        <stop offset="0.55" stopColor="#12182a" stopOpacity="0.9" />
-        <stop offset="1" stopColor="#34d399" stopOpacity="0.1" />
+        <stop offset="0" style={{ stopColor: "var(--how-hub-1)" }} />
+        <stop offset="0.55" style={{ stopColor: "var(--how-hub-2)" }} />
+        <stop offset="1" style={{ stopColor: "var(--how-hub-3)" }} />
       </linearGradient>
       {/* In user space: a straight line has an empty bounding box, and a
           bounding-box gradient on it draws nothing at all. */}
@@ -383,12 +443,23 @@ function Defs({
         x2={to[0]}
         y2={to[1]}
       >
-        <stop offset="0" stopColor="#a78bfa" />
-        <stop offset="1" stopColor="#34d399" />
+        <stop offset="0" style={{ stopColor: "var(--how-link-1)" }} />
+        <stop offset="1" style={{ stopColor: "var(--how-link-2)" }} />
+      </linearGradient>
+      <linearGradient
+        id={`${id}-link2`}
+        gradientUnits="userSpaceOnUse"
+        x1={from2[0]}
+        y1={from2[1]}
+        x2={to2[0]}
+        y2={to2[1]}
+      >
+        <stop offset="0" style={{ stopColor: "var(--how-link-1)" }} />
+        <stop offset="1" style={{ stopColor: "var(--how-link-2)" }} />
       </linearGradient>
       <radialGradient id={`${id}-halo`}>
-        <stop offset="0" stopColor="#8b5cf6" stopOpacity="0.16" />
-        <stop offset="1" stopColor="#8b5cf6" stopOpacity="0" />
+        <stop offset="0" style={{ stopColor: "var(--how-halo)" }} />
+        <stop offset="1" style={{ stopColor: "var(--how-halo)", stopOpacity: 0 }} />
       </radialGradient>
     </defs>
   );
@@ -434,58 +505,58 @@ function Extension({
 }
 
 /** Where the extension can be installed today; the rest follow review. */
-const LIVE_BROWSERS = "Chrome · Brave · Edge, Firefox soon";
+const LIVE_BROWSERS = "Chrome · Edge · Brave";
 
 const DESC =
-  "Each device encrypts on its own and writes to storage you choose: an S3 bucket, WebDAV, an SFTP server or a " +
-  "folder; OneDrive, Google Drive and Dropbox are planned. The storage holds only encrypted objects; it sees sizes, times, key labels and content hashes, never names, contents " +
-  "or passwords. There is no SilentSilo server. You unlock with a security key or the device's biometrics, and a " +
-  "recovery code on paper is the fallback. Windows is available now, Android is coming soon, macOS, Linux and iOS are planned. " +
-  "The browser extension is available on Windows for Chrome and Brave, with Edge and Firefox soon, and comes with the macOS and Linux apps later: it fills passwords through the desktop app, never from storage.";
+  "Each device encrypts on its own and writes to storage you choose: your OneDrive, Google Drive or Dropbox, an S3 " +
+  "bucket, WebDAV, an SFTP server or a folder. The storage holds only encrypted objects; it sees sizes, times, key labels, content hashes and the silo folder's name, never your file names, contents " +
+  "or passwords. A change made on one device is sealed there, stored, and pulled by every other device; there is no " +
+  "SilentSilo server in between. You unlock with a security key or the device's biometrics, and a " +
+  "recovery code on paper is the fallback. Windows and Android are available now, macOS, Linux and iOS are planned. " +
+  "The browser extension is available on Windows for Chrome, Edge and Brave, with Firefox soon, and comes with the macOS and Linux apps later: it fills passwords through the desktop app, never from storage.";
 
 function Wide() {
-  const live = "M300 182 C 360 182, 370 262, 430 262";
+  // Each live link both ways: up into the storage, and back down from it.
+  const deskUp = "M300 182 C 345 182, 345 262, 390 262";
+  const toDesk = "M390 262 C 345 262, 345 182, 300 182";
+  const phoneUp = "M300 418 C 345 418, 345 338, 390 338";
+  const toPhone = "M390 338 C 345 338, 345 418, 300 418";
   return (
     <svg
       className="how-svg how-wide"
-      viewBox="0 0 1120 650"
+      viewBox="0 0 1120 698"
       role="img"
       aria-labelledby="how-title-w how-desc-w"
     >
       <title id="how-title-w">How SilentSilo works</title>
       <desc id="how-desc-w">{DESC}</desc>
-      <Defs id="w" from={[300, 182]} to={[430, 262]} />
-      <style>{`.how-wide .how-hub-box{fill:url(#w-hub)} .how-wide .how-link.is-live{stroke:url(#w-link)} .how-wide .how-halo{fill:url(#w-halo)}`}</style>
+      <Defs id="w" from={[300, 182]} to={[390, 262]} from2={[300, 418]} to2={[390, 338]} />
+      <style>{`.how-wide .how-hub-box{fill:url(#w-hub)} .how-wide .how-link.is-live{stroke:url(#w-link)} .how-wide .how-link.is-live.how-link-2{stroke:url(#w-link2)} .how-wide .how-halo{fill:url(#w-halo)}`}</style>
 
-      <ellipse className="how-halo" cx="560" cy="300" rx="420" ry="260" />
-      <ellipse className="how-orbit" cx="560" cy="300" rx="455" ry="220" />
+      <ellipse className="how-halo" cx="560" cy="320" rx="430" ry="280" />
+      <ellipse className="how-orbit" cx="560" cy="320" rx="465" ry="240" />
       <ellipse
         className="how-orbit how-orbit-inner"
         cx="560"
-        cy="300"
-        rx="300"
-        ry="170"
+        cy="320"
+        rx="310"
+        ry="190"
       />
 
-      <NoServer cx={560} y={28} />
+      <FlowCaption cx={560} y={38} />
 
-      <path className="how-link is-live" d={live} />
+      <path className="how-link is-live" d={deskUp} />
+      <path className="how-link is-live how-link-2" d={phoneUp} />
       <path
         className="how-link is-planned"
-        d="M300 418 C 360 418, 370 338, 430 338"
-      />
-      <path
-        className="how-link is-planned"
-        d="M820 182 C 760 182, 750 262, 690 262"
+        d="M820 182 C 775 182, 775 262, 730 262"
       />
       <path
         className="how-link is-planned"
-        d="M820 418 C 760 418, 750 338, 690 338"
+        d="M820 418 C 775 418, 775 338, 730 338"
       />
-      <Packet path={live} dur="2.6s" begin="0s" />
-      <Packet path={live} dur="2.6s" begin="-1.3s" />
 
-      <Hub x={430} y={141} w={260} />
+      <Hub x={390} y={96} w={340} />
 
       <Extension x={50} y={8} w={250} state="Available on Windows" browsers={LIVE_BROWSERS} live />
       <path className="how-link is-live" d="M175 100 V 118" />
@@ -495,6 +566,13 @@ function Wide() {
       <Device p={ANDROID} x={50} y={354} w={250} h={128} />
       <Device p={MAC_LINUX} x={820} y={118} w={250} h={128} />
       <Device p={IOS} x={820} y={354} w={250} h={128} />
+      <Arrive x={50} y={118} w={250} h={128} rx={20} leg="toDesk" />
+      <Arrive x={50} y={354} w={250} h={128} rx={20} leg="toPhone" />
+
+      <Change path={phoneUp} leg="phoneUp" />
+      <Change path={toDesk} leg="toDesk" />
+      <Change path={deskUp} leg="deskUp" />
+      <Change path={toPhone} leg="toPhone" />
 
       <text
         className="how-caption how-caption-live"
@@ -505,82 +583,98 @@ function Wide() {
         Encrypted before it leaves
       </text>
 
-      <Sees x={560} y={546} anchor="middle" />
-      <Keys x={392} y={600} />
+      <Sees x={560} y={592} anchor="middle" />
+      <Keys x={392} y={644} />
     </svg>
   );
 }
 
 function Tall() {
-  const live = "M200 150 V 222";
+  // In the group below: the computer above the storage, the phone under it.
+  const deskUp = "M200 150 V 222";
+  const toDesk = "M200 222 V 150";
+  const top = 222 + HUB_H;
+  const cards = top + 72;
+  const phoneUp = `M52 ${cards} C 52 ${cards - 32}, 90 ${cards - 32}, 90 ${top}`;
+  const toPhone = `M90 ${top} C 90 ${cards - 32}, 52 ${cards - 32}, 52 ${cards}`;
   return (
     <svg
       className="how-svg how-tall"
-      viewBox="0 0 400 1106"
+      viewBox={`0 0 400 ${174 + cards + 290}`}
       role="img"
       aria-labelledby="how-title-t how-desc-t"
     >
       <title id="how-title-t">How SilentSilo works</title>
       <desc id="how-desc-t">{DESC}</desc>
-      <Defs id="t" from={[200, 150]} to={[200, 222]} />
-      <style>{`.how-tall .how-hub-box{fill:url(#t-hub)} .how-tall .how-link.is-live{stroke:url(#t-link)} .how-tall .how-halo{fill:url(#t-halo)}`}</style>
+      <Defs id="t" from={[200, 150]} to={[200, 222]} from2={[52, cards]} to2={[90, top]} />
+      <style>{`.how-tall .how-hub-box{fill:url(#t-hub)} .how-tall .how-link.is-live{stroke:url(#t-link)} .how-tall .how-link.is-live.how-link-2{stroke:url(#t-link2)} .how-tall .how-halo{fill:url(#t-halo)}`}</style>
 
-      <NoServer cx={200} y={0} />
-      <Extension x={70} y={50} w={260} state="Available on Windows" browsers={LIVE_BROWSERS} live />
-      <path className="how-link is-live" d="M200 142 V 184" />
-      <g transform="translate(0 162)">
+      <FlowCaption cx={200} y={18} />
+      <Extension x={70} y={62} w={260} state="Available on Windows" browsers={LIVE_BROWSERS} live />
+      <path className="how-link is-live" d="M200 154 V 196" />
+      <g transform="translate(0 174)">
         {/* Inside the viewBox: the drawing runs to the edge of a phone
             screen, and the halo has nowhere to bleed into. */}
-        <ellipse className="how-halo" cx="200" cy="390" rx="196" ry="300" />
+        <ellipse className="how-halo" cx="200" cy="420" rx="196" ry="330" />
 
         <Device p={WINDOWS} x={70} y={22} w={260} h={128} />
-        <path className="how-link is-live" d={live} />
-        <Packet path={live} dur="1.8s" begin="0s" />
+        <path className="how-link is-live" d={deskUp} />
         <text className="how-caption how-caption-live" x={222} y={190}>
           encrypted
         </text>
 
         <Hub x={40} y={222} w={320} />
 
-        <path className="how-link is-planned" d="M90 584 C 90 624, 52 624, 52 656" />
-        <path className="how-link is-planned" d="M165 584 C 165 624, 151 624, 151 656" />
-        <path className="how-link is-planned" d="M235 584 C 235 624, 249 624, 249 656" />
-        <path className="how-link is-planned" d="M310 584 C 310 624, 348 624, 348 656" />
+        <path className="how-link is-live how-link-2" d={phoneUp} />
+        <path className="how-link is-planned" d={`M165 ${top} C 165 ${cards - 32}, 151 ${cards - 32}, 151 ${cards}`} />
+        <path className="how-link is-planned" d={`M235 ${top} C 235 ${cards - 32}, 249 ${cards - 32}, 249 ${cards}`} />
+        <path className="how-link is-planned" d={`M310 ${top} C 310 ${cards - 32}, 348 ${cards - 32}, 348 ${cards}`} />
 
-        <g className="how-device is-planned">
+        <g>
           {[
             { p: ANDROID, cx: 52 },
             { p: MACOS, cx: 151 },
             { p: LINUX, cx: 249 },
             { p: IOS, cx: 348 },
           ].map(({ p, cx }) => (
-            <g key={p.name}>
+            <g
+              key={p.name}
+              className={p.live ? "how-device is-live" : "how-device is-planned"}
+            >
               <rect
                 className="how-card"
                 x={cx - 46}
-                y={656}
+                y={cards}
                 width="92"
                 height="104"
                 rx="18"
               />
-              <DeviceIcon kind={p.kind} x={cx - 21} y={674} />
+              <DeviceIcon kind={p.kind} x={cx - 21} y={cards + 18} />
               <text
                 className="how-name how-name-sm"
                 x={cx}
-                y={732}
+                y={cards + 76}
                 textAnchor="middle"
               >
                 {p.name}
               </text>
-              <text className="how-state" x={cx} y={749} textAnchor="middle">
-                {p.state}
+              {/* "Available now" is wider than a 92-unit card. */}
+              <text className="how-state" x={cx} y={cards + 93} textAnchor="middle">
+                {p.live ? "Available" : p.state}
               </text>
             </g>
           ))}
         </g>
+        <Arrive x={70} y={22} w={260} h={128} rx={20} leg="toDesk" />
+        <Arrive x={6} y={cards} w={92} h={104} rx={18} leg="toPhone" />
 
-        <Sees x={200} y={806} anchor="middle" stack />
-        <Keys x={30} y={906} />
+        <Change path={phoneUp} leg="phoneUp" />
+        <Change path={toDesk} leg="toDesk" />
+        <Change path={deskUp} leg="deskUp" />
+        <Change path={toPhone} leg="toPhone" />
+
+        <Sees x={200} y={cards + 150} anchor="middle" stack />
+        <Keys x={30} y={cards + 250} />
       </g>
     </svg>
   );

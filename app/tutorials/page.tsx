@@ -3,16 +3,20 @@ import Link from "next/link";
 import {
   IconArrowRight,
   IconDisk,
+  IconDownload,
   IconLock,
   IconPerson,
+  IconPhone,
+  IconPointer,
   IconServer,
+  IconSync,
   IconTerminal,
 } from "../Icons";
 
 export const metadata: Metadata = {
   title: "Tutorials",
   description:
-    "Setting up a backup on every option SilentSilo offers, one guide each, plus how to keep a copy that nothing can erase.",
+    "Setting up a backup on every option SilentSilo offers, one guide each, plus the phone, the browser extension, and getting your files out without the app.",
 };
 
 type Guide = {
@@ -23,6 +27,38 @@ type Guide = {
   icon: React.ReactNode;
 };
 
+/** Storage most people already have: sign in and it is done. */
+const ACCOUNTS: Guide[] = [
+  {
+    href: "/tutorials/backup-onedrive/",
+    title: "OneDrive",
+    what: "A personal Microsoft account. Sign in from the app; it writes to its own folder.",
+    meta: ["An account you have", "5 minutes"],
+    icon: <IconSync size={20} />,
+  },
+  {
+    href: "/tutorials/backup-dropbox/",
+    title: "Dropbox",
+    what: "Any Dropbox account. The app gets its own folder and nothing else.",
+    meta: ["An account you have", "5 minutes"],
+    icon: <IconSync size={20} />,
+  },
+  {
+    href: "/tutorials/backup-google-drive/",
+    title: "Google Drive",
+    what: "Any Google account. The app sees only the files it writes itself.",
+    meta: ["An account you have", "5 minutes"],
+    icon: <IconSync size={20} />,
+  },
+  {
+    href: "/tutorials/backup-kdrive/",
+    title: "kDrive",
+    what: "Infomaniak's storage, run from Switzerland, over WebDAV with an app password.",
+    meta: ["An account you have", "10 minutes"],
+    icon: <IconServer size={20} />,
+  },
+];
+
 /** One card per way of backing up. The order is the order most people should
  *  consider them in: the free one first, the cheap one that scales second. */
 const BACKUP: Guide[] = [
@@ -31,7 +67,7 @@ const BACKUP: Guide[] = [
     title: "A folder, drive or network share",
     what:
       "An external disk, a NAS share, or a folder your cloud client already syncs. Nothing to sign up for.",
-    meta: ["No account", "5 minutes"],
+    meta: ["No account", "5 minutes", "Windows app"],
     icon: <IconDisk size={20} />,
   },
   {
@@ -61,6 +97,30 @@ const BACKUP: Guide[] = [
 ];
 
 const FURTHER: Guide[] = [
+  {
+    href: "/tutorials/phone/",
+    title: "On your phone",
+    what:
+      "Open the silo on Android, back up photos, videos and contacts into it, and fill logins in other apps.",
+    meta: ["Android 12 or later"],
+    icon: <IconPhone size={20} />,
+  },
+  {
+    href: "/tutorials/browser-extension/",
+    title: "Fill logins in your browser",
+    what:
+      "The extension for Chrome, Edge, Brave and Firefox. Every fill is confirmed in the app.",
+    meta: ["Windows app"],
+    icon: <IconPointer size={20} />,
+  },
+  {
+    href: "/tutorials/get-files-out/",
+    title: "Get your files out without the app",
+    what:
+      "A backup and the recovery code are enough. The extraction tool writes ordinary files back out.",
+    meta: ["Command line"],
+    icon: <IconDownload size={20} />,
+  },
   {
     href: "/tutorials/copies-nothing-can-erase/",
     title: "A copy nothing can erase",
@@ -113,16 +173,25 @@ export default function Tutorials() {
 
       <div className="notice">
         <strong>The part that is the same everywhere:</strong> unlock the silo,
-        then open <strong>Settings &gt; Backup</strong>, or{" "}
-        <strong>Settings &gt; Copies</strong> when you are adding a second
-        place. Test connection has to pass before anything is saved.
+        then open <strong>Settings &gt; Backup</strong>. A second place is
+        added on the same page, with <strong>Add another copy</strong>. The
+        app writes to the storage before anything is saved. On
+        Android it is <strong>Silo &gt; Backup storage</strong>, and the phone takes
+        every kind here except a folder.
       </div>
 
       <h2 id="set-up-a-backup">Set up a backup</h2>
       <p>
-        Pick one. You can add more places later, and a second place is the
-        point of Copies.
+        Pick one. You can add more places later, and a second place is what
+        the list of copies on the Backup page is for.
       </p>
+      <h3 id="an-account-you-already-have">An account you already have</h3>
+      <div className="tut-grid">
+        {ACCOUNTS.map((g) => (
+          <Card key={g.href} g={g} />
+        ))}
+      </div>
+      <h3 id="storage-you-run-or-rent">Storage you run or rent</h3>
       <div className="tut-grid">
         {BACKUP.map((g) => (
           <Card key={g.href} g={g} />
@@ -131,6 +200,18 @@ export default function Tutorials() {
 
       <h2 id="not-sure-which">Not sure which</h2>
       <ul className="tut-pick">
+        <li>
+          <strong>You already have OneDrive, Dropbox or Google Drive.</strong>{" "}
+          Start there: <Link href="/tutorials/backup-onedrive/">OneDrive</Link>
+          , <Link href="/tutorials/backup-dropbox/">Dropbox</Link> or{" "}
+          <Link href="/tutorials/backup-google-drive/">Google Drive</Link>.
+          Nothing to rent, and the phone reaches it too.
+        </li>
+        <li>
+          <strong>You want it kept in Europe.</strong>{" "}
+          <Link href="/europe/">SilentSilo in the European Union</Link> goes
+          through the options.
+        </li>
         <li>
           <strong>You have an external disk or a NAS.</strong>{" "}
           <Link href="/tutorials/backup-folder/">A folder or drive</Link>, and
@@ -153,8 +234,8 @@ export default function Tutorials() {
 
       <h2 id="going-further">Going further</h2>
       <p>
-        Once a backup runs, these two are what turn it into something you can
-        count on.
+        Once a backup runs: the silo on your phone and in your browser, and
+        what turns the backup into something you can count on.
       </p>
       <div className="tut-grid">
         {FURTHER.map((g) => (

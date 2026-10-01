@@ -106,10 +106,9 @@ export default function BackupSftp() {
       <h2 id="setting-it-up-in-the-app">Setting it up in the app</h2>
       <ol>
         <li>
-          Unlock the silo, open <strong>Settings &gt; Backup</strong> (or{" "}
-          <strong>Settings &gt; Copies</strong> and{" "}
-          <strong>Add another place</strong>), and choose{" "}
-          <strong>SFTP</strong>.
+          Unlock the silo, open <strong>Settings &gt; Backup</strong> (or,
+          for a second copy, <strong>Add another copy</strong> on that page),
+          and choose <strong>A server over SFTP</strong>.
         </li>
         <li>
           Fill in <strong>Server</strong> and <strong>Port</strong>. The port
@@ -136,8 +135,9 @@ export default function BackupSftp() {
         <li>
           Press <strong>Test connection</strong>. The app writes a small
           file, reads it back and deletes it. Then press{" "}
-          <strong>Save &amp; connect</strong>, or{" "}
-          <strong>Add this place</strong> for a second copy.
+          <strong>Save &amp; connect</strong>. For a second copy there is no
+          separate test: press <strong>Add this copy</strong>, which writes
+          to the server before saving.
         </li>
       </ol>
 
@@ -213,8 +213,8 @@ export default function BackupSftp() {
       <p>
         It does not, by itself, survive ransomware: the key sits on the
         machine being attacked, and an attacker who has it can delete what is
-        on the far end. Ticking <strong>Never delete anything here</strong>{" "}
-        when you add a second place stops the app ever issuing a delete,
+        on the far end. Ticking <strong>Never-delete copy</strong> when you
+        add another copy stops the app ever issuing a delete,
         which is a promise the app keeps rather than one the server enforces.
         For a copy that refuses deletion at its own level, see{" "}
         <Link href="/tutorials/copies-nothing-can-erase/">
@@ -226,7 +226,7 @@ export default function BackupSftp() {
 
       <h2 id="prove-it-works">Prove it works</h2>
       <p>
-        Open <strong>Settings &gt; Verification</strong>, go to{" "}
+        Open <strong>Settings &gt; Test backup</strong>, go to{" "}
         <strong>Test a recovery</strong>, type your recovery code and press{" "}
         <strong>Try a recovery now</strong>. It rebuilds the silo from the
         server in a temporary directory, using only that code, and opens one

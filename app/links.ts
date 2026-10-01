@@ -26,6 +26,14 @@ export const LATEST_TAG = "v1.2.2";
 export const LATEST_INSTALLER_NAME = "SilentSilo_1.2.2_x64-setup.exe";
 export const LATEST_INSTALLER = `${REPO}/releases/latest/download/${LATEST_INSTALLER_NAME}`;
 
+/** The extraction tool, one binary per system, attached to every release.
+ *  The names carry no version, so these follow `latest` on their own. */
+export const EXTRACTORS = [
+  { os: "Windows", arch: "x86-64", file: "silentsilo-extract-windows-x86_64.exe" },
+  { os: "Linux", arch: "x86-64", file: "silentsilo-extract-linux-x86_64" },
+  { os: "macOS", arch: "Apple silicon", file: "silentsilo-extract-macos-aarch64" },
+].map((e) => ({ ...e, url: `${REPO}/releases/latest/download/${e.file}` }));
+
 /** The minisign signature published beside the installer, over the bytes as
  *  they ship. The same key the app checks an update against, so a download can
  *  be verified without trusting GitHub. */
@@ -50,6 +58,14 @@ export const VIRUSTOTAL_REPORT = `https://www.virustotal.com/gui/file/${INSTALLE
 export const VIRUSTOTAL_DETECTIONS: number = 0;
 export const VIRUSTOTAL_ENGINES = 69;
 export const VIRUSTOTAL_SCANNED = "29 September 2026";
+
+/**
+ * The Android app, on Google Play. The store delivers its updates, so there
+ * is no version or file to keep in step here.
+ */
+export const PLAY_STORE =
+  "https://play.google.com/store/apps/details?id=com.silentsilo.mobile";
+export const MOBILE_REPO = "https://github.com/silentsilo/mobile";
 
 /** The update endpoint is public too, so claims about it can be read. */
 export const RELEASES_REPO = "https://github.com/silentsilo/releases";

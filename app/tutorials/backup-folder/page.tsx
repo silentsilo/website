@@ -16,6 +16,8 @@ export default function BackupFolder() {
         the silo at a directory and it writes its encrypted objects there.
         No account, no key, no endpoint. It covers an external disk, a NAS
         share, and a folder that Dropbox or OneDrive is already syncing.
+        This one is for the Windows app: the Android app backs up to an S3
+        bucket, WebDAV or SFTP.
       </p>
 
       <nav className="toc" aria-label="On this page">
@@ -48,24 +50,25 @@ export default function BackupFolder() {
           letter.
         </li>
         <li>
-          Unlock the silo and open <strong>Settings &gt; Backup</strong>, or{" "}
-          <strong>Settings &gt; Copies</strong> and{" "}
-          <strong>Add another place</strong> if this is a second place.
+          Unlock the silo and open <strong>Settings &gt; Backup</strong>. If
+          this is a second copy, press <strong>Add another copy</strong> under
+          the list of copies on that page.
         </li>
         <li>
-          Choose <strong>Folder</strong>, then <strong>Browse</strong> to pick
-          the directory. Pick an empty one, or one this silo already uses: the
+          Choose <strong>A drive or NAS folder</strong>, which the form starts
+          on, then <strong>Browse</strong> to pick the directory. Pick an empty one, or one this silo already uses: the
           app refuses a folder that holds a different silo, so each silo
           needs a folder of its own.
         </li>
         <li>
           Press <strong>Test connection</strong>. The app writes a small
           file, reads it back and deletes it, which catches a share mounted
-          read-only before you rely on it.
+          read-only before you rely on it. A second copy has no separate
+          test: <strong>Add this copy</strong> writes to it before saving.
         </li>
         <li>
           Press <strong>Save &amp; connect</strong>, or{" "}
-          <strong>Add this place</strong> for a second copy. The first pass
+          <strong>Add this copy</strong> for a second copy. The first pass
           starts in the background.
         </li>
       </ol>
@@ -79,17 +82,18 @@ export default function BackupFolder() {
       <p>
         Uploading several hundred gigabytes over a home connection takes
         weeks. Filling an external disk takes an afternoon. If the silo
-        already backs up somewhere, use <strong>Fill from the first copy</strong>{" "}
-        on the disk&apos;s row in Settings &gt; Copies: it copies the
+        already backs up somewhere, use <strong>Fill from the main copy</strong>{" "}
+        on the disk&apos;s row in Settings &gt; Backup: it copies the
         encrypted files straight across, never needs your key and decrypts
         nothing, shows how many bytes have moved so a large file does not look
         like a stall, can be stopped at any point, and carries on from where
         it stopped when you run it again.
       </p>
       <p>
-        The source is always the first place, the one on the Backup page. To
-        go the other way, fill a bucket from a disk seeded at the office, make
-        the disk the Backup connection and add the bucket as a copy.
+        The source is always the main copy, the row tagged{" "}
+        <strong>main</strong>. To go the other way, fill a bucket from a disk
+        seeded at the office, make the disk the main copy and add the bucket
+        as another copy.
       </p>
 
       <h2 id="the-synced-folder-trap">The synced-folder trap</h2>
@@ -128,8 +132,8 @@ export default function BackupFolder() {
         deleted folder, a dead machine, a botched restore.
       </p>
       <p>
-        When you add a second place in Settings &gt; Copies you can tick{" "}
-        <strong>Never delete anything here</strong>, and the app then never
+        When you add another copy in Settings &gt; Backup you can tick{" "}
+        <strong>Never-delete copy</strong>, and the app then never
         sends it a delete. That is a promise the app keeps, not one the disk
         enforces:
         anything else on the machine can still erase the folder, and so can
@@ -152,7 +156,7 @@ export default function BackupFolder() {
 
       <h2 id="prove-it-works">Prove it works</h2>
       <p>
-        Open <strong>Settings &gt; Verification</strong>, go to{" "}
+        Open <strong>Settings &gt; Test backup</strong>, go to{" "}
         <strong>Test a recovery</strong>, type your recovery code and press{" "}
         <strong>Try a recovery now</strong>. It rebuilds the silo from the
         folder in a temporary directory, using only that code, and opens one

@@ -112,6 +112,15 @@ export function IconVault({ size = 20, className }: Props) {
   );
 }
 
+export function IconPhone({ size = 18, className }: Props) {
+  return (
+    <svg width={size} height={size} className={className} {...base}>
+      <rect x="6.4" y="2.8" width="11.2" height="18.4" rx="2.4" />
+      <path d="M10.6 17.8h2.8" />
+    </svg>
+  );
+}
+
 export function IconDownload({ size = 18, className }: Props) {
   return (
     <svg width={size} height={size} className={className} {...base}>

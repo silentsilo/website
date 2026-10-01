@@ -136,12 +136,12 @@ export default function BackupWebDav() {
       <h2 id="setting-it-up-in-the-app">Setting it up in the app</h2>
       <ol>
         <li>
-          Unlock the silo and open <strong>Settings &gt; Backup</strong>, or{" "}
-          <strong>Settings &gt; Copies</strong> and{" "}
-          <strong>Add another place</strong> if this is a second place.
+          Unlock the silo and open <strong>Settings &gt; Backup</strong>. If
+          this is a second copy, press <strong>Add another copy</strong> under
+          the list of copies on that page.
         </li>
         <li>
-          Choose <strong>WebDAV</strong>.
+          Choose <strong>Nextcloud or WebDAV</strong>.
         </li>
         <li>
           Fill in <strong>Address</strong>, <strong>Username</strong> and{" "}
@@ -151,11 +151,13 @@ export default function BackupWebDav() {
         <li>
           Press <strong>Test connection</strong>. The app writes a small
           file, reads it back and deletes it, so a pass means the credential
-          can really write rather than just log in.
+          can really write rather than just log in. A second copy has no
+          separate test: <strong>Add this copy</strong> writes to it before
+          saving.
         </li>
         <li>
           Press <strong>Save &amp; connect</strong>, or{" "}
-          <strong>Add this place</strong> for a second copy. The first pass
+          <strong>Add this copy</strong> for a second copy. The first pass
           runs in the background.
         </li>
       </ol>
@@ -191,14 +193,14 @@ export default function BackupWebDav() {
           separate guide
         </Link>
         , or a copy that is simply offline. Ticking{" "}
-        <strong>Never delete anything here</strong> when you add a second
-        place stops the app ever sending a delete, which is a promise the app
+        <strong>Never-delete copy</strong> when you add another copy stops
+        the app ever sending a delete, which is a promise the app
         keeps rather than one the server enforces.
       </p>
 
       <h2 id="prove-it-works">Prove it works</h2>
       <p>
-        Open <strong>Settings &gt; Verification</strong>, go to{" "}
+        Open <strong>Settings &gt; Test backup</strong>, go to{" "}
         <strong>Test a recovery</strong>, type your recovery code and press{" "}
         <strong>Try a recovery now</strong>: it rebuilds the silo from the
         server using only that code and opens one real file. Do it now rather

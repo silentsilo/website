@@ -27,9 +27,10 @@ export default function Principles() {
       <p>
         The app tracks nothing, and every kind of network request it can make
         is on the <a href="/privacy/">privacy page</a>: sync to storage you
-        configured, an update check at most once a day carrying the app
+        configured, with the provider&apos;s sign-in when that storage is
+        your OneDrive, Dropbox or Google Drive, an update check at most once a day carrying the app
         version and platform and nothing else, a breach check only when you
-        press its button, and site icons in Credentials, which are off until
+        press its button, and site icons in Passwords, which are off until
         you switch them on. The last two do nothing unless you ask, and the
         update check has an off switch in Settings. If a future version adds
         another kind, it goes on that list before it ships.

@@ -2,7 +2,20 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import {
+  ArrowCounterClockwise,
+  Browser,
+  CloudArrowUp,
+  Fingerprint,
+  FolderSimple,
+  Heartbeat,
+  Key,
+  Password,
+  Scroll,
+  Stack,
+} from "@phosphor-icons/react/dist/ssr";
 import { IconChevronLeft, IconChevronRight } from "./Icons";
+import { ThemedImg } from "./ThemedImg";
 
 /** Long enough to read the caption under the shot, which is the point of it. */
 const AUTOPLAY_MS = 6000;
@@ -15,7 +28,10 @@ const HANDHELD = "(hover: none), (max-width: 560px)";
 type Shot = {
   id: string;
   tab: string;
-  /** Path without the size: `-1200.webp` and `-2400.webp` both exist. */
+  /** A few words under the name in the list. */
+  hint: string;
+  icon: React.ReactNode;
+  /** Path without theme and size: `-light-1200.webp` and the like exist. */
   base: string;
   width: number;
   height: number;
@@ -32,7 +48,9 @@ const SHOTS: Shot[] = [
   {
     id: "files",
     tab: "Files",
-    base: "/shots/files-dark",
+    hint: "Encrypted names, drag and drop",
+    icon: <FolderSimple weight="duotone" />,
+    base: "/shots/files",
     width: 2400,
     height: 1600,
     alt: "The SilentSilo file explorer showing encrypted folders inside a silo",
@@ -41,18 +59,46 @@ const SHOTS: Shot[] = [
   },
   {
     id: "credentials",
-    tab: "Credentials",
-    base: "/shots/credentials-dark",
+    tab: "Passwords",
+    hint: "Logins, cards, codes, SSH keys",
+    icon: <Password weight="duotone" />,
+    base: "/shots/credentials",
     width: 2400,
     height: 1600,
-    alt: "The credentials view with a login selected, beside the list of items",
+    alt: "The passwords view with a login selected, beside the list of entries",
     caption:
       "Logins, cards, identities, SSH keys and notes in one place, with live TOTP codes, a generator, and CSV import from Bitwarden, LastPass, 1Password or Chrome.",
   },
   {
+    id: "health",
+    tab: "Health",
+    hint: "What needs a look",
+    icon: <Heartbeat weight="duotone" />,
+    base: "/shots/health",
+    width: 2400,
+    height: 1600,
+    alt: "The health page listing a reused password, old passwords, a login without two-factor and an untested backup",
+    caption:
+      "Reused and old passwords, logins with no second factor, and whether the backup was ever tested. The breach check runs only when you ask, and sends five characters of a hash.",
+  },
+  {
+    id: "fill",
+    tab: "Browser fill",
+    hint: "Confirmed in the app",
+    icon: <Browser weight="duotone" />,
+    base: "/shots/fill",
+    width: 2400,
+    height: 1600,
+    alt: "The app asking whether to fill the GitHub login on github.com in the browser",
+    caption:
+      "The extension asks, the app answers. Each fill names the site and the login, and the browser gets nothing until you confirm with Windows Hello or your key.",
+  },
+  {
     id: "unlock",
     tab: "Unlock",
-    base: "/shots/unlock-dark",
+    hint: "A key or Windows Hello",
+    icon: <Fingerprint weight="duotone" />,
+    base: "/shots/unlock",
     width: 2400,
     height: 1600,
     alt: "The unlock screen waiting for a security key to be touched",
@@ -60,9 +106,23 @@ const SHOTS: Shot[] = [
       "No master password to forget, and none for anyone else to take. A key you touch or a face Windows already knows, with a code on paper as the only way back.",
   },
   {
+    id: "keys",
+    tab: "Keys",
+    hint: "Add or retire a key",
+    icon: <Key weight="duotone" />,
+    base: "/shots/keys",
+    width: 2400,
+    height: 1600,
+    alt: "The unlocking settings listing a YubiKey and Windows Hello, with a form to add another key",
+    caption:
+      "Every key that opens the silo, by name. Add a YubiKey or Windows Hello, remove one you lost, and the files stay exactly as they are.",
+  },
+  {
     id: "silos",
     tab: "Silos",
-    base: "/shots/picker-dark",
+    hint: "Personal, family, work",
+    icon: <Stack weight="duotone" />,
+    base: "/shots/picker",
     width: 2400,
     height: 1600,
     alt: "The silo picker listing two silos",
@@ -72,17 +132,21 @@ const SHOTS: Shot[] = [
   {
     id: "backup",
     tab: "Backup",
-    base: "/shots/backup-dark",
+    hint: "Every copy and how current",
+    icon: <CloudArrowUp weight="duotone" />,
+    base: "/shots/backup",
     width: 2400,
     height: 1600,
-    alt: "The backup settings, connected to a folder, with sync controls",
+    alt: "The backup page, connected to a folder, with the list of copies below it",
     caption:
-      "Point it at a bucket, a share or a folder you already own. It says what has arrived and what is still waiting, and the provider holds nothing but ciphertext.",
+      "Point it at a bucket, a share or a folder you already own. It lists every copy and how current each one is, and everything is encrypted before it leaves.",
   },
   {
     id: "kit",
     tab: "Emergency kit",
-    base: "/shots/kit-dark",
+    hint: "One printed sheet",
+    icon: <Scroll weight="duotone" />,
+    base: "/shots/kit",
     width: 2400,
     height: 1600,
     alt: "The printable emergency kit, with the recovery code in boxes and the steps to follow",
@@ -92,22 +156,24 @@ const SHOTS: Shot[] = [
   {
     id: "restore",
     tab: "Restore",
-    base: "/shots/restore-dark",
+    hint: "A new computer, same silo",
+    icon: <ArrowCounterClockwise weight="duotone" />,
+    base: "/shots/restore",
     width: 2400,
     height: 1600,
-    alt: "Setting up a silo on a new computer from existing backup storage",
+    alt: "Setting up a silo on a new computer from a Google Drive account: signed in, with the silo folder listed",
     caption:
-      "A new machine rebuilds the silo from your own storage and a key you already hold. No account to recover.",
+      "A new machine finds the silo in your own storage, here a Google Drive, and opens it with a key you already hold. No account to recover.",
   },
 ];
 
-const srcSet = (s: Shot) => `${s.base}-1200.webp 1200w, ${s.base}-2400.webp 2400w`;
 
 export function Showcase() {
   const [active, setActive] = useState(0);
   const [zoomed, setZoomed] = useState(false);
   const [rotating, setRotating] = useState(true);
   const [reel, setReel] = useState(0);
+  const [onScreen, setOnScreen] = useState(false);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const zoomTriggerRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -145,33 +211,27 @@ export function Showcase() {
      spends bandwidth to arrive at a random tab by the time they scroll back. */
   useEffect(() => {
     const root = rootRef.current;
-    if (!rotating || !root) return;
-
-    let timer: number | undefined;
-    const stop = () => {
-      if (timer !== undefined) window.clearInterval(timer);
-      timer = undefined;
-    };
+    if (!root) return;
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          stop();
-          timer = window.setInterval(
-            () => setActive((i) => (i + 1) % SHOTS.length),
-            AUTOPLAY_MS,
-          );
-        } else {
-          stop();
-        }
-      },
+      ([entry]) => setOnScreen(!!entry?.isIntersecting),
       { threshold: 0.4 },
     );
     observer.observe(root);
-    return () => {
-      stop();
-      observer.disconnect();
-    };
-  }, [rotating]);
+    return () => observer.disconnect();
+  }, []);
+
+  const timed = rotating && onScreen;
+
+  /* Restarted on every change of shot, so the progress line and the wait
+     always start together. */
+  useEffect(() => {
+    if (!timed) return;
+    const timer = window.setTimeout(
+      () => setActive((i) => (i + 1) % SHOTS.length),
+      AUTOPLAY_MS,
+    );
+    return () => window.clearTimeout(timer);
+  }, [timed, active]);
 
   /* Only the active shot is in the DOM on the tabs layout, so without this
      the first pass through would blank between tabs while each one
@@ -180,7 +240,10 @@ export function Showcase() {
     if (window.matchMedia(HANDHELD).matches) return;
     for (const dir of [1, -1]) {
       const near = SHOTS[(active + dir + SHOTS.length) % SHOTS.length];
-      if (near) new Image().src = `${near.base}-1200.webp`;
+      if (near) {
+        const theme = document.documentElement.dataset.theme === "light" ? "light" : "dark";
+        new Image().src = `${near.base}-${theme}-1200.webp`;
+      }
     }
   }, [active]);
 
@@ -188,7 +251,11 @@ export function Showcase() {
      tabindex keeps a single Tab stop for the whole list. */
   const onTabKey = (e: React.KeyboardEvent, i: number) => {
     const dir =
-      e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      e.key === "ArrowDown" || e.key === "ArrowRight"
+        ? 1
+        : e.key === "ArrowUp" || e.key === "ArrowLeft"
+          ? -1
+          : 0;
     if (dir === 0) return;
     e.preventDefault();
     takeOver();
@@ -229,9 +296,9 @@ export function Showcase() {
 
   return (
     <div className="showcase" ref={rootRef}>
-      {/* Tabs and one large shot, from 560px up. */}
+      {/* The list of screens beside one large shot, from 560px up. */}
       <div className="showcase-tabbed">
-        <div className="tabs" role="tablist" aria-label="Screenshots">
+        <div className="tabs" role="tablist" aria-label="Screenshots" aria-orientation="vertical">
           {SHOTS.map((s, i) => (
             <button
               key={s.id}
@@ -251,7 +318,23 @@ export function Showcase() {
                 setActive(i);
               }}
             >
-              {s.tab}
+              <span className="tab-icon" aria-hidden>
+                {s.icon}
+              </span>
+              <span className="tab-text">
+                <span className="tab-name">{s.tab}</span>
+                <span className="tab-hint">{s.hint}</span>
+              </span>
+              {/* How long until the next one, while the list still turns
+                  by itself. */}
+              {i === active && timed && (
+                <span
+                  key={active}
+                  className="tab-progress"
+                  style={{ animationDuration: `${AUTOPLAY_MS}ms` }}
+                  aria-hidden
+                />
+              )}
             </button>
           ))}
         </div>
@@ -262,32 +345,38 @@ export function Showcase() {
           id={`shot-panel-${shot.id}`}
           aria-labelledby={`shot-tab-${shot.id}`}
         >
-          <button
-            type="button"
-            className="shot-frame shot-zoomable"
-            onClick={() => {
-              takeOver();
-              setZoomed(true);
-            }}
-            ref={zoomTriggerRef}
-            aria-label={`Enlarge the ${shot.tab.toLowerCase()} screenshot`}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              key={shot.base}
-              src={`${shot.base}-1200.webp`}
-              srcSet={srcSet(shot)}
-              sizes="(max-width: 820px) 92vw, 760px"
-              alt={shot.alt}
-              width={shot.width}
-              height={shot.height}
-              loading="lazy"
-              decoding="async"
-            />
-            <span className="zoom-hint" aria-hidden>
-              Click to enlarge
-            </span>
-          </button>
+          <div className="window shot-window">
+            <div className="window-bar" aria-hidden>
+              <span className="window-title">SilentSilo · {shot.tab}</span>
+              <span className="window-controls">
+                <i />
+                <i />
+                <i />
+              </span>
+            </div>
+            <button
+              type="button"
+              className="shot-frame shot-zoomable"
+              onClick={() => {
+                takeOver();
+                setZoomed(true);
+              }}
+              ref={zoomTriggerRef}
+              aria-label={`Enlarge the ${shot.tab.toLowerCase()} screenshot`}
+            >
+              <ThemedImg
+                key={shot.base}
+                base={shot.base}
+                sizes="(max-width: 960px) 92vw, 860px"
+                alt={shot.alt}
+                width={shot.width}
+                height={shot.height}
+              />
+              <span className="zoom-hint" aria-hidden>
+                Click to enlarge
+              </span>
+            </button>
+          </div>
           <figcaption>{shot.caption}</figcaption>
         </figure>
       </div>
@@ -315,16 +404,12 @@ export function Showcase() {
                 }}
                 aria-label={`Enlarge the ${s.tab.toLowerCase()} screenshot`}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`${s.base}-1200.webp`}
-                  srcSet={srcSet(s)}
+                <ThemedImg
+                  base={s.base}
                   sizes="100vw"
                   alt={s.alt}
                   width={s.width}
                   height={s.height}
-                  loading={i === 0 ? "eager" : "lazy"}
-                  decoding="async"
                 />
                 <span className="zoom-hint" aria-hidden>
                   Tap to enlarge
@@ -349,14 +434,14 @@ export function Showcase() {
           aria-label={shot.alt}
           onClick={() => setZoomed(false)}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={`${shot.base}-2400.webp`}
+          {/* The backdrop closes; the picture does not. Once there are
+              arrows to aim at, a miss should not throw the reader out. */}
+          <ThemedImg
+            base={shot.base}
+            large
             alt={shot.alt}
             width={shot.width}
             height={shot.height}
-            /* The backdrop closes; the picture does not. Once there are
-               arrows to aim at, a miss should not throw the reader out. */
             onClick={(e) => e.stopPropagation()}
           />
 

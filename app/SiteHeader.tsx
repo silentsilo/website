@@ -3,28 +3,25 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  IconBook,
-  IconClose,
-  IconCompass,
-  IconDownload,
-  IconEyeOff,
-  IconGitHub,
-  IconHelp,
-  IconMail,
-  IconMenu,
-  IconPerson,
-  IconShield,
-} from "./Icons";
-import { LATEST_INSTALLER, RELEASED, REPO } from "./links";
+import { DownloadButton } from "./DownloadButton";
+import { IconClose, IconGitHub, IconMail, IconMenu } from "./Icons";
+import { REPO } from "./links";
+import { ThemeToggle } from "./ThemeToggle";
 
-const links = [
-  { href: "/security/", label: "Security", Icon: IconShield },
-  { href: "/tutorials/", label: "Tutorials", Icon: IconBook },
-  { href: "/faq/", label: "Questions", Icon: IconHelp },
-  { href: "/privacy/", label: "Privacy", Icon: IconEyeOff },
-  { href: "/principles/", label: "Principles", Icon: IconCompass },
-  { href: "/who/", label: "Who", Icon: IconPerson },
+/** The bar: the four pages most visitors look for. */
+const MAIN = [
+  { href: "/tutorials/", label: "Tutorials" },
+  { href: "/security/", label: "Security" },
+  { href: "/faq/", label: "Questions" },
+  { href: "/privacy/", label: "Privacy" },
+];
+
+/** The menu on a phone: everything. */
+const ALL = [
+  ...MAIN,
+  { href: "/europe/", label: "In the EU" },
+  { href: "/principles/", label: "Principles" },
+  { href: "/who/", label: "Who makes this" },
 ];
 
 const FOCUSABLE = "a[href], button:not([disabled])";
@@ -37,43 +34,33 @@ export function SiteHeader() {
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 4);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* Closing hands focus back to the button that opened it, so a keyboard
-     user carries on from where they were rather than at the top of the
-     document. */
+  /* Closing hands focus back to the button that opened it. */
   const close = useCallback((refocus = true) => {
     setOpen(false);
     if (refocus) buttonRef.current?.focus();
   }, []);
 
-  /* A link inside the panel navigates without unmounting the header, so the
-     panel would stay open over the new page. */
+  /* A link inside the panel navigates without unmounting the header. */
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
-
-    /* The page behind a full-width panel should not scroll under it. */
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
-    /* The button is part of the loop: it is the way back out, and Tab
-       reaching the page behind the panel would leave focus somewhere the
-       reader cannot see. */
     const loop = () => {
       const panel = panelRef.current;
       const button = buttonRef.current;
       if (!panel || !button) return [] as HTMLElement[];
       return [button, ...panel.querySelectorAll<HTMLElement>(FOCUSABLE)];
     };
-
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
@@ -94,14 +81,12 @@ export function SiteHeader() {
         first.focus();
       }
     };
-
     const onDown = (e: PointerEvent) => {
       const target = e.target as Node;
       if (panelRef.current?.contains(target)) return;
       if (buttonRef.current?.contains(target)) return;
       close(false);
     };
-
     document.addEventListener("keydown", onKey);
     document.addEventListener("pointerdown", onDown);
     return () => {
@@ -113,59 +98,46 @@ export function SiteHeader() {
 
   return (
     <header className="site-header" data-scrolled={scrolled} data-open={open}>
-      <div className="wrap">
+      <div className="wrap header-row">
         <Link href="/" className="brand" aria-label="SilentSilo, home">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icon.svg" alt="" width={28} height={28} />
+          <img src="/icon.svg" alt="" width={26} height={26} />
           <span>SilentSilo</span>
         </Link>
 
-        {/* Above 900px: every page one click away, in its own pill. */}
         <nav className="site-nav" aria-label="Main">
-          <div className="nav-pill">
-            {links.map(({ href, label, Icon }) => {
-              /* Trailing slashes are on, so pathname matches href exactly. */
-              const active = pathname === href;
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  className="nav-link"
-                  data-active={active}
-                  aria-current={active ? "page" : undefined}
-                >
-                  <Icon size={16} />
-                  <span>{label}</span>
-                </Link>
-              );
-            })}
-          </div>
-          <a className="nav-github" href={REPO} aria-label="Source on GitHub">
-            <IconGitHub size={17} />
-            <span>GitHub</span>
-          </a>
+          {MAIN.map(({ href, label }) => {
+            const active = pathname.startsWith(href);
+            return (
+              <Link
+                key={href}
+                href={href}
+                className="nav-link"
+                data-active={active}
+                aria-current={pathname === href ? "page" : undefined}
+              >
+                {label}
+              </Link>
+            );
+          })}
         </nav>
 
-        {/* Below 900px: the one thing most visitors came for, and a labelled
-            way to everything else. Icons on their own were unreadable and
-            too small to hit. */}
-        <div className="nav-compact">
-          {RELEASED && (
-            <a className="nav-get" href={LATEST_INSTALLER}>
-              <IconDownload size={16} />
-              <span>Download</span>
-            </a>
-          )}
+        <div className="header-actions">
+          <ThemeToggle />
+          <a className="icon-btn header-gh" href={REPO} aria-label="Source on GitHub" title="Source on GitHub">
+            <IconGitHub size={18} />
+          </a>
+          <DownloadButton size="sm" />
           <button
             type="button"
-            className="nav-menu-btn"
+            className="icon-btn nav-menu-btn"
             ref={buttonRef}
             aria-expanded={open}
             aria-controls="site-menu"
+            aria-label={open ? "Close the menu" : "Open the menu"}
             onClick={() => (open ? close() : setOpen(true))}
           >
             {open ? <IconClose size={20} /> : <IconMenu size={20} />}
-            <span>Menu</span>
           </button>
         </div>
       </div>
@@ -174,7 +146,7 @@ export function SiteHeader() {
         <div className="site-menu" id="site-menu" ref={panelRef}>
           <div className="wrap">
             <nav aria-label="All pages">
-              {links.map(({ href, label, Icon }) => {
+              {ALL.map(({ href, label }) => {
                 const active = pathname === href;
                 return (
                   <Link
@@ -184,23 +156,18 @@ export function SiteHeader() {
                     data-active={active}
                     aria-current={active ? "page" : undefined}
                   >
-                    <Icon size={18} />
-                    <span>{label}</span>
+                    {label}
                   </Link>
                 );
               })}
             </nav>
             <a className="menu-row" href={REPO}>
               <IconGitHub size={18} />
-              <span>Source on GitHub</span>
+              Source on GitHub
             </a>
             <a className="menu-row" href="mailto:contact@silentsilo.com">
               <IconMail size={18} />
-              <span>contact@silentsilo.com</span>
-            </a>
-            <a className="menu-row" href="mailto:security@silentsilo.com">
-              <IconMail size={18} />
-              <span>security@silentsilo.com</span>
+              contact@silentsilo.com
             </a>
           </div>
         </div>

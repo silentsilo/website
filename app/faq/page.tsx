@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DOC_FORMATS, RELEASES } from "../links";
+import { DOC_FORMATS, PLAY_STORE, RELEASES } from "../links";
 
 export const metadata: Metadata = {
   title: "Questions",
   description:
-    "What happens if you lose the key, whether you have to buy anything, how to get files out without the app, and when Linux and macOS might happen.",
+    "What happens if you lose the key, whether you have to buy anything, how to get files out without the app, the Android app, and when Linux and macOS might happen.",
 };
 
 export default function Faq() {
@@ -21,16 +21,17 @@ export default function Faq() {
       <p>
         No. The app is free under AGPL-3.0, with every feature, for anyone,
         personal or company. There is no pro tier and no licence. Backup goes
-        to storage you already have: any S3-compatible bucket, a folder or
-        network share, WebDAV, or SFTP.
+        to storage you already have: your OneDrive, Dropbox or Google Drive,
+        any S3-compatible bucket, a folder or network share, WebDAV, or SFTP.
       </p>
 
       <h2>Do I need to buy a security key?</h2>
       <p>
         No. Windows Hello, meaning the fingerprint, face or PIN already set
-        up on your machine, unlocks a silo on its own. A FIDO2 key is worth
-        it if you want the same silo on several machines, because a key
-        travels and Hello is sealed to one computer.
+        up on your machine, unlocks a silo on its own, and so does the
+        fingerprint on an Android phone. A security key is worth it if you want
+        the same silo on several devices, because a key travels and Hello or
+        a phone&apos;s fingerprint is sealed to that one device.
       </p>
 
       <h2>Which security keys work?</h2>
@@ -45,7 +46,7 @@ export default function Faq() {
         only if its passkey provider offers the same extension, which is
         theirs to support or not and changes between versions. Rather than
         guess on your behalf, the app tries: a phone that cannot produce it
-        is refused at enrollment with a message saying exactly that. One
+        is refused at enrolment with a message saying exactly that. One
         thing to know
         before choosing a phone: that passkey syncs with the account behind
         it, so it is not pinned to one device the way a hardware key is, and
@@ -54,13 +55,14 @@ export default function Faq() {
 
       <h2>What if I lose my security key?</h2>
       <p>
-        Use another way in. You can enrol several keys, plus Windows Hello on
-        each machine you use, and any of them opens the silo. The recovery
-        code is the last one, which is why setup makes you write it down.
-        Once you are back in, remove the lost key, then change the
-        silo&apos;s encryption key in Settings. Removing a key alone does not
-        stop it working. On storage that keeps versions, only the key
-        change counts.
+        Use another way in. You can enrol several keys, plus Windows Hello or
+        the phone&apos;s fingerprint on each device you use, and any of them
+        opens the silo. The recovery
+        code is the last one, which is why setup asks you to write it down.
+        Once you are back in, remove the lost key, then use{" "}
+        <strong>Replace the encryption key</strong> in Settings &gt; Advanced.
+        Removing a key alone does not stop it working. On storage that keeps
+        versions, only replacing the encryption key counts.
       </p>
 
       <h2>What if I lose the key and the recovery code?</h2>
@@ -77,15 +79,28 @@ export default function Faq() {
         Yes. A release ships <code>silentsilo-extract</code>, a command-line
         tool that reads a backup and writes the files out with nothing but
         the folder and your recovery code, as separate binaries for Windows,
-        Linux and macOS. The format is documented in{" "}
+        Linux and macOS, <Link href="/#extract">downloadable here</Link>.
+        The format is documented in{" "}
         <a href={DOC_FORMATS}>FORMATS.md</a> as well, so the archive can be
         read from the specification even if both the app and the tool
         disappear.
       </p>
 
+      <h2>Is there a phone app?</h2>
+      <p>
+        On Android, yes: Android 12 or later, from{" "}
+        <a href={PLAY_STORE}>Google Play</a>. It opens the same silo as the
+        Windows app, from the same backup storage. It unlocks with the phone&apos;s
+        fingerprint or a security key over NFC or USB, fills logins in other
+        apps through Android autofill, and can back up photos, videos and
+        contacts, encrypted on the phone, once you turn that on. There is no
+        iOS version yet, and no date for one.
+      </p>
+
       <h2>Is there a Linux or macOS version?</h2>
       <p>
-        Not yet, and there is no date. The app is Windows only, and saying
+        Not yet, and there is no date. The app runs on Windows and Android,
+        and saying
         &quot;coming soon&quot; about something with no schedule would be
         worth less than the truth. What does run on all three is the
         extraction tool above, so choosing this today does not put your
@@ -94,7 +109,7 @@ export default function Faq() {
 
       <h2>Does it work without sync?</h2>
       <p>
-        Completely. A silo that never connects to storage is fully usable,
+        Completely. A silo that never connects to backup storage is fully usable,
         forever. Sync is something you switch on when you want a second
         machine or a backup, not a mode the app needs.
       </p>
@@ -103,8 +118,8 @@ export default function Faq() {
       <p>
         That is what the archive features are for. Point a silo at several
         destinations, including an external drive that is usually unplugged,
-        mark one of them append-only so the app can never delete from it,
-        and ask it to keep a full copy on the machine. The Copies panel then
+        make one of them a never-delete copy so the app can never delete from it,
+        and ask it to keep a full copy on the machine. Settings &gt; Backup then
         tells you how many complete copies actually exist and how far behind
         each one is.
       </p>

@@ -140,14 +140,14 @@ export default function ImmutableCopies() {
           current versions deletes the archive rather than the rubbish.
         </li>
         <li>
-          Add the bucket in SilentSilo as a second place: open{" "}
-          <strong>Settings &gt; Copies</strong>, press{" "}
-          <strong>Add another place</strong>, fill in the bucket and tick{" "}
-          <strong>Never delete anything here</strong>. The app then never
+          Add the bucket in SilentSilo as a second copy: open{" "}
+          <strong>Settings &gt; Backup</strong>, press{" "}
+          <strong>Add another copy</strong>, fill in the bucket and tick{" "}
+          <strong>Never-delete copy</strong>. The app then never
           sends a delete to it, so the two agree instead of the app being
-          refused all day. The box is only offered for a second place, not
-          for the connection on the Backup page, and that is the right
-          shape: the Backup connection is the one the app keeps tidy.
+          refused all day. The box is only offered for another copy, not
+          for the main one, and that is the right shape: the main copy is
+          the one the app keeps tidy.
         </li>
       </ol>
       <p>
@@ -181,14 +181,13 @@ export default function ImmutableCopies() {
         delete in the silo reaches the storage as a deletion only 30 days
         later, so even the ordinary copy keeps a deleted file for a month;
         the lock is for the case where the deletion did not come from you.
-        And the lock cuts both ways for keys: when you remove a security key
-        from the silo, the app deletes the small file that let that key open
-        it, and a locked bucket refuses that deletion like any other. A key
-        you have lost goes on opening the locked copy for as long as the
-        bucket keeps that file. The security keys page in Settings offers{" "}
-        <strong>Change the silo&apos;s encryption key</strong> for the copies
-        that accept overwrites; on a copy that never deletes, the old file
-        stays. Keep the window short, and keep your keys where you can find
+        And the lock cuts both ways for keys: when you remove a key from the
+        silo, the app deletes the small file that let that key open it, and
+        a locked bucket refuses that deletion like any other. A key you have
+        lost goes on opening the locked copy for as long as the bucket keeps
+        that file. Settings &gt; Advanced offers{" "}
+        <strong>Replace the encryption key</strong> for the copies that
+        accept overwrites; on a never-delete copy, the old file stays. Keep the window short, and keep your keys where you can find
         them.
       </p>
       <p className="notice">
@@ -240,8 +239,8 @@ export default function ImmutableCopies() {
       <h3>Burning a silo</h3>
       <ol>
         <li>
-          Add a <strong>plain folder</strong> on your hard disk as a second
-          place in <strong>Settings &gt; Copies</strong>, and let it fill
+          Add a <strong>plain folder</strong> on your hard disk as another
+          copy in <strong>Settings &gt; Backup</strong>, and let it fill
           completely. That folder is a full copy of the silo. Inside it you
           will find <code>vault.json</code>, <code>recovery.env</code>, a{" "}
           <code>keys/</code> folder, a <code>snapshots/</code> folder, an{" "}
@@ -340,7 +339,8 @@ export default function ImmutableCopies() {
         </li>
       </ol>
       <p>
-        Settings &gt; Copies shows when each place was last written to, which
+        The list of copies in Settings &gt; Backup shows when each one was
+        last written to, which
         is the fact that quietly tells you a drive has been unplugged since
         spring.
       </p>
