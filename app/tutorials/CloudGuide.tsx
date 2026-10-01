@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MoreGuides } from "./MoreGuides";
 
 /** What differs between OneDrive, Dropbox and Google Drive. Everything else
  *  in the guide is the same app flow, word for word as the app shows it. */
@@ -191,9 +192,7 @@ export function CloudGuide({ c }: { c: Cloud }) {
         </Link>
         .
       </p>
-      <p className="tut-back">
-        <Link href="/tutorials/">All tutorials</Link>
-      </p>
+      <MoreGuides />
     </main>
   );
 }

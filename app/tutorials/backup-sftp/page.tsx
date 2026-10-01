@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MoreGuides } from "../MoreGuides";
 
 export const metadata: Metadata = {
   title: "Back up over SFTP",
@@ -233,9 +234,7 @@ export default function BackupSftp() {
         real file, which exercises the whole chain rather than just the
         connection.
       </p>
-      <p className="tut-back">
-        <Link href="/tutorials/">All tutorials</Link>
-      </p>
+      <MoreGuides />
     </main>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MoreGuides } from "../MoreGuides";
 
 export const metadata: Metadata = {
   title: "Back up to kDrive",
@@ -127,9 +128,7 @@ export default function BackupKDrive() {
         <Link href="/tutorials/backup-webdav/">WebDAV guide</Link> covers the
         error numbers a WebDAV server can answer with.
       </p>
-      <p className="tut-back">
-        <Link href="/tutorials/">All tutorials</Link>
-      </p>
+      <MoreGuides />
     </main>
   );
 }

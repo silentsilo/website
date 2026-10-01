@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MoreGuides } from "../MoreGuides";
 
 export const metadata: Metadata = {
   title: "Back up over WebDAV",
@@ -206,9 +207,7 @@ export default function BackupWebDav() {
         server using only that code and opens one real file. Do it now rather
         than on the day your laptop dies.
       </p>
-      <p className="tut-back">
-        <Link href="/tutorials/">All tutorials</Link>
-      </p>
+      <MoreGuides />
     </main>
   );
 }

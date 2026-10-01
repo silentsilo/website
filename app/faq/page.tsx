@@ -79,7 +79,7 @@ export default function Faq() {
         Yes. A release ships <code>silentsilo-extract</code>, a command-line
         tool that reads a backup and writes the files out with nothing but
         the folder and your recovery code, as separate binaries for Windows,
-        Linux and macOS, <Link href="/#extract">downloadable here</Link>.
+        Linux and macOS, <Link href="/tutorials/get-files-out/">downloadable here</Link>.
         The format is documented in{" "}
         <a href={DOC_FORMATS}>FORMATS.md</a> as well, so the archive can be
         read from the specification even if both the app and the tool

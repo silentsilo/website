@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { EXTRACTORS } from "../../links";
+import { MoreGuides } from "../MoreGuides";
 
 export const metadata: Metadata = {
   title: "Get your files out without the app",
@@ -163,9 +164,7 @@ export default function GetFilesOut() {
         <Link href="/faq/">questions page</Link> says more about why the tool
         exists.
       </p>
-      <p className="tut-back">
-        <Link href="/tutorials/">All tutorials</Link>
-      </p>
+      <MoreGuides />
     </main>
   );
 }

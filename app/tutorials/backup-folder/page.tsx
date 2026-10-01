@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MoreGuides } from "../MoreGuides";
 
 export const metadata: Metadata = {
   title: "Back up to a folder, drive or network share",
@@ -164,9 +165,7 @@ export default function BackupFolder() {
         then unplug it and put it somewhere that is not the same building as
         your computer.
       </p>
-      <p className="tut-back">
-        <Link href="/tutorials/">All tutorials</Link>
-      </p>
+      <MoreGuides />
     </main>
   );
 }

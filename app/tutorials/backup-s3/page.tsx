@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { DOC_STORAGE } from "../../links";
+import { MoreGuides } from "../MoreGuides";
 
 export const metadata: Metadata = {
   title: "Back up to an S3 bucket",
@@ -381,9 +382,7 @@ export default function BackupS3() {
         lifecycle rule that can quietly delete an archive is in{" "}
         <a href={DOC_STORAGE}>STORAGE.md</a> in the repository.
       </p>
-      <p className="tut-back">
-        <Link href="/tutorials/">All tutorials</Link>
-      </p>
+      <MoreGuides />
     </main>
   );
 }

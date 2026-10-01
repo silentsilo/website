@@ -43,6 +43,7 @@ import {
   VIRUSTOTAL_SCANNED,
 } from "./links";
 import { AVAILABLE_NAMES, PLANNED, PLATFORMS, type Platform } from "./platforms";
+import { STORAGE_GUIDES } from "./tutorials/guides";
 
 /** How each answer reads for the person choosing: good, a cost, or neither. */
 type Tone = "good" | "bad" | "meh";
@@ -75,9 +76,8 @@ function CompareCell({ cell, label, mine = false }: { cell: Cell; label: string;
   );
 }
 
-/** Names only: whether the providers' own logos may be shown is a question
- *  for their brand rules, and the text says the same thing. */
-const STORAGE = ["OneDrive", "Dropbox", "Google Drive", "kDrive", "S3 bucket", "WebDAV", "SFTP", "A drive or NAS"];
+/** Names only: the providers' brand rules do not allow their logos here
+ *  without a licence, and the text says the same thing. */
 
 const SMALL_FEATURES: { icon: React.ReactNode; title: string; text: string }[] = [
   {
@@ -229,8 +229,10 @@ export default function Home() {
         <div className="wrap works-row">
           <span className="works-label">Sync and back up with</span>
           <ul>
-            {STORAGE.map((s) => (
-              <li key={s}>{s}</li>
+            {STORAGE_GUIDES.map((g) => (
+              <li key={g.href}>
+                <Link href={g.href}>{g.short}</Link>
+              </li>
             ))}
           </ul>
           <Link className="works-more" href="/tutorials/">
@@ -348,8 +350,8 @@ export default function Home() {
                 </p>
               </div>
               <ul className="mini mini-stores" aria-hidden>
-                {STORAGE.slice(0, 6).map((s) => (
-                  <li key={s}>{s}</li>
+                {STORAGE_GUIDES.slice(0, 6).map((g) => (
+                  <li key={g.href}>{g.short}</li>
                 ))}
               </ul>
             </article>
@@ -416,6 +418,10 @@ export default function Home() {
       </section>
 
       <section className="sec sec-alt" id="platforms">
+        {/* The old page had "What you need" at #needs, and links to it are
+            out there. A fragment never reaches the server, so the alias
+            lives here rather than in nginx. */}
+        <span id="needs" aria-hidden />
         <div className="wrap">
           <div className="sec-head">
             <p className="kicker">Get it</p>

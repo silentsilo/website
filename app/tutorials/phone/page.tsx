@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PLAY_STORE } from "../../links";
+import { MoreGuides } from "../MoreGuides";
 
 export const metadata: Metadata = {
   title: "SilentSilo on your phone",
@@ -163,9 +164,7 @@ export default function Phone() {
         apps view. A password copied from the app is cleared from the
         clipboard when the silo locks.
       </p>
-      <p className="tut-back">
-        <Link href="/tutorials/">All tutorials</Link>
-      </p>
+      <MoreGuides />
     </main>
   );
 }

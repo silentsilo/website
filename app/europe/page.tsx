@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MoreGuides } from "../tutorials/MoreGuides";
 
 export const metadata: Metadata = {
   title: "SilentSilo in the European Union",
@@ -290,9 +291,7 @@ export default function Europe() {
           code on paper somewhere other than the computer.
         </li>
       </ol>
-      <p className="tut-back">
-        <Link href="/tutorials/">All tutorials</Link>
-      </p>
+      <MoreGuides />
     </main>
   );
 }

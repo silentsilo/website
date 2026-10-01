@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { REPO } from "../../links";
+import { MoreGuides } from "../MoreGuides";
 
 export const metadata: Metadata = {
   title: "A copy nothing can erase",
@@ -350,9 +351,7 @@ export default function ImmutableCopies() {
         <a href={DOC_STORAGE}>docs/STORAGE.md</a>. The threat model behind all
         of it is on the <Link href="/security/">security page</Link>.
       </p>
-      <p className="tut-back">
-        <Link href="/tutorials/">All tutorials</Link>
-      </p>
+      <MoreGuides />
     </main>
   );
 }

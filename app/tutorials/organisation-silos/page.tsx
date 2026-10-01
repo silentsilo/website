@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { REPO } from "../../links";
+import { MoreGuides } from "../MoreGuides";
 
 export const metadata: Metadata = {
   title: "Silos for a team or a company",
@@ -222,9 +223,7 @@ export default function OrganisationSilos() {
         employee&apos;s side of the story is on the{" "}
         <Link href="/security/">security page</Link>.
       </p>
-      <p className="tut-back">
-        <Link href="/tutorials/">All tutorials</Link>
-      </p>
+      <MoreGuides />
     </main>
   );
 }

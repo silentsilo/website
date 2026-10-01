@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MoreGuides } from "../MoreGuides";
 
 export const metadata: Metadata = {
   title: "Fill logins in your browser",
@@ -119,9 +120,7 @@ export default function BrowserExtension() {
         logins itself through Android autofill: see the{" "}
         <Link href="/tutorials/phone/">phone guide</Link>.
       </p>
-      <p className="tut-back">
-        <Link href="/tutorials/">All tutorials</Link>
-      </p>
+      <MoreGuides />
     </main>
   );
 }

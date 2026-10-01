@@ -695,6 +695,15 @@ a:hover {
   letter-spacing: -0.01em;
 }
 
+.works-row li a {
+  color: inherit;
+}
+
+.works-row li a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
 .works-more {
   margin-left: auto;
   display: inline-flex;
@@ -2102,6 +2111,54 @@ main.prose::before {
   }
 }
 
+.more-guides {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.4rem 2rem;
+  margin: 3.2rem 0 0;
+  padding: 1.4rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-alt);
+}
+
+.more-guides ul {
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.prose .more-guides li + li {
+  margin-top: 0;
+}
+
+.more-guides ul a {
+  display: inline-block;
+  padding: 0.22rem 0;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.more-guides ul a:hover {
+  color: var(--accent);
+}
+
+.more-guides-all {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+  font-weight: 560;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 600px) {
+  .more-guides {
+    grid-template-columns: 1fr;
+  }
+}
+
 .tut-back {
   margin: 3rem 0 0;
   padding-top: 1.2rem;
@@ -2219,6 +2276,7 @@ code {
 
 .tut-card-icon {
   flex: none;
+  font-size: 1.25rem;
   width: 36px;
   height: 36px;
   border-radius: 10px;
