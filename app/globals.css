@@ -762,8 +762,39 @@ a:hover {
   max-width: 34rem;
 }
 
+.hero-stores {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 1rem;
+  margin: 1.3rem 0 0;
+  font-size: 0.86rem;
+}
+
+.hero-stores span {
+  color: var(--dim);
+}
+
+.hero-stores a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 560;
+  color: var(--muted);
+}
+
+.hero-stores a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.hero-stores svg {
+  font-size: 1.05rem;
+  color: var(--accent);
+}
+
 .hero-meta {
-  margin: 1.1rem 0 0;
+  margin: 0.6rem 0 0;
   font-size: 0.8rem;
   color: var(--dim);
 }

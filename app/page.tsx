@@ -18,6 +18,7 @@ import {
   LockKey,
   MinusCircle,
   Password,
+  PuzzlePiece,
   Scroll,
   ShieldCheck,
   Stack,
@@ -31,10 +32,12 @@ import { HowItWorks } from "./HowItWorks";
 import { Showcase } from "./Showcase";
 import { ThemedImg } from "./ThemedImg";
 import {
+  EXTENSION_STORES,
   INSTALLER_SHA256,
   LATEST_INSTALLER_NAME,
   LATEST_INSTALLER_SIG,
   LATEST_TAG,
+  PLAY_STORE,
   RELEASES,
   REPO,
   VIRUSTOTAL_DETECTIONS,
@@ -42,7 +45,8 @@ import {
   VIRUSTOTAL_REPORT,
   VIRUSTOTAL_SCANNED,
 } from "./links";
-import { AVAILABLE_NAMES, PLANNED, PLATFORMS, type Platform } from "./platforms";
+import { ExtensionStoreLink } from "./ExtensionStoreLink";
+import { PLANNED, PLATFORMS, type Platform } from "./platforms";
 import { STORAGE_GUIDES } from "./tutorials/guides";
 
 /** How each answer reads for the person choosing: good, a cost, or neither. */
@@ -180,8 +184,21 @@ export default function Home() {
                 <ArrowRight />
               </a>
             </div>
+            <p className="hero-stores">
+              <span>Also on</span>
+              <a href={PLAY_STORE}>
+                <DeviceMobile weight="duotone" />
+                Google Play
+              </a>
+              {EXTENSION_STORES.map((s) => (
+                <a key={s.id} href={s.href}>
+                  <PuzzlePiece weight="duotone" />
+                  {s.name}
+                </a>
+              ))}
+            </p>
             <p className="hero-meta">
-              {AVAILABLE_NAMES} now · {planned} planned · {LATEST_TAG}
+              {LATEST_TAG} · {planned} planned
             </p>
           </div>
 
@@ -442,7 +459,9 @@ export default function Home() {
                   </span>
                 </div>
                 <p>{p.detail}</p>
-                {p.action && (
+                {p.id === "extension" ? (
+                  <ExtensionStoreLink />
+                ) : p.action && (
                   <a className="plat-action" href={p.action.href}>
                     {p.action.label}
                     <ArrowRight />

@@ -67,6 +67,25 @@ export const PLAY_STORE =
   "https://play.google.com/store/apps/details?id=com.silentsilo.mobile";
 export const MOBILE_REPO = "https://github.com/silentsilo/mobile";
 
+/** The extension's store pages. Brave installs from the Chrome Web Store. */
+export const EXTENSION_STORES = [
+  {
+    id: "chrome",
+    name: "Chrome",
+    href: "https://chromewebstore.google.com/detail/silentsilo/aclndafepjjiljjfdlddckiledfjbbbn",
+  },
+  {
+    id: "firefox",
+    name: "Firefox",
+    href: "https://addons.mozilla.org/firefox/addon/silentsilo/",
+  },
+  {
+    id: "edge",
+    name: "Edge",
+    href: "https://microsoftedge.microsoft.com/addons/detail/hdooeejnpbnlcecjafbaffbgjlafkgpk",
+  },
+] as const;
+
 /** The update endpoint is public too, so claims about it can be read. */
 export const RELEASES_REPO = "https://github.com/silentsilo/releases";
 

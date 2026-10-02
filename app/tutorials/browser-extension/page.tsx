@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { EXTENSION_STORES } from "../../links";
 import { MoreGuides } from "../MoreGuides";
 
 export const metadata: Metadata = {
@@ -46,8 +47,15 @@ export default function BrowserExtension() {
           until you do.
         </li>
         <li>
-          Install it from the same page: <strong>Get it for Chrome</strong>,
-          Edge, Brave or Firefox.
+          Install it from the same page (<strong>Get it for Chrome</strong>
+          and the others), or straight from the store:{" "}
+          {EXTENSION_STORES.map((s, i) => (
+            <span key={s.id}>
+              {i > 0 && (i === EXTENSION_STORES.length - 1 ? " or " : ", ")}
+              <a href={s.href}>{s.name}</a>
+            </span>
+          ))}
+          . Brave installs from the Chrome Web Store.
         </li>
         <li>
           The silo needs a security key or Windows Hello under{" "}
