@@ -27,11 +27,15 @@ export default function Faq() {
 
       <h2>Do I need to buy a security key?</h2>
       <p>
-        No. Windows Hello, meaning the fingerprint, face or PIN already set
-        up on your machine, unlocks a silo on its own, and so does the
-        fingerprint on an Android phone. A security key is worth it if you want
-        the same silo on several devices, because a key travels and Hello or
-        a phone&apos;s fingerprint is sealed to that one device.
+        Not always. The fingerprint on an Android phone unlocks a silo on
+        its own. On Windows, Hello (the fingerprint, face or PIN already set
+        up on your machine) does too, on Windows 11 with the February 2026
+        update (build 26200.7840 or later) and a TPM. On Windows 10, an
+        older Windows 11 or a computer without a TPM, Hello cannot derive
+        the silo key: use a FIDO2 security key, or an Android phone as a
+        passkey over Bluetooth. A key is worth it anyway if you want the
+        same silo on several devices, because a key travels and Hello or a
+        phone&apos;s fingerprint is sealed to that one device.
       </p>
 
       <h2>Which security keys work?</h2>

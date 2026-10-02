@@ -19,7 +19,7 @@ export const PLATFORMS: Platform[] = [
     id: "windows",
     name: "Windows",
     available: true,
-    detail: "Windows 10 or 11, 64-bit. Unlocks with Windows Hello or a security key.",
+    detail: "Windows 10 or 11, 64-bit. Unlocks with a security key, or Windows Hello on an up-to-date Windows 11.",
     action: { label: "Download for Windows", href: LATEST_INSTALLER },
   },
   {
@@ -33,7 +33,7 @@ export const PLATFORMS: Platform[] = [
     id: "extension",
     name: "Browser extension",
     available: true,
-    detail: "Chrome, Edge and Brave, with Firefox soon. Fills logins through the Windows app.",
+    detail: "Chrome, Edge, Brave and Firefox. Fills logins through the Windows app.",
     action: { label: "How it works", href: "/tutorials/browser-extension/" },
   },
   {

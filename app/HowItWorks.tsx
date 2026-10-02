@@ -505,7 +505,7 @@ function Extension({
 }
 
 /** Where the extension can be installed today; the rest follow review. */
-const LIVE_BROWSERS = "Chrome · Edge · Brave";
+const LIVE_BROWSERS = "Chrome, Edge, Brave, Firefox";
 
 const DESC =
   "Each device encrypts on its own and writes to storage you choose: your OneDrive, Google Drive or Dropbox, an S3 " +
@@ -513,7 +513,7 @@ const DESC =
   "or passwords. A change made on one device is sealed there, stored, and pulled by every other device; there is no " +
   "SilentSilo server in between. You unlock with a security key or the device's biometrics, and a " +
   "recovery code on paper is the fallback. Windows and Android are available now, macOS, Linux and iOS are planned. " +
-  "The browser extension is available on Windows for Chrome, Edge and Brave, with Firefox soon, and comes with the macOS and Linux apps later: it fills passwords through the desktop app, never from storage.";
+  "The browser extension is available on Windows for Chrome, Edge, Brave and Firefox, and comes with the macOS and Linux apps later: it fills passwords through the desktop app, never from storage.";
 
 function Wide() {
   // Each live link both ways: up into the storage, and back down from it.

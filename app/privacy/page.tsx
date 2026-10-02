@@ -140,7 +140,7 @@ export default function Privacy() {
 
       <h2 id="browser-extension">The browser extension</h2>
       <p>
-        The SilentSilo extension for Chrome, Brave and Firefox works only
+        The SilentSilo extension for Chrome, Edge, Brave and Firefox works only
         with the SilentSilo app on the same computer, and only once you turn
         it on in the app. It makes no network requests and has no analytics.
       </p>

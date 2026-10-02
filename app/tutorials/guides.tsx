@@ -116,7 +116,7 @@ export const FURTHER: Guide[] = [
     title: "Fill logins in your browser",
     short: "In your browser",
     what:
-      "The extension for Chrome, Edge and Brave, with Firefox soon. Every fill is confirmed in the app.",
+      "The extension for Chrome, Edge, Brave and Firefox. Every fill is confirmed in the app.",
     meta: ["Windows app"],
     icon: <Browser weight="duotone" />,
   },

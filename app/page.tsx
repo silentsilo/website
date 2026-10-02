@@ -318,7 +318,7 @@ export default function Home() {
                 </span>
                 <h3>Fills your browser</h3>
                 <p>
-                  Chrome, Edge and Brave, after you confirm in the app. The
+                  Chrome, Edge, Brave and Firefox, after you confirm in the app. The
                   extension holds no passwords.
                 </p>
               </div>

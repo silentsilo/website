@@ -20,10 +20,10 @@ export const RELEASED = true;
  * the filename still carries the version, so update both with each tag.
  * Both are unused while `RELEASED` is false.
  */
-export const LATEST_TAG = "v1.2.2";
+export const LATEST_TAG = "v1.3.0";
 
 /** One string per release, everything else built from it. */
-export const LATEST_INSTALLER_NAME = "SilentSilo_1.2.2_x64-setup.exe";
+export const LATEST_INSTALLER_NAME = "SilentSilo_1.3.0_x64-setup.exe";
 export const LATEST_INSTALLER = `${REPO}/releases/latest/download/${LATEST_INSTALLER_NAME}`;
 
 /** The extraction tool, one binary per system, attached to every release.
@@ -53,11 +53,11 @@ export const LATEST_INSTALLER_SIG = `${LATEST_INSTALLER}.sig`;
  * each release; the report URL is built from the hash.
  */
 export const INSTALLER_SHA256 =
-  "a5876dfee89940f411ebc44aaa32de1474aa1db820fef4a523a9a65e21796d5c";
+  "9f6638d361aa797f2561d3df6e02143054643da8ebc645284d9f0749973c655d";
 export const VIRUSTOTAL_REPORT = `https://www.virustotal.com/gui/file/${INSTALLER_SHA256}`;
 export const VIRUSTOTAL_DETECTIONS: number = 0;
-export const VIRUSTOTAL_ENGINES = 69;
-export const VIRUSTOTAL_SCANNED = "29 September 2026";
+export const VIRUSTOTAL_ENGINES = 70;
+export const VIRUSTOTAL_SCANNED = "2 October 2026";
 
 /**
  * The Android app, on Google Play. The store delivers its updates, so there
