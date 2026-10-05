@@ -512,75 +512,67 @@ const DESC =
   "The browser extension is available on Windows for Chrome, Edge, Brave and Firefox, and comes with the macOS and Linux apps later: it fills passwords through the desktop app, never from storage.";
 
 function Wide() {
-  // A grid: computers on the left, phones on the right, rows at the same
-  // heights on both sides, the storage between. The extension heads the
-  // computer column and runs down it, reaching every desktop app and no
-  // phone. Each live link both ways: up into the storage, and back down.
-  const deskUp = "M300 286 C 345 286, 345 372, 390 372";
-  const toDesk = "M390 372 C 345 372, 345 286, 300 286";
-  const phoneUp = "M820 286 C 775 286, 775 372, 730 372";
-  const toPhone = "M730 372 C 775 372, 775 286, 820 286";
+  // Symmetric round the storage: the computers in a row above it, the
+  // phones on either side, the extension over the computer row only. Each
+  // live link both ways: into the storage, and back out of it.
+  const deskUp = "M290 308 C 290 334, 450 326, 450 350";
+  const toDesk = "M450 350 C 450 326, 290 334, 290 308";
+  const phoneUp = "M300 571 C 345 571, 345 571, 390 571";
+  const toPhone = "M390 571 C 345 571, 345 571, 300 571";
   return (
     <svg
       className="how-svg how-wide"
-      viewBox="0 0 1120 800"
+      viewBox="0 0 1120 920"
       role="img"
       aria-labelledby="how-title-w how-desc-w"
     >
       <title id="how-title-w">How SilentSilo works</title>
       <desc id="how-desc-w">{DESC}</desc>
-      <Defs id="w" from={[300, 286]} to={[390, 372]} from2={[820, 286]} to2={[730, 372]} />
+      <Defs id="w" from={[290, 308]} to={[450, 350]} from2={[300, 571]} to2={[390, 571]} />
       <style>{`.how-wide .how-hub-box{fill:url(#w-hub)} .how-wide .how-link.is-live{stroke:url(#w-link)} .how-wide .how-link.is-live.how-link-2{stroke:url(#w-link2)} .how-wide .how-halo{fill:url(#w-halo)}`}</style>
 
-      <ellipse className="how-halo" cx="560" cy="440" rx="430" ry="280" />
-      <ellipse className="how-orbit" cx="560" cy="440" rx="465" ry="240" />
+      <ellipse className="how-halo" cx="560" cy="571" rx="430" ry="280" />
+      <ellipse className="how-orbit" cx="560" cy="571" rx="465" ry="240" />
       <ellipse
         className="how-orbit how-orbit-inner"
         cx="560"
-        cy="440"
+        cy="571"
         rx="310"
         ry="190"
       />
 
       <FlowCaption cx={560} y={26} />
 
-      <text className="how-store-tag" x={50} y={212}>
-        Computers
-      </text>
-      <text className="how-store-tag" x={820} y={212}>
-        Phones
-      </text>
-
-      {/* The extension, down the computer column: live to Windows, coming to
-          Linux and macOS. */}
-      <path className="how-link is-live" d="M175 180 V 230" />
-      <path className="how-link is-planned" d="M175 342 V 380" />
-      <path className="how-link is-planned" d="M175 492 V 530" />
-      <Extension x={50} y={88} w={250} state="Available on Windows" browsers={LIVE_BROWSERS} live />
+      {/* The extension over the computer row: live to Windows, coming to
+          Linux and macOS, never to a phone. */}
+      <path className="how-link is-live" d="M560 162 V 180 H 290 V 196" />
+      <path className="how-link is-planned" d="M560 180 H 830 V 196" />
+      <path className="how-link is-planned" d="M560 180 V 196" />
+      <Extension x={435} y={70} w={250} state="Available on Windows" browsers={LIVE_BROWSERS} live />
 
       <path className="how-link is-live" d={deskUp} />
       <path className="how-link is-live how-link-2" d={phoneUp} />
-      <path className="how-link is-planned" d="M300 436 C 345 436, 345 452, 390 452" />
-      <path className="how-link is-planned" d="M300 586 C 345 586, 345 532, 390 532" />
-      <path className="how-link is-planned" d="M820 436 C 775 436, 775 452, 730 452" />
+      <path className="how-link is-planned" d="M560 308 V 350" />
+      <path className="how-link is-planned" d="M830 308 C 830 334, 670 326, 670 350" />
+      <path className="how-link is-planned" d="M820 571 H 730" />
 
-      <Hub x={390} y={216} w={340} />
+      <Hub x={390} y={350} w={340} />
 
-      <Device p={WINDOWS} x={50} y={230} w={250} h={112} />
-      <Device p={LINUX} x={50} y={380} w={250} h={112} />
-      <Device p={MACOS} x={50} y={530} w={250} h={112} />
-      <Device p={ANDROID} x={820} y={230} w={250} h={112} />
-      <Device p={IOS} x={820} y={380} w={250} h={112} />
-      <Arrive x={50} y={230} w={250} h={112} rx={20} leg="toDesk" />
-      <Arrive x={820} y={230} w={250} h={112} rx={20} leg="toPhone" />
+      <Device p={WINDOWS} x={165} y={196} w={250} h={112} />
+      <Device p={LINUX} x={435} y={196} w={250} h={112} />
+      <Device p={MACOS} x={705} y={196} w={250} h={112} />
+      <Device p={ANDROID} x={50} y={507} w={250} h={128} />
+      <Device p={IOS} x={820} y={507} w={250} h={128} />
+      <Arrive x={165} y={196} w={250} h={112} rx={20} leg="toDesk" />
+      <Arrive x={50} y={507} w={250} h={128} rx={20} leg="toPhone" />
 
       <Change path={phoneUp} leg="phoneUp" />
       <Change path={toDesk} leg="toDesk" />
       <Change path={deskUp} leg="deskUp" />
       <Change path={toPhone} leg="toPhone" />
 
-      <Sees x={560} y={704} anchor="middle" />
-      <Keys x={392} y={754} />
+      <Sees x={560} y={840} anchor="middle" />
+      <Keys x={392} y={888} />
     </svg>
   );
 }
