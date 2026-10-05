@@ -12,6 +12,8 @@
 type Platform = {
   name: string;
   state: string;
+  /** The state on the narrow cards of the tall drawing. */
+  short?: string;
   unlock: string;
   live: boolean;
   kind: "desktop" | "phone";
@@ -26,23 +28,17 @@ const WINDOWS: Platform = {
 };
 const MACOS: Platform = {
   name: "macOS",
-  state: "Planned",
+  state: "Coming soon",
+  short: "Soon",
   unlock: "Touch ID · security key",
   live: false,
   kind: "desktop",
 };
 const LINUX: Platform = {
   name: "Linux",
-  state: "Planned",
+  state: "Coming soon",
+  short: "Soon",
   unlock: "Security key",
-  live: false,
-  kind: "desktop",
-};
-/** macOS and Linux share one card in the wide drawing: they debut together. */
-const MAC_LINUX: Platform = {
-  name: "macOS · Linux",
-  state: "Planned",
-  unlock: "Security key · Touch ID on Mac",
   live: false,
   kind: "desktop",
 };
@@ -512,79 +508,79 @@ const DESC =
   "bucket, WebDAV, an SFTP server or a folder. The storage holds only encrypted objects; it sees sizes, times, key labels, content hashes and the silo folder's name, never your file names, contents " +
   "or passwords. A change made on one device is sealed there, stored, and pulled by every other device; there is no " +
   "SilentSilo server in between. You unlock with a security key or the device's biometrics, and a " +
-  "recovery code on paper is the fallback. Windows and Android are available now, macOS, Linux and iOS are planned. " +
+  "recovery code on paper is the fallback. Windows and Android are available now, Linux and then macOS are coming soon, and iOS is planned. " +
   "The browser extension is available on Windows for Chrome, Edge, Brave and Firefox, and comes with the macOS and Linux apps later: it fills passwords through the desktop app, never from storage.";
 
 function Wide() {
-  // Each live link both ways: up into the storage, and back down from it.
-  const deskUp = "M300 182 C 345 182, 345 262, 390 262";
-  const toDesk = "M390 262 C 345 262, 345 182, 300 182";
-  const phoneUp = "M300 418 C 345 418, 345 338, 390 338";
-  const toPhone = "M390 338 C 345 338, 345 418, 300 418";
+  // A grid: computers on the left, phones on the right, rows at the same
+  // heights on both sides, the storage between. The extension heads the
+  // computer column and runs down it, reaching every desktop app and no
+  // phone. Each live link both ways: up into the storage, and back down.
+  const deskUp = "M300 286 C 345 286, 345 372, 390 372";
+  const toDesk = "M390 372 C 345 372, 345 286, 300 286";
+  const phoneUp = "M820 286 C 775 286, 775 372, 730 372";
+  const toPhone = "M730 372 C 775 372, 775 286, 820 286";
   return (
     <svg
       className="how-svg how-wide"
-      viewBox="0 0 1120 698"
+      viewBox="0 0 1120 800"
       role="img"
       aria-labelledby="how-title-w how-desc-w"
     >
       <title id="how-title-w">How SilentSilo works</title>
       <desc id="how-desc-w">{DESC}</desc>
-      <Defs id="w" from={[300, 182]} to={[390, 262]} from2={[300, 418]} to2={[390, 338]} />
+      <Defs id="w" from={[300, 286]} to={[390, 372]} from2={[820, 286]} to2={[730, 372]} />
       <style>{`.how-wide .how-hub-box{fill:url(#w-hub)} .how-wide .how-link.is-live{stroke:url(#w-link)} .how-wide .how-link.is-live.how-link-2{stroke:url(#w-link2)} .how-wide .how-halo{fill:url(#w-halo)}`}</style>
 
-      <ellipse className="how-halo" cx="560" cy="320" rx="430" ry="280" />
-      <ellipse className="how-orbit" cx="560" cy="320" rx="465" ry="240" />
+      <ellipse className="how-halo" cx="560" cy="440" rx="430" ry="280" />
+      <ellipse className="how-orbit" cx="560" cy="440" rx="465" ry="240" />
       <ellipse
         className="how-orbit how-orbit-inner"
         cx="560"
-        cy="320"
+        cy="440"
         rx="310"
         ry="190"
       />
 
-      <FlowCaption cx={560} y={38} />
+      <FlowCaption cx={560} y={26} />
+
+      <text className="how-store-tag" x={50} y={212}>
+        Computers
+      </text>
+      <text className="how-store-tag" x={820} y={212}>
+        Phones
+      </text>
+
+      {/* The extension, down the computer column: live to Windows, coming to
+          Linux and macOS. */}
+      <path className="how-link is-live" d="M175 180 V 230" />
+      <path className="how-link is-planned" d="M175 342 V 380" />
+      <path className="how-link is-planned" d="M175 492 V 530" />
+      <Extension x={50} y={88} w={250} state="Available on Windows" browsers={LIVE_BROWSERS} live />
 
       <path className="how-link is-live" d={deskUp} />
       <path className="how-link is-live how-link-2" d={phoneUp} />
-      <path
-        className="how-link is-planned"
-        d="M820 182 C 775 182, 775 262, 730 262"
-      />
-      <path
-        className="how-link is-planned"
-        d="M820 418 C 775 418, 775 338, 730 338"
-      />
+      <path className="how-link is-planned" d="M300 436 C 345 436, 345 452, 390 452" />
+      <path className="how-link is-planned" d="M300 586 C 345 586, 345 532, 390 532" />
+      <path className="how-link is-planned" d="M820 436 C 775 436, 775 452, 730 452" />
 
-      <Hub x={390} y={96} w={340} />
+      <Hub x={390} y={216} w={340} />
 
-      <Extension x={50} y={8} w={250} state="Available on Windows" browsers={LIVE_BROWSERS} live />
-      <path className="how-link is-live" d="M175 100 V 118" />
-      <Extension x={820} y={8} w={250} state="Planned, with Mac and Linux" />
-      <path className="how-link is-planned" d="M945 100 V 118" />
-      <Device p={WINDOWS} x={50} y={118} w={250} h={128} />
-      <Device p={ANDROID} x={50} y={354} w={250} h={128} />
-      <Device p={MAC_LINUX} x={820} y={118} w={250} h={128} />
-      <Device p={IOS} x={820} y={354} w={250} h={128} />
-      <Arrive x={50} y={118} w={250} h={128} rx={20} leg="toDesk" />
-      <Arrive x={50} y={354} w={250} h={128} rx={20} leg="toPhone" />
+      <Device p={WINDOWS} x={50} y={230} w={250} h={112} />
+      <Device p={LINUX} x={50} y={380} w={250} h={112} />
+      <Device p={MACOS} x={50} y={530} w={250} h={112} />
+      <Device p={ANDROID} x={820} y={230} w={250} h={112} />
+      <Device p={IOS} x={820} y={380} w={250} h={112} />
+      <Arrive x={50} y={230} w={250} h={112} rx={20} leg="toDesk" />
+      <Arrive x={820} y={230} w={250} h={112} rx={20} leg="toPhone" />
 
       <Change path={phoneUp} leg="phoneUp" />
       <Change path={toDesk} leg="toDesk" />
       <Change path={deskUp} leg="deskUp" />
       <Change path={toPhone} leg="toPhone" />
 
-      <text
-        className="how-caption how-caption-live"
-        x={175}
-        y={278}
-        textAnchor="middle"
-      >
-        Encrypted before it leaves
-      </text>
-
-      <Sees x={560} y={592} anchor="middle" />
-      <Keys x={392} y={644} />
+      <Sees x={560} y={704} anchor="middle" />
+      <Keys x={392} y={754} />
     </svg>
   );
 }
@@ -595,8 +591,9 @@ function Tall() {
   const toDesk = "M200 222 V 150";
   const top = 222 + HUB_H;
   const cards = top + 72;
-  const phoneUp = `M52 ${cards} C 52 ${cards - 32}, 90 ${cards - 32}, 90 ${top}`;
-  const toPhone = `M90 ${top} C 90 ${cards - 32}, 52 ${cards - 32}, 52 ${cards}`;
+  // The row under it: computers first, then phones; Android is the live one.
+  const phoneUp = `M249 ${cards} C 249 ${cards - 32}, 235 ${cards - 32}, 235 ${top}`;
+  const toPhone = `M235 ${top} C 235 ${cards - 32}, 249 ${cards - 32}, 249 ${cards}`;
   return (
     <svg
       className="how-svg how-tall"
@@ -606,7 +603,7 @@ function Tall() {
     >
       <title id="how-title-t">How SilentSilo works</title>
       <desc id="how-desc-t">{DESC}</desc>
-      <Defs id="t" from={[200, 150]} to={[200, 222]} from2={[52, cards]} to2={[90, top]} />
+      <Defs id="t" from={[200, 150]} to={[200, 222]} from2={[249, cards]} to2={[235, top]} />
       <style>{`.how-tall .how-hub-box{fill:url(#t-hub)} .how-tall .how-link.is-live{stroke:url(#t-link)} .how-tall .how-link.is-live.how-link-2{stroke:url(#t-link2)} .how-tall .how-halo{fill:url(#t-halo)}`}</style>
 
       <FlowCaption cx={200} y={18} />
@@ -626,15 +623,15 @@ function Tall() {
         <Hub x={40} y={222} w={320} />
 
         <path className="how-link is-live how-link-2" d={phoneUp} />
+        <path className="how-link is-planned" d={`M90 ${top} C 90 ${cards - 32}, 52 ${cards - 32}, 52 ${cards}`} />
         <path className="how-link is-planned" d={`M165 ${top} C 165 ${cards - 32}, 151 ${cards - 32}, 151 ${cards}`} />
-        <path className="how-link is-planned" d={`M235 ${top} C 235 ${cards - 32}, 249 ${cards - 32}, 249 ${cards}`} />
         <path className="how-link is-planned" d={`M310 ${top} C 310 ${cards - 32}, 348 ${cards - 32}, 348 ${cards}`} />
 
         <g>
           {[
-            { p: ANDROID, cx: 52 },
+            { p: LINUX, cx: 52 },
             { p: MACOS, cx: 151 },
-            { p: LINUX, cx: 249 },
+            { p: ANDROID, cx: 249 },
             { p: IOS, cx: 348 },
           ].map(({ p, cx }) => (
             <g
@@ -660,13 +657,13 @@ function Tall() {
               </text>
               {/* "Available now" is wider than a 92-unit card. */}
               <text className="how-state" x={cx} y={cards + 93} textAnchor="middle">
-                {p.live ? "Available" : p.state}
+                {p.live ? "Available" : (p.short ?? p.state)}
               </text>
             </g>
           ))}
         </g>
         <Arrive x={70} y={22} w={260} h={128} rx={20} leg="toDesk" />
-        <Arrive x={6} y={cards} w={92} h={104} rx={18} leg="toPhone" />
+        <Arrive x={203} y={cards} w={92} h={104} rx={18} leg="toPhone" />
 
         <Change path={phoneUp} leg="phoneUp" />
         <Change path={toDesk} leg="toDesk" />

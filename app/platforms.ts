@@ -9,6 +9,8 @@ export type Platform = {
   id: "windows" | "android" | "extension" | "macos" | "ios" | "linux";
   name: string;
   available: boolean;
+  /** Not out yet, but next: shown as "Coming soon" rather than "Planned". */
+  soon?: boolean;
   /** What it needs and how it unlocks, in one line. */
   detail: string;
   action?: { label: string; href: string };
@@ -37,10 +39,18 @@ export const PLATFORMS: Platform[] = [
     action: { label: "How it works", href: "/tutorials/browser-extension/" },
   },
   {
+    id: "linux",
+    name: "Linux",
+    available: false,
+    soon: true,
+    detail: "A security key. Coming soon.",
+  },
+  {
     id: "macos",
     name: "macOS",
     available: false,
-    detail: "Touch ID or a security key. Planned, no date yet.",
+    soon: true,
+    detail: "Touch ID or a security key. Coming soon, after Linux.",
   },
   {
     id: "ios",
@@ -48,16 +58,11 @@ export const PLATFORMS: Platform[] = [
     available: false,
     detail: "Face ID or a security key. Planned, no date yet.",
   },
-  {
-    id: "linux",
-    name: "Linux",
-    available: false,
-    detail: "A security key. Planned, no date yet.",
-  },
 ];
 
 export const AVAILABLE = PLATFORMS.filter((p) => p.available && p.id !== "extension");
-export const PLANNED = PLATFORMS.filter((p) => !p.available);
+export const SOON = PLATFORMS.filter((p) => !p.available && p.soon);
+export const PLANNED = PLATFORMS.filter((p) => !p.available && !p.soon);
 
 /** "Windows and Android", for sentences. */
 export const AVAILABLE_NAMES = AVAILABLE.map((p) => p.name).join(" and ");

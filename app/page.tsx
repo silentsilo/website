@@ -46,7 +46,7 @@ import {
   VIRUSTOTAL_SCANNED,
 } from "./links";
 import { ExtensionStoreLink } from "./ExtensionStoreLink";
-import { PLANNED, PLATFORMS, type Platform } from "./platforms";
+import { PLANNED, PLATFORMS, SOON, type Platform } from "./platforms";
 import { STORAGE_GUIDES } from "./tutorials/guides";
 
 /** How each answer reads for the person choosing: good, a cost, or neither. */
@@ -157,7 +157,8 @@ const PLATFORM_ICON: Record<Platform["id"], React.ReactNode> = {
 };
 
 export default function Home() {
-  const planned = PLANNED.map((p) => p.name).join(", ").replace(/, ([^,]*)$/, " and $1");
+  const names = (list: Platform[]) =>
+    list.map((p) => p.name).join(", ").replace(/, ([^,]*)$/, " and $1");
   return (
     <main id="main">
       <section className="hero">
@@ -198,7 +199,7 @@ export default function Home() {
               ))}
             </p>
             <p className="hero-meta">
-              {LATEST_TAG} · {planned} planned
+              {LATEST_TAG} · {names(SOON)} coming soon · {names(PLANNED)} planned
             </p>
           </div>
 
@@ -445,7 +446,7 @@ export default function Home() {
             <h2>On your computer and your phone</h2>
             <p>
               Every device opens the same silo from the same storage. Platforms
-              that are not out yet say so, with no date until there is one.
+              that are not out yet say so: coming soon, or planned with no date.
             </p>
           </div>
           <div className="plat-grid">
@@ -455,7 +456,7 @@ export default function Home() {
                   <span className="plat-icon">{PLATFORM_ICON[p.id]}</span>
                   <h3>{p.name}</h3>
                   <span className={`plat-status${p.available ? " is-live" : ""}`}>
-                    {p.available ? "Available" : "Planned"}
+                    {p.available ? "Available" : p.soon ? "Coming soon" : "Planned"}
                   </span>
                 </div>
                 <p>{p.detail}</p>

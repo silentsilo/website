@@ -103,10 +103,8 @@ export default function Faq() {
 
       <h2>Is there a Linux or macOS version?</h2>
       <p>
-        Not yet, and there is no date. The app runs on Windows and Android,
-        and saying
-        &quot;coming soon&quot; about something with no schedule would be
-        worth less than the truth. What does run on all three is the
+        Not yet. Both are coming soon: Linux first, then macOS. The app runs
+        on Windows and Android today. What already runs on all three is the
         extraction tool above, so choosing this today does not put your
         files on one operating system for good.
       </p>
