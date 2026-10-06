@@ -547,7 +547,7 @@ function Wide() {
       <path className="how-link is-live" d="M560 162 V 180 H 290 V 196" />
       <path className="how-link is-planned" d="M560 180 H 830 V 196" />
       <path className="how-link is-live" d="M560 180 V 196" />
-      <Extension x={435} y={70} w={250} state="Available on Windows and Linux" browsers={LIVE_BROWSERS} live />
+      <Extension x={435} y={70} w={250} state="On Windows and Linux" browsers={LIVE_BROWSERS} live />
 
       <path className="how-link is-live" d={deskUp} />
       <path className="how-link is-live how-link-2" d={phoneUp} />
@@ -598,7 +598,7 @@ function Tall() {
       <style>{`.how-tall .how-hub-box{fill:url(#t-hub)} .how-tall .how-link.is-live{stroke:url(#t-link)} .how-tall .how-link.is-live.how-link-2{stroke:url(#t-link2)} .how-tall .how-halo{fill:url(#t-halo)}`}</style>
 
       <FlowCaption cx={200} y={18} />
-      <Extension x={70} y={62} w={260} state="Available on Windows and Linux" browsers={LIVE_BROWSERS} live />
+      <Extension x={70} y={62} w={260} state="On Windows and Linux" browsers={LIVE_BROWSERS} live />
       <path className="how-link is-live" d="M200 154 V 196" />
       <g transform="translate(0 174)">
         {/* Inside the viewBox: the drawing runs to the edge of a phone
