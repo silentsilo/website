@@ -19,6 +19,8 @@ const PAGES = [
   "tutorials/phone",
   "tutorials/browser-extension",
   "tutorials/get-files-out",
+  "tutorials/unlock-without-a-key",
+  "tutorials/ssh-agent",
   "tutorials/from-keepass",
   "tutorials/from-bitwarden",
   "tutorials/from-1password",

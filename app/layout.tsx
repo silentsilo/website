@@ -107,7 +107,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                       empty, so the word was a promise the link could not
                       keep. */}
                   {RELEASED ? (
-                    <a href={RELEASES}>Download for Windows</a>
+                    <a href={RELEASES}>Download for Windows and Linux</a>
                   ) : (
                     <a href={REPO}>Source</a>
                   )}

@@ -6,7 +6,7 @@ import { MoreGuides } from "../MoreGuides";
 export const metadata: Metadata = {
   title: "Fill logins in your browser",
   description:
-    "The SilentSilo extension for Chrome, Edge, Brave and Firefox: turning it on, filling a login, why every fill is confirmed in the app, and what it refuses.",
+    "The SilentSilo extension for Chrome, Edge, Brave and Firefox: turning it on, filling a login, saving one from the page, why every fill is confirmed in the app, and what it refuses.",
 };
 
 export default function BrowserExtension() {
@@ -30,6 +30,9 @@ export default function BrowserExtension() {
             <a href="#fill-a-login">Fill a login</a>
           </li>
           <li>
+            <a href="#save-a-login">Save a login</a>
+          </li>
+          <li>
             <a href="#what-it-refuses">What it refuses</a>
           </li>
           <li>
@@ -41,7 +44,7 @@ export default function BrowserExtension() {
       <h2 id="turn-it-on">Turn it on</h2>
       <ol>
         <li>
-          In SilentSilo on Windows, open{" "}
+          In SilentSilo on Windows or Linux, open{" "}
           <strong>Settings &gt; Browser extension</strong> and tick{" "}
           <strong>Allow the SilentSilo browser extension</strong>. It is off
           until you do.
@@ -58,11 +61,17 @@ export default function BrowserExtension() {
           . Brave installs from the Chrome Web Store.
         </li>
         <li>
-          The silo needs a security key or Windows Hello under{" "}
+          The silo needs a security key, or Windows Hello on Windows, under{" "}
           <strong>Unlocking</strong>: every fill is confirmed with one, so a
           silo with neither cannot fill anything.
         </li>
       </ol>
+      <p>
+        On Linux, turning it on also tells Chrome, Chromium, Edge, Brave and
+        Firefox where SilentSilo is, in your home folder; turning it off
+        takes that away again. Firefox installed as a snap finds it as
+        well.
+      </p>
 
       <h2 id="fill-a-login">Fill a login</h2>
       <ol>
@@ -74,7 +83,7 @@ export default function BrowserExtension() {
         <li>
           Click one. SilentSilo comes to the front with{" "}
           <strong>Fill a login in your browser?</strong>, naming the site and
-          the login. Press <strong>Fill</strong>, then touch your key or use
+          the login. Press <strong>Fill</strong>, then touch your key, or use
           Windows Hello.
         </li>
         <li>
@@ -88,6 +97,33 @@ export default function BrowserExtension() {
         the dialog is there to catch. Under{" "}
         <strong>Settings &gt; Browser extension</strong> the app lists what
         it filled since it started, while the silo is open.
+      </p>
+
+      <h2 id="save-a-login">Save a login</h2>
+      <ol>
+        <li>
+          On a site&apos;s login page, type your username and password, and
+          do not sign in yet.
+        </li>
+        <li>
+          Click the SilentSilo button, then{" "}
+          <strong>Save this login in SilentSilo</strong>.
+        </li>
+        <li>
+          SilentSilo comes to the front with{" "}
+          <strong>Save a login from your browser?</strong>. Change the name
+          or the username if you like and press <strong>Save</strong>. When
+          a login for that site and username is already in the silo, it
+          offers <strong>Update</strong> instead, and the old password stays
+          in that entry&apos;s history.
+        </li>
+        <li>Sign in on the page as usual.</li>
+      </ol>
+      <p>
+        The extension reads the two fields only when you click, and keeps
+        nothing. It does not watch pages or offer to save on its own, so the
+        click comes before you sign in. Saving needs SilentSilo 1.4 or later
+        and version 0.2 of the extension.
       </p>
 
       <h2 id="what-it-refuses">What it refuses</h2>
@@ -124,7 +160,7 @@ export default function BrowserExtension() {
         find the app at all; install it, or run its installer again.
       </p>
       <p>
-        The extension is for SilentSilo on Windows. On Android, the app fills
+        The extension is for SilentSilo on Windows and Linux. On Android, the app fills
         logins itself through Android autofill: see the{" "}
         <Link href="/tutorials/phone/">phone guide</Link>.
       </p>

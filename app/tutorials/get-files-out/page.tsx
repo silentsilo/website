@@ -35,6 +35,9 @@ export default function GetFilesOut() {
           <li>
             <a href="#the-passwords">The passwords</a>
           </li>
+          <li>
+            <a href="#the-activity-log">The activity log</a>
+          </li>
         </ol>
       </nav>
 
@@ -156,6 +159,20 @@ export default function GetFilesOut() {
         <code>_passwords/passwords.csv</code> and, whole, with passkeys and
         cards, to <code>_passwords/entries.json</code>. Both are plain text.
         Import them into a password manager, then delete both files.
+      </p>
+
+      <h2 id="the-activity-log">The activity log</h2>
+      <p>
+        When the silo keeps an activity log, the tool writes it too, to{" "}
+        <code>_activity/activity-log.csv</code> and{" "}
+        <code>_activity/activity-log.jsonl</code>, newest first, and{" "}
+        <code>list</code> says how many events it holds. Records missing from
+        a device&apos;s run are named, as in the app.
+      </p>
+      <p>
+        An organisation&apos;s log is the exception. Only the
+        organisation&apos;s security keys open it, in the app, so the tool
+        says the silo keeps one and leaves it alone.
       </p>
       <p>
         Try this once now, on a copy, rather than on the day you need it. The

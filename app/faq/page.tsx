@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DOC_FORMATS, PLAY_STORE, RELEASES } from "../links";
+import { DOC_FORMATS, LATEST_RELEASE, PLAY_STORE, RELEASES } from "../links";
 
 export const metadata: Metadata = {
   title: "Questions",
@@ -94,7 +94,7 @@ export default function Faq() {
       <p>
         On Android, yes: Android 12 or later, from{" "}
         <a href={PLAY_STORE}>Google Play</a>. It opens the same silo as the
-        Windows app, from the same backup storage. It unlocks with the phone&apos;s
+        desktop app, from the same backup storage. It unlocks with the phone&apos;s
         fingerprint or a security key over NFC or USB, fills logins in other
         apps through Android autofill, and can back up photos, videos and
         contacts, encrypted on the phone, once you turn that on. There is no
@@ -103,10 +103,13 @@ export default function Faq() {
 
       <h2>Is there a Linux or macOS version?</h2>
       <p>
-        Not yet. Both are coming soon: Linux first, then macOS. The app runs
-        on Windows and Android today. What already runs on all three is the
-        extraction tool above, so choosing this today does not put your
-        files on one operating system for good.
+        Linux, yes: a .deb for Debian and Ubuntu and an AppImage for the
+        others, on the <a href={LATEST_RELEASE}>release page</a>. It unlocks
+        with a security key; Linux has no built-in equivalent of Windows
+        Hello the app can use. The browser extension works with it too.
+        macOS is coming soon. The extraction tool above already runs on all
+        three, so choosing this today does not put your files on one
+        operating system for good.
       </p>
 
       <h2>Does it work without sync?</h2>

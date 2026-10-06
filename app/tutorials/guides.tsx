@@ -5,6 +5,7 @@ import {
   Database,
   DeviceMobile,
   DownloadSimple,
+  Fingerprint,
   HardDrive,
   HardDrives,
   LockKey,
@@ -70,7 +71,7 @@ export const BACKUP: Guide[] = [
     short: "A drive or NAS",
     what:
       "An external disk, a NAS share, or a folder your cloud client already syncs. Nothing to sign up for.",
-    meta: ["No account", "5 minutes", "Windows app"],
+    meta: ["No account", "5 minutes", "Desktop app"],
     icon: <HardDrive weight="duotone" />,
   },
   {
@@ -117,9 +118,27 @@ export const FURTHER: Guide[] = [
     title: "Fill logins in your browser",
     short: "In your browser",
     what:
-      "The extension for Chrome, Edge, Brave and Firefox. Every fill is confirmed in the app.",
-    meta: ["Windows app"],
+      "The extension for Chrome, Edge, Brave and Firefox. Fill and save logins, each confirmed in the app.",
+    meta: ["Windows and Linux app"],
     icon: <Browser weight="duotone" />,
+  },
+  {
+    href: "/tutorials/unlock-without-a-key/",
+    title: "Unlock without a security key",
+    short: "Without a security key",
+    what:
+      "Windows Hello, a phone over the QR code, or an Android fingerprint, and what to keep when the way in is tied to one device.",
+    meta: ["Windows and Android"],
+    icon: <Fingerprint weight="duotone" />,
+  },
+  {
+    href: "/tutorials/ssh-agent/",
+    title: "Use your SSH keys from the silo",
+    short: "SSH keys",
+    what:
+      "ssh, Git and your editor sign in with keys kept in the silo, each use confirmed in the app.",
+    meta: ["Windows and Linux app"],
+    icon: <TerminalWindow weight="duotone" />,
   },
   {
     href: "/tutorials/get-files-out/",

@@ -8,7 +8,7 @@ type Store = (typeof EXTENSION_STORES)[number];
 
 /**
  * The extension card's link: straight to the store for the browser being
- * used, but only on Windows, where the app it talks to runs. Anywhere else,
+ * used, but only on Windows and Linux, where the app it talks to runs. Anywhere else,
  * and before the page knows, the guide that explains what it needs first.
  */
 export function ExtensionStoreLink() {
@@ -16,7 +16,7 @@ export function ExtensionStoreLink() {
 
   useEffect(() => {
     const ua = navigator.userAgent;
-    if (!/Windows/i.test(ua)) return;
+    if (!/Windows|Linux|X11/i.test(ua) || /Android|CrOS/i.test(ua)) return;
     // Edge and Firefox name themselves; Chrome's token is in both of those
     // too, so it is checked last. Brave reports as Chrome and uses its store.
     const id = /Edg\//.test(ua)

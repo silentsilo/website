@@ -2,6 +2,11 @@ export const REPO = "https://github.com/silentsilo/desktop";
 
 export const RELEASES = `${REPO}/releases`;
 
+/** The newest release's page, where the Linux .deb and AppImage sit beside
+ *  the Windows installer. Their names carry the version, so the page is
+ *  linked rather than a file. */
+export const LATEST_RELEASE = `${RELEASES}/latest`;
+
 /**
  * Whether a build has actually been published.
  *

@@ -17,7 +17,7 @@ export default function BackupFolder() {
         the silo at a directory and it writes its encrypted objects there.
         No account, no key, no endpoint. It covers an external disk, a NAS
         share, and a folder that Dropbox or OneDrive is already syncing.
-        This one is for the Windows app: the Android app backs up to an S3
+        This one is for the desktop app: the Android app backs up to an S3
         bucket, WebDAV or SFTP.
       </p>
 

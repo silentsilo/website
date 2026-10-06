@@ -1,4 +1,4 @@
-import { LATEST_INSTALLER, PLAY_STORE } from "./links";
+import { LATEST_INSTALLER, LATEST_RELEASE, PLAY_STORE } from "./links";
 
 /**
  * Every platform the site talks about, in one place. When macOS, iOS or
@@ -25,6 +25,13 @@ export const PLATFORMS: Platform[] = [
     action: { label: "Download for Windows", href: LATEST_INSTALLER },
   },
   {
+    id: "linux",
+    name: "Linux",
+    available: true,
+    detail: "A .deb for Debian and Ubuntu, an AppImage for the others, 64-bit. Unlocks with a security key.",
+    action: { label: "Download for Linux", href: LATEST_RELEASE },
+  },
+  {
     id: "android",
     name: "Android",
     available: true,
@@ -35,22 +42,15 @@ export const PLATFORMS: Platform[] = [
     id: "extension",
     name: "Browser extension",
     available: true,
-    detail: "Chrome, Edge, Brave and Firefox. Fills logins through the Windows app.",
+    detail: "Chrome, Edge, Brave and Firefox. Fills logins through the Windows or Linux app.",
     action: { label: "How it works", href: "/tutorials/browser-extension/" },
-  },
-  {
-    id: "linux",
-    name: "Linux",
-    available: false,
-    soon: true,
-    detail: "A security key. Coming soon.",
   },
   {
     id: "macos",
     name: "macOS",
     available: false,
     soon: true,
-    detail: "Touch ID or a security key. Coming soon, after Linux.",
+    detail: "Touch ID or a security key. Coming soon.",
   },
   {
     id: "ios",
@@ -64,5 +64,7 @@ export const AVAILABLE = PLATFORMS.filter((p) => p.available && p.id !== "extens
 export const SOON = PLATFORMS.filter((p) => !p.available && p.soon);
 export const PLANNED = PLATFORMS.filter((p) => !p.available && !p.soon);
 
-/** "Windows and Android", for sentences. */
-export const AVAILABLE_NAMES = AVAILABLE.map((p) => p.name).join(" and ");
+/** "Windows, Linux and Android", for sentences. */
+export const AVAILABLE_NAMES = AVAILABLE.map((p) => p.name)
+  .join(", ")
+  .replace(/, ([^,]*)$/, " and $1");

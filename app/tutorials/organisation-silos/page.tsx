@@ -41,6 +41,9 @@ export default function OrganisationSilos() {
             <a href="#the-day-somebody-leaves">The day somebody leaves</a>
           </li>
           <li>
+            <a href="#the-activity-log">The activity log</a>
+          </li>
+          <li>
             <a href="#what-actually-holds-it">What actually holds it</a>
           </li>
         </ol>
@@ -208,6 +211,55 @@ export default function OrganisationSilos() {
         they copied while they legitimately had access is theirs forever;
         nothing anywhere undoes that, and a product that claimed otherwise
         would be lying.
+      </p>
+
+      <h2 id="the-activity-log">The activity log</h2>
+      <p>
+        An organisation&apos;s silo keeps a log of what is done with it:
+        unlocking, secrets shown or copied, files opened or saved outside the
+        silo, logins filled in the browser, signatures made with an SSH key,
+        and changes to entries, files, keys and the recovery code. Each
+        device encrypts its records to a key only the organisation&apos;s
+        security keys open, so the employee&apos;s devices write the log and
+        cannot read it.
+      </p>
+      <ul>
+        <li>
+          A silo set up as administered by the organisation from version 1.4
+          starts its log when the first key is enrolled, keeping records for
+          a year. One set up earlier starts it under{" "}
+          <strong>Settings &gt; Activity</strong>, with an organisation key
+          touched there and the retention chosen: 90 days, a year, three
+          years, or everything.
+        </li>
+        <li>
+          Once started, it stays on. A device that cannot write a record
+          locks the silo rather than carry on.
+        </li>
+        <li>
+          Reading the log, exporting it as CSV or JSON lines, changing the
+          retention and removing records past it each ask for an
+          organisation key. A second organisation key reads it too.
+        </li>
+        <li>
+          Everyone using the silo sees{" "}
+          <strong>Activity log, for the organisation</strong> in the
+          sidebar.
+        </li>
+      </ul>
+      <p>
+        What it does not do. A device that is offline records locally and
+        sends later, so the log shows what has reached storage. A modified
+        build can stop writing, which shows as numbers missing from that
+        device&apos;s run, or write records that never happened, which
+        nothing can stop. A retired organisation key still reads the log.
+      </p>
+      <p>
+        Recording what people do at work is regulated in most places; in the
+        EU it falls under the GDPR and employment law. Tell the people using
+        the silo in writing before they start, say what is recorded and for
+        how long, and keep records no longer than you need them. Take advice
+        on what applies to you.
       </p>
 
       <h2 id="what-actually-holds-it">What actually holds it</h2>

@@ -4,7 +4,7 @@
  * device, sealed there, stored, and pulled by the others. Drawn inline rather than shipped as an image, so
  * the text stays sharp, reads to a screen reader and changes with a release.
  *
- * Windows and Android are live. The other platforms are drawn, dimmed and
+ * Windows, Linux and Android are live. The other platforms are drawn, dimmed and
  * labelled for what they are, so the picture does not promise more than the download does.
  * Two layouts, because one drawing scaled to a phone turns its labels to dust.
  */
@@ -36,10 +36,9 @@ const MACOS: Platform = {
 };
 const LINUX: Platform = {
   name: "Linux",
-  state: "Coming soon",
-  short: "Soon",
+  state: "Available now",
   unlock: "Security key",
-  live: false,
+  live: true,
   kind: "desktop",
 };
 const ANDROID: Platform = {
@@ -508,8 +507,8 @@ const DESC =
   "bucket, WebDAV, an SFTP server or a folder. The storage holds only encrypted objects; it sees sizes, times, key labels, content hashes and the silo folder's name, never your file names, contents " +
   "or passwords. A change made on one device is sealed there, stored, and pulled by every other device; there is no " +
   "SilentSilo server in between. You unlock with a security key or the device's biometrics, and a " +
-  "recovery code on paper is the fallback. Windows and Android are available now, Linux and then macOS are coming soon, and iOS is planned. " +
-  "The browser extension is available on Windows for Chrome, Edge, Brave and Firefox, and comes with the macOS and Linux apps later: it fills passwords through the desktop app, never from storage.";
+  "recovery code on paper is the fallback. Windows, Linux and Android are available now, macOS is coming soon, and iOS is planned. " +
+  "The browser extension is available on Windows and Linux for Chrome, Edge, Brave and Firefox, and comes with the macOS app later: it fills passwords through the desktop app, never from storage.";
 
 function Wide() {
   // Symmetric round the storage: the computers in a row above it, the
@@ -543,16 +542,16 @@ function Wide() {
 
       <FlowCaption cx={560} y={26} />
 
-      {/* The extension over the computer row: live to Windows, coming to
-          Linux and macOS, never to a phone. */}
+      {/* The extension over the computer row: live to Windows and Linux,
+          coming to macOS, never to a phone. */}
       <path className="how-link is-live" d="M560 162 V 180 H 290 V 196" />
       <path className="how-link is-planned" d="M560 180 H 830 V 196" />
-      <path className="how-link is-planned" d="M560 180 V 196" />
-      <Extension x={435} y={70} w={250} state="Available on Windows" browsers={LIVE_BROWSERS} live />
+      <path className="how-link is-live" d="M560 180 V 196" />
+      <Extension x={435} y={70} w={250} state="Available on Windows and Linux" browsers={LIVE_BROWSERS} live />
 
       <path className="how-link is-live" d={deskUp} />
       <path className="how-link is-live how-link-2" d={phoneUp} />
-      <path className="how-link is-planned" d="M560 308 V 350" />
+      <path className="how-link is-live" d="M560 308 V 350" />
       <path className="how-link is-planned" d="M830 308 C 830 334, 670 326, 670 350" />
       <path className="how-link is-planned" d="M820 571 H 730" />
 
@@ -599,7 +598,7 @@ function Tall() {
       <style>{`.how-tall .how-hub-box{fill:url(#t-hub)} .how-tall .how-link.is-live{stroke:url(#t-link)} .how-tall .how-link.is-live.how-link-2{stroke:url(#t-link2)} .how-tall .how-halo{fill:url(#t-halo)}`}</style>
 
       <FlowCaption cx={200} y={18} />
-      <Extension x={70} y={62} w={260} state="Available on Windows" browsers={LIVE_BROWSERS} live />
+      <Extension x={70} y={62} w={260} state="Available on Windows and Linux" browsers={LIVE_BROWSERS} live />
       <path className="how-link is-live" d="M200 154 V 196" />
       <g transform="translate(0 174)">
         {/* Inside the viewBox: the drawing runs to the edge of a phone
@@ -615,7 +614,7 @@ function Tall() {
         <Hub x={40} y={222} w={320} />
 
         <path className="how-link is-live how-link-2" d={phoneUp} />
-        <path className="how-link is-planned" d={`M90 ${top} C 90 ${cards - 32}, 52 ${cards - 32}, 52 ${cards}`} />
+        <path className="how-link is-live" d={`M90 ${top} C 90 ${cards - 32}, 52 ${cards - 32}, 52 ${cards}`} />
         <path className="how-link is-planned" d={`M165 ${top} C 165 ${cards - 32}, 151 ${cards - 32}, 151 ${cards}`} />
         <path className="how-link is-planned" d={`M310 ${top} C 310 ${cards - 32}, 348 ${cards - 32}, 348 ${cards}`} />
 
