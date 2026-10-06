@@ -1,4 +1,5 @@
 import {
+  ArrowSquareIn,
   Browser,
   Cloud,
   Database,
@@ -146,6 +147,82 @@ export const FURTHER: Guide[] = [
       "Silos an employee cannot lock the company out of: the organisation key, onboarding, and the day somebody leaves.",
     meta: ["For companies"],
     icon: <UsersThree weight="duotone" />,
+  },
+];
+
+/** Moving in from another password manager, one guide per source. */
+export const MOVING: Guide[] = [
+  {
+    href: "/tutorials/from-keepass/",
+    title: "KeePass and KeePassXC",
+    short: "KeePass",
+    what: "Open the .kdbx itself: groups, extra fields, attachments and history come with it.",
+    meta: ["No export needed", "10 minutes"],
+    icon: <ArrowSquareIn weight="duotone" />,
+  },
+  {
+    href: "/tutorials/from-bitwarden/",
+    title: "Bitwarden",
+    short: "Bitwarden",
+    what: "The JSON export, or the zip with attachments: every kind of item.",
+    meta: ["JSON or zip", "10 minutes"],
+    icon: <ArrowSquareIn weight="duotone" />,
+  },
+  {
+    href: "/tutorials/from-1password/",
+    title: "1Password",
+    short: "1Password",
+    what: "The CSV from the desktop app: logins and their one-time codes.",
+    meta: ["CSV", "10 minutes"],
+    icon: <ArrowSquareIn weight="duotone" />,
+  },
+  {
+    href: "/tutorials/from-lastpass/",
+    title: "LastPass",
+    short: "LastPass",
+    what: "The CSV from the browser extension, and one thing to check in it.",
+    meta: ["CSV", "10 minutes"],
+    icon: <ArrowSquareIn weight="duotone" />,
+  },
+  {
+    href: "/tutorials/from-proton-pass/",
+    title: "Proton Pass",
+    short: "Proton Pass",
+    what: "The CSV from the web app, the Windows app or the extension.",
+    meta: ["CSV", "10 minutes"],
+    icon: <ArrowSquareIn weight="duotone" />,
+  },
+  {
+    href: "/tutorials/from-dashlane/",
+    title: "Dashlane",
+    short: "Dashlane",
+    what: "The logins file from Dashlane's CSV export.",
+    meta: ["CSV", "10 minutes"],
+    icon: <ArrowSquareIn weight="duotone" />,
+  },
+  {
+    href: "/tutorials/from-nordpass/",
+    title: "NordPass",
+    short: "NordPass",
+    what: "The CSV of every item, logins imported.",
+    meta: ["CSV", "10 minutes"],
+    icon: <ArrowSquareIn weight="duotone" />,
+  },
+  {
+    href: "/tutorials/from-roboform/",
+    title: "RoboForm",
+    short: "RoboForm",
+    what: "The CSV of logins from the extension or the desktop app.",
+    meta: ["CSV", "10 minutes"],
+    icon: <ArrowSquareIn weight="duotone" />,
+  },
+  {
+    href: "/tutorials/from-browser/",
+    title: "Chrome, Edge, Firefox or Apple Passwords",
+    short: "your browser",
+    what: "The passwords your browser saved, from its CSV export.",
+    meta: ["CSV", "10 minutes"],
+    icon: <ArrowSquareIn weight="duotone" />,
   },
 ];
 

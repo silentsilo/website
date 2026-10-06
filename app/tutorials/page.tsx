@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
-import { ACCOUNTS, BACKUP, FURTHER, type Guide } from "./guides";
+import { ACCOUNTS, BACKUP, FURTHER, MOVING, type Guide } from "./guides";
 
 export const metadata: Metadata = {
   title: "Tutorials",
   description:
-    "Setting up a backup on every option SilentSilo offers, one guide each, plus the phone, the browser extension, and getting your files out without the app.",
+    "Setting up a backup on every option SilentSilo offers, one guide each, moving in from another password manager, plus the phone, the browser extension, and getting your files out without the app.",
 };
 
 function Card({ g }: { g: Guide }) {
@@ -101,6 +101,18 @@ export default function Tutorials() {
           <Link href="/tutorials/backup-sftp/">SFTP</Link>.
         </li>
       </ul>
+
+      <h2 id="moving-in">Moving from another password manager</h2>
+      <p>
+        Export from the manager you use now, then import the file in the
+        desktop app under <strong>Passwords &gt; Import</strong>. Each guide
+        says where the export is and what comes over.
+      </p>
+      <div className="tut-grid">
+        {MOVING.map((g) => (
+          <Card key={g.href} g={g} />
+        ))}
+      </div>
 
       <h2 id="going-further">Going further</h2>
       <p>
