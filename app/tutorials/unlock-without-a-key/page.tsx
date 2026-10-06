@@ -71,7 +71,9 @@ export default function UnlockWithoutAKey() {
       <p>
         When Windows shows its prompt for a security key, it may also offer
         a phone through a QR code. Scan it with the phone and confirm there;
-        the phone then acts as the key, over Bluetooth, each time you unlock.
+        the phone then acts as the key each time you unlock. Bluetooth checks
+        that it is nearby and the exchange goes over the internet, so both
+        need Bluetooth and a connection.
         Recent Android phones work. A phone whose passkey provider cannot
         produce what the silo needs is refused at that step, with a message
         saying so. That passkey syncs with the account behind it, so it is

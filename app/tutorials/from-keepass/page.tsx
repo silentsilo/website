@@ -41,9 +41,11 @@ export default function FromKeePass() {
       </p>
       <p>
         A database that also asks for a hardware key (KeePassXC&apos;s
-        YubiKey challenge-response) cannot be opened here. Save a copy in
-        KeePassXC protected by the password alone, or the password and a key
-        file, and import the copy.
+        YubiKey challenge-response) cannot be opened here. In KeePassXC, make
+        a copy with <strong>Database &gt; Save Database As…</strong>; in the
+        copy, open <strong>Database &gt; Database Settings &gt;
+        Security</strong>, remove the challenge-response, save, and import
+        the copy.
       </p>
 
       <ImportInApp
@@ -70,7 +72,11 @@ export default function FromKeePass() {
           ones masked.
         </li>
         <li>Attached files, encrypted in the silo with their entry.</li>
-        <li>Each entry&apos;s KeePass history becomes its history here.</li>
+        <li>
+          Each entry&apos;s KeePass history becomes its history here, up to
+          the number of versions set under{" "}
+          <strong>Settings &gt; General</strong>.
+        </li>
         <li>
           Left out: entries in the recycle bin, and empty entries. Passkeys
           KeePassXC keeps come in as custom fields, not as passkeys.

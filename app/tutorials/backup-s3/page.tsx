@@ -144,14 +144,15 @@ export default function BackupS3() {
         though nobody can read them.
       </p>
       <p>
-        Use a normal storage class. Archive classes such as Glacier take hours
-        to hand a file back, and the app refuses them at the connection test
+        Use a normal storage class. Archive classes such as Glacier Flexible
+        Retrieval or Deep Archive take hours to hand a file back, and the app refuses them at the connection test
         because every read it makes expects an answer now.
       </p>
       <p>
         If you want the copy that ransomware cannot erase, turn on object
-        lock <em>while creating</em> the bucket: it almost never can be added
-        later. That is a guide of its own, with the warnings it deserves, in{" "}
+        lock <em>while creating</em> the bucket. Amazon S3 and Backblaze B2
+        can add it later, Wasabi cannot, and doing it at creation works
+        everywhere. That is a guide of its own, with the warnings it deserves, in{" "}
         <Link href="/tutorials/copies-nothing-can-erase/">
           a copy nothing can erase
         </Link>
@@ -166,8 +167,8 @@ export default function BackupS3() {
         time it uploads that file, and once a day it clears any older than a
         day. As a second line of defence, add a lifecycle rule to the bucket
         with the action <strong>AbortIncompleteMultipartUpload</strong>, set
-        to 7 days. Every provider on this page accepts that rule, and it costs
-        nothing.
+        to 7 days. Backblaze B2, Cloudflare R2 (which applies one by default),
+        Wasabi and Amazon S3 all accept it, and it costs nothing.
       </p>
 
       <h2 id="backblaze-b2">Backblaze B2</h2>
@@ -209,8 +210,8 @@ export default function BackupS3() {
       <p>
         Endpoint and region both carry the region code, so a bucket in{" "}
         <code>us-west-004</code> uses{" "}
-        <code>https://s3.us-west-004.backblazeb2.com</code>. B2 needs
-        path-style addressing, which the preset ticks for you.
+        <code>https://s3.us-west-004.backblazeb2.com</code>. The preset ticks
+        path-style addressing, which B2 accepts.
       </p>
 
       <h2 id="cloudflare-r2">Cloudflare R2</h2>
@@ -218,8 +219,8 @@ export default function BackupS3() {
         No charge for egress at all, which makes restoring a large silo
         painless. The token flow lives in a different place from the rest of
         Cloudflare&apos;s API tokens, which is the only confusing part. R2 has
-        no object lock, so it is not the place for the copy nothing can
-        erase.
+        bucket locks, but not S3 Object Lock, which is what the app checks
+        for, so it is not the place for the copy nothing can erase.
       </p>
       <ol>
         <li>
@@ -324,9 +325,9 @@ export default function BackupS3() {
       <p>
         Choose <strong>MinIO (self-hosted)</strong> or{" "}
         <strong>Other S3-compatible</strong>. Create a bucket and a user with
-        read and write on it, then keys for that user. MinIO requires
-        path-style addressing and ignores the region entirely, so leave it on
-        whatever the preset put there.
+        read and write on it, then keys for that user. MinIO wants
+        path-style addressing, and its region rarely matters, so leave it on
+        whatever the preset put there unless your server says otherwise.
       </p>
       <p>
         If your MinIO is reached over <code>http://</code> the app warns you,
@@ -345,7 +346,7 @@ export default function BackupS3() {
           recognise, like &quot;Backblaze&quot; or &quot;the office NAS&quot;.
         </li>
         <li>
-          Choose <strong>A cloud bucket (S3)</strong>, pick your provider,
+          Choose <strong>S3 bucket</strong>, pick your provider,
           paste the six values, and press <strong>Test connection</strong>.
           The app writes a small object, reads it back and deletes it, so a
           success means the credential really can write rather than merely
@@ -353,7 +354,7 @@ export default function BackupS3() {
           <strong>Add this copy</strong> writes to it before saving.
         </li>
         <li>
-          Press <strong>Save &amp; connect</strong>, or{" "}
+          Press <strong>Save and connect</strong>, or{" "}
           <strong>Add this copy</strong> for a second copy. The first pass
           runs in the background, and the Backup page says when everything
           has arrived.

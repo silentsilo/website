@@ -38,8 +38,8 @@ export default function BackupGoogleDrive() {
               myaccount.google.com/linkedapps
             </a>
             , where <strong>Remove access</strong> ends it. SilentSilo does not end it there itself:
-            Google ends every sign-in of an app to an account at once, so it
-            would sign out your other computers and your phone as well.
+            that removes the app&apos;s access to the account as a whole, so
+            it would sign out your other computers and your phone as well.
           </>
         ),
         download: (

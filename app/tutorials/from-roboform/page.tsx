@@ -46,8 +46,9 @@ export default function FromRoboForm() {
           <strong>Export</strong>, and enter your master password.
         </li>
         <li>
-          Export <strong>Logins</strong> as CSV. The file lands in your
-          Downloads folder.
+          Confirm the export to CSV. The file lands in your Downloads folder.
+          In the desktop app the same page lets you pick Logins, Bookmarks or
+          Safenotes; Logins is the one to export.
         </li>
       </ol>
       <p>
@@ -66,8 +67,8 @@ export default function FromRoboForm() {
       <ul>
         <li>Logins: name, address, username, password, notes and folder.</li>
         <li>
-          Left out: identities and contacts, which RoboForm does not export to
-          CSV, and safenotes with no password.
+          Left out: identities and contacts, which RoboForm exports only as a
+          printed list, safenotes with no password, and one-time codes.
         </li>
       </ul>
       <DeleteTheExport />

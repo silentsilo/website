@@ -38,13 +38,12 @@ export default function FromProtonPass() {
       <h2 id="export">Export from Proton Pass</h2>
       <ol>
         <li>
-          In the web app or the Windows app, open the gear icon, then the{" "}
-          <strong>Export</strong> tab. In the browser extension, open the
-          menu, then the gear icon, then <strong>Export</strong>.
+          In the web app, open the gear icon at the bottom left. In the
+          Windows app or the browser extension, open the ☰ menu, then the
+          gear icon. Then open the <strong>Export</strong> tab.
         </li>
         <li>
-          Choose <strong>CSV</strong> as the format and confirm with your
-          password.
+          Choose <strong>CSV</strong> as the format and save the file.
         </li>
       </ol>
       <p>
@@ -63,12 +62,17 @@ export default function FromProtonPass() {
       <ul>
         <li>
           Logins with their one-time codes, from the vaults you own. Each
-          vault becomes a category.
+          vault becomes a category. A login with several addresses keeps the
+          first; the others go into its notes.
         </li>
         <li>
-          Left out: notes, cards and identities with no password (the summary
-          counts them), passkeys, attached files, and vaults others shared
-          with you.
+          Left out: anything with no password or one-time code (notes, cards,
+          identities, aliases; the summary counts them), passkeys, attached
+          files, and vaults others shared with you.
+        </li>
+        <li>
+          Items in Proton Pass&apos;s trash are in the file too. Empty the
+          trash first if you do not want them.
         </li>
       </ul>
       <DeleteTheExport />

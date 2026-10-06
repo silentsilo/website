@@ -44,16 +44,20 @@ export default function FromBitwarden() {
         </li>
         <li>
           Export from <strong>My vault</strong>. As the format choose{" "}
-          <strong>.json</strong>, or <strong>.zip (With Attachments)</strong>{" "}
+          <strong>.json</strong>, or <strong>.zip (with attachments)</strong>{" "}
           if items have files attached.
         </li>
-        <li>Confirm with your master password and save the file.</li>
+        <li>
+          Confirm with your master password (or the email code Bitwarden
+          sends) and save the file.
+        </li>
       </ol>
       <p>
         Not <strong>.json (Encrypted)</strong>: only Bitwarden can open it.
-        Items of a Bitwarden organisation are exported by its owner or admin
-        from the Admin Console, as <strong>.json</strong>; that export has no
-        zip with files. The steps above follow{" "}
+        Items of a Bitwarden organisation are exported from the Admin Console
+        by an owner or admin, or a member with the Manage collection
+        permission, as <strong>.json</strong>; that export has no zip with
+        files. The steps above follow{" "}
         <a href="https://bitwarden.com/help/export-your-data/">
           Bitwarden&apos;s own guide
         </a>

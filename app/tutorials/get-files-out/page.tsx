@@ -146,10 +146,13 @@ export default function GetFilesOut() {
         named, creates no silo, and sends nothing over the network.
       </p>
       <p>
-        <strong>That recovery code does not open this backup</strong> means a
+        <strong>that recovery code does not open this backup</strong> means a
         wrong or old code: a code is replaced each time a new one is made.{" "}
-        <strong>This backup has no recovery code published</strong> means the
-        silo never had one, and only an enrolled key opens it, through the
+        <strong>
+          this backup has no recovery code published, so a code alone cannot
+          open it
+        </strong>{" "}
+        means the silo never had one, and only an enrolled key opens it, through the
         app.
       </p>
 

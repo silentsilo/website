@@ -109,11 +109,13 @@ export default function BackupSftp() {
         <li>
           Unlock the silo, open <strong>Settings &gt; Backup</strong> (or,
           for a second copy, <strong>Add another copy</strong> on that page),
-          and choose <strong>A server over SFTP</strong>.
+          and choose <strong>SFTP server</strong>.
         </li>
         <li>
           Fill in <strong>Server</strong> and <strong>Port</strong>. The port
-          is 22 unless you moved it.
+          is 22 unless you moved it. A Hetzner Storage Box takes the usual key
+          on port 23; on port 22 it wants the key in RFC4716 format, as its
+          SSH keys page explains.
         </li>
         <li>
           Press <strong>Check the server&apos;s identity</strong>. The app
@@ -136,7 +138,7 @@ export default function BackupSftp() {
         <li>
           Press <strong>Test connection</strong>. The app writes a small
           file, reads it back and deletes it. Then press{" "}
-          <strong>Save &amp; connect</strong>. For a second copy there is no
+          <strong>Save and connect</strong>. For a second copy there is no
           separate test: press <strong>Add this copy</strong>, which writes
           to the server before saving.
         </li>

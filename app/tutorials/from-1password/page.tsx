@@ -51,8 +51,10 @@ export default function From1Password() {
       </ol>
       <p>
         SilentSilo reads the CSV, not 1Password&apos;s own <code>.1pux</code>{" "}
-        format. 1Password exports only from its desktop apps, and an account
-        that unlocks with single sign-on needs an administrator to allow it.
+        format. 1Password exports to a file only from its desktop apps; its
+        phone apps move data straight to another app instead. An account
+        that unlocks with single sign-on cannot export until an administrator
+        turns off Unlock with SSO for it.
         The steps follow{" "}
         <a href="https://support.1password.com/export/">
           1Password&apos;s own guide

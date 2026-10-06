@@ -71,7 +71,8 @@ export default function Phone() {
         <li>
           Under <strong>Where is the backup?</strong>, choose the same storage
           your computer syncs to. For OneDrive, Dropbox or Google Drive, press{" "}
-          <strong>Connect</strong>, sign in in the browser, come back, and
+          <strong>Connect OneDrive</strong> (or Dropbox, or Google Drive), sign
+          in in the browser, come back, and
           pick the silo under <strong>Silo folder</strong>. For the others,
           type the same details as on the computer. Press{" "}
           <strong>Continue</strong>.
@@ -147,6 +148,7 @@ export default function Phone() {
         <strong>Silo &gt; Passkeys</strong> lets sites in your browser save
         passkeys in the silo and sign in with them, each time after your
         fingerprint. They sync to the silo&apos;s backup like its passwords.
+        Passkeys need Android 14 or later.
       </p>
 
       <h2 id="how-it-locks">How it locks</h2>
@@ -156,8 +158,8 @@ export default function Phone() {
         <strong>Immediately</strong> to <strong>After 1 hour</strong>, 15
         minutes unless you choose otherwise. The time the phone spends asleep
         counts. <strong>Lock when the screen turns off</strong> locks it
-        sooner, and the <strong>Lock SilentSilo</strong> tile in Quick
-        Settings locks it from anywhere.
+        sooner. Add the <strong>Lock SilentSilo</strong> tile to Quick
+        Settings, and it locks the silo from anywhere.
       </p>
       <p>
         The app&apos;s screens are kept out of screenshots and the recent

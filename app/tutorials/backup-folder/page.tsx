@@ -56,7 +56,7 @@ export default function BackupFolder() {
           the list of copies on that page.
         </li>
         <li>
-          Choose <strong>A drive or NAS folder</strong>, which the form starts
+          Choose <strong>Drive or NAS folder</strong>, which the form starts
           on, then <strong>Browse</strong> to pick the directory. Pick an empty one, or one this silo already uses: the
           app refuses a folder that holds a different silo, so each silo
           needs a folder of its own.
@@ -68,7 +68,7 @@ export default function BackupFolder() {
           test: <strong>Add this copy</strong> writes to it before saving.
         </li>
         <li>
-          Press <strong>Save &amp; connect</strong>, or{" "}
+          Press <strong>Save and connect</strong>, or{" "}
           <strong>Add this copy</strong> for a second copy. The first pass
           starts in the background.
         </li>

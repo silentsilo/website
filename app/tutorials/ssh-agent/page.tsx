@@ -72,8 +72,10 @@ export default function SshAgent() {
         RSA key in PEM. A key with a passphrase asks for it once when you
         tick the box, and is kept without it from then on: the silo protects
         it, and the version with the passphrase stays in the entry&apos;s
-        history. Any other format converts with{" "}
-        <code>ssh-keygen -p -f &lt;file&gt;</code>.
+        history. A PEM or PKCS#8 key of another type converts with{" "}
+        <code>ssh-keygen -p -f &lt;file&gt;</code>; a PuTTY{" "}
+        <code>.ppk</code> file converts in PuTTYgen, with{" "}
+        <strong>Conversions &gt; Export OpenSSH key</strong>.
       </p>
 
       <h2 id="point-ssh-at-it">Point ssh at it</h2>
@@ -141,7 +143,7 @@ export default function SshAgent() {
       </p>
       <pre>
         <code>
-          {'git config --global gpg.format ssh\ngit config --global user.signingkey "ssh-ed25519 AAAA…"\ngit commit -S\n'}
+          {'git config --global gpg.format ssh\ngit config --global user.signingkey "key::ssh-ed25519 AAAA…"\ngit commit -S\n'}
         </code>
       </pre>
 

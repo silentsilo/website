@@ -44,7 +44,9 @@ export default function FromLastPass() {
           data for use anywhere</strong>.
         </li>
         <li>
-          Enter your master password if asked. The CSV file downloads.
+          Enter your master password if asked. The CSV file downloads; in
+          Safari it opens in a tab instead, and you save it with{" "}
+          <strong>Save Page As</strong>.
         </li>
       </ol>
       <p>
@@ -72,8 +74,9 @@ export default function FromLastPass() {
       <h2 id="what-comes-over">What comes over</h2>
       <ul>
         <li>
-          Logins: name, address, username, password, notes and one-time codes
-          where the file has them. Folders become categories.
+          Logins: name, address, username, password and notes. Folders become
+          categories. LastPass does not export one-time codes, so set those
+          up again in SilentSilo.
         </li>
         <li>
           Left out: secure notes with no password (the summary counts them),

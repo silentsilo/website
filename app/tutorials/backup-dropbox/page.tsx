@@ -38,8 +38,7 @@ export default function BackupDropbox() {
         ),
         download: (
           <>
-            On dropbox.com, open <strong>Apps</strong> (Dropbox names it in
-            your account&apos;s language), select <strong>SilentSilo</strong>{" "}
+            On dropbox.com, open <strong>Apps</strong>, select <strong>SilentSilo</strong>{" "}
             and download it. Dropbox makes a ZIP only of a folder under 250
             GB and 10,000 files; a larger silo comes down through the
             Dropbox app or rclone instead.

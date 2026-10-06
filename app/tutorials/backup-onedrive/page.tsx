@@ -18,8 +18,8 @@ export default function BackupOneDrive() {
         account: (
           <p>
             A personal Microsoft account: Outlook.com, Hotmail, or one that
-            came with Microsoft 365 Personal or Family. It has 5 GB free, and
-            1 TB with Microsoft 365. Work and school accounts are not
+            came with Microsoft 365 Personal or Family. It has 5 GB free, 100 GB with
+            Microsoft 365 Basic and 1 TB with Personal or Family. Work and school accounts are not
             supported yet: the app says so when you sign in with one.
           </p>
         ),

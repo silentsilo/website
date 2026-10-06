@@ -113,12 +113,17 @@ export default function BackupWebDav() {
       </p>
       <ol>
         <li>
-          <strong>Nextcloud and ownCloud:</strong> your avatar →{" "}
+          <strong>Nextcloud:</strong> your avatar →{" "}
           <strong>Settings</strong> → <strong>Security</strong> →{" "}
           <strong>Devices &amp; sessions</strong>. Type a name, press{" "}
           <strong>Create new app password</strong>, and copy it. It is shown
           once. If you use two-factor authentication this is not optional:
           your ordinary password will not work over WebDAV at all.
+        </li>
+        <li>
+          <strong>ownCloud:</strong> your avatar → <strong>Settings</strong>{" "}
+          → <strong>Security</strong> → <strong>App passwords / tokens</strong>
+          . Type a name and press <strong>Create new app passcode</strong>.
         </li>
         <li>
           <strong>Synology:</strong> create a dedicated user in{" "}
@@ -129,8 +134,9 @@ export default function BackupWebDav() {
         <li>
           <strong>Fastmail:</strong>{" "}
           <strong>Settings</strong> → <strong>Privacy &amp; Security</strong>{" "}
-          → <strong>Integrations</strong> → <strong>App passwords</strong>,
-          scoped to file access.
+          → <strong>Connected apps &amp; API tokens</strong> →{" "}
+          <strong>Manage app passwords and access</strong>, with access to
+          Files (WebDAV).
         </li>
       </ol>
 
@@ -142,7 +148,7 @@ export default function BackupWebDav() {
           the list of copies on that page.
         </li>
         <li>
-          Choose <strong>Nextcloud or WebDAV</strong>.
+          Choose <strong>WebDAV server</strong>.
         </li>
         <li>
           Fill in <strong>Address</strong>, <strong>Username</strong> and{" "}
@@ -157,7 +163,7 @@ export default function BackupWebDav() {
           saving.
         </li>
         <li>
-          Press <strong>Save &amp; connect</strong>, or{" "}
+          Press <strong>Save and connect</strong>, or{" "}
           <strong>Add this copy</strong> for a second copy. The first pass
           runs in the background.
         </li>

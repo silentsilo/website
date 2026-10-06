@@ -52,7 +52,8 @@ export default function FromBrowser() {
       <h3 id="edge">Edge</h3>
       <p>
         Open <strong>Settings and more &gt; Passwords</strong>, then the{" "}
-        <strong>More</strong> menu and <strong>Export passwords</strong>.
+        <strong>More</strong> menu, <strong>Export passwords</strong>, and{" "}
+        <strong>Export</strong> to confirm.
         Edge exports from the computer only, not from its phone apps.{" "}
         <a href="https://support.microsoft.com/en-us/edge/export-passwords-in-microsoft-edge">
           Microsoft&apos;s guide
@@ -92,7 +93,11 @@ export default function FromBrowser() {
           Chrome, Edge and Apple Passwords; one-time codes from Apple
           Passwords.
         </li>
-        <li>Left out: passkeys, which none of these put in the file.</li>
+        <li>
+          Left out: passkeys, which none of these put in the file. Apple
+          Passwords also leaves out Wi-Fi passwords and passwords in shared
+          groups you did not create.
+        </li>
       </ul>
       <p>
         Once the logins are in SilentSilo, turn off the browser&apos;s own

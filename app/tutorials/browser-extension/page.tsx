@@ -69,8 +69,9 @@ export default function BrowserExtension() {
       <p>
         On Linux, turning it on also tells Chrome, Chromium, Edge, Brave and
         Firefox where SilentSilo is, in your home folder; turning it off
-        takes that away again. Firefox installed as a snap finds it as
-        well.
+        takes that away again. Firefox installed as a snap on Ubuntu finds
+        it too, after asking you once to allow it. Chromium installed as a
+        snap cannot reach it.
       </p>
 
       <h2 id="fill-a-login">Fill a login</h2>

@@ -50,9 +50,9 @@ export default function FromDashlane() {
         </li>
       </ol>
       <p>
-        Not the <code>.dash</code> format: it is encrypted for Dashlane
-        alone. The steps follow{" "}
-        <a href="https://support.dashlane.com/hc/en-us/articles/202625092">
+        Dashlane&apos;s phone and Mac apps export to CSV as well. Not the{" "}
+        <code>.dash</code> format: it is encrypted for Dashlane alone. The steps follow{" "}
+        <a href="https://support.dashlane.com/hc/en-us/articles/32905278138002">
           Dashlane&apos;s own guide
         </a>
         , as of October 2026.
@@ -71,7 +71,8 @@ export default function FromDashlane() {
         <li>
           In the other files of the zip and not imported: secure notes,
           payments, IDs and personal details. Dashlane exports no passkeys and
-          no attachments.
+          no attachments, and logins shared with you as{" "}
+          <em>Can autofill</em> are not in the file.
         </li>
       </ul>
       <DeleteTheExport />

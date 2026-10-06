@@ -113,15 +113,17 @@ export default function ImmutableCopies() {
       </p>
       <p>
         Backblaze B2, Wasabi, Amazon S3 and MinIO offer it. Cloudflare R2
-        does not, so a locked copy cannot live there.
+        has bucket locks instead, which an account administrator can remove,
+        so a locked copy does not belong there.
       </p>
 
       <h3>Setting it up</h3>
       <ol>
         <li>
-          Create a <strong>new bucket</strong>. Object lock almost always has
-          to be chosen at creation and cannot be added later. Versioning is
-          required and is switched on with it.
+          Create a <strong>new bucket</strong>. Wasabi allows object lock
+          only when a bucket is created; Amazon S3 and Backblaze B2 can add it
+          later, but a fresh bucket keeps older, unlocked files out of it.
+          Versioning is required and is switched on with it.
         </li>
         <li>
           Set a <strong>default retention</strong>, in compliance mode. Two
@@ -218,10 +220,12 @@ export default function ImmutableCopies() {
         </li>
       </ul>
       <p>
-        The protection is real but it has a ceiling: an attacker who gets{" "}
+        The protection is real but it has a ceiling. On plain ZFS or btrfs,
+        an attacker who gets{" "}
         <strong>administrator access to the NAS itself</strong> can destroy
         snapshots, where an attacker holding compliance-locked bucket
-        credentials cannot. So give the NAS its own password, not the one
+        credentials cannot. Synology and QNAP immutable snapshots refuse that
+        until they expire, so turn that option on where you have it. So give the NAS its own password, not the one
         from your laptop, and do not mount the admin interface on a machine
         you also browse the web from.
       </p>
@@ -232,7 +236,8 @@ export default function ImmutableCopies() {
         than dye. Writing changes the material, so the result is write-once
         in the way a photograph is: there is no command that unwrites it,
         because there is no mechanism that could. Discs come in 25, 50 and
-        100 GB and are rated for centuries, which nobody has tested and which
+        100 GB and are rated for centuries by accelerated ageing tests, which no one has
+        confirmed in real time and which
         matters less than the fact that they cannot be rewritten this
         afternoon.
       </p>
