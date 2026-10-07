@@ -228,7 +228,7 @@ export default function OrganisationSilos() {
           A silo set up as administered by the organisation from version 1.4
           starts its log when the first key is enrolled, keeping records for
           a year. One set up earlier starts it under{" "}
-          <strong>Settings &gt; Activity</strong>, with an organisation key
+          <strong>Settings &gt; Devices</strong>, with an organisation key
           touched there and the retention chosen: 90 days, a year, three
           years, or everything.
         </li>
@@ -242,9 +242,8 @@ export default function OrganisationSilos() {
           organisation key. A second organisation key reads it too.
         </li>
         <li>
-          Everyone using the silo sees{" "}
-          <strong>Activity log, for the organisation</strong> in the
-          sidebar.
+          Everyone using the silo sees <strong>Activity</strong> in the
+          sidebar, marked as kept by the organisation.
         </li>
       </ul>
       <p>
