@@ -5,8 +5,11 @@ import {
   Browser,
   Desktop,
   DeviceMobile,
+  DeviceMobileCamera,
   DownloadSimple,
   GithubLogo,
+  Laptop,
+  Lifebuoy,
   ShieldCheck,
   Terminal,
 } from "@phosphor-icons/react/dist/ssr";
@@ -17,6 +20,7 @@ import {
   LATEST_INSTALLER,
   LATEST_INSTALLER_NAME,
   LATEST_INSTALLER_SIG,
+  LATEST_RELEASE,
   LATEST_TAG,
   LINUX_PACKAGES,
   MOBILE_REPO,
@@ -29,6 +33,7 @@ import {
   VIRUSTOTAL_SCANNED,
 } from "../links";
 import { PLATFORMS, type Platform } from "../platforms";
+import { ThisDevice } from "./ThisDevice";
 
 export const metadata: Metadata = {
   title: "Download SilentSilo",
@@ -45,197 +50,212 @@ const STORE_LABEL: Record<string, string> = {
   edge: "Edge",
 };
 
+/** The card's top: icon, name, and a badge the script turns on for the
+ *  device reading the page. */
+function CardHead({
+  icon,
+  name,
+  status,
+}: {
+  icon: React.ReactNode;
+  name: string;
+  status?: string;
+}) {
+  return (
+    <div className="dl-head">
+      <span className="dl-icon">{icon}</span>
+      <h3>{name}</h3>
+      <span className="dl-yours">This device</span>
+      {status && <span className="plat-status">{status}</span>}
+    </div>
+  );
+}
+
 export default function Download() {
   return (
     <main id="main">
-      <section className="sec dl-page">
+      <ThisDevice />
+      <section className="dl-hero">
         <div className="wrap">
-          <div className="sec-head">
-            <p className="kicker">Download</p>
-            <h1>Get SilentSilo</h1>
-            <p>
-              Free, with no account. Every device opens the same silo from the
-              same storage. The current version is {LATEST_TAG}.
-            </p>
-          </div>
+          <p className="eyebrow">
+            <ShieldCheck weight="duotone" />
+            Free and open source · No account
+          </p>
+          <h1>
+            Download <span className="grad">SilentSilo</span>
+          </h1>
+          <p className="dl-lead">
+            Every device opens the same silo from the same storage. Install it
+            on each one you use.
+          </p>
+          <a className="dl-version" href={LATEST_RELEASE}>
+            {LATEST_TAG}
+            <span>Release notes</span>
+            <ArrowRight />
+          </a>
+        </div>
+      </section>
 
-          <div className="dl-list">
-            <article className="dl" id="windows">
-              <span className="plat-icon">
-                <Desktop weight="duotone" />
-              </span>
-              <div className="dl-body">
-                <h2>Windows</h2>
+      <section className="dl-page">
+        <div className="wrap">
+          <div className="dl-group">
+            <h2 className="kicker">On your computer</h2>
+            <div className="dl-grid">
+              <article className="dl-card" id="windows">
+                <CardHead icon={<Desktop weight="duotone" />} name="Windows" />
                 <p>{detail("windows")}</p>
                 <div className="dl-actions">
                   <a className="btn btn-primary" href={LATEST_INSTALLER}>
                     <DownloadSimple weight="bold" />
-                    Download the installer
+                    Download for Windows
                   </a>
                 </div>
-                <details className="verify">
-                  <summary>
-                    <ShieldCheck weight="duotone" />
-                    Check it before you run it
-                  </summary>
-                  <div className="verify-body">
-                    <p>
-                      <strong>
-                        {VIRUSTOTAL_DETECTIONS === 0
-                          ? "No engine flagged this installer"
-                          : `${VIRUSTOTAL_DETECTIONS} of ${VIRUSTOTAL_ENGINES} engines flagged this installer`}
-                      </strong>{" "}
-                      on VirusTotal ({VIRUSTOTAL_DETECTIONS}/{VIRUSTOTAL_ENGINES},{" "}
-                      {VIRUSTOTAL_SCANNED}). <a href={VIRUSTOTAL_REPORT}>See the report</a>.
-                    </p>
-                    <dl>
-                      <dt>File</dt>
-                      <dd>{LATEST_INSTALLER_NAME}</dd>
-                      <dt>SHA-256</dt>
-                      <dd>
-                        <code>{INSTALLER_SHA256}</code>
-                      </dd>
-                      <dt>Signature</dt>
-                      <dd>
-                        <a href={LATEST_INSTALLER_SIG}>{LATEST_INSTALLER_NAME}.sig</a>{" "}
-                        (minisign, the key the app checks updates against)
-                      </dd>
-                    </dl>
-                  </div>
-                </details>
-              </div>
-            </article>
+                <p className="dl-small">
+                  Signed installer, 64-bit. <a href="#verify">Check it</a>
+                </p>
+              </article>
 
-            <article className="dl" id="linux">
-              <span className="plat-icon">
-                <Terminal weight="duotone" />
-              </span>
-              <div className="dl-body">
-                <h2>Linux</h2>
+              <article className="dl-card" id="linux">
+                <CardHead icon={<Terminal weight="duotone" />} name="Linux" />
                 <p>64-bit. Unlocks with a security key.</p>
                 <div className="dl-actions">
                   {LINUX_PACKAGES.map((p, i) => (
                     <a
                       key={p.kind}
-                      className={`btn ${i === 0 ? "btn-primary" : "btn-ghost"}`}
+                      className={`btn dl-btn ${i === 0 ? "btn-primary" : "btn-ghost"}`}
                       href={p.url}
                     >
                       <DownloadSimple weight="bold" />
-                      {p.kind}
+                      <span>
+                        {p.kind}
+                        <small>{p.fits}</small>
+                      </span>
                     </a>
                   ))}
                 </div>
-                <ul className="dl-notes">
-                  {LINUX_PACKAGES.map((p) => (
-                    <li key={p.kind}>
-                      <strong>{p.kind}</strong> for {p.fits}.{" "}
-                      <a href={`${p.url}.sig`}>Signature</a>
-                    </li>
+                <p className="dl-small">
+                  Signatures:{" "}
+                  {LINUX_PACKAGES.map((p, i) => (
+                    <span key={p.kind}>
+                      {i > 0 && " · "}
+                      <a href={`${p.url}.sig`}>{p.kind}</a>
+                    </span>
                   ))}
-                </ul>
-              </div>
-            </article>
-
-            <article className="dl" id="android">
-              <span className="plat-icon">
-                <DeviceMobile weight="duotone" />
-              </span>
-              <div className="dl-body">
-                <h2>Android</h2>
-                <p>
-                  {detail("android")} Google Play keeps it up to date.
                 </p>
+              </article>
+
+              <article className="dl-card is-later" id="macos">
+                <CardHead icon={<Laptop weight="duotone" />} name="macOS" status="Coming soon" />
+                <p>{detail("macos")}</p>
+              </article>
+            </div>
+          </div>
+
+          <div className="dl-group">
+            <h2 className="kicker">On your phone</h2>
+            <div className="dl-grid dl-grid-2">
+              <article className="dl-card" id="android">
+                <CardHead icon={<DeviceMobile weight="duotone" />} name="Android" />
+                <p>{detail("android")} Google Play keeps it up to date.</p>
                 <div className="dl-actions">
                   <a className="btn btn-primary" href={PLAY_STORE}>
                     <DeviceMobile weight="bold" />
                     Get it on Google Play
                   </a>
-                  <a className="btn btn-ghost" href={MOBILE_REPO}>
-                    <GithubLogo weight="fill" />
-                    Source
-                  </a>
                 </div>
-              </div>
-            </article>
+                <p className="dl-small">
+                  <a href={MOBILE_REPO}>Source on GitHub</a>
+                </p>
+              </article>
 
-            <article className="dl" id="extension">
-              <span className="plat-icon">
-                <Browser weight="duotone" />
-              </span>
-              <div className="dl-body">
-                <h2>Browser extension</h2>
+              <article className="dl-card is-later" id="ios">
+                <CardHead icon={<DeviceMobileCamera weight="duotone" />} name="iOS" status="Planned" />
+                <p>{detail("ios")}</p>
+              </article>
+            </div>
+          </div>
+
+          <div className="dl-group">
+            <h2 className="kicker">And also</h2>
+            <div className="dl-grid dl-grid-2">
+              <article className="dl-card" id="extension">
+                <CardHead icon={<Browser weight="duotone" />} name="Browser extension" />
                 <p>
                   Fills logins from your silo. It holds no passwords itself: it
                   asks the SilentSilo app on the same Windows or Linux computer,
                   so install the app first.
                 </p>
-                <div className="dl-actions">
+                <div className="dl-actions dl-stores">
                   {EXTENSION_STORES.map((s) => (
                     <a key={s.id} className="btn btn-ghost" href={s.href}>
-                      <Browser weight="duotone" />
                       {STORE_LABEL[s.id] ?? s.name}
                     </a>
                   ))}
                 </div>
-                <Link className="plat-action" href="/tutorials/browser-extension/">
-                  How it works
-                  <ArrowRight />
-                </Link>
-              </div>
-            </article>
+                <p className="dl-small">
+                  <Link href="/tutorials/browser-extension/">How it works</Link>
+                </p>
+              </article>
 
-            <article className="dl" id="extractor">
-              <span className="plat-icon">
-                <Terminal weight="duotone" />
-              </span>
-              <div className="dl-body">
-                <h2>Extraction tool</h2>
+              <article className="dl-card" id="extractor">
+                <CardHead icon={<Lifebuoy weight="duotone" />} name="Extraction tool" />
                 <p>
                   Reads a backup with only the recovery code, without the app.
                   One file, nothing to install. Keep it for the day the app is
                   not there.
                 </p>
-                <ul className="dl-files">
+                <div className="dl-actions dl-stores">
                   {EXTRACTORS.map((e) => (
-                    <li key={e.file}>
-                      <a href={e.url}>
-                        <DownloadSimple weight="bold" />
-                        {e.os}
-                      </a>
-                      <span>{e.arch}</span>
-                    </li>
+                    <a key={e.file} className="btn btn-ghost" href={e.url} title={e.arch}>
+                      <DownloadSimple weight="bold" />
+                      {e.os}
+                    </a>
                   ))}
-                </ul>
-                <Link className="plat-action" href="/tutorials/get-files-out/">
-                  How to use it
-                  <ArrowRight />
-                </Link>
-              </div>
-            </article>
+                </div>
+                <p className="dl-small">
+                  <Link href="/tutorials/get-files-out/">How to use it</Link>
+                </p>
+              </article>
+            </div>
           </div>
 
-          <div className="dl-later">
-            {PLATFORMS.filter((p) => !p.available).map((p) => (
-              <article className="plat is-planned" key={p.id}>
-                <div className="plat-head">
-                  <span className="plat-icon">
-                    {p.id === "ios" ? (
-                      <DeviceMobile weight="duotone" />
-                    ) : (
-                      <Desktop weight="duotone" />
-                    )}
-                  </span>
-                  <h3>{p.name}</h3>
-                  <span className="plat-status">{p.soon ? "Coming soon" : "Planned"}</span>
-                </div>
-                <p>{p.detail}</p>
-              </article>
-            ))}
+          <div className="dl-verify" id="verify">
+            <span className="dl-icon">
+              <ShieldCheck weight="duotone" />
+            </span>
+            <div>
+              <h2>Check the Windows installer</h2>
+              <p>
+                <strong>
+                  {VIRUSTOTAL_DETECTIONS === 0
+                    ? "No engine flagged it"
+                    : `${VIRUSTOTAL_DETECTIONS} of ${VIRUSTOTAL_ENGINES} engines flagged it`}
+                </strong>{" "}
+                on VirusTotal ({VIRUSTOTAL_DETECTIONS}/{VIRUSTOTAL_ENGINES},{" "}
+                {VIRUSTOTAL_SCANNED}). <a href={VIRUSTOTAL_REPORT}>See the report</a>.
+              </p>
+              <dl>
+                <dt>File</dt>
+                <dd>{LATEST_INSTALLER_NAME}</dd>
+                <dt>SHA-256</dt>
+                <dd>
+                  <code>{INSTALLER_SHA256}</code>
+                </dd>
+                <dt>Signature</dt>
+                <dd>
+                  <a href={LATEST_INSTALLER_SIG}>{LATEST_INSTALLER_NAME}.sig</a> (minisign,
+                  the key the app checks updates against)
+                </dd>
+              </dl>
+            </div>
           </div>
 
           <p className="dl-foot">
             <a href={RELEASES}>All releases</a>, with notes for each.{" "}
-            <a href={REPO}>The source</a> is on GitHub under the AGPL.
+            <a href={REPO}>
+              <GithubLogo weight="fill" /> The source
+            </a>{" "}
+            is on GitHub under the AGPL.
           </p>
         </div>
       </section>

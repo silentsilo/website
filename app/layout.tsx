@@ -6,7 +6,7 @@ import { PageToc } from "./PageToc";
 import { SiteHeader } from "./SiteHeader";
 import { THEME_SCRIPT } from "./ThemeToggle";
 import { IconGitHub } from "./Icons";
-import { CORE_REPO, DOC_CRYPTO, DOC_FORMATS, MOBILE_REPO, PLAY_STORE, RELEASED, RELEASES, REPO } from "./links";
+import { CORE_REPO, DOC_CRYPTO, DOC_FORMATS, MOBILE_REPO, PLAY_STORE, RELEASED, REPO } from "./links";
 
 export const metadata: Metadata = {
   title: {
@@ -107,7 +107,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                       empty, so the word was a promise the link could not
                       keep. */}
                   {RELEASED ? (
-                    <a href={RELEASES}>Download for Windows and Linux</a>
+                    <Link href="/download/">Download</Link>
                   ) : (
                     <a href={REPO}>Source</a>
                   )}

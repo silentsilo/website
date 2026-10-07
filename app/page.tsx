@@ -18,7 +18,6 @@ import {
   LockKey,
   MinusCircle,
   Password,
-  PuzzlePiece,
   Scroll,
   ShieldCheck,
   Stack,
@@ -27,11 +26,12 @@ import {
   Vault,
   XCircle,
 } from "@phosphor-icons/react/dist/ssr";
+import { AlsoOn } from "./AlsoOn";
 import { DownloadButton } from "./DownloadButton";
 import { HowItWorks } from "./HowItWorks";
 import { Showcase } from "./Showcase";
 import { ThemedImg } from "./ThemedImg";
-import { EXTENSION_STORES, LATEST_TAG, PLAY_STORE, REPO } from "./links";
+import { LATEST_TAG, REPO } from "./links";
 import { ExtensionStoreLink } from "./ExtensionStoreLink";
 import { PLANNED, PLATFORMS, SOON, type Platform } from "./platforms";
 import { STORAGE_GUIDES } from "./tutorials/guides";
@@ -172,19 +172,7 @@ export default function Home() {
                 <ArrowRight />
               </a>
             </div>
-            <p className="hero-stores">
-              <span>Also on</span>
-              <a href={PLAY_STORE}>
-                <DeviceMobile weight="duotone" />
-                Google Play
-              </a>
-              {EXTENSION_STORES.map((s) => (
-                <a key={s.id} href={s.href}>
-                  <PuzzlePiece weight="duotone" />
-                  {s.name}
-                </a>
-              ))}
-            </p>
+            <AlsoOn />
             <p className="hero-meta">
               {LATEST_TAG} · {names(SOON)} coming soon · {names(PLANNED)} planned
             </p>

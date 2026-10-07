@@ -4,18 +4,25 @@ import { useEffect, useState } from "react";
 import { IconDownload, IconPhone } from "./Icons";
 import { LATEST_INSTALLER, PLAY_STORE } from "./links";
 
-type Visitor = "windows" | "android" | "linux" | "elsewhere";
+export type Visitor = "windows" | "android" | "linux" | "macos" | "ios" | "elsewhere";
+
+/** The system a browser says it runs on. An iPad asks for the desktop site
+ *  and says Macintosh, so it is told apart by its touch screen. */
+export function visitorOf(ua: string, touch: boolean): Visitor {
+  if (/Android/i.test(ua)) return "android";
+  if (/iPhone|iPad|iPod/i.test(ua) || (/Macintosh/i.test(ua) && touch)) return "ios";
+  if (/Windows/i.test(ua)) return "windows";
+  if (/Macintosh/i.test(ua)) return "macos";
+  if (/Linux|X11/i.test(ua) && !/CrOS/i.test(ua)) return "linux";
+  return "elsewhere";
+}
 
 /** Which download fits the device reading the page. Windows until the
  *  browser says otherwise, so the server render is the common case. */
 function useVisitor(): Visitor {
   const [visitor, setVisitor] = useState<Visitor>("windows");
   useEffect(() => {
-    const ua = navigator.userAgent;
-    if (/Android/i.test(ua)) setVisitor("android");
-    else if (/Windows/i.test(ua)) setVisitor("windows");
-    else if (/Linux|X11/i.test(ua) && !/CrOS/i.test(ua)) setVisitor("linux");
-    else setVisitor("elsewhere");
+    setVisitor(visitorOf(navigator.userAgent, navigator.maxTouchPoints > 1));
   }, []);
   return visitor;
 }
@@ -42,7 +49,7 @@ export function DownloadButton() {
       </a>
     );
   }
-  if (visitor === "elsewhere") {
+  if (visitor !== "windows") {
     return (
       <a className={cls} href="/download/">
         <IconDownload size={16} />
