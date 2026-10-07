@@ -48,14 +48,14 @@ const SHOTS: Shot[] = [
   {
     id: "files",
     tab: "Files",
-    hint: "Encrypted names, drag and drop",
+    hint: "Details beside every file",
     icon: <FolderSimple weight="duotone" />,
     base: "/shots/files",
     width: 2400,
     height: 1600,
-    alt: "The SilentSilo file explorer showing encrypted folders inside a silo",
+    alt: "The file explorer with a PDF selected and its details beside it: dates, backup status and the three copies that hold it",
     caption:
-      "Grid or list, drag and drop, search across the whole silo. Names are encrypted at rest; the index only exists while you are unlocked.",
+      "Grid or list, drag and drop, search across the whole silo. The details beside the list say which of your copies hold each file. Names are encrypted at rest; the index only exists while you are unlocked.",
   },
   {
     id: "credentials",
@@ -79,7 +79,7 @@ const SHOTS: Shot[] = [
     height: 1600,
     alt: "The health page listing a reused password, old passwords, a login without two-factor and an untested backup",
     caption:
-      "Reused and old passwords, logins with no second factor, and whether the backup was ever tested. The breach check runs only when you ask, and sends five characters of a hash.",
+      "Reused and old passwords, logins with no second factor, and whether the backup was ever tested. What you have decided to live with can be ignored. The breach check runs only when you ask, and sends five characters of a hash.",
   },
   {
     id: "fill",
