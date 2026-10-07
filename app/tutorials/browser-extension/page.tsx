@@ -115,8 +115,9 @@ export default function BrowserExtension() {
           <strong>Save a login from your browser?</strong>. Change the name
           or the username if you like and press <strong>Save</strong>. When
           a login for that site and username is already in the silo, it
-          offers <strong>Update</strong> instead, and the old password stays
-          in that entry&apos;s history.
+          offers to update it or to save a new login: choose{" "}
+          <strong>Update</strong> and the old password stays in that
+          entry&apos;s history.
         </li>
         <li>Sign in on the page as usual.</li>
       </ol>
@@ -158,7 +159,9 @@ export default function BrowserExtension() {
         and shows the logins. <strong>Your silo is locked</strong> works the
         same way after you unlock it.{" "}
         <strong>SilentSilo is not installed</strong> means the browser cannot
-        find the app at all; install it, or run its installer again.
+        find the app at all; install it, or run its installer again. On
+        Linux it also means the setting is off: turning it off removes what
+        tells the browser where the app is, so tick it again.
       </p>
       <p>
         The extension is for SilentSilo on Windows and Linux. On Android, the app fills

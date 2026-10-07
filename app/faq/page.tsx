@@ -115,7 +115,7 @@ export default function Faq() {
       <h2>Does it work without sync?</h2>
       <p>
         Completely. A silo that never connects to backup storage is fully usable,
-        forever. Sync is something you switch on when you want a second
+        and nothing in it expires or waits on a server. Sync is something you switch on when you want a second
         machine or a backup, not a mode the app needs.
       </p>
 

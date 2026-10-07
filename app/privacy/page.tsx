@@ -153,6 +153,13 @@ export default function Privacy() {
           may fill, never what is typed or shown.
         </li>
         <li>
+          <strong>When you choose Save this login</strong> (from version
+          0.2), it reads the username and password typed in that page&apos;s
+          login form, once, and sends them to the SilentSilo app on your
+          computer, which asks you whether to save them. The extension keeps
+          neither.
+        </li>
+        <li>
           <strong>When you confirm a fill</strong> in the app, with Windows
           Hello or your security key, the app gives it one username and
           password. It writes them into those two fields and does not keep

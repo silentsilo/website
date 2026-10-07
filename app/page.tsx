@@ -97,7 +97,7 @@ const SMALL_FEATURES: { icon: React.ReactNode; title: string; text: string }[] =
   {
     icon: <LockKey weight="duotone" />,
     title: "Locks itself",
-    text: "When you lock the computer, when the phone sleeps, or after a time you choose.",
+    text: "When you lock a Windows computer, when the phone sleeps, or after a time you choose.",
   },
   {
     icon: <Stack weight="duotone" />,

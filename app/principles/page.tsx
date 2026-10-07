@@ -17,7 +17,8 @@ export default function Principles() {
 
       <h2>Local first, permanently</h2>
       <p>
-        A silo that never connects storage is fully usable, forever. No
+        A silo that never connects storage is fully usable, and nothing in
+        it expires. No
         account exists, so none can be required later. If Software Hive
         disappeared tomorrow, every silo would keep opening on every machine
         it opens on today.

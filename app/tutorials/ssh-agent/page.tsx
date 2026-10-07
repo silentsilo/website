@@ -60,7 +60,7 @@ export default function SshAgent() {
       <ol>
         <li>
           Open an SSH key entry under <strong>Passwords</strong>, or make one
-          with <strong>Add entry</strong> and{" "}
+          with <strong>Add entry</strong>, <strong>SSH key</strong> and{" "}
           <strong>Generate an ed25519 key</strong>.
         </li>
         <li>
@@ -121,15 +121,18 @@ export default function SshAgent() {
       <ul>
         <li>
           <strong>Allow this key for this server until the silo locks</strong>{" "}
-          stops it asking again for that server; for Git signatures the box
-          covers them all. A lock forgets every such allowance. When the
+          stops it asking again for that server; for Git the box reads{" "}
+          <strong>Allow this key for Git signatures until the silo locks</strong>{" "}
+          and covers them all. A lock forgets every such allowance. When the
           program does not name the server (OpenSSH before 8.9), every use
           is asked.
         </li>
         <li>
           A key whose entry has{" "}
           <strong>Ask for my security key or Windows Hello before showing
-          this entry</strong> ticked asks for it at each use too.
+          this entry</strong> ticked (on Linux,{" "}
+          <strong>Ask for my security key before showing this entry</strong>)
+          asks for it at each use too.
         </li>
         <li>
           With the silo locked, a request brings up the unlock screen and

@@ -67,7 +67,7 @@ const SHOTS: Shot[] = [
     height: 1600,
     alt: "The passwords view with a login selected, beside the list of entries",
     caption:
-      "Logins, cards, identities, SSH keys and notes in one place, with live TOTP codes, a generator, and CSV import from Bitwarden, LastPass, 1Password or Chrome.",
+      "Logins, cards, identities, SSH keys and notes in one place, with live TOTP codes, a generator, and import from KeePass, Bitwarden, 1Password, LastPass and the browsers, among others.",
   },
   {
     id: "health",

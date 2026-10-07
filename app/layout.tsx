@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: "%s · SilentSilo",
   },
   description:
-    "A local-first, end-to-end encrypted vault for files and passwords. Unlocked with a hardware security key, Windows Hello or a phone fingerprint. For Windows and Android. Optional sync to storage you already control.",
+    "A local-first, end-to-end encrypted vault for files and passwords. Unlocked with a hardware security key, Windows Hello or a phone fingerprint. For Windows, Linux and Android. Optional sync to storage you already control.",
   metadataBase: new URL("https://silentsilo.com"),
   applicationName: "SilentSilo",
   icons: { icon: "/icon.svg", shortcut: "/icon.svg", apple: "/icon.svg" },
@@ -37,7 +37,7 @@ const APP_SCHEMA = {
   "@type": "SoftwareApplication",
   name: "SilentSilo",
   applicationCategory: "SecurityApplication",
-  operatingSystem: "Windows 10, Windows 11, Android 12+",
+  operatingSystem: "Windows 10, Windows 11, Linux, Android 12+",
   license: "https://www.gnu.org/licenses/agpl-3.0.html",
   url: "https://silentsilo.com",
   offers: { "@type": "Offer", price: 0, priceCurrency: "USD" },

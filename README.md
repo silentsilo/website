@@ -76,7 +76,7 @@ the script, run `npm run og`, commit the result.
 The site states things that can quietly stop being true. These are the ones
 that matter, and each is one commit away from being wrong:
 
-- **`/security`** summarises `docs/CRYPTO.md` in the desktop repository. When
+- **`/security`** summarises `docs/CRYPTO.md` in the core repository. When
   the two disagree, CRYPTO.md is right and this site is wrong.
 - **`/privacy`** claims no cookies, no analytics and no third-party requests.
   The font ships from this domain for that reason. Anything external added

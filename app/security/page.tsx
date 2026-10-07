@@ -186,8 +186,9 @@ export default function Security() {
       </p>
       <p>
         What it does instead is remove the cheap ways in and shorten the
-        window. Silos lock when the workstation locks, disconnects or
-        suspends, rather than waiting out the idle timer. Password entries
+        window. On Windows, silos lock when the workstation locks,
+        disconnects or suspends, rather than waiting out the idle timer; on
+        Linux the idle timer and locking by hand do it. Password entries
         are encrypted individually, so they are not readable from the
         working index. Copied passwords are kept out of Windows Clipboard
         History and Cloud Clipboard, and cleared after 45 seconds. At startup
@@ -220,8 +221,10 @@ export default function Security() {
         beside it, which the updater checks, comes from one update key, and
         that same key is also held in the repository&apos;s secrets, because
         the Linux and macOS extractors are built and signed by GitHub
-        Actions. So the update signature says the release process produced
-        the file, not that it never touched GitHub. Worth knowing rather than
+        Actions, and so are the Linux .deb and AppImage, which carry no
+        Authenticode signature, since Linux has none. So the update
+        signature says the release process produced the file, not that it
+        never touched GitHub. Worth knowing rather than
         glossed over. The public half of the key is published in both
         repositories, in{" "}
         <a href="https://github.com/silentsilo/core/blob/main/SIGNING-PUBKEY.txt">

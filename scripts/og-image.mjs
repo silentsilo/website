@@ -91,7 +91,7 @@ const html = `<!doctype html>
   </div>
   <h1>An encrypted vault.<br><em>No account. No server.</em></h1>
   <p>Files and passwords in encrypted folders on your computer and your phone, unlocked with Windows Hello, a fingerprint or a security key.</p>
-  <div class="line">Windows &middot; Android &middot; free &middot; open source</div>
+  <div class="line">Windows &middot; Linux &middot; Android &middot; free &middot; open source</div>
 </body></html>`;
 
 const dir = mkdtempSync(join(tmpdir(), "og-"));

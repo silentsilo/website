@@ -169,8 +169,8 @@ export default function GetFilesOut() {
         When the silo keeps an activity log, the tool writes it too, to{" "}
         <code>_activity/activity-log.csv</code> and{" "}
         <code>_activity/activity-log.jsonl</code>, newest first, and{" "}
-        <code>list</code> says how many events it holds. Records missing from
-        a device&apos;s run are named, as in the app.
+        <code>list</code> says how many events it holds. Which records are
+        missing from a device&apos;s run is something only the app says.
       </p>
       <p>
         An organisation&apos;s log is the exception. Only the

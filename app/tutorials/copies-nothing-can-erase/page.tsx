@@ -80,7 +80,7 @@ export default function ImmutableCopies() {
         <tbody>
           <tr>
             <td>Object lock in a bucket</td>
-            <td>The whole silo, automatically, forever</td>
+            <td>The whole silo, automatically, for as long as the lock is set</td>
             <td>A few euros a month, one careful setup</td>
           </tr>
           <tr>
