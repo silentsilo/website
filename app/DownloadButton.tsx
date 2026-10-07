@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { IconDownload, IconPhone } from "./Icons";
-import { LATEST_INSTALLER, LATEST_RELEASE, PLAY_STORE } from "./links";
+import { LATEST_INSTALLER, PLAY_STORE } from "./links";
 
 type Visitor = "windows" | "android" | "linux" | "elsewhere";
 
@@ -21,40 +21,39 @@ function useVisitor(): Visitor {
 }
 
 /** The one button most visitors came for: Google Play on Android, the
- *  installer on Windows, the release with the .deb and the AppImage on
- *  Linux, and the list of platforms anywhere else, where the honest answer
- *  is "not yet". */
-export function DownloadButton({ size }: { size?: "sm" }) {
+ *  installer on Windows, the two Linux packages on Linux, and the download
+ *  page anywhere else, where the honest answer is "not yet". */
+export function DownloadButton() {
   const visitor = useVisitor();
-  const cls = `btn btn-primary${size === "sm" ? " btn-sm" : ""}`;
+  const cls = "btn btn-primary";
   if (visitor === "android") {
     return (
       <a className={cls} href={PLAY_STORE}>
         <IconPhone size={16} />
-        {size === "sm" ? "Get it" : "Get it on Google Play"}
+        Get it on Google Play
       </a>
     );
   }
   if (visitor === "linux") {
     return (
-      <a className={cls} href={LATEST_RELEASE}>
+      <a className={cls} href="/download/#linux">
         <IconDownload size={16} />
-        {size === "sm" ? "Download" : "Download for Linux"}
+        Download for Linux
       </a>
     );
   }
   if (visitor === "elsewhere") {
     return (
-      <a className={cls} href="/#platforms">
+      <a className={cls} href="/download/">
         <IconDownload size={16} />
-        {size === "sm" ? "Download" : "See the platforms"}
+        See the platforms
       </a>
     );
   }
   return (
     <a className={cls} href={LATEST_INSTALLER}>
       <IconDownload size={16} />
-      {size === "sm" ? "Download" : "Download for Windows"}
+      Download for Windows
     </a>
   );
 }

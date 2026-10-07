@@ -1,4 +1,4 @@
-import { LATEST_INSTALLER, LATEST_RELEASE, PLAY_STORE } from "./links";
+import { LATEST_INSTALLER, PLAY_STORE } from "./links";
 
 /**
  * Every platform the site talks about, in one place. When macOS, iOS or
@@ -29,7 +29,7 @@ export const PLATFORMS: Platform[] = [
     name: "Linux",
     available: true,
     detail: "A .deb for Debian and Ubuntu, an AppImage for the others, 64-bit. Unlocks with a security key.",
-    action: { label: "Download for Linux", href: LATEST_RELEASE },
+    action: { label: "Download for Linux", href: "/download/#linux" },
   },
   {
     id: "android",

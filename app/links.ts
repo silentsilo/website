@@ -2,9 +2,7 @@ export const REPO = "https://github.com/silentsilo/desktop";
 
 export const RELEASES = `${REPO}/releases`;
 
-/** The newest release's page, where the Linux .deb and AppImage sit beside
- *  the Windows installer. Their names carry the version, so the page is
- *  linked rather than a file. */
+/** The newest release's page, with its notes and every file. */
 export const LATEST_RELEASE = `${RELEASES}/latest`;
 
 /**
@@ -22,14 +20,22 @@ export const RELEASED = true;
 
 /**
  * The `latest` path resolves to the newest stable release on its own, but
- * the filename still carries the version, so update both with each tag.
- * Both are unused while `RELEASED` is false.
+ * the file names carry the version: one string per release, every name
+ * built from it.
  */
-export const LATEST_TAG = "v1.3.0";
+export const LATEST_VERSION = "1.3.0";
+export const LATEST_TAG = `v${LATEST_VERSION}`;
 
-/** One string per release, everything else built from it. */
-export const LATEST_INSTALLER_NAME = "SilentSilo_1.3.0_x64-setup.exe";
-export const LATEST_INSTALLER = `${REPO}/releases/latest/download/${LATEST_INSTALLER_NAME}`;
+const LATEST_DOWNLOAD = `${REPO}/releases/latest/download`;
+
+export const LATEST_INSTALLER_NAME = `SilentSilo_${LATEST_VERSION}_x64-setup.exe`;
+export const LATEST_INSTALLER = `${LATEST_DOWNLOAD}/${LATEST_INSTALLER_NAME}`;
+
+/** The two Linux packages, each with its minisign signature beside it. */
+export const LINUX_PACKAGES = [
+  { kind: ".deb", file: `SilentSilo_${LATEST_VERSION}_amd64.deb`, fits: "Debian, Ubuntu, Mint" },
+  { kind: "AppImage", file: `SilentSilo_${LATEST_VERSION}_amd64.AppImage`, fits: "Fedora, Arch and the rest" },
+].map((p) => ({ ...p, url: `${LATEST_DOWNLOAD}/${p.file}` }));
 
 /** The extraction tool, one binary per system, attached to every release.
  *  The names carry no version, so these follow `latest` on their own. */
@@ -37,7 +43,7 @@ export const EXTRACTORS = [
   { os: "Windows", arch: "x86-64", file: "silentsilo-extract-windows-x86_64.exe" },
   { os: "Linux", arch: "x86-64", file: "silentsilo-extract-linux-x86_64" },
   { os: "macOS", arch: "Apple silicon", file: "silentsilo-extract-macos-aarch64" },
-].map((e) => ({ ...e, url: `${REPO}/releases/latest/download/${e.file}` }));
+].map((e) => ({ ...e, url: `${LATEST_DOWNLOAD}/${e.file}` }));
 
 /** The minisign signature published beside the installer, over the bytes as
  *  they ship. The same key the app checks an update against, so a download can

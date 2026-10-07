@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { DownloadButton } from "./DownloadButton";
-import { IconClose, IconGitHub, IconMail, IconMenu } from "./Icons";
+import { IconClose, IconDownload, IconGitHub, IconMail, IconMenu } from "./Icons";
 import { REPO } from "./links";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -127,7 +126,10 @@ export function SiteHeader() {
           <a className="icon-btn header-gh" href={REPO} aria-label="Source on GitHub" title="Source on GitHub">
             <IconGitHub size={18} />
           </a>
-          <DownloadButton size="sm" />
+          <Link className="btn btn-primary btn-sm" href="/download/">
+            <IconDownload size={16} />
+            Download
+          </Link>
           <button
             type="button"
             className="icon-btn nav-menu-btn"

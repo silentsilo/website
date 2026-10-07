@@ -1367,6 +1367,158 @@ a:hover {
   }
 }
 
+/* ── Download page: one row per thing to get, the files under its name ── */
+.dl-page .sec-head h1 {
+  margin: 0 0 0.6rem;
+  font-size: clamp(1.8rem, 1.4rem + 1.4vw, 2.3rem);
+  font-weight: 660;
+  letter-spacing: -0.035em;
+}
+
+.dl-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dl {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+  padding: 1.4rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--edge);
+  scroll-margin-top: 5rem;
+}
+
+.dl-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dl h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 640;
+  letter-spacing: -0.02em;
+}
+
+.dl-body > p {
+  margin: -0.35rem 0 0;
+  max-width: 44rem;
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.55;
+}
+
+.dl-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.dl .verify {
+  background: transparent;
+  box-shadow: none;
+}
+
+.dl .verify summary {
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+}
+
+.dl .verify-body {
+  padding: 0 1rem 0.9rem;
+}
+
+.dl .verify-body code {
+  font-size: 0.82rem;
+}
+
+.dl-notes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.dl-notes strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.dl-files {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.dl-files li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.dl-files a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 580;
+  font-size: 0.93rem;
+}
+
+.dl-files span {
+  color: var(--dim);
+  font-size: 0.8rem;
+}
+
+.dl .plat-action {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.dl-later {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.dl-foot {
+  margin: 1.6rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  .dl {
+    flex-direction: column;
+    padding: 1.2rem;
+  }
+
+  .dl-actions .btn {
+    flex: 1 1 100%;
+  }
+
+  .dl-files,
+  .dl-later {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── Trust cards ── */
 .trust-grid {
   display: grid;

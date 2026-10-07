@@ -31,20 +31,7 @@ import { DownloadButton } from "./DownloadButton";
 import { HowItWorks } from "./HowItWorks";
 import { Showcase } from "./Showcase";
 import { ThemedImg } from "./ThemedImg";
-import {
-  EXTENSION_STORES,
-  INSTALLER_SHA256,
-  LATEST_INSTALLER_NAME,
-  LATEST_INSTALLER_SIG,
-  LATEST_TAG,
-  PLAY_STORE,
-  RELEASES,
-  REPO,
-  VIRUSTOTAL_DETECTIONS,
-  VIRUSTOTAL_ENGINES,
-  VIRUSTOTAL_REPORT,
-  VIRUSTOTAL_SCANNED,
-} from "./links";
+import { EXTENSION_STORES, LATEST_TAG, PLAY_STORE, REPO } from "./links";
 import { ExtensionStoreLink } from "./ExtensionStoreLink";
 import { PLANNED, PLATFORMS, SOON, type Platform } from "./platforms";
 import { STORAGE_GUIDES } from "./tutorials/guides";
@@ -473,37 +460,17 @@ export default function Home() {
           </div>
 
           <div className="get-more">
-            <details className="verify">
-              <summary>
-                <ShieldCheck weight="duotone" />
-                Check the Windows download before you run it
-              </summary>
-              <div className="verify-body">
-                <p>
-                  <strong>
-                    {VIRUSTOTAL_DETECTIONS === 0
-                      ? "No engine flagged this installer"
-                      : `${VIRUSTOTAL_DETECTIONS} of ${VIRUSTOTAL_ENGINES} engines flagged this installer`}
-                  </strong>{" "}
-                  on VirusTotal ({VIRUSTOTAL_DETECTIONS}/{VIRUSTOTAL_ENGINES},{" "}
-                  {VIRUSTOTAL_SCANNED}). <a href={VIRUSTOTAL_REPORT}>See the report</a>.
-                </p>
-                <dl>
-                  <dt>SHA-256</dt>
-                  <dd>
-                    <code>{INSTALLER_SHA256}</code>
-                  </dd>
-                  <dt>Signature</dt>
-                  <dd>
-                    <a href={LATEST_INSTALLER_SIG}>{LATEST_INSTALLER_NAME}.sig</a>{" "}
-                    (minisign, the key the app checks updates against)
-                  </dd>
-                </dl>
-                <p>
-                  <a href={RELEASES}>All releases</a>, with notes for each.
-                </p>
-              </div>
-            </details>
+            <Link className="way-out" href="/download/">
+              <span className="feat-icon">
+                <DownloadSimple weight="duotone" />
+              </span>
+              <span>
+                <strong>Every download in one place.</strong> Both Linux
+                packages, the extension stores, and the checksum and
+                VirusTotal report for the Windows installer.
+              </span>
+              <ArrowRight />
+            </Link>
             <Link className="way-out" href="/tutorials/get-files-out/">
               <span className="feat-icon">
                 <Terminal weight="duotone" />
@@ -597,10 +564,10 @@ export default function Home() {
                 Read the threat model
                 <ArrowRight />
               </Link>
-              <a className="btn btn-primary" href="#platforms">
+              <Link className="btn btn-primary" href="/download/">
                 <DownloadSimple weight="bold" />
                 Get SilentSilo
-              </a>
+              </Link>
             </div>
           </div>
         </div>

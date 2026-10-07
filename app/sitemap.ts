@@ -4,6 +4,7 @@ export const dynamic = "force-static";
 
 const PAGES = [
   "",
+  "download",
   "security",
   "tutorials",
   "tutorials/backup-onedrive",
