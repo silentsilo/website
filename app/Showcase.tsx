@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ArrowCounterClockwise,
   Browser,
+  ClockCounterClockwise,
   CloudArrowUp,
   Fingerprint,
   FolderSimple,
@@ -116,6 +117,18 @@ const SHOTS: Shot[] = [
     alt: "The unlocking settings listing a YubiKey and Windows Hello, with a form to add another key",
     caption:
       "Every key that opens the silo, by name. Add a YubiKey or Windows Hello, remove one you lost, and the files stay exactly as they are.",
+  },
+  {
+    id: "activity",
+    tab: "Activity",
+    hint: "Which device, which key",
+    icon: <ClockCounterClockwise weight="duotone" />,
+    base: "/shots/activity",
+    width: 2400,
+    height: 1600,
+    alt: "The activity page listing today's events, each with the device and the key behind it",
+    caption:
+      "What happened in the silo, from which device and with which key: unlocks, copied passwords, fills, files added or moved. The log is encrypted with the silo, readable only once it is open, and exports to CSV or JSON.",
   },
   {
     id: "silos",
