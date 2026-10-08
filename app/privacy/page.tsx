@@ -65,7 +65,8 @@ export default function Privacy() {
           endpoint runs on Cloudflare. Each check writes one row to
           Cloudflare&apos;s analytics service with the platform, the version
           and the outcome, which is how we estimate active installs; no row
-          can tell one install from another. Cloudflare relays the request
+          can tell one install from another. Versions before 1.2.0 often
+          wrote two to four rows for one check. Cloudflare relays the request
           and sees your IP address. SilentSilo does not receive it or keep
           it. The check can be turned off in Settings, and turning it off
           removes you from the count entirely.
