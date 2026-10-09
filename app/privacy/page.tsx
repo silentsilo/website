@@ -139,6 +139,33 @@ export default function Privacy() {
         each claim above can be checked against the code that makes it.
       </p>
 
+      <h2>The iPhone app</h2>
+      <p>
+        The iPhone makes the same sync and backup requests, to the storage
+        you chose, and nothing else of its own. It has no update check: the
+        App Store delivers updates. Signing in to OneDrive, Dropbox or Google
+        Drive shows the provider&apos;s own page in a system sheet, without
+        Safari&apos;s cookies, and the answer comes back to the app on the
+        iPhone itself.
+      </p>
+      <ul>
+        <li>
+          <strong>Face ID or Touch ID</strong> stays with iOS. The silo&apos;s
+          key is made in the iPhone&apos;s Secure Enclave and is used there
+          after iOS recognises you; the app never sees your face or
+          fingerprint.
+        </li>
+        <li>
+          <strong>Security keys</strong> over NFC exchange only what unlocking
+          needs with the key itself. Its PIN goes to the key and is not kept.
+        </li>
+        <li>
+          <strong>Files and photos</strong> are read only when you pick them or
+          take a photo for the silo, and are encrypted on the iPhone. Saving a
+          file to Photos happens only when you choose it.
+        </li>
+      </ul>
+
       <h2 id="browser-extension">The browser extension</h2>
       <p>
         The SilentSilo extension for Chrome, Edge, Brave and Firefox works only
