@@ -160,9 +160,20 @@ export default function Privacy() {
           needs with the key itself. Its PIN goes to the key and is not kept.
         </li>
         <li>
-          <strong>Files and photos</strong> are read only when you pick them or
-          take a photo for the silo, and are encrypted on the iPhone. Saving a
-          file to Photos happens only when you choose it.
+          <strong>Files and photos</strong> are read only when you pick them,
+          take a photo for the silo or share them from another app, and are
+          encrypted on the iPhone. Saving a file to Photos happens only when
+          you choose it.
+        </li>
+        <li>
+          <strong>Phone backup</strong>, only if you turn it on, reads the
+          photos and videos in the albums you choose and your contacts. Each
+          is encrypted on the iPhone and sent to your silo&apos;s storage. We
+          receive none of it.
+        </li>
+        <li>
+          <strong>AutoFill</strong> opens your silo on the iPhone after Face
+          ID and gives iOS the one login you pick. It sends nothing anywhere.
         </li>
       </ul>
 
