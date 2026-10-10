@@ -59,7 +59,7 @@ export default function Privacy() {
           at Dropbox also on their side.
         </li>
         <li>
-          <strong>The update check.</strong> At most once a day, the app asks
+          <strong>The update check</strong> (desktop app only). At most once a day, the app asks
           releases.silentsilo.com whether a newer version exists. That
           request contains your app version and platform, nothing else. The
           endpoint runs on Cloudflare. Each check writes one row to
@@ -72,8 +72,8 @@ export default function Privacy() {
           removes you from the count entirely.
         </li>
         <li>
-          <strong>The breach check</strong>, only when you press its button in
-          Health. The first five characters of each password&apos;s SHA-1 hash
+          <strong>The breach check</strong> (desktop app only), only when you
+          press its button in Health. The first five characters of each password&apos;s SHA-1 hash
           go to Have I Been Pwned&apos;s range API, run by a third party; the
           passwords themselves never leave your machine, the responses are
           padded so their size reveals nothing, and the request does not pass
@@ -81,7 +81,7 @@ export default function Privacy() {
           hears from you.
         </li>
         <li>
-          <strong>Site icons, only if you switch them on.</strong> Off by
+          <strong>Site icons</strong> (desktop app only), only if you switch them on. Off by
           default. Turned on, the passwords list asks each saved site for
           its <code>favicon.ico</code> directly, which tells that site your IP
           address and the fact that you hold an account there, every time the
@@ -167,15 +167,22 @@ export default function Privacy() {
         </li>
         <li>
           <strong>Phone backup</strong>, only if you turn it on, reads the
-          photos and videos in the albums you choose and your contacts. Each
-          is encrypted on the iPhone and sent to your silo&apos;s storage. We
+          photos and videos in the albums you choose, with where they were
+          taken when the file records it, and your contacts. Each is
+          encrypted on the iPhone and sent to your silo&apos;s storage. We
           receive none of it.
         </li>
         <li>
-          <strong>AutoFill</strong> opens your silo on the iPhone after Face
-          ID and gives iOS the one login you pick. It sends nothing anywhere.
+          <strong>AutoFill</strong> reads the name of the app or site iOS
+          passes to it, to put its logins first, opens your silo on the iPhone
+          after Face ID and gives iOS the one login you pick. It sends nothing
+          anywhere.
         </li>
       </ul>
+      <p>
+        The iPhone app sends nothing to us, so we hold nothing from it to keep
+        or delete.
+      </p>
 
       <h2 id="browser-extension">The browser extension</h2>
       <p>
