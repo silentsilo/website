@@ -72,10 +72,11 @@ export default function Privacy() {
           removes you from the count entirely.
         </li>
         <li>
-          <strong>The breach check</strong> (desktop app only), only when you
-          press its button in Health. The first five characters of each password&apos;s SHA-1 hash
-          go to Have I Been Pwned&apos;s range API, run by a third party; the
-          passwords themselves never leave your machine, the responses are
+          <strong>The breach check</strong>, only when you press its button in
+          Health on the computer or in Password health on the phone. The first
+          five characters of each password&apos;s SHA-1 hash go to Have I Been
+          Pwned&apos;s range API, run by a third party; the passwords
+          themselves never leave your device, the responses are
           padded so their size reveals nothing, and the request does not pass
           through us at all. Never press the button, and that service never
           hears from you.
@@ -106,7 +107,8 @@ export default function Privacy() {
       <p>
         The phone makes the sync and backup requests above, including the
         sign-in to OneDrive, Dropbox or Google Drive, to the storage you
-        chose, and nothing else of its own. It has no update check: the
+        chose, and the breach check when you press its button, and nothing
+        else of its own. It has no update check: the
         store delivers updates. What it reads on the phone, only when you
         turn the feature on:
       </p>
@@ -142,7 +144,8 @@ export default function Privacy() {
       <h2>The iPhone app</h2>
       <p>
         The iPhone makes the same sync and backup requests, to the storage
-        you chose, and nothing else of its own. It has no update check: the
+        you chose, and the breach check when you press its button, and
+        nothing else of its own. It has no update check: the
         App Store delivers updates. Signing in to OneDrive, Dropbox or Google
         Drive shows the provider&apos;s own page in a system sheet, without
         Safari&apos;s cookies, and the answer comes back to the app on the
