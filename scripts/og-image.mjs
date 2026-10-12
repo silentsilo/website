@@ -89,7 +89,7 @@ const html = `<!doctype html>
     <img src="data:image/svg+xml;base64,${icon}" alt="">
     <span>SilentSilo</span>
   </div>
-  <h1>An encrypted vault.<br><em>No account. No server.</em></h1>
+  <h1>An encrypted vault.<br><em>No account. Your storage.</em></h1>
   <p>Files and passwords in encrypted folders on your computer and your phone, unlocked with Windows Hello, a fingerprint or a security key.</p>
   <div class="line">Windows &middot; Linux &middot; Android &middot; free &middot; open source</div>
 </body></html>`;

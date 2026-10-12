@@ -167,8 +167,9 @@ export default function ImmutableCopies() {
       <p>
         The retention window runs from when each object is{" "}
         <strong>written</strong>, not from when something tries to delete it.
-        With a fourteen day window, everything written in the last fortnight
-        cannot be destroyed by anybody. Something written six months ago is
+        With a fourteen day window, nothing written in the last fortnight can
+        be deleted through the storage, by you or by anyone holding your
+        credentials. Something written six months ago is
         outside its window: an accidental delete leaves it recoverable for as
         long as your lifecycle rule keeps noncurrent versions, but a
         deliberate one, made with stolen credentials that name the version
@@ -197,7 +198,8 @@ export default function ImmutableCopies() {
         <strong>Compliance mode binds you too.</strong> If you put something
         in that bucket that must genuinely be erased, a subject access
         request, a file uploaded by mistake, you cannot erase it before the
-        retention expires. Nobody can. Choose the window knowing that, and
+        retention expires, and neither can anyone else with access to the
+        bucket. Choose the window knowing that, and
         choose it short rather than long.
       </p>
 

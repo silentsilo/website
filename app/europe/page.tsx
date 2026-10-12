@@ -142,8 +142,8 @@ export default function Europe() {
       <p className="lead">
         For people and companies in the EU who want to know where their files
         end up and who could be asked for them. SilentSilo is made by
-        Software Hive S.R.L., a company in Romania, and runs no server of its
-        own: where your silo lives is your choice, and this page goes through
+        Software Hive S.R.L., a company in Romania, and keeps none of your data
+        on a server of its own: where your silo lives is your choice, and this page goes through
         the European ones.
       </p>
 

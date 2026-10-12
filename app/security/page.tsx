@@ -1,6 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MOBILE_REPO, PLAY_STORE, RELEASES_REPO } from "../links";
+import {
+  LATEST_INSTALLER_NAME,
+  LINUX_PACKAGES,
+  MOBILE_REPO,
+  PLAY_STORE,
+  RELEASES,
+  RELEASES_REPO,
+} from "../links";
+
+/** The minisign public key, as in core's SIGNING-PUBKEY.txt. */
+const UPDATE_PUBKEY = "RWS3eVy3IDLlean9BrZWUaxbTyj+oKfoc4g+IJ6xaAhUwbV8v8WnDbZP";
+const LINUX_DEB = LINUX_PACKAGES[0].file;
 
 export const metadata: Metadata = {
   title: "Security",
@@ -61,12 +72,13 @@ export default function Security() {
         update check, at most once a day, carrying the version and platform
         and nothing else. It can be turned off in Settings. Everything else
         the app does over the network is the sync you configured yourself,
+        the download from GitHub when you choose to install an update,
         plus two things that involve neither us nor your storage and that
         both stay silent until you ask for them: the breach check in Health,
         which runs only when you press it and sends five characters of a
         password hash to Have I Been Pwned, and site icons in Passwords,
         off by default, which fetch each saved site&apos;s own icon from that
-        site. The <Link href="/privacy/">privacy page</Link> lists all four.
+        site. The <Link href="/privacy/">privacy page</Link> lists them all.
       </p>
       <p>
         <strong>Your storage provider:</strong> ciphertext blobs, encrypted
@@ -212,7 +224,7 @@ export default function Security() {
         are stated limits, not surprises.
       </p>
 
-      <h2>Checking what you downloaded</h2>
+      <h2 id="checking-what-you-downloaded">Checking what you downloaded</h2>
       <p>
         The installer and the extraction tool are published with a signature
         file beside them. The Windows installer is built on a machine here
@@ -234,11 +246,42 @@ export default function Security() {
         <a href="https://github.com/silentsilo/desktop/blob/main/src-tauri/tauri.conf.json">
           tauri.conf.json
         </a>
-        , and{" "}
-        <a href="https://jedisct1.github.io/minisign/">minisign</a> checks a
-        download against it in one command. The app carries that same key
-        compiled in and verifies every update before installing it, so the
-        release endpoint cannot serve you code that was not signed with it.
+        . The app carries that same key compiled in and verifies every update
+        before installing it, so the release endpoint cannot serve you code
+        that was not signed with it.
+      </p>
+      <p>
+        To check a file yourself, download it and its <code>.sig</code> from
+        the <a href={RELEASES}>release page</a>. The <code>.sig</code> is a{" "}
+        <a href="https://jedisct1.github.io/minisign/">minisign</a> signature
+        wrapped in base64, so decode it first, then verify. On Linux or macOS:
+      </p>
+      <pre>
+        <code>
+          {`base64 -d ${LINUX_DEB}.sig > ${LINUX_DEB}.minisig
+minisign -Vm ${LINUX_DEB} -x ${LINUX_DEB}.minisig \\
+  -P ${UPDATE_PUBKEY}`}
+        </code>
+      </pre>
+      <p>On Windows, in PowerShell, from the folder holding both files:</p>
+      <pre>
+        <code>
+          {`[IO.File]::WriteAllBytes("$PWD\\${LATEST_INSTALLER_NAME}.minisig",
+  [Convert]::FromBase64String((Get-Content ${LATEST_INSTALLER_NAME}.sig -Raw)))
+minisign -Vm ${LATEST_INSTALLER_NAME} -x ${LATEST_INSTALLER_NAME}.minisig -P ${UPDATE_PUBKEY}`}
+        </code>
+      </pre>
+      <p>
+        A good file prints <code>Signature and comment signature verified</code>,
+        and the trusted comment below it names the file that was signed. If it
+        prints anything else, do not run the file.
+      </p>
+      <p>
+        The Windows installer and the Windows extraction tool also carry an
+        Authenticode signature. Right-click the file, open Properties, then
+        Digital Signatures: the signer is SOFTWARE HIVE S.R.L. In PowerShell,{" "}
+        <code>Get-AuthenticodeSignature .\{LATEST_INSTALLER_NAME}</code> should
+        report <code>Valid</code> with that name in the signer certificate.
       </p>
       <p>
         The Android app comes from{" "}

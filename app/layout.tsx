@@ -10,7 +10,7 @@ import { CORE_REPO, DOC_CRYPTO, DOC_FORMATS, MOBILE_REPO, PLAY_STORE, RELEASED, 
 
 export const metadata: Metadata = {
   title: {
-    default: "SilentSilo: an encrypted vault with no account and no server",
+    default: "SilentSilo: an encrypted vault with no account, on storage you choose",
     template: "%s · SilentSilo",
   },
   description:

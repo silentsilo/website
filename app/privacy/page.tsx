@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { REPO, RELEASES_REPO } from "../links";
+import { REPO, RELEASES, RELEASES_REPO } from "../links";
 
 export const metadata: Metadata = {
   title: "Privacy",
@@ -70,6 +70,15 @@ export default function Privacy() {
           and sees your IP address. SilentSilo does not receive it or keep
           it. The check can be turned off in Settings, and turning it off
           removes you from the count entirely.
+        </li>
+        <li>
+          <strong>Downloading an update</strong> (desktop app only), only when
+          you choose to install one. The file comes from GitHub, from the
+          release page of{" "}
+          <a href={RELEASES}>silentsilo/desktop</a>
+          . GitHub sees your IP address and which file you downloaded, as it
+          does for any download from that page. The app checks the
+          file&apos;s signature before installing it.
         </li>
         <li>
           <strong>The breach check</strong>, only when you press its button in
