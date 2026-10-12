@@ -4,7 +4,7 @@
  * device, sealed there, stored, and pulled by the others. Drawn inline rather than shipped as an image, so
  * the text stays sharp, reads to a screen reader and changes with a release.
  *
- * Windows, Linux and Android are live. The other platforms are drawn, dimmed and
+ * Windows, macOS, Linux and Android are live. The other platforms are drawn, dimmed and
  * labelled for what they are, so the picture does not promise more than the download does.
  * Two layouts, because one drawing scaled to a phone turns its labels to dust.
  */
@@ -28,10 +28,9 @@ const WINDOWS: Platform = {
 };
 const MACOS: Platform = {
   name: "macOS",
-  state: "Coming soon",
-  short: "Soon",
+  state: "Available now",
   unlock: "Touch ID · security key",
-  live: false,
+  live: true,
   kind: "desktop",
 };
 const LINUX: Platform = {
@@ -58,7 +57,7 @@ const IOS: Platform = {
 
 /** The storage kinds, grouped as the app's own picker groups them. */
 const STORE_GROUPS: [string, string[]][] = [
-  ["An account you have", ["OneDrive", "Google Drive", "Dropbox", "kDrive"]],
+  ["An account you have", ["iCloud Drive", "OneDrive", "Google Drive", "Dropbox"]],
   ["Storage you run or rent", ["S3 bucket", "WebDAV", "SFTP server", "Folder or USB"]],
 ];
 
@@ -503,11 +502,11 @@ function Extension({
 const LIVE_BROWSERS = "Chrome, Edge, Brave, Firefox";
 
 const DESC =
-  "Each device encrypts on its own and writes to storage you choose: your OneDrive, Google Drive or Dropbox, an S3 " +
+  "Each device encrypts on its own and writes to storage you choose: your iCloud Drive, OneDrive, Google Drive or Dropbox, an S3 " +
   "bucket, WebDAV, an SFTP server or a folder. The storage holds only encrypted objects; it sees sizes, times, key labels, content hashes and the silo folder's name, but cannot read your file names, contents " +
   "or passwords. A change made on one device is sealed there, stored, and pulled by every other device; there is no " +
   "SilentSilo server in between. You unlock with a security key or the device's biometrics, and a " +
-  "recovery code on paper is the fallback. Windows, Linux and Android are available now, macOS is coming soon, and iOS is planned. " +
+  "recovery code on paper is the fallback. Windows, macOS, Linux and Android are available now, and iOS is planned. " +
   "The browser extension for Chrome, Edge, Brave and Firefox works with the desktop app on Windows, Linux and macOS: it fills passwords through the desktop app, never from storage.";
 
 function Wide() {
@@ -542,17 +541,17 @@ function Wide() {
 
       <FlowCaption cx={560} y={26} />
 
-      {/* The extension over the computer row: live to Windows and Linux,
-          coming to macOS, never to a phone. */}
+      {/* The extension over the computer row: live to every computer,
+          never to a phone. */}
       <path className="how-link is-live" d="M560 162 V 180 H 290 V 196" />
-      <path className="how-link is-planned" d="M560 180 H 830 V 196" />
+      <path className="how-link is-live" d="M560 180 H 830 V 196" />
       <path className="how-link is-live" d="M560 180 V 196" />
       <Extension x={435} y={70} w={250} state="With the desktop app" browsers={LIVE_BROWSERS} live />
 
       <path className="how-link is-live" d={deskUp} />
       <path className="how-link is-live how-link-2" d={phoneUp} />
       <path className="how-link is-live" d="M560 308 V 350" />
-      <path className="how-link is-planned" d="M830 308 C 830 334, 670 326, 670 350" />
+      <path className="how-link is-live" d="M830 308 C 830 334, 670 326, 670 350" />
       <path className="how-link is-planned" d="M820 571 H 730" />
 
       <Hub x={390} y={350} w={340} />
@@ -615,7 +614,7 @@ function Tall() {
 
         <path className="how-link is-live how-link-2" d={phoneUp} />
         <path className="how-link is-live" d={`M90 ${top} C 90 ${cards - 32}, 52 ${cards - 32}, 52 ${cards}`} />
-        <path className="how-link is-planned" d={`M165 ${top} C 165 ${cards - 32}, 151 ${cards - 32}, 151 ${cards}`} />
+        <path className="how-link is-live" d={`M165 ${top} C 165 ${cards - 32}, 151 ${cards - 32}, 151 ${cards}`} />
         <path className="how-link is-planned" d={`M310 ${top} C 310 ${cards - 32}, 348 ${cards - 32}, 348 ${cards}`} />
 
         <g>
