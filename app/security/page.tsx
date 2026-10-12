@@ -43,11 +43,17 @@ export default function Security() {
         <tbody>
           <tr>
             <td>File contents</td>
-            <td>AES-256-GCM, chunked, under the vault key</td>
+            <td>
+              AES-256-GCM, chunked, each file under a key of its own that is
+              wrapped in turn under the vault key
+            </td>
           </tr>
           <tr>
             <td>File and folder names, the tree</td>
-            <td>AES-256-GCM encrypted index</td>
+            <td>
+              AES-256-GCM encrypted index in the silo; on the computer, a
+              SQLCipher working copy whose key is sealed under the vault key
+            </td>
           </tr>
           <tr>
             <td>Passwords, including TOTP secrets</td>
@@ -58,8 +64,10 @@ export default function Security() {
           <tr>
             <td>The vault key itself</td>
             <td>
-              Wrapped per enrolled key, derived from FIDO2{" "}
-              <code>hmac-secret</code> output
+              Wrapped separately for each way in: FIDO2{" "}
+              <code>hmac-secret</code> for security keys and Windows Hello,
+              the Android Keystore, the Mac&apos;s Secure Enclave behind Touch
+              ID, and the recovery code through Argon2id (64 MiB, 3 passes)
             </td>
           </tr>
         </tbody>
@@ -69,8 +77,10 @@ export default function Security() {
       <p>
         <strong>Us: your app version.</strong> There is no account and no
         server holding your data. The only thing that reaches us is the
-        update check, at most once a day, carrying the version and platform
-        and nothing else. It can be turned off in Settings. Everything else
+        update check. The automatic check runs at most once a day and carries
+        the app version, the platform and the processor type; the{" "}
+        <strong>Check for updates</strong> button asks whenever you press it.
+        The automatic check can be turned off in Settings. Everything else
         the app does over the network is the sync you configured yourself,
         the download from GitHub when you choose to install an update,
         plus two things that involve neither us nor your storage and that
@@ -81,16 +91,23 @@ export default function Security() {
         site. The <Link href="/privacy/">privacy page</Link> lists them all.
       </p>
       <p>
-        <strong>Your storage provider:</strong> ciphertext blobs, encrypted
-        operation records, and per-key envelopes that are themselves
-        ciphertext. Readable by design: one small manifest naming a random
-        vault id, each envelope&apos;s credential id and label, and the
-        ordinary shape of storage itself, meaning how many objects exist,
-        their sizes, and when they change. Not readable: contents, the names
-        of your files and folders, and the structure of the tree. The name
-        of the silo folder itself, which you type when you connect, is
-        readable, and at OneDrive, Dropbox and Google Drive so is the account
-        it belongs to.
+        <strong>Your storage provider:</strong> encrypted files, encrypted
+        operation records, and one envelope per key whose wrapped key is
+        encrypted. Readable without any key: one small manifest naming a
+        random vault id; each key&apos;s credential id and the label you gave
+        it; how many devices write to the silo and when each operation was
+        made; whether a recovery code exists and when it was made; the ids
+        of keys removed from the silo; and the ordinary shape of storage
+        itself, meaning how many objects exist, their sizes, and when they
+        change. Not readable without a key: contents, the names of your
+        files and folders, and the structure of the tree. The name of the
+        silo folder itself, which you type when you connect, is readable,
+        and at OneDrive, Dropbox and Google Drive so is the account it
+        belongs to. The full list is in{" "}
+        <a href="https://github.com/silentsilo/core/blob/main/docs/CRYPTO.md#what-the-storage-provider-learns">
+          CRYPTO.md
+        </a>
+        .
       </p>
       <p>
         Each stored file also carries a hash of its unencrypted content in
@@ -107,13 +124,16 @@ export default function Security() {
         can be created as administered by an organisation, and then it carries a
         key the company keeps. It is what lets a company still open its own
         archive after somebody leaves. Two things are worth knowing if you are
-        the one using such a silo. It cannot be done to a silo you already have:
-        the choice exists only while a silo is being created, and it is off
-        unless somebody ticks it. And it is never hidden from you: every device
-        lists those keys with an Organisation badge. What the company can do is
-        open the silo and administer its keys. What nobody can do, the company
-        included, is read anything without one of the enrolled keys. The
-        company&apos;s side of the procedure is in{" "}
+        the one using such a silo. The app does not offer it for a silo you
+        already have: the choice exists only while a silo is being created,
+        and it is off unless somebody ticks it. And it is shown to you: the
+        computer where the silo was created, and any computer set up with a
+        company key, list those keys with an Organisation badge. A computer
+        set up with your own key or the recovery code lists them too, as
+        ordinary keys. What the company can do is open the silo and
+        administer its keys. The design gives nobody, the company included,
+        a way to read anything without one of the enrolled keys or the
+        recovery code. The company&apos;s side of the procedure is in{" "}
         <Link href="/tutorials/organisation-silos/">
           Silos for a team or a company
         </Link>
@@ -125,9 +145,10 @@ export default function Security() {
         A silo is exactly as strong as its weakest envelope. A memorable
         passphrase is around forty bits, and offering one would quietly make
         it the real security of the whole design. Unlocking is therefore
-        bound to hardware (a FIDO2 key, the TPM behind Windows Hello, or a
-        key in an Android phone&apos;s secure hardware that its fingerprint
-        releases), and the only fallback is a generated 160-bit recovery code meant to be
+        bound to hardware (a FIDO2 key, the TPM behind Windows Hello, the
+        Secure Enclave behind Touch ID on a Mac, or a key in an Android
+        phone&apos;s secure hardware that its fingerprint releases), and the
+        only fallback is a generated 160-bit recovery code meant to be
         written on paper.
       </p>
 
@@ -150,13 +171,19 @@ export default function Security() {
 
       <h2>A malicious storage provider</h2>
       <p>
-        Every stored object is authenticated (AES-GCM). A provider can
-        withhold or delete objects, which breaks sync, but it cannot read
-        your data, alter it undetected, or inject operations. Infrastructure
-        can stop the service; it cannot corrupt it. The same holds for the{" "}
-        <a href={RELEASES_REPO}>update endpoint</a>: releases are verified
-        against a signing key embedded in the app, so the endpoint cannot
-        ship you code we did not sign.
+        File contents, names and records are sealed with AES-256-GCM, and
+        each reader checks that an object&apos;s name matches what is inside
+        it. Storage can still withhold or delete objects, or put back older
+        ones, which can stop sync or bring back something you removed. The
+        design is meant to keep storage from reading your data or forging a
+        change.{" "}
+        <a href="https://github.com/silentsilo/core/blob/main/docs/CRYPTO.md">
+          CRYPTO.md
+        </a>{" "}
+        lists what storage can and cannot do. Updates from the{" "}
+        <a href={RELEASES_REPO}>update endpoint</a> are checked against a
+        signing key built into the app, and one that does not verify is not
+        installed.
       </p>
 
       <h2>No independent audit, yet</h2>
@@ -193,14 +220,14 @@ export default function Security() {
       <p>
         Malware running as you while a silo is <strong>unlocked</strong>. The
         key has to be in memory for anything to decrypt, so software on that
-        machine can reach it. No desktop application honestly claims
-        otherwise, and this one does not.
+        machine can reach it. That holds for any desktop application, this
+        one included.
       </p>
       <p>
         What it does instead is remove the cheap ways in and shorten the
-        window. On Windows, silos lock when the workstation locks,
-        disconnects or suspends, rather than waiting out the idle timer; on
-        Linux the idle timer and locking by hand do it. Password entries
+        window. Silos lock when the workstation locks, disconnects or
+        suspends on Windows, and when the screen locks or the machine sleeps
+        on Linux and macOS, rather than waiting out the idle timer. Password entries
         are encrypted individually, so they are not readable from the
         working index. Copied passwords are kept out of Windows Clipboard
         History and Cloud Clipboard, and cleared after 45 seconds. At startup
@@ -219,9 +246,11 @@ export default function Security() {
         software that controls an unlocked phone can reach what is open.
       </p>
       <p>
-        Also out of scope: someone using your already-unlocked session, and a
-        stolen security key together with your written recovery code. These
-        are stated limits, not surprises.
+        Also out of scope: someone using your already-unlocked session, and
+        someone who has a copy of the silo together with a way in. One
+        enrolled security key is enough, with a touch and no PIN, and so is
+        the recovery code on its own. The threat model in CRYPTO.md
+        describes both.
       </p>
 
       <h2 id="checking-what-you-downloaded">Checking what you downloaded</h2>
@@ -229,15 +258,14 @@ export default function Security() {
         The installer and the extraction tool are published with a signature
         file beside them. The Windows installer is built on a machine here
         and carries an Authenticode signature from a certificate on a
-        hardware token that no build server can reach. The signature file
-        beside it, which the updater checks, comes from one update key, and
-        that same key is also held in the repository&apos;s secrets, because
-        the Linux and macOS extractors are built and signed by GitHub
-        Actions, and so are the Linux .deb and AppImage, which carry no
-        Authenticode signature, since Linux has none. So the update
-        signature says the release process produced the file, not that it
-        never touched GitHub. Worth knowing rather than
-        glossed over. The public half of the key is published in both
+        hardware token that no build server can reach. GitHub Actions builds
+        the Linux packages and the Linux and macOS extractors, unsigned, with
+        build provenance anyone can check with{" "}
+        <code>gh attestation verify &lt;file&gt; --repo silentsilo/desktop</code>
+        . The release machine checks that provenance, then signs every file
+        with the update key, which is not on GitHub. The macOS app is built,
+        signed with the company&apos;s Developer ID and notarised on a Mac.
+        The public half of the update key is published in both
         repositories, in{" "}
         <a href="https://github.com/silentsilo/core/blob/main/SIGNING-PUBKEY.txt">
           SIGNING-PUBKEY.txt
@@ -247,8 +275,7 @@ export default function Security() {
           tauri.conf.json
         </a>
         . The app carries that same key compiled in and verifies every update
-        before installing it, so the release endpoint cannot serve you code
-        that was not signed with it.
+        before installing it, and refuses one the key did not sign.
       </p>
       <p>
         To check a file yourself, download it and its <code>.sig</code> from

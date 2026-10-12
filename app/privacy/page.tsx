@@ -19,8 +19,10 @@ export default function Privacy() {
       <h2>This website</h2>
       <p>
         No cookies, no analytics, no third-party requests. The font is served
-        from this domain. The site is static files. Cloudflare serves it, so
-        Cloudflare sees your IP address and the pages you request.
+        from this domain. The site is static files. Cloudflare passes each
+        request to our server, which keeps no access log; its error log can
+        note the address behind a request that fails. Cloudflare sees your
+        IP address and the pages you request.
       </p>
 
       <h2>The app</h2>
@@ -43,15 +45,19 @@ export default function Privacy() {
           browser; the app never sees the password. It then talks to that
           provider only: its sign-in and token addresses
           (login.microsoftonline.com, api.dropboxapi.com,
-          oauth2.googleapis.com) and its file service (graph.microsoft.com,
-          api.dropboxapi.com and content.dropboxapi.com,
+          oauth2.googleapis.com) and its file service (graph.microsoft.com
+          and the upload and download addresses Microsoft Graph hands out
+          for each file, api.dropboxapi.com and content.dropboxapi.com,
           www.googleapis.com). It asks for its own folder and nothing else in
           the account: OneDrive&apos;s app folder, Dropbox&apos;s app folder,
           and at Google only the files the app itself created. It also reads
           your email address, to show which account is connected; that stays
           on your device, as does the sign-in, in the system&apos;s credential
-          store. The provider sees your account, your IP address, the name of
-          the silo folder, and the sizes and times of what is written;
+          store. On Linux, or a Mac, without a usable credential store, it
+          goes in a file only your user account can read, and only after you
+          agree to that in the app. The provider sees your account, your IP
+          address, the name of the silo folder, and the sizes and times of
+          what is written;
           everything inside the folder is encrypted. To take the access back:
           Microsoft at microsoft.com/consent, Dropbox under Settings, Apps,
           Google at myaccount.google.com/linkedapps.
@@ -59,17 +65,21 @@ export default function Privacy() {
           at Dropbox also on their side.
         </li>
         <li>
-          <strong>The update check</strong> (desktop app only). At most once a day, the app asks
-          releases.silentsilo.com whether a newer version exists. That
-          request contains your app version and platform, nothing else. The
+          <strong>The update check</strong> (desktop app only). The app asks
+          releases.silentsilo.com whether a newer version exists: on its own
+          at most once a day, and whenever you press{" "}
+          <strong>Check for updates</strong>. The request carries your app
+          version, platform and processor type. The
           endpoint runs on Cloudflare. Each check writes one row to
-          Cloudflare&apos;s analytics service with the platform, the version
-          and the outcome, which is how we estimate active installs; no row
+          Cloudflare&apos;s analytics service with the platform, the processor
+          type, the version and the outcome, which is how we estimate active
+          installs; no row
           can tell one install from another. Versions before 1.2.0 often
           wrote two to four rows for one check. Cloudflare relays the request
           and sees your IP address. SilentSilo does not receive it or keep
-          it. The check can be turned off in Settings, and turning it off
-          removes you from the count entirely.
+          it. The automatic check can be turned off in Settings, and turning
+          it off removes you from the count, unless you press{" "}
+          <strong>Check for updates</strong>.
         </li>
         <li>
           <strong>Downloading an update</strong> (desktop app only), only when
@@ -131,7 +141,9 @@ export default function Privacy() {
         <li>
           <strong>Autofill and passkeys</strong> read the name of the app or
           site asking, to offer its logins and passkeys, after your
-          fingerprint. Saving a login reads the username and password you
+          fingerprint. For an app they also read its signing certificate, so
+          a login saved for one app is not offered to another app that takes
+          its name. Saving a login reads the username and password you
           typed into that app or site. A site name is believed only from a
           browser on Google&apos;s public list of browsers Android trusts,
           shipped inside the app rather than fetched, and passkeys answer
@@ -150,50 +162,51 @@ export default function Privacy() {
         each claim above can be checked against the code that makes it.
       </p>
 
-      <h2>The iPhone app</h2>
+      <h2>The iPhone app (not released yet)</h2>
       <p>
-        The iPhone makes the same sync and backup requests, to the storage
-        you chose, and the breach check when you press its button, and
-        nothing else of its own. It has no update check: the
-        App Store delivers updates. Signing in to OneDrive, Dropbox or Google
-        Drive shows the provider&apos;s own page in a system sheet, without
-        Safari&apos;s cookies, and the answer comes back to the app on the
-        iPhone itself.
+        There is no iPhone app yet. When it ships, the iPhone will make the
+        same sync and backup requests, to the storage you chose, and the
+        breach check when you press its button, and nothing else of its own.
+        It will have no update check: the App Store delivers updates. Signing in to OneDrive, Dropbox or
+        Google Drive will show the provider&apos;s own page in a system
+        sheet, without Safari&apos;s cookies, and the answer will come back
+        to the app on the iPhone itself.
       </p>
       <ul>
         <li>
-          <strong>Face ID or Touch ID</strong> stays with iOS. The silo&apos;s
-          key is made in the iPhone&apos;s Secure Enclave and is used there
-          after iOS recognises you; the app never sees your face or
-          fingerprint.
+          <strong>Face ID or Touch ID</strong> will stay with iOS. The
+          silo&apos;s key will be made in the iPhone&apos;s Secure Enclave
+          and used there after iOS recognises you; the app will not see
+          your face or fingerprint.
         </li>
         <li>
-          <strong>Security keys</strong> over NFC exchange only what unlocking
-          needs with the key itself. Its PIN goes to the key and is not kept.
+          <strong>Security keys</strong> over NFC will exchange only what
+          unlocking needs with the key itself. Its PIN will go to the key and
+          not be kept.
         </li>
         <li>
-          <strong>Files and photos</strong> are read only when you pick them,
-          take a photo for the silo or share them from another app, and are
-          encrypted on the iPhone. Saving a file to Photos happens only when
-          you choose it.
+          <strong>Files and photos</strong> will be read only when you pick
+          them, take a photo for the silo or share them from another app, and
+          encrypted on the iPhone. Saving a file to Photos will happen only
+          when you choose it.
         </li>
         <li>
-          <strong>Phone backup</strong>, only if you turn it on, reads the
-          photos and videos in the albums you choose, with where they were
-          taken when the file records it, and your contacts. Each is
-          encrypted on the iPhone and sent to your silo&apos;s storage. We
-          receive none of it.
+          <strong>Phone backup</strong>, only if you turn it on, will read
+          the photos and videos in the albums you choose, with where they
+          were taken when the file records it, and your contacts. Each will
+          be encrypted on the iPhone and sent to your silo&apos;s storage. We
+          will receive none of it.
         </li>
         <li>
-          <strong>AutoFill</strong> reads the name of the app or site iOS
-          passes to it, to put its logins first, opens your silo on the iPhone
-          after Face ID and gives iOS the one login you pick. It sends nothing
-          anywhere.
+          <strong>AutoFill</strong> will read the name of the app or site iOS
+          passes to it, to put its logins first, open your silo on the iPhone
+          after Face ID and give iOS the one login you pick. It will send
+          nothing anywhere.
         </li>
       </ul>
       <p>
-        The iPhone app sends nothing to us, so we hold nothing from it to keep
-        or delete.
+        The iPhone app is built to send nothing to us, so there will be
+        nothing from it for us to keep or delete.
       </p>
 
       <h2 id="browser-extension">The browser extension</h2>
@@ -219,7 +232,7 @@ export default function Privacy() {
         </li>
         <li>
           <strong>When you confirm a fill</strong> in the app, with Windows
-          Hello or your security key, the app gives it one username and
+          Hello, Touch ID or your security key, the app gives it one username and
           password. It writes them into those two fields and does not keep
           them.
         </li>
@@ -236,9 +249,14 @@ export default function Privacy() {
         time. The consoles where Software Hive registered the app with
         Microsoft, Dropbox and Google show how many accounts have connected
         it, as a number; they do not show us who, and no file, token or
-        address passes through us. That is the whole list. No
-        keys, no plaintext and no file names, for anyone: the design never
-        sends them to us.
+        address passes through us. Google Play Console shows install counts
+        and Android vitals: crash and not-responding reports Google collects
+        from phones whose owners share diagnostics with it, naming the
+        phone model and Android version, not the person. The Chrome, Edge
+        and Firefox add-on stores show how many people use the extension.
+        And we keep the emails people send us, with the address they came
+        from. That is what we hold. No keys, no plaintext and no file names:
+        the design does not send them to us.
       </p>
 
       <h2>Your rights, formally</h2>
