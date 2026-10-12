@@ -287,7 +287,7 @@ export default function Europe() {
         </li>
         <li>
           Test a recovery once, under{" "}
-          <strong>Settings &gt; Test backup</strong>, and keep the recovery
+          <strong>Settings &gt; Recovery code</strong>, and keep the recovery
           code on paper somewhere other than the computer.
         </li>
       </ol>

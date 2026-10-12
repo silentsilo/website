@@ -35,14 +35,14 @@ export const PLATFORMS: Platform[] = [
     id: "android",
     name: "Android",
     available: true,
-    detail: "Android 12 or later. Unlocks with the phone's fingerprint or an NFC security key.",
+    detail: "Android 12 or later. Unlocks with the phone's fingerprint or a security key over NFC or USB.",
     action: { label: "Get it on Google Play", href: PLAY_STORE },
   },
   {
     id: "extension",
     name: "Browser extension",
     available: true,
-    detail: "Chrome, Edge, Brave and Firefox. Fills logins through the Windows or Linux app.",
+    detail: "Chrome, Edge, Brave and Firefox. Fills logins through the desktop app on Windows, Linux or macOS.",
     action: { label: "How it works", href: "/tutorials/browser-extension/" },
   },
   {

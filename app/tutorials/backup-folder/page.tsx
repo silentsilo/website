@@ -17,8 +17,8 @@ export default function BackupFolder() {
         the silo at a directory and it writes its encrypted objects there.
         No account, no key, no endpoint. It covers an external disk, a NAS
         share, and a folder that Dropbox or OneDrive is already syncing.
-        This one is for the desktop app: the Android app backs up to an S3
-        bucket, WebDAV or SFTP.
+        This one is for the desktop app; the Android app takes every other
+        kind on the <Link href="/tutorials/">Tutorials page</Link>.
       </p>
 
       <nav className="toc" aria-label="On this page">
@@ -157,7 +157,7 @@ export default function BackupFolder() {
 
       <h2 id="prove-it-works">Prove it works</h2>
       <p>
-        Open <strong>Settings &gt; Test backup</strong>, go to{" "}
+        Open <strong>Settings &gt; Recovery code</strong>, go to{" "}
         <strong>Test a recovery</strong>, type your recovery code and press{" "}
         <strong>Try a recovery now</strong>. It rebuilds the silo from the
         folder in a temporary directory, using only that code, and opens one

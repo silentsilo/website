@@ -171,7 +171,7 @@ export function CloudGuide({ c }: { c: Cloud }) {
 
       <h2 id="prove-it-works">Prove it works</h2>
       <p>
-        Open <strong>Settings &gt; Test backup</strong>, type your recovery
+        Open <strong>Settings &gt; Recovery code</strong>, type your recovery
         code under <strong>Test a recovery</strong> and press{" "}
         <strong>Try a recovery now</strong>. It rebuilds the silo from{" "}
         {c.name} using only that code, in a temporary folder, and opens one

@@ -119,7 +119,7 @@ export const FURTHER: Guide[] = [
     short: "In your browser",
     what:
       "The extension for Chrome, Edge, Brave and Firefox. Fill and save logins, each confirmed in the app.",
-    meta: ["Windows and Linux app"],
+    meta: ["Desktop app"],
     icon: <Browser weight="duotone" />,
   },
   {
@@ -127,8 +127,8 @@ export const FURTHER: Guide[] = [
     title: "Unlock without a security key",
     short: "Without a security key",
     what:
-      "Windows Hello, a phone over the QR code, or an Android fingerprint, and what to keep when the way in is tied to one device.",
-    meta: ["Windows and Android"],
+      "Windows Hello, Touch ID, a phone over the QR code, or an Android fingerprint, and what to keep when the way in is tied to one device.",
+    meta: ["Windows, Mac and Android"],
     icon: <Fingerprint weight="duotone" />,
   },
   {
@@ -137,7 +137,7 @@ export const FURTHER: Guide[] = [
     short: "SSH keys",
     what:
       "ssh, Git and your editor sign in with keys kept in the silo, each use confirmed in the app.",
-    meta: ["Windows and Linux app"],
+    meta: ["Desktop app"],
     icon: <TerminalWindow weight="duotone" />,
   },
   {

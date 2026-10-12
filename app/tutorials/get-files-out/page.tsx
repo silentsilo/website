@@ -180,7 +180,7 @@ export default function GetFilesOut() {
       <p>
         Try this once now, on a copy, rather than on the day you need it. The
         app has a gentler version of the same check under{" "}
-        <strong>Settings &gt; Test backup &gt; Test a recovery</strong>. The{" "}
+        <strong>Settings &gt; Recovery code &gt; Test a recovery</strong>. The{" "}
         <Link href="/faq/">questions page</Link> says more about why the tool
         exists.
       </p>

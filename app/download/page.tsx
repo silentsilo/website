@@ -182,8 +182,8 @@ export default function Download() {
                 <CardHead icon={<Browser weight="duotone" />} name="Browser extension" />
                 <p>
                   Fills logins from your silo. It holds no passwords itself: it
-                  asks the SilentSilo app on the same Windows or Linux computer,
-                  so install the app first.
+                  asks the SilentSilo app on the same computer (Windows, Linux
+                  or macOS), so install the app first.
                 </p>
                 <div className="dl-actions dl-stores">
                   {EXTENSION_STORES.map((s) => (

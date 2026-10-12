@@ -54,8 +54,8 @@ export default function OrganisationSilos() {
         When a silo is created, the screen where the first key is enrolled
         has a box named{" "}
         <strong>This silo is administered by an organisation</strong>. Off by
-        default, and the choice exists only at creation: a silo somebody is
-        already using can never be converted, which is what keeps this from
+        default, and the choice exists only at creation: the app offers no
+        way to convert a silo somebody is already using, which is what keeps this from
         being a way to take a person&apos;s own vault away from them. Tick
         it, and the key you enrol stays the company&apos;s way in. On that
         computer, the person using the silo cannot remove that key, and
@@ -64,8 +64,10 @@ export default function OrganisationSilos() {
       </p>
       <p>
         The key opens the silo like any other; nothing about it reads more.
-        And nothing about it is hidden: every device lists it with an
-        Organisation badge.
+        It is also shown: the computer where the silo was created, and any
+        computer set up with the company key, list it with an Organisation
+        badge. A computer set up with the employee&apos;s own key or the
+        recovery code lists it as an ordinary key.
       </p>
       <p>
         One limit is worth knowing from the start. That rule lives on the
@@ -208,9 +210,8 @@ export default function OrganisationSilos() {
         copy alone as well, since the app never rewrites a place it has
         promised not to delete from. Their old key would still open that one
         copy, which is what step 4 closes. What
-        they copied while they legitimately had access is theirs forever;
-        nothing anywhere undoes that, and a product that claimed otherwise
-        would be lying.
+        they copied while they had access stays with them: no key change
+        takes it back.
       </p>
 
       <h2 id="the-activity-log">The activity log</h2>

@@ -4,7 +4,7 @@ import { MoreGuides } from "../MoreGuides";
 export const metadata: Metadata = {
   title: "Use your SSH keys from the silo",
   description:
-    "The SilentSilo SSH agent: ssh, Git and your editor sign in with keys kept in the silo, each use confirmed in the app. Setting it up on Windows and Linux.",
+    "The SilentSilo SSH agent: ssh, Git and your editor sign in with keys kept in the silo, each use confirmed in the app. Setting it up on Windows, Linux and macOS.",
 };
 
 export default function SshAgent() {
@@ -40,7 +40,7 @@ export default function SshAgent() {
 
       <h2 id="turn-it-on">Turn it on</h2>
       <p>
-        In SilentSilo on Windows or Linux, open{" "}
+        In SilentSilo on Windows, Linux or macOS, open{" "}
         <strong>Settings &gt; SSH agent</strong> and tick{" "}
         <strong>Turn on the SSH agent</strong>. Nothing listens until you do.
       </p>
@@ -105,6 +105,20 @@ export default function SshAgent() {
         </code>
       </pre>
       <p>
+        <strong>On macOS</strong>, the same, with the path the settings page
+        shows under Application Support. Mind the space in it:
+      </p>
+      <pre>
+        <code>
+          {'export SSH_AUTH_SOCK="$HOME/Library/Application Support/SilentSilo/ssh-agent.sock"\n'}
+        </code>
+      </pre>
+      <pre>
+        <code>
+          {'Host *\n  IdentityAgent "~/Library/Application Support/SilentSilo/ssh-agent.sock"\n'}
+        </code>
+      </pre>
+      <p>
         <code>ssh-add -L</code> then lists the keys you marked, while the
         silo is open.
       </p>
@@ -130,7 +144,8 @@ export default function SshAgent() {
         <li>
           A key whose entry has{" "}
           <strong>Ask for my security key or Windows Hello before showing
-          this entry</strong> ticked (on Linux,{" "}
+          this entry</strong> ticked (on a Mac, with Touch ID in its place;
+          on Linux,{" "}
           <strong>Ask for my security key before showing this entry</strong>)
           asks for it at each use too.
         </li>

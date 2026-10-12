@@ -5,7 +5,7 @@ import { MoreGuides } from "../MoreGuides";
 export const metadata: Metadata = {
   title: "Unlock without a security key",
   description:
-    "Open a silo with Windows Hello, a phone over the QR code, or an Android phone's fingerprint, and what to keep so a lost device does not lock you out.",
+    "Open a silo with Windows Hello, Touch ID on a Mac, a phone over the QR code, or an Android phone's fingerprint, and what to keep so a lost device does not lock you out.",
 };
 
 export default function UnlockWithoutAKey() {
@@ -14,8 +14,8 @@ export default function UnlockWithoutAKey() {
       <h1>Unlock without a security key</h1>
       <p className="lead">
         A security key is the way in that works everywhere, but it is not the
-        only one. Windows Hello, a phone and an Android fingerprint each open
-        a silo on their own. What they share is that each is tied to one
+        only one. Windows Hello, Touch ID on a Mac, a phone and an Android
+        fingerprint each open a silo on their own. What they share is that each is tied to one
         device, which is why the recovery code matters more without a key.
       </p>
 
@@ -24,6 +24,9 @@ export default function UnlockWithoutAKey() {
         <ol>
           <li>
             <a href="#windows-hello">Windows Hello</a>
+          </li>
+          <li>
+            <a href="#touch-id">Touch ID on a Mac</a>
           </li>
           <li>
             <a href="#a-phone-on-windows">A phone, on Windows</a>
@@ -67,6 +70,31 @@ export default function UnlockWithoutAKey() {
         same reason.
       </p>
 
+      <h2 id="touch-id">Touch ID on a Mac</h2>
+      <p>
+        The fingerprint you already use on the Mac. The silo&apos;s key is
+        made in the Mac&apos;s Secure Enclave, and Touch ID releases it.
+      </p>
+      <ol>
+        <li>
+          When you set up a new silo, choose{" "}
+          <strong>Use Touch ID</strong> under{" "}
+          <strong>Set up unlocking</strong>.
+        </li>
+        <li>
+          For a silo you already have, open it, then{" "}
+          <strong>Settings &gt; Unlocking</strong> and{" "}
+          <strong>Add Touch ID</strong>.
+        </li>
+      </ol>
+      <p>
+        If the button is missing, Touch ID is not set up on this Mac: add a
+        fingerprint under <strong>Touch ID &amp; Password</strong> in System
+        Settings and it appears. Touch ID is sealed to this Mac, so it opens
+        the silo here and nowhere else. Adding or removing a fingerprint on
+        the Mac makes that key stop working, so keep another way in.
+      </p>
+
       <h2 id="a-phone-on-windows">A phone, on Windows</h2>
       <p>
         When Windows shows its prompt for a security key, it may also offer
@@ -107,13 +135,14 @@ export default function UnlockWithoutAKey() {
           keep your passport.
         </li>
         <li>
-          <strong>A way in on each device you use.</strong> Hello on each
-          computer and the fingerprint on the phone are separate keys, each
-          added on its own device. Any one of them opens the silo.
+          <strong>A way in on each device you use.</strong> Hello or Touch
+          ID on each computer and the fingerprint on the phone are separate
+          keys, each added on its own device. Any one of them opens the silo.
         </li>
         <li>
           <strong>A security key, if you can.</strong> One key opens the silo
-          on every computer, Linux included, and on the phone over NFC. Two,
+          on every computer, Linux included, and on the phone over NFC or
+          USB. Two,
           kept apart, cover losing one.
         </li>
       </ul>

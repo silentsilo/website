@@ -100,10 +100,12 @@ export default function BackupWebDav() {
         a different silo.
       </p>
       <p>
-        Use <code>https://</code>. Over plain <code>http://</code> your
-        WebDAV password travels readable, and the app tells you so. The files
-        themselves stay encrypted either way, but the password is what lets
-        someone delete them.
+        Use <code>https://</code>. The app takes plain <code>http://</code>{" "}
+        only for a server on this computer or your own network (a mesh VPN
+        such as Tailscale counts), because over <code>http://</code> your
+        WebDAV password travels readable. The files themselves stay
+        encrypted either way, but the password is what lets someone delete
+        them.
       </p>
 
       <h2 id="create-an-app-password-not-your-account-password">Create an app password, not your account password</h2>
@@ -207,7 +209,7 @@ export default function BackupWebDav() {
 
       <h2 id="prove-it-works">Prove it works</h2>
       <p>
-        Open <strong>Settings &gt; Test backup</strong>, go to{" "}
+        Open <strong>Settings &gt; Recovery code</strong>, go to{" "}
         <strong>Test a recovery</strong>, type your recovery code and press{" "}
         <strong>Try a recovery now</strong>: it rebuilds the silo from the
         server using only that code and opens one real file. Do it now rather

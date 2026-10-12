@@ -370,7 +370,7 @@ export default function BackupS3() {
 
       <h2 id="then-prove-it">Then prove it</h2>
       <p>
-        Open <strong>Settings &gt; Test backup</strong>, go to{" "}
+        Open <strong>Settings &gt; Recovery code</strong>, go to{" "}
         <strong>Test a recovery</strong>, type your recovery code and press{" "}
         <strong>Try a recovery now</strong>. It rebuilds the silo from the
         bucket in a temporary folder using only that code, compares it against

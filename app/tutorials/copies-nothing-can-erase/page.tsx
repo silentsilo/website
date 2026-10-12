@@ -176,9 +176,9 @@ export default function ImmutableCopies() {
         directly, removes it for good.
       </p>
       <p>
-        This is not a flaw to be fixed with a longer window, it is the shape
-        of the tool. What the lock is for is that a recent, complete state
-        stays restorable whatever happens to the credentials.
+        A longer window does not change that. The lock is there to keep a
+        recent, complete state restorable whatever happens to the
+        credentials.
       </p>
       <p>
         Two more things to know before choosing the window. Content you

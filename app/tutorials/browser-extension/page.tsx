@@ -44,7 +44,7 @@ export default function BrowserExtension() {
       <h2 id="turn-it-on">Turn it on</h2>
       <ol>
         <li>
-          In SilentSilo on Windows or Linux, open{" "}
+          In SilentSilo on Windows, Linux or macOS, open{" "}
           <strong>Settings &gt; Browser extension</strong> and tick{" "}
           <strong>Allow the SilentSilo browser extension</strong>. It is off
           until you do.
@@ -61,17 +61,18 @@ export default function BrowserExtension() {
           . Brave installs from the Chrome Web Store.
         </li>
         <li>
-          The silo needs a security key, or Windows Hello on Windows, under{" "}
+          The silo needs a security key, or Windows Hello or Touch ID, under{" "}
           <strong>Unlocking</strong>: every fill is confirmed with one, so a
           silo with neither cannot fill anything.
         </li>
       </ol>
       <p>
-        On Linux, turning it on also tells Chrome, Chromium, Edge, Brave and
-        Firefox where SilentSilo is, in your home folder; turning it off
-        takes that away again. Firefox installed as a snap on Ubuntu finds
-        it too, after asking you once to allow it. Chromium installed as a
-        snap cannot reach it.
+        On Linux and macOS, turning it on also tells Chrome, Chromium, Edge,
+        Brave and Firefox where SilentSilo is, in your home folder; turning
+        it off takes that away again. On a Mac, open each browser once
+        before you turn it on, so its folder exists. Firefox installed as a
+        snap on Ubuntu finds it too, after asking you once to allow it.
+        Chromium installed as a snap cannot reach it.
       </p>
 
       <h2 id="fill-a-login">Fill a login</h2>
@@ -85,7 +86,7 @@ export default function BrowserExtension() {
           Click one. SilentSilo comes to the front with{" "}
           <strong>Fill a login in your browser?</strong>, naming the site and
           the login. Press <strong>Fill</strong>, then touch your key, or use
-          Windows Hello.
+          Windows Hello or Touch ID.
         </li>
         <li>
           The username and password go into the page, and the browser comes
@@ -160,11 +161,11 @@ export default function BrowserExtension() {
         same way after you unlock it.{" "}
         <strong>SilentSilo is not installed</strong> means the browser cannot
         find the app at all; install it, or run its installer again. On
-        Linux it also means the setting is off: turning it off removes what
-        tells the browser where the app is, so tick it again.
+        Linux and macOS it also means the setting is off: turning it off
+        removes what tells the browser where the app is, so tick it again.
       </p>
       <p>
-        The extension is for SilentSilo on Windows and Linux. On Android, the app fills
+        The extension is for SilentSilo on Windows, Linux and macOS. On Android, the app fills
         logins itself through Android autofill: see the{" "}
         <Link href="/tutorials/phone/">phone guide</Link>.
       </p>
