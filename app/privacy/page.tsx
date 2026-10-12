@@ -33,8 +33,8 @@ export default function Privacy() {
       </p>
       <ul>
         <li>
-          <strong>Sync and backup</strong>, only if you configure it, and only
-          to storage you chose: your OneDrive, Dropbox or Google Drive, your
+          <strong>Sync</strong>, only if you configure it, and only through
+          storage you chose: your OneDrive, Dropbox or Google Drive, your
           bucket, your server, your folder. What the storage provider can and
           cannot see is described on the{" "}
           <a href="/security/">security page</a>.
@@ -124,7 +124,7 @@ export default function Privacy() {
       </p>
       <h2>The Android app</h2>
       <p>
-        The phone makes the sync and backup requests above, including the
+        The phone makes the sync requests above, including the
         sign-in to OneDrive, Dropbox or Google Drive, to the storage you
         chose, and the breach check when you press its button, and nothing
         else of its own. It has no update check: the
