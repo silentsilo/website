@@ -61,17 +61,65 @@ const STORE_GROUPS: [string, string[]][] = [
   ["Storage you run or rent", ["S3 bucket", "WebDAV", "SFTP server", "Folder or USB"]],
 ];
 
-/** One trip round the devices, in seconds, and where each leg of it falls,
- *  as fractions of it: up from the phone, down to the computer, then the
- *  other way. */
-const CYCLE = "8s";
-const LEGS = {
-  phoneUp: [0, 0.2],
-  toDesk: [0.25, 0.45],
-  deskUp: [0.52, 0.72],
-  toPhone: [0.77, 0.97],
-} as const;
-type Leg = keyof typeof LEGS;
+/** One loop of the drawing, and when each thing in it happens, as fractions
+ *  of the loop. Two changes per loop, as a real silo sees them: one made on
+ *  the phone, one on a computer. Each is sealed where it was made, written to
+ *  storage as a new object, then pulled by every other device. */
+const CYCLE = "14s";
+type Act = {
+  /** The change shows on its device, in the clear. */
+  edit: number;
+  /** It is sealed there: the text scrambles into an object name. */
+  seal: number;
+  /** Carried up to storage. */
+  up: [number, number];
+  /** Pulled down by every other device. */
+  down: [number, number];
+};
+const ACTS: Record<"phone" | "desk", Act> = {
+  phone: { edit: 0.02, seal: 0.1, up: [0.15, 0.23], down: [0.27, 0.36] },
+  desk: { edit: 0.52, seal: 0.6, up: [0.65, 0.73], down: [0.77, 0.86] },
+};
+
+/** SMIL values and keyTimes from (time, value) points, held at the first
+ *  value before them and at the last after them. */
+function track(points: [number, number | string][]) {
+  const pts = points.map(([t, v]): [number, number | string] => [Math.min(t, 1), v]);
+  if (pts[0][0] > 0) pts.unshift([0, pts[0][1]]);
+  if (pts[pts.length - 1][0] < 1) pts.push([1, pts[pts.length - 1][1]]);
+  return {
+    values: pts.map((pt) => pt[1]).join(";"),
+    keyTimes: pts.map((pt) => +pt[0].toFixed(4)).join(";"),
+  };
+}
+
+function Fade({
+  points,
+  discrete = false,
+}: {
+  points: [number, number][];
+  discrete?: boolean;
+}) {
+  const t = track(points);
+  return (
+    <animate
+      attributeName="opacity"
+      dur={CYCLE}
+      repeatCount="indefinite"
+      calcMode={discrete ? "discrete" : "linear"}
+      values={t.values}
+      keyTimes={t.keyTimes}
+    />
+  );
+}
+
+/** Shown from `a` to `b`, with a short fade at both ends. */
+const shown = (a: number, b: number, fade = 0.012): [number, number][] => [
+  [a, 0],
+  [a + fade, 1],
+  [b, 1],
+  [b + fade, 0],
+];
 
 /** What a provider's listing looks like: names that say nothing, sealed bytes. */
 const OBJECTS = [
@@ -79,6 +127,12 @@ const OBJECTS = [
   ["blobs/", "2b71…07dd", "38 MB"],
   ["blobs/", "c45e…9a02", "1.2 MB"],
 ];
+
+/** The object each change lands as, named as its sealed note ends. */
+const LANDS = {
+  phone: ["ops/", "7a1d…c3f0", "4 KB"],
+  desk: ["blobs/", "e08b…41f6", "2.4 MB"],
+};
 
 function DeviceIcon({
   kind,
@@ -154,10 +208,43 @@ function Device({
   );
 }
 
+function Objects({
+  rows,
+  x,
+  y,
+  w,
+}: {
+  rows: string[][];
+  x: number;
+  y: number;
+  w: number;
+}) {
+  return (
+    <>
+      {rows.map(([dir, name, size], i) => (
+        <g key={name} className="how-object">
+          <text x={x + 34} y={y + 24 + i * 24}>
+            <tspan className="how-object-dir">{dir}</tspan>
+            <tspan>{name}</tspan>
+          </text>
+          <text
+            className="how-object-size"
+            x={x + w - 34}
+            y={y + 24 + i * 24}
+            textAnchor="end"
+          >
+            {size}
+          </text>
+        </g>
+      ))}
+    </>
+  );
+}
+
 /** The height of the storage card, which everything below it hangs from. */
 const HUB_H = 442;
 
-function Hub({ x, y, w }: { x: number; y: number; w: number }) {
+function Hub({ id, x, y, w }: { id: string; x: number; y: number; w: number }) {
   const cx = x + w / 2;
   const chipW = (w - 52) / 2;
   const listY = y + 338;
@@ -221,6 +308,22 @@ function Hub({ x, y, w }: { x: number; y: number; w: number }) {
         );
       })}
       <rect
+        className="how-hub-pulse"
+        x={x}
+        y={y}
+        width={w}
+        height={HUB_H}
+        rx="28"
+        opacity="0"
+      >
+        <Fade
+          points={[
+            ...shown(ACTS.phone.up[1], ACTS.phone.up[1] + 0.06, 0.01),
+            ...shown(ACTS.desk.up[1], ACTS.desk.up[1] + 0.06, 0.01),
+          ]}
+        />
+      </rect>
+      <rect
         className="how-listing"
         x={x + 20}
         y={listY}
@@ -228,48 +331,57 @@ function Hub({ x, y, w }: { x: number; y: number; w: number }) {
         height={88}
         rx="12"
       />
-      {/* The row a change lands as: lit when one arrives from either side. */}
-      <rect
-        className="how-landed"
-        x={x + 26}
-        y={listY + 7}
-        width={w - 52}
-        height={24}
-        rx="7"
-        opacity="0"
-      >
-        <animate
-          attributeName="opacity"
-          dur={CYCLE}
-          repeatCount="indefinite"
-          values="0;0;1;0;0;1;0;0"
-          keyTimes={`0;${LEGS.phoneUp[1]};${LEGS.phoneUp[1] + 0.02};${LEGS.toDesk[0] + 0.06};${LEGS.deskUp[1]};${LEGS.deskUp[1] + 0.02};${LEGS.toPhone[0] + 0.06};1`}
-        />
-      </rect>
-      {OBJECTS.map(([dir, name, size], i) => (
-        <g key={name} className="how-object">
-          <text x={x + 34} y={listY + 24 + i * 24}>
-            <tspan className="how-object-dir">{dir}</tspan>
-            <tspan>{name}</tspan>
-          </text>
-          <text
-            className="how-object-size"
-            x={x + w - 34}
-            y={listY + 24 + i * 24}
-            textAnchor="end"
-          >
-            {size}
-          </text>
+      <clipPath id={`${id}-list`}>
+        <rect x={x + 20} y={listY + 6} width={w - 40} height={78} />
+      </clipPath>
+      <g clipPath={`url(#${id}-list)`}>
+        {/* The row a change lands as, lit while it is new. */}
+        <rect
+          className="how-landed"
+          x={x + 26}
+          y={listY + 7}
+          width={w - 52}
+          height={24}
+          rx="7"
+          opacity="0"
+        >
+          <Fade
+            points={[
+              ...shown(ACTS.phone.up[1] + 0.02, ACTS.phone.up[1] + 0.15),
+              ...shown(ACTS.desk.up[1] + 0.02, ACTS.desk.up[1] + 0.15),
+            ]}
+          />
+        </rect>
+        {/* Each new object pushes the listing down a row. With motion off
+            the listing stands still. */}
+        <g className="how-rows-live">
+          <animateTransform
+            attributeName="transform"
+            type="translate"
+            dur={CYCLE}
+            repeatCount="indefinite"
+            {...track([
+              [0, "0 -48"],
+              [ACTS.phone.up[1], "0 -48"],
+              [ACTS.phone.up[1] + 0.025, "0 -24"],
+              [ACTS.desk.up[1], "0 -24"],
+              [ACTS.desk.up[1] + 0.025, "0 0"],
+            ])}
+          />
+          <Fade points={[[0, 0], [0.02, 1], [0.96, 1], [0.99, 0]]} />
+          <Objects rows={[LANDS.desk, LANDS.phone, ...OBJECTS]} x={x} y={listY} w={w} />
         </g>
-      ))}
+        <g className="how-rows-static">
+          <Objects rows={OBJECTS} x={x} y={listY} w={w} />
+        </g>
+      </g>
     </g>
   );
 }
 
-/** One sealed change on one leg of the trip: hidden until its leg starts,
- *  carried along the path, gone when it lands. */
-function Change({ path, leg }: { path: string; leg: Leg }) {
-  const [a, b] = LEGS[leg];
+/** A sealed change carried along a link between `span[0]` and `span[1]`,
+ *  easing out of one end and into the other. */
+function Packet({ path, span: [a, b] }: { path: string; span: [number, number] }) {
   return (
     <g className="how-packet" opacity="0">
       <rect x="-15" y="-9" width="30" height="18" rx="9" />
@@ -279,49 +391,135 @@ function Change({ path, leg }: { path: string; leg: Leg }) {
         dur={CYCLE}
         repeatCount="indefinite"
         path={path}
-        calcMode="linear"
-        keyPoints={a === 0 ? "0;1;1" : "0;0;1;1"}
-        keyTimes={a === 0 ? `0;${b};1` : `0;${a};${b};1`}
+        calcMode="spline"
+        keyPoints="0;0;1;1"
+        keyTimes={`0;${a};${b};1`}
+        keySplines="0 0 1 1;0.55 0 0.25 1;0 0 1 1"
       />
-      <animate
-        attributeName="opacity"
-        dur={CYCLE}
-        repeatCount="indefinite"
-        calcMode="discrete"
-        values={a === 0 ? "1;0" : "0;1;0"}
-        keyTimes={a === 0 ? `0;${b}` : `0;${a};${b}`}
-      />
+      <Fade points={[[a, 0], [a + 0.006, 1], [b - 0.006, 1], [b, 0]]} />
     </g>
   );
 }
 
-/** A device card lighting up as a change reaches it, at the end of `leg`. */
-function Arrive({
+type Box = { x: number; y: number; w: number; h: number; rx: number };
+
+/** A card's outline lighting up: in the accent where a change is made, in
+ *  green where one arrives. */
+function Ring({
+  box,
+  points,
+  origin = false,
+}: {
+  box: Box;
+  points: [number, number][];
+  origin?: boolean;
+}) {
+  return (
+    <rect
+      className={origin ? "how-origin" : "how-arrive"}
+      x={box.x}
+      y={box.y}
+      width={box.w}
+      height={box.h}
+      rx={box.rx}
+      opacity="0"
+    >
+      <Fade points={points} />
+    </rect>
+  );
+}
+
+const arrived = (at: number): [number, number][] => [
+  [at, 0],
+  [at + 0.01, 1],
+  [at + 0.12, 0],
+];
+
+/** "Synced", on the top edge of a card a change has just reached. */
+function Synced({ box, at }: { box: Box; at: number }) {
+  const x = box.x + box.w - 96;
+  const y = box.y - 11;
+  return (
+    <g className="how-synced" opacity="0">
+      <rect x={x} y={y} width="74" height="22" rx="11" />
+      <path d={`M${x + 11} ${y + 11.5}l3 3 6-6.5`} />
+      <text x={x + 26} y={y + 15.5}>
+        Synced
+      </text>
+      <Fade points={shown(at, at + 0.1)} />
+    </g>
+  );
+}
+
+/** The change itself, beside the device that made it: in the clear while it
+ *  is made, scrambled as it is sealed, then only an object name. */
+function Note({
   x,
   y,
   w,
-  h,
-  rx,
-  leg,
+  act,
+  plain,
+  scrambled,
+  sealed,
 }: {
   x: number;
   y: number;
   w: number;
-  h: number;
-  rx: number;
-  leg: Leg;
+  act: Act;
+  plain: string;
+  scrambled: [string, string];
+  sealed: string;
 }) {
-  const b = LEGS[leg][1];
+  const s1 = act.seal + 0.014;
+  const s2 = act.seal + 0.028;
   return (
-    <rect className="how-arrive" x={x} y={y} width={w} height={h} rx={rx} opacity="0">
-      <animate
-        attributeName="opacity"
+    <g className="how-note" opacity="0">
+      <Fade points={shown(act.edit, act.up[0] + 0.02, 0.015)} />
+      <animateTransform
+        attributeName="transform"
+        type="translate"
         dur={CYCLE}
         repeatCount="indefinite"
-        values="0;0;1;0;0"
-        keyTimes={`0;${b};${Math.min(b + 0.015, 0.99)};${Math.min(b + 0.12, 0.995)};1`}
+        {...track([
+          [act.edit, "0 8"],
+          [act.edit + 0.02, "0 0"],
+        ])}
       />
-    </rect>
+      <rect className="how-note-box" x={x} y={y} width={w} height={32} rx={16} />
+      <g>
+        <Fade discrete points={[[0, 1], [act.seal, 0]]} />
+        <g className="how-note-icon" transform={`translate(${x + 14} ${y + 9})`}>
+          <path d="M2 12l1-4 8-8 3 3-8 8z" />
+          <path d="M9 2l3 3" />
+        </g>
+        <text className="how-note-plain" x={x + 36} y={y + 21}>
+          {plain}
+        </text>
+      </g>
+      {scrambled.map((text, i) => (
+        <text key={text} className="how-note-scramble" x={x + 36} y={y + 21} opacity="0">
+          <Fade
+            discrete
+            points={[
+              [0, 0],
+              [i === 0 ? act.seal : s1, 1],
+              [i === 0 ? s1 : s2, 0],
+            ]}
+          />
+          {text}
+        </text>
+      ))}
+      <g opacity="0">
+        <Fade discrete points={[[0, 0], [s2, 1]]} />
+        <g className="how-note-lock" transform={`translate(${x + 15} ${y + 8})`}>
+          <rect x="0" y="6" width="12" height="9" rx="2" />
+          <path d="M2.5 6V4a3.5 3.5 0 0 1 7 0v2" />
+        </g>
+        <text className="how-note-sealed" x={x + 36} y={y + 21}>
+          {sealed}
+        </text>
+      </g>
+    </g>
   );
 }
 
@@ -517,6 +715,14 @@ function Wide() {
   const toDesk = "M450 350 C 450 326, 290 334, 290 308";
   const phoneUp = "M300 571 C 345 571, 345 571, 390 571";
   const toPhone = "M390 571 C 345 571, 345 571, 300 571";
+  const toLinux = "M560 350 V 308";
+  const macUp = "M830 308 C 830 334, 670 326, 670 350";
+  const toMac = "M670 350 C 670 326, 830 334, 830 308";
+  const win: Box = { x: 165, y: 196, w: 250, h: 112, rx: 20 };
+  const linux: Box = { x: 435, y: 196, w: 250, h: 112, rx: 20 };
+  const mac: Box = { x: 705, y: 196, w: 250, h: 112, rx: 20 };
+  const phone: Box = { x: 50, y: 507, w: 250, h: 128, rx: 20 };
+  const { phone: first, desk: second } = ACTS;
   return (
     <svg
       className="how-svg how-wide"
@@ -551,23 +757,61 @@ function Wide() {
       <path className="how-link is-live" d={deskUp} />
       <path className="how-link is-live how-link-2" d={phoneUp} />
       <path className="how-link is-live" d="M560 308 V 350" />
-      <path className="how-link is-live" d="M830 308 C 830 334, 670 326, 670 350" />
+      <path className="how-link is-live" d={macUp} />
       <path className="how-link is-planned" d="M820 571 H 730" />
 
-      <Hub x={390} y={350} w={340} />
+      <Hub id="w" x={390} y={350} w={340} />
 
       <Device p={WINDOWS} x={165} y={196} w={250} h={112} />
       <Device p={LINUX} x={435} y={196} w={250} h={112} />
       <Device p={MACOS} x={705} y={196} w={250} h={112} />
       <Device p={ANDROID} x={50} y={507} w={250} h={128} />
       <Device p={IOS} x={820} y={507} w={250} h={128} />
-      <Arrive x={165} y={196} w={250} h={112} rx={20} leg="toDesk" />
-      <Arrive x={50} y={507} w={250} h={128} rx={20} leg="toPhone" />
 
-      <Change path={phoneUp} leg="phoneUp" />
-      <Change path={toDesk} leg="toDesk" />
-      <Change path={deskUp} leg="deskUp" />
-      <Change path={toPhone} leg="toPhone" />
+      {/* A password changed on the phone, pulled by the three computers. */}
+      <Ring box={phone} points={shown(first.edit, first.up[0])} origin />
+      <Packet path={phoneUp} span={first.up} />
+      <Packet path={toDesk} span={first.down} />
+      <Packet path={toLinux} span={first.down} />
+      <Packet path={toMac} span={first.down} />
+      {[win, linux, mac].map((box) => (
+        <g key={box.x}>
+          <Ring box={box} points={arrived(first.down[1])} />
+          <Synced box={box} at={first.down[1]} />
+        </g>
+      ))}
+
+      {/* A file added on the Mac, pulled by the other computers and the phone. */}
+      <Ring box={mac} points={shown(second.edit, second.up[0])} origin />
+      <Packet path={macUp} span={second.up} />
+      <Packet path={toDesk} span={second.down} />
+      <Packet path={toLinux} span={second.down} />
+      <Packet path={toPhone} span={second.down} />
+      {[win, linux, phone].map((box) => (
+        <g key={box.x}>
+          <Ring box={box} points={arrived(second.down[1])} />
+          <Synced box={box} at={second.down[1]} />
+        </g>
+      ))}
+
+      <Note
+        x={60}
+        y={646}
+        w={214}
+        act={first}
+        plain="Bank: password changed"
+        scrambled={["B#nk: p@5sw%rd ch4ng*d", "7a#1: d9@c%w3f0 c4*g"]}
+        sealed="sealed · 7a1d…c3f0"
+      />
+      <Note
+        x={846}
+        y={318}
+        w={214}
+        act={second}
+        plain="Passport.pdf added"
+        scrambled={["P@ssp#rt.p%f a6d*d", "e0#b4…1f@6 a%8*d"]}
+        sealed="sealed · e08b…41f6"
+      />
 
       <Sees x={560} y={840} anchor="middle" />
       <Keys x={392} y={888} />
@@ -584,6 +828,11 @@ function Tall() {
   // The row under it: computers first, then phones; Android is the live one.
   const phoneUp = `M249 ${cards} C 249 ${cards - 32}, 235 ${cards - 32}, 235 ${top}`;
   const toPhone = `M235 ${top} C 235 ${cards - 32}, 249 ${cards - 32}, 249 ${cards}`;
+  const toLinux = `M90 ${top} C 90 ${cards - 32}, 52 ${cards - 32}, 52 ${cards}`;
+  const toMac = `M165 ${top} C 165 ${cards - 32}, 151 ${cards - 32}, 151 ${cards}`;
+  const win: Box = { x: 70, y: 22, w: 260, h: 128, rx: 20 };
+  const small = (cx: number): Box => ({ x: cx - 46, y: cards, w: 92, h: 104, rx: 18 });
+  const { phone: first, desk: second } = ACTS;
   return (
     <svg
       className="how-svg how-tall"
@@ -610,11 +859,11 @@ function Tall() {
           encrypted
         </text>
 
-        <Hub x={40} y={222} w={320} />
+        <Hub id="t" x={40} y={222} w={320} />
 
         <path className="how-link is-live how-link-2" d={phoneUp} />
-        <path className="how-link is-live" d={`M90 ${top} C 90 ${cards - 32}, 52 ${cards - 32}, 52 ${cards}`} />
-        <path className="how-link is-live" d={`M165 ${top} C 165 ${cards - 32}, 151 ${cards - 32}, 151 ${cards}`} />
+        <path className="how-link is-live" d={toLinux} />
+        <path className="how-link is-live" d={toMac} />
         <path className="how-link is-planned" d={`M310 ${top} C 310 ${cards - 32}, 348 ${cards - 32}, 348 ${cards}`} />
 
         <g>
@@ -652,13 +901,25 @@ function Tall() {
             </g>
           ))}
         </g>
-        <Arrive x={70} y={22} w={260} h={128} rx={20} leg="toDesk" />
-        <Arrive x={203} y={cards} w={92} h={104} rx={18} leg="toPhone" />
+        {/* From the phone to the computers, then from Windows to the rest. */}
+        <Ring box={small(249)} points={shown(first.edit, first.up[0])} origin />
+        <Packet path={phoneUp} span={first.up} />
+        <Packet path={toDesk} span={first.down} />
+        <Packet path={toLinux} span={first.down} />
+        <Packet path={toMac} span={first.down} />
+        <Ring box={win} points={arrived(first.down[1])} />
+        <Synced box={win} at={first.down[1]} />
+        <Ring box={small(52)} points={arrived(first.down[1])} />
+        <Ring box={small(151)} points={arrived(first.down[1])} />
 
-        <Change path={phoneUp} leg="phoneUp" />
-        <Change path={toDesk} leg="toDesk" />
-        <Change path={deskUp} leg="deskUp" />
-        <Change path={toPhone} leg="toPhone" />
+        <Ring box={win} points={shown(second.edit, second.up[0])} origin />
+        <Packet path={deskUp} span={second.up} />
+        <Packet path={toLinux} span={second.down} />
+        <Packet path={toMac} span={second.down} />
+        <Packet path={toPhone} span={second.down} />
+        <Ring box={small(52)} points={arrived(second.down[1])} />
+        <Ring box={small(151)} points={arrived(second.down[1])} />
+        <Ring box={small(249)} points={arrived(second.down[1])} />
 
         <Sees x={200} y={cards + 150} anchor="middle" stack />
         <Keys x={30} y={cards + 250} />
