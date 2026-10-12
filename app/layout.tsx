@@ -139,8 +139,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <p className="footer-marks">
                 Microsoft, OneDrive and Windows are trademarks of the Microsoft
                 group of companies. Google Drive and Google Play are trademarks
-                of Google LLC. Dropbox is a trademark of Dropbox, Inc. iCloud is
-                a trademark of Apple Inc. kDrive is a trademark of Infomaniak
+                of Google LLC. Dropbox is a trademark of Dropbox, Inc. Apple,
+                iCloud, iPhone, macOS, Face ID and Touch ID are trademarks of
+                Apple Inc. kDrive is a trademark of Infomaniak
                 Network SA. SilentSilo is not
                 affiliated with, sponsored or endorsed by any of these
                 companies.

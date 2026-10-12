@@ -43,10 +43,10 @@ export default function Who() {
         that.
       </p>
       <p>
-        Rebuilding something after it has failed teaches you what this
-        product is built on. Trust is not claimed, it is accumulated by
-        behaving the same way for years while nobody is checking, and it is
-        lost in an afternoon.
+        Rebuilding a site after a compromise taught me what this product is
+        built on. People trust a download because it has behaved the same
+        way for years, mostly while nobody was checking, and one bad
+        afternoon can undo that.
       </p>
       <p>
         Since 2025 I have been CTO at <a href="https://dappcdn.com">
@@ -67,8 +67,9 @@ export default function Who() {
         assembled. There is no account because I would not want one just to
         open my own files. There is no tracking because I would turn it
         off. And whatever storage the app talks to, yours or anyone
-        else&apos;s, only ever receives ciphertext, because that is the only
-        arrangement I would accept for my own files. The product works the
+        else&apos;s, receives encrypted data plus the few things listed on
+        the <Link href="/security/">security page</Link>, because that is the
+        only arrangement I would accept for my own files. The product works the
         way I already behave, which is the only way I know to make those
         promises hold when it becomes inconvenient to keep them.
       </p>
@@ -117,7 +118,7 @@ export default function Who() {
       <p>
         One developer is also where this starts, not where it is meant to
         stay. The paragraphs above are the worst case, written down so that
-        your files are safe whether or not the plan works out.
+        your silo stays readable whether or not the plan works out.
       </p>
 
       <h2>Contact</h2>

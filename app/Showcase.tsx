@@ -56,7 +56,7 @@ const SHOTS: Shot[] = [
     height: 1600,
     alt: "The file explorer with a PDF selected and its details beside it: dates, backup status and the three copies that hold it",
     caption:
-      "Grid or list, drag and drop, search across the whole silo. The details beside the list say which of your copies hold each file. Names are encrypted at rest; the index only exists while you are unlocked.",
+      "Grid or list, drag and drop, search across the whole silo. The details beside the list say which of your copies hold each file. Names are encrypted at rest; between unlocks the index stays on disk as an encrypted working copy.",
   },
   {
     id: "credentials",

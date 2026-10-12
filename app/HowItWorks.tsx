@@ -44,7 +44,7 @@ const LINUX: Platform = {
 const ANDROID: Platform = {
   name: "Android",
   state: "Available now",
-  unlock: "Fingerprint · NFC key",
+  unlock: "Fingerprint · security key",
   live: true,
   kind: "phone",
 };
@@ -58,7 +58,7 @@ const IOS: Platform = {
 
 /** The storage kinds, grouped as the app's own picker groups them. */
 const STORE_GROUPS: [string, string[]][] = [
-  ["An account you have", ["iCloud Drive", "OneDrive", "Google Drive", "Dropbox"]],
+  ["An account you have", ["OneDrive", "Google Drive", "Dropbox", "kDrive"]],
   ["Storage you run or rent", ["S3 bucket", "WebDAV", "SFTP server", "Folder or USB"]],
 ];
 
@@ -361,7 +361,7 @@ function Sees({
           sizes, times, key labels, content hashes
         </text>
         <text className="how-never-label" x={x} y={y + 50} textAnchor={anchor}>
-          Never sees
+          Cannot read
         </text>
         <text x={x} y={y + 71} textAnchor={anchor}>
           file names, contents, passwords
@@ -376,7 +376,7 @@ function Sees({
         <tspan>sizes, times, key labels, content hashes</tspan>
       </text>
       <text x={x} y={y + 22} textAnchor={anchor}>
-        <tspan className="how-never-label">Never sees </tspan>
+        <tspan className="how-never-label">Cannot read </tspan>
         <tspan>file names, contents, passwords</tspan>
       </text>
     </g>
@@ -499,16 +499,16 @@ function Extension({
   );
 }
 
-/** Where the extension can be installed today; the rest follow review. */
+/** The browsers the extension installs in. */
 const LIVE_BROWSERS = "Chrome, Edge, Brave, Firefox";
 
 const DESC =
   "Each device encrypts on its own and writes to storage you choose: your OneDrive, Google Drive or Dropbox, an S3 " +
-  "bucket, WebDAV, an SFTP server or a folder. The storage holds only encrypted objects; it sees sizes, times, key labels, content hashes and the silo folder's name, never your file names, contents " +
+  "bucket, WebDAV, an SFTP server or a folder. The storage holds only encrypted objects; it sees sizes, times, key labels, content hashes and the silo folder's name, but cannot read your file names, contents " +
   "or passwords. A change made on one device is sealed there, stored, and pulled by every other device; there is no " +
   "SilentSilo server in between. You unlock with a security key or the device's biometrics, and a " +
   "recovery code on paper is the fallback. Windows, Linux and Android are available now, macOS is coming soon, and iOS is planned. " +
-  "The browser extension is available on Windows and Linux for Chrome, Edge, Brave and Firefox, and comes with the macOS app later: it fills passwords through the desktop app, never from storage.";
+  "The browser extension for Chrome, Edge, Brave and Firefox works with the desktop app on Windows, Linux and macOS: it fills passwords through the desktop app, never from storage.";
 
 function Wide() {
   // Symmetric round the storage: the computers in a row above it, the
@@ -547,7 +547,7 @@ function Wide() {
       <path className="how-link is-live" d="M560 162 V 180 H 290 V 196" />
       <path className="how-link is-planned" d="M560 180 H 830 V 196" />
       <path className="how-link is-live" d="M560 180 V 196" />
-      <Extension x={435} y={70} w={250} state="On Windows and Linux" browsers={LIVE_BROWSERS} live />
+      <Extension x={435} y={70} w={250} state="With the desktop app" browsers={LIVE_BROWSERS} live />
 
       <path className="how-link is-live" d={deskUp} />
       <path className="how-link is-live how-link-2" d={phoneUp} />
@@ -598,7 +598,7 @@ function Tall() {
       <style>{`.how-tall .how-hub-box{fill:url(#t-hub)} .how-tall .how-link.is-live{stroke:url(#t-link)} .how-tall .how-link.is-live.how-link-2{stroke:url(#t-link2)} .how-tall .how-halo{fill:url(#t-halo)}`}</style>
 
       <FlowCaption cx={200} y={18} />
-      <Extension x={70} y={62} w={260} state="On Windows and Linux" browsers={LIVE_BROWSERS} live />
+      <Extension x={70} y={62} w={260} state="With the desktop app" browsers={LIVE_BROWSERS} live />
       <path className="how-link is-live" d="M200 154 V 196" />
       <g transform="translate(0 174)">
         {/* Inside the viewBox: the drawing runs to the edge of a phone
@@ -677,7 +677,8 @@ export function HowItWorks() {
         <li>
           <strong>Your devices</strong>
           <span>
-            encrypt everything before it leaves them, and only they can open it.
+            encrypt everything before it leaves them, and only your keys can
+            open it.
           </span>
         </li>
         <li>

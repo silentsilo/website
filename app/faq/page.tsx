@@ -82,8 +82,9 @@ export default function Faq() {
       <p>
         Yes. A release ships <code>silentsilo-extract</code>, a command-line
         tool that reads a backup and writes the files out with nothing but
-        the folder and your recovery code, as separate binaries for Windows,
-        Linux and macOS, <Link href="/tutorials/get-files-out/">downloadable here</Link>.
+        the folder and your recovery code, as separate binaries for Windows
+        and Linux on x86-64 and for Macs with Apple silicon,{" "}
+        <Link href="/tutorials/get-files-out/">downloadable here</Link>.
         The format is documented in{" "}
         <a href={DOC_FORMATS}>FORMATS.md</a> as well, so the archive can be
         read from the specification even if both the app and the tool
@@ -107,9 +108,9 @@ export default function Faq() {
         others, on the <a href={LATEST_RELEASE}>release page</a>. It unlocks
         with a security key; Linux has no built-in equivalent of Windows
         Hello the app can use. The browser extension works with it too.
-        macOS is coming soon. The extraction tool above already runs on all
-        three, so choosing this today does not put your files on one
-        operating system for good.
+        macOS is coming soon. The extraction tool above already runs on
+        Windows, Linux and Macs with Apple silicon, so choosing this today
+        does not tie your files to one operating system.
       </p>
 
       <h2>Does it work without sync?</h2>
@@ -123,7 +124,7 @@ export default function Faq() {
       <p>
         That is what the archive features are for. Point a silo at several
         destinations, including an external drive that is usually unplugged,
-        make one of them a never-delete copy so the app can never delete from it,
+        make one of them a never-delete copy so the app does not delete from it,
         and ask it to keep a full copy on the machine. Settings &gt; Backup then
         tells you how many complete copies actually exist and how far behind
         each one is.
@@ -151,12 +152,17 @@ export default function Faq() {
       <p>
         Yes, and there is a setting for the part that usually stops companies:
         what happens when the employee leaves. A silo can be created as
-        administered by an organisation, which keeps a key the company holds and
-        that the employee cannot remove, and without which the recovery code
-        cannot be changed either. The company can then open its own archive
-        later. It is chosen once, while the silo is being created, and it is
-        visible on every device, so it cannot be turned on quietly behind
-        somebody who is already using a silo. Nothing about it costs money:
+        administered by an organisation, which carries a key the company
+        holds. On the computer it was set up on, the app does not let the
+        employee remove that key, or change the recovery code, without it.
+        What makes it stick is a never-delete copy on the company&apos;s own
+        storage. The company can then open its own archive later. It is
+        chosen once, while the silo is being created, so the app offers no
+        way to turn it on behind somebody who is already using a silo. The
+        computer where the silo was created, and any computer set up with a
+        company key, show the company&apos;s keys with an Organisation badge;
+        a computer set up with your own key or the recovery code lists them
+        as ordinary keys. Nothing about it costs money:
         every feature is in every copy. The setup, step by step, is in{" "}
         <Link href="/tutorials/organisation-silos/">
           Silos for a team or a company
@@ -181,8 +187,8 @@ export default function Faq() {
         Every file on the <a href={RELEASES}>releases page</a> ships with a
         signature next to it, made with a key whose public half is in the
         repository. Updates are checked against that same key by the app
-        itself before anything is installed, so a compromised download
-        endpoint cannot ship you code that key did not sign. Where each
+        itself before anything is installed, and an update that key did not
+        sign is refused. Where each
         signature is made, and what that does and does not prove, is on{" "}
         <Link href="/security/">Security</Link>.
       </p>

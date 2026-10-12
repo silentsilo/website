@@ -42,10 +42,10 @@ type Cell = [string, Tone];
 
 /** Row label, then one cell per column, in the order of the header. */
 const COMPARE: [string, Cell, Cell, Cell][] = [
-  ["Account required", ["Never", "good"], ["Yes", "bad"], ["No", "good"]],
-  ["Unlock", ["Hardware key or biometrics", "good"], ["Password", "meh"], ["Passphrase", "meh"]],
-  ["Sync between devices", ["Through your storage", "good"], ["Through their servers", "meh"], ["None", "bad"]],
-  ["Works if the vendor disappears", ["Yes", "good"], ["No", "bad"], ["Yes", "good"]],
+  ["Account required", ["No", "good"], ["Usually", "bad"], ["No", "good"]],
+  ["Unlock", ["Hardware key or biometrics", "good"], ["Usually a master password", "meh"], ["Usually a passphrase", "meh"]],
+  ["Sync between devices", ["Through your storage", "good"], ["Through their servers", "meh"], ["Through a synced folder", "meh"]],
+  ["Works if the vendor disappears", ["Silos keep opening", "good"], ["Usually not", "bad"], ["Usually", "good"]],
   ["Source available", ["AGPL-3.0", "good"], ["Varies", "meh"], ["Usually", "meh"]],
 ];
 
@@ -84,17 +84,17 @@ const SMALL_FEATURES: { icon: React.ReactNode; title: string; text: string }[] =
   {
     icon: <LockKey weight="duotone" />,
     title: "Locks itself",
-    text: "When you lock a Windows computer, when the phone sleeps, or after a time you choose.",
+    text: "When you lock the computer's screen, when the phone sleeps, or after a time you choose.",
   },
   {
     icon: <Stack weight="duotone" />,
     title: "Several silos",
-    text: "Personal, family, work, each with its own keys. A company silo can keep a key the employee cannot remove.",
+    text: "Personal, family, work, each with its own keys. A company silo can carry a company key the app does not let the employee remove on the computer it was set up on; the company's never-delete copy is what makes it stick.",
   },
   {
     icon: <ArrowsLeftRight weight="duotone" />,
-    title: "In by CSV, out by CSV",
-    text: "From Bitwarden, LastPass, 1Password and Chrome, and back out whenever you want.",
+    title: "In and out with KeePass or CSV",
+    text: "A KeePass .kdbx file both ways, CSV both ways, and Bitwarden JSON or zip in, with attachments. Also from LastPass, 1Password and the browsers.",
   },
   {
     icon: <Scroll weight="duotone" />,
@@ -114,7 +114,7 @@ const TRUST: { icon: React.ReactNode; title: string; text: string; href: string;
   {
     icon: <FolderLock weight="duotone" />,
     title: "A silo is a folder you own",
-    text: "Encrypted, portable, with its own index and keys. Nothing decrypted is ever written inside it.",
+    text: "Encrypted, portable, with its own index and keys. The app writes nothing decrypted inside it: a file you open is decrypted into a working folder elsewhere on the device and removed when the silo locks.",
     href: "/principles/",
     more: "What stays yours",
   },
@@ -356,9 +356,11 @@ export default function Home() {
                 </span>
                 <h3>Change the key, not the data</h3>
                 <p>
-                  Lose a security key, retire it, and the silo moves to a new
-                  key without re-encrypting a single file. The retired one
-                  stops opening anything.
+                  Lose a key, remove it, then replace the encryption key.
+                  Every copy that accepts overwrites moves to the new key
+                  without re-encrypting a single file, and the lost key no
+                  longer opens them. A never-delete copy keeps the old
+                  key&apos;s envelope.
                 </p>
               </div>
               <div className="mini mini-keys" aria-hidden>
@@ -372,7 +374,7 @@ export default function Home() {
                 </span>
                 <span className="mini-key is-off">
                   <Key weight="duotone" />
-                  Old key, retired
+                  Old key, removed
                 </span>
                 <span className="mini-key is-on">
                   <Vault weight="duotone" />
@@ -464,9 +466,9 @@ export default function Home() {
                 <Terminal weight="duotone" />
               </span>
               <span>
-                <strong>A way out on any system.</strong> A small tool reads a
-                backup with only the recovery code, on Windows, Linux or
-                macOS, without the app.
+                <strong>A way out without the app.</strong> A small tool reads
+                a backup with only the recovery code, on Windows, Linux or a
+                Mac with Apple silicon.
               </span>
               <ArrowRight />
             </Link>
@@ -529,6 +531,12 @@ export default function Home() {
               </tbody>
             </table>
           </div>
+          <p className="compare-note">
+            If Software Hive stopped, silos keep opening, and storage you run
+            or rent keeps working. Sync through OneDrive, Dropbox or Google
+            Drive depends on the app registrations Software Hive holds with
+            those companies.
+          </p>
         </div>
       </section>
 
