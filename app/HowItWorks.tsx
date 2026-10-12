@@ -58,7 +58,7 @@ const IOS: Platform = {
 
 /** The storage kinds, grouped as the app's own picker groups them. */
 const STORE_GROUPS: [string, string[]][] = [
-  ["An account you have", ["OneDrive", "Google Drive", "Dropbox", "kDrive"]],
+  ["An account you have", ["iCloud Drive", "OneDrive", "Google Drive", "Dropbox"]],
   ["Storage you run or rent", ["S3 bucket", "WebDAV", "SFTP server", "Folder or USB"]],
 ];
 
