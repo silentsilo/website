@@ -122,13 +122,13 @@ export default function GetFilesOut() {
 
       <h2 id="list-then-extract">List, then extract</h2>
       <p>
-        First list what is there. Dashes and letter case in the code do not
-        matter:
+        First list what is there. The tool asks for the recovery code and
+        does not show it as you type; dashes and letter case do not matter:
       </p>
       <pre>
         <code>
           {
-            "silentsilo-extract list --from ./Silo --code ABCD-EFGH-…\n"
+            "silentsilo-extract list --from ./Silo\n"
           }
         </code>
       </pre>
@@ -136,7 +136,7 @@ export default function GetFilesOut() {
       <pre>
         <code>
           {
-            "silentsilo-extract extract --from ./Silo --code ABCD-EFGH-… --to ./restored\n"
+            "silentsilo-extract extract --from ./Silo --to ./restored\n"
           }
         </code>
       </pre>

@@ -283,10 +283,11 @@ export default function ImmutableCopies() {
         point it at the disc:
       </p>
       <pre>
-        <code>silentsilo-extract list --from D:\ --code YOUR-RECOVERY-CODE</code>
+        <code>silentsilo-extract list --from D:\</code>
       </pre>
       <p>
-        It reads the disc and prints what is in the silo. It never writes to
+        It asks for your recovery code, reads the disc and prints what is in
+        the silo. It never writes to
         the source, so it works on a disc that cannot be written to at all.
         If that command lists your files, your archive is real. If it does
         not, you have found out now rather than in five years.
@@ -299,8 +300,7 @@ export default function ImmutableCopies() {
       <p>
         To get files back out, the same tool with a destination:{" "}
         <code>
-          silentsilo-extract extract --from D:\ --code YOUR-RECOVERY-CODE --to
-          C:\restored
+          silentsilo-extract extract --from D:\ --to C:\restored
         </code>
         . No SilentSilo installation, no account, no key. That is the point
         of it existing. If the silo holds passwords, they come out too, in a{" "}
