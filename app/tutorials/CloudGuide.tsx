@@ -5,6 +5,8 @@ import { MoreGuides } from "./MoreGuides";
  *  in the guide is the same app flow, word for word as the app shows it. */
 export type Cloud = {
   name: string;
+  /** The page heading, when "Back up to" does not fit the provider's terms. */
+  heading?: string;
   company: string;
   /** Where the app's folder sits, as the app's own hint words it. */
   place: string;
@@ -20,7 +22,7 @@ export type Cloud = {
 export function CloudGuide({ c }: { c: Cloud }) {
   return (
     <main id="main" className="wrap prose">
-      <h1>Back up to {c.name}</h1>
+      <h1>{c.heading ?? `Back up to ${c.name}`}</h1>
       <p className="lead">
         If you already have {c.name}, it can hold an encrypted copy of your
         silo. You sign in once, in your browser, and the app writes to its

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { CloudGuide } from "../CloudGuide";
 
 export const metadata: Metadata = {
-  title: "Back up to OneDrive",
+  title: "Sync through OneDrive",
   description:
     "Keep an encrypted copy of your silo in your OneDrive: signing in from the app, the folder it uses, what Microsoft sees, and taking the access back.",
 };
@@ -12,6 +12,7 @@ export default function BackupOneDrive() {
     <CloudGuide
       c={{
         name: "OneDrive",
+        heading: "Sync through OneDrive",
         company: "Microsoft",
         place: "Apps/SilentSilo on your OneDrive",
         path: "Apps/SilentSilo/Silo",
