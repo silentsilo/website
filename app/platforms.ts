@@ -1,4 +1,4 @@
-import { LATEST_INSTALLER, PLAY_STORE } from "./links";
+import { LATEST_INSTALLER, MAC_DMG, PLAY_STORE } from "./links";
 
 /**
  * Every platform the site talks about, in one place. When macOS, iOS or
@@ -48,9 +48,9 @@ export const PLATFORMS: Platform[] = [
   {
     id: "macos",
     name: "macOS",
-    available: false,
-    soon: true,
-    detail: "Touch ID or a security key. Coming soon.",
+    available: true,
+    detail: "macOS 13 or later, Apple silicon or Intel. Unlocks with Touch ID or a security key.",
+    action: { label: "Download for macOS", href: MAC_DMG },
   },
   {
     id: "ios",
@@ -64,7 +64,7 @@ export const AVAILABLE = PLATFORMS.filter((p) => p.available && p.id !== "extens
 export const SOON = PLATFORMS.filter((p) => !p.available && p.soon);
 export const PLANNED = PLATFORMS.filter((p) => !p.available && !p.soon);
 
-/** "Windows, Linux and Android", for sentences. */
+/** "Windows, Linux, macOS and Android", for sentences. */
 export const AVAILABLE_NAMES = AVAILABLE.map((p) => p.name)
   .join(", ")
   .replace(/, ([^,]*)$/, " and $1");

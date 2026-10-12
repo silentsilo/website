@@ -23,6 +23,8 @@ import {
   LATEST_RELEASE,
   LATEST_TAG,
   LINUX_PACKAGES,
+  MAC_DMG,
+  MAC_DMG_SIG,
   MOBILE_REPO,
   PLAY_STORE,
   RELEASES,
@@ -38,7 +40,7 @@ import { ThisDevice } from "./ThisDevice";
 export const metadata: Metadata = {
   title: "Download SilentSilo",
   description:
-    "SilentSilo for Windows, Linux and Android, the browser extension and the extraction tool. Free, no account.",
+    "SilentSilo for Windows, macOS, Linux and Android, the browser extension and the extraction tool. Free, no account.",
 };
 
 const detail = (id: Platform["id"]) => PLATFORMS.find((p) => p.id === id)?.detail ?? "";
@@ -144,9 +146,18 @@ export default function Download() {
                 </p>
               </article>
 
-              <article className="dl-card is-later" id="macos">
-                <CardHead icon={<Laptop weight="duotone" />} name="macOS" status="Coming soon" />
+              <article className="dl-card" id="macos">
+                <CardHead icon={<Laptop weight="duotone" />} name="macOS" />
                 <p>{detail("macos")}</p>
+                <div className="dl-actions">
+                  <a className="btn btn-primary" href={MAC_DMG}>
+                    <DownloadSimple weight="bold" />
+                    Download for macOS
+                  </a>
+                </div>
+                <p className="dl-small">
+                  Signed and notarised disk image. <a href={MAC_DMG_SIG}>Signature</a>
+                </p>
               </article>
             </div>
           </div>

@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowRight, Browser, Desktop, DeviceMobile, Terminal } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, Browser, Desktop, DeviceMobile, Laptop, Terminal } from "@phosphor-icons/react/dist/ssr";
 import { visitorOf, type Visitor } from "./DownloadButton";
-import { LATEST_INSTALLER, PLAY_STORE } from "./links";
+import { LATEST_INSTALLER, MAC_DMG, PLAY_STORE } from "./links";
 
 const ALL = [
   { id: "windows", label: "Windows", href: LATEST_INSTALLER, icon: <Desktop weight="duotone" /> },
+  { id: "macos", label: "macOS", href: MAC_DMG, icon: <Laptop weight="duotone" /> },
   { id: "linux", label: "Linux", href: "/download/#linux", icon: <Terminal weight="duotone" /> },
   { id: "android", label: "Android", href: PLAY_STORE, icon: <DeviceMobile weight="duotone" /> },
   { id: "extension", label: "Browser", href: "/download/#extension", icon: <Browser weight="duotone" /> },

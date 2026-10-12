@@ -23,13 +23,19 @@ export const RELEASED = true;
  * the file names carry the version: one string per release, every name
  * built from it.
  */
-export const LATEST_VERSION = "1.4.0";
+export const LATEST_VERSION = "1.5.0";
 export const LATEST_TAG = `v${LATEST_VERSION}`;
 
 const LATEST_DOWNLOAD = `${REPO}/releases/latest/download`;
 
 export const LATEST_INSTALLER_NAME = `SilentSilo_${LATEST_VERSION}_x64-setup.exe`;
 export const LATEST_INSTALLER = `${LATEST_DOWNLOAD}/${LATEST_INSTALLER_NAME}`;
+
+/** The Mac app: one disk image for Apple silicon and Intel, signed and
+ *  notarised, with its minisign signature beside it. */
+export const MAC_DMG_NAME = `SilentSilo_${LATEST_VERSION}_universal.dmg`;
+export const MAC_DMG = `${LATEST_DOWNLOAD}/${MAC_DMG_NAME}`;
+export const MAC_DMG_SIG = `${MAC_DMG}.sig`;
 
 /** The two Linux packages, each with its minisign signature beside it. */
 export const LINUX_PACKAGES = [

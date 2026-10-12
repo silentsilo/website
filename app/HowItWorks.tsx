@@ -57,7 +57,7 @@ const IOS: Platform = {
 
 /** The storage kinds, grouped as the app's own picker groups them. */
 const STORE_GROUPS: [string, string[]][] = [
-  ["An account you have", ["iCloud Drive", "OneDrive", "Google Drive", "Dropbox"]],
+  ["An account you have", ["OneDrive", "Google Drive", "Dropbox", "kDrive"]],
   ["Storage you run or rent", ["S3 bucket", "WebDAV", "SFTP server", "Folder or USB"]],
 ];
 
@@ -502,7 +502,7 @@ function Extension({
 const LIVE_BROWSERS = "Chrome, Edge, Brave, Firefox";
 
 const DESC =
-  "Each device encrypts on its own and writes to storage you choose: your iCloud Drive, OneDrive, Google Drive or Dropbox, an S3 " +
+  "Each device encrypts on its own and writes to storage you choose: your OneDrive, Google Drive or Dropbox, an S3 " +
   "bucket, WebDAV, an SFTP server or a folder. The storage holds only encrypted objects; it sees sizes, times, key labels, content hashes and the silo folder's name, but cannot read your file names, contents " +
   "or passwords. A change made on one device is sealed there, stored, and pulled by every other device; there is no " +
   "SilentSilo server in between. You unlock with a security key or the device's biometrics, and a " +

@@ -160,8 +160,8 @@ export default function Home() {
               <span className="grad">encrypted on your own devices.</span>
             </h1>
             <p className="hero-lead">
-              Unlock with Windows Hello, your phone&apos;s fingerprint or a
-              security key. Keep the encrypted copy in your OneDrive, Dropbox,
+              Unlock with Windows Hello, Touch ID, your phone&apos;s
+              fingerprint or a security key. Keep the encrypted copy in your OneDrive, Dropbox,
               Google Drive or storage you own. There is no SilentSilo server
               in between.
             </p>
@@ -174,7 +174,13 @@ export default function Home() {
             </div>
             <AlsoOn />
             <p className="hero-meta">
-              {LATEST_TAG} · {names(SOON)} coming soon · {names(PLANNED)} planned
+              {[
+                LATEST_TAG,
+                SOON.length > 0 && `${names(SOON)} coming soon`,
+                PLANNED.length > 0 && `${names(PLANNED)} planned`,
+              ]
+                .filter(Boolean)
+                .join(" · ")}
             </p>
           </div>
 

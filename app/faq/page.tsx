@@ -5,7 +5,7 @@ import { DOC_FORMATS, LATEST_RELEASE, PLAY_STORE, RELEASES } from "../links";
 export const metadata: Metadata = {
   title: "Questions",
   description:
-    "What happens if you lose the key, whether you have to buy anything, how to get files out without the app, the Android app, and when Linux and macOS might happen.",
+    "What happens if you lose the key, whether you have to buy anything, how to get files out without the app, the Android app, and the Linux and macOS versions.",
 };
 
 export default function Faq() {
@@ -108,9 +108,11 @@ export default function Faq() {
         others, on the <a href={LATEST_RELEASE}>release page</a>. It unlocks
         with a security key; Linux has no built-in equivalent of Windows
         Hello the app can use. The browser extension works with it too.
-        macOS is coming soon. The extraction tool above already runs on
-        Windows, Linux and Macs with Apple silicon, so choosing this today
-        does not tie your files to one operating system.
+        macOS, yes: one disk image for Apple silicon and Intel Macs, macOS 13
+        or later, signed and notarised. It unlocks with Touch ID or a
+        security key. The extraction tool above runs on Windows, Linux and
+        Macs with Apple silicon, so choosing this today does not tie your
+        files to one operating system.
       </p>
 
       <h2>Does it work without sync?</h2>
