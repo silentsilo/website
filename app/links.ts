@@ -70,11 +70,11 @@ export const LATEST_INSTALLER_SIG = `${LATEST_INSTALLER}.sig`;
  * each release; the report URL is built from the hash.
  */
 export const INSTALLER_SHA256 =
-  "e0771bf5b183a8ff008bb76f4203e13195cf2aefe94c91bdb8823538b51185ec";
+  "7088aac5379ffd41a1623f1f6ca79e15ec0be3e7a75c14a485d58979934624c4";
 export const VIRUSTOTAL_REPORT = `https://www.virustotal.com/gui/file/${INSTALLER_SHA256}`;
 export const VIRUSTOTAL_DETECTIONS: number = 0;
-export const VIRUSTOTAL_ENGINES = 71;
-export const VIRUSTOTAL_SCANNED = "7 October 2026";
+export const VIRUSTOTAL_ENGINES = 69;
+export const VIRUSTOTAL_SCANNED = "12 October 2026";
 
 /**
  * The Android app, on Google Play. The store delivers its updates, so there
