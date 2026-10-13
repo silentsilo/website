@@ -98,8 +98,8 @@ export default function Faq() {
         desktop app, from the same backup storage. It unlocks with the phone&apos;s
         fingerprint or a security key over NFC or USB, fills logins in other
         apps through Android autofill, and can back up photos, videos and
-        contacts, encrypted on the phone, once you turn that on. There is no
-        iOS version yet, and no date for one.
+        contacts, encrypted on the phone, once you turn that on. The iPhone
+        app is coming soon.
       </p>
 
       <h2>Is there a Linux or macOS version?</h2>

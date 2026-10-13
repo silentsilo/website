@@ -56,7 +56,8 @@ export const PLATFORMS: Platform[] = [
     id: "ios",
     name: "iOS",
     available: false,
-    detail: "Face ID or a security key. Planned, no date yet.",
+    soon: true,
+    detail: "iOS 17 or later. Face ID or a security key. Coming soon.",
   },
 ];
 

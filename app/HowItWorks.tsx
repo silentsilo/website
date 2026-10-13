@@ -49,7 +49,8 @@ const ANDROID: Platform = {
 };
 const IOS: Platform = {
   name: "iOS",
-  state: "Planned",
+  state: "Coming soon",
+  short: "Soon",
   unlock: "Face ID · security key",
   live: false,
   kind: "phone",
@@ -704,7 +705,7 @@ const DESC =
   "bucket, WebDAV, an SFTP server or a folder. The storage holds only encrypted objects; it sees sizes, times, key labels, content hashes and the silo folder's name, but cannot read your file names, contents " +
   "or passwords. A change made on one device is sealed there, stored, and pulled by every other device; there is no " +
   "SilentSilo server in between. You unlock with a security key or the device's biometrics, and a " +
-  "recovery code on paper is the fallback. Windows, macOS, Linux and Android are available now, and iOS is planned. " +
+  "recovery code on paper is the fallback. Windows, macOS, Linux and Android are available now, and iOS is coming soon. " +
   "The browser extension for Chrome, Edge, Brave and Firefox works with the desktop app on Windows, Linux and macOS: it fills passwords through the desktop app, never from storage.";
 
 function Wide() {

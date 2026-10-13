@@ -180,7 +180,7 @@ export default function Download() {
               </article>
 
               <article className="dl-card is-later" id="ios">
-                <CardHead icon={<DeviceMobileCamera weight="duotone" />} name="iOS" status="Planned" />
+                <CardHead icon={<DeviceMobileCamera weight="duotone" />} name="iOS" status="Coming soon" />
                 <p>{detail("ios")}</p>
               </article>
             </div>
