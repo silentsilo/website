@@ -65,6 +65,15 @@ export default function Privacy() {
           at Dropbox also on their side.
         </li>
         <li>
+          <strong>iCloud Drive</strong>, only if you choose it, on an iPhone,
+          on a Mac, or on a Windows PC with iCloud for Windows. The app writes
+          the encrypted silo into its own folder in your iCloud Drive, and
+          Apple&apos;s iCloud software syncs it under your Apple account. The
+          app makes no network request for it and does not see the account.
+          Apple sees the folder&apos;s name and the sizes and times of what is
+          written; everything inside is encrypted. Nothing reaches us.
+        </li>
+        <li>
           <strong>The update check</strong> (desktop app only). The app asks
           releases.silentsilo.com whether a newer version exists: on its own
           at most once a day, and whenever you press{" "}
@@ -162,51 +171,55 @@ export default function Privacy() {
         each claim above can be checked against the code that makes it.
       </p>
 
-      <h2>The iPhone app (not released yet)</h2>
+      <h2>The iPhone app</h2>
       <p>
-        There is no iPhone app yet. When it ships, the iPhone will make the
-        same sync and backup requests, to the storage you chose, and the
-        breach check when you press its button, and nothing else of its own.
-        It will have no update check: the App Store delivers updates. Signing in to OneDrive, Dropbox or
-        Google Drive will show the provider&apos;s own page in a system
-        sheet, without Safari&apos;s cookies, and the answer will come back
-        to the app on the iPhone itself.
+        The iPhone app makes the same sync requests, through the storage you
+        chose, and the breach check when you press its button, and nothing
+        else of its own. It has no update check: the App Store delivers
+        updates. Signing in to OneDrive, Dropbox or Google Drive shows the
+        provider&apos;s own page in a system sheet, without Safari&apos;s
+        cookies, and the answer comes back to the app on the iPhone itself.
       </p>
       <ul>
         <li>
-          <strong>Face ID or Touch ID</strong> will stay with iOS. The
-          silo&apos;s key will be made in the iPhone&apos;s Secure Enclave
-          and used there after iOS recognises you; the app will not see
-          your face or fingerprint.
+          <strong>iCloud Drive</strong>, if you choose it: the silo is kept,
+          encrypted, in the app&apos;s folder in your own iCloud Drive, and
+          iOS syncs it under your Apple account. The app does not see the
+          account, and nothing reaches us.
         </li>
         <li>
-          <strong>Security keys</strong> over NFC will exchange only what
-          unlocking needs with the key itself. Its PIN will go to the key and
-          not be kept.
+          <strong>Face ID or Touch ID</strong> stays with iOS. The
+          silo&apos;s key is made in the iPhone&apos;s Secure Enclave and
+          used there after iOS recognises you; the app does not see your face
+          or fingerprint.
         </li>
         <li>
-          <strong>Files and photos</strong> will be read only when you pick
-          them, take a photo for the silo or share them from another app, and
-          encrypted on the iPhone. Saving a file to Photos will happen only
-          when you choose it.
+          <strong>Security keys</strong> over NFC exchange only what unlocking
+          needs with the key itself. Its PIN goes to the key and is not kept.
         </li>
         <li>
-          <strong>Phone backup</strong>, only if you turn it on, will read
-          the photos and videos in the albums you choose, with where they
-          were taken when the file records it, and your contacts. Each will
-          be encrypted on the iPhone and sent to your silo&apos;s storage. We
-          will receive none of it.
+          <strong>Files and photos</strong> are read only when you pick them,
+          take a photo for the silo or share them from another app, and are
+          encrypted on the iPhone. Saving a file to Photos happens only when
+          you choose it.
         </li>
         <li>
-          <strong>AutoFill</strong> will read the name of the app or site iOS
-          passes to it, to put its logins first, open your silo on the iPhone
-          after Face ID and give iOS the one login you pick. It will send
+          <strong>Phone backup</strong>, only if you turn it on, reads the
+          photos and videos in the albums you choose, with where they were
+          taken when the file records it, and your contacts. Each is
+          encrypted on the iPhone and sent to your silo&apos;s storage. We
+          receive none of it.
+        </li>
+        <li>
+          <strong>AutoFill</strong> reads the name of the app or site iOS
+          passes to it, to put its logins first, opens your silo on the
+          iPhone after Face ID and gives iOS the one login you pick. It sends
           nothing anywhere.
         </li>
       </ul>
       <p>
-        The iPhone app is built to send nothing to us, so there will be
-        nothing from it for us to keep or delete.
+        The iPhone app is built to send nothing to us, so there is nothing
+        from it for us to keep or delete.
       </p>
 
       <h2 id="browser-extension">The browser extension</h2>
