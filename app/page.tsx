@@ -28,9 +28,9 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { AlsoOn } from "./AlsoOn";
 import { DownloadButton } from "./DownloadButton";
+import { HeroShot } from "./HeroShot";
 import { HowItWorks } from "./HowItWorks";
 import { Showcase } from "./Showcase";
-import { ThemedImg } from "./ThemedImg";
 import { LATEST_TAG, REPO } from "./links";
 import { ExtensionStoreLink } from "./ExtensionStoreLink";
 import { PLANNED, PLATFORMS, SOON, type Platform } from "./platforms";
@@ -184,43 +184,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="hero-visual">
-            <div className="window">
-              <div className="window-bar" aria-hidden>
-                <span className="window-title">SilentSilo</span>
-                <span className="window-controls">
-                  <i />
-                  <i />
-                  <i />
-                </span>
-              </div>
-              <ThemedImg
-                base="/shots/hero"
-                sizes="(max-width: 900px) 100vw, 700px"
-                width={2400}
-                height={1585}
-                alt="The Windows app with a silo open on its passwords: a login selected beside the list of entries"
-              />
-            </div>
-            <div className="float float-a" aria-hidden>
-              <span className="float-icon is-ok">
-                <CheckCircle weight="fill" />
-              </span>
-              <span>
-                <strong>Synced to Google Drive</strong>
-                <small>2 copies up to date</small>
-              </span>
-            </div>
-            <div className="float float-b" aria-hidden>
-              <span className="float-icon">
-                <LockKey weight="fill" />
-              </span>
-              <span>
-                <strong>Encrypted on this device</strong>
-                <small>AES-256-GCM</small>
-              </span>
-            </div>
-          </div>
+          <HeroShot />
         </div>
       </section>
 
@@ -408,10 +372,10 @@ export default function Home() {
         <div className="wrap">
           <div className="sec-head">
             <p className="kicker">Inside the app</p>
-            <h2>The Windows app, as it ships</h2>
+            <h2>The apps, as they ship</h2>
             <p>
-              Taken from the current build, in the same light or dark theme
-              you are reading this in.
+              Taken from the current builds, in the same light or dark theme
+              you are reading this in. The one for your system opens first.
             </p>
           </div>
           <Showcase />

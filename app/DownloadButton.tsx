@@ -19,7 +19,7 @@ export function visitorOf(ua: string, touch: boolean): Visitor {
 
 /** Which download fits the device reading the page. Windows until the
  *  browser says otherwise, so the server render is the common case. */
-function useVisitor(): Visitor {
+export function useVisitor(): Visitor {
   const [visitor, setVisitor] = useState<Visitor>("windows");
   useEffect(() => {
     setVisitor(visitorOf(navigator.userAgent, navigator.maxTouchPoints > 1));

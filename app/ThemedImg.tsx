@@ -4,7 +4,8 @@
  * the picture at once. Lazy, so the hidden one is never fetched.
  *
  * `base` is the path without theme and size: `/shots/files` stands for
- * `/shots/files-light-1200.webp` and the other three.
+ * `/shots/files-light-1200.webp` and the other three. Phone shots are
+ * narrower and come in 540 and 1080 (`widths`).
  */
 export function ThemedImg({
   base,
@@ -13,6 +14,7 @@ export function ThemedImg({
   height,
   sizes,
   large = false,
+  widths = [1200, 2400],
   className,
   onClick,
 }: {
@@ -21,8 +23,10 @@ export function ThemedImg({
   width: number;
   height: number;
   sizes?: string;
-  /** The 2400px file alone, for the lightbox. */
+  /** The larger file alone, for the lightbox. */
   large?: boolean;
+  /** The two widths the files come in, small then large. */
+  widths?: [number, number];
   className?: string;
   onClick?: (e: React.MouseEvent) => void;
 }) {
@@ -33,11 +37,11 @@ export function ThemedImg({
         <img
           key={`${base}-${theme}`}
           className={`only-${theme}${className ? ` ${className}` : ""}`}
-          src={`${base}-${theme}-${large ? 2400 : 1200}.webp`}
+          src={`${base}-${theme}-${large ? widths[1] : widths[0]}.webp`}
           srcSet={
             large
               ? undefined
-              : `${base}-${theme}-1200.webp 1200w, ${base}-${theme}-2400.webp 2400w`
+              : `${base}-${theme}-${widths[0]}.webp ${widths[0]}w, ${base}-${theme}-${widths[1]}.webp ${widths[1]}w`
           }
           sizes={large ? undefined : sizes}
           alt={alt}

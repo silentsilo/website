@@ -10,11 +10,15 @@ import {
   Fingerprint,
   FolderSimple,
   Heartbeat,
+  Images,
   Key,
+  Notepad,
   Password,
   Scroll,
   Stack,
 } from "@phosphor-icons/react/dist/ssr";
+import { AppFrame, platformFor, type ShotPlatform } from "./AppFrame";
+import { useVisitor } from "./DownloadButton";
 import { IconChevronLeft, IconChevronRight } from "./Icons";
 import { ThemedImg } from "./ThemedImg";
 
@@ -38,14 +42,17 @@ type Shot = {
   height: number;
   alt: string;
   caption: string;
+  /** A phone shot: portrait, 540 and 1080 wide. */
+  phone?: boolean;
 };
 
-/* Captured from the app by scripts/screenshots.mjs in the desktop
-   repository, at 1200x800 and twice the pixel density, then converted here
-   by scripts/shots.mjs. Regenerate them there when a screen changes: the
-   claim above the tabs is that these are the current build, and it is only
-   worth making if it stays true. */
-const SHOTS: Shot[] = [
+/* Captured from the apps' own mock screens with the same sample data
+   (tools/site-capturi: the desktop at 1200x800 and twice the density, with
+   OS=macos for the Mac set; the phone as on a 1080x1920 Android), then
+   converted by scripts/shots.mjs. Regenerate them when a screen changes:
+   the claim above the tabs is that these are the current builds, and it is
+   only worth making if it stays true. */
+const WINDOWS_SHOTS: Shot[] = [
   {
     id: "files",
     tab: "Files",
@@ -180,8 +187,164 @@ const SHOTS: Shot[] = [
   },
 ];
 
+/** The Mac app: the same screens, with Touch ID where Windows has Windows
+ *  Hello. */
+const MAC_WORDS: Record<string, Partial<Shot>> = {
+  fill: {
+    caption:
+      "The extension asks, the app answers. Each fill names the site and the login, and the browser gets nothing until you confirm with Touch ID or your key.",
+  },
+  unlock: {
+    hint: "A key or Touch ID",
+    alt: "The unlock screen, where macOS shows its own Touch ID prompt",
+    caption:
+      "No master password to forget, and none for anyone else to take. A key you touch or your fingerprint on Touch ID, with a code on paper as the only way back.",
+  },
+  keys: {
+    alt: "The unlocking settings listing a YubiKey and Touch ID, with a form to add another key",
+    caption:
+      "Every key that opens the silo, by name. Add a YubiKey or Touch ID, remove one you lost, and the files stay exactly as they are.",
+  },
+};
+const MAC_SHOTS: Shot[] = WINDOWS_SHOTS.map((s) => ({
+  ...s,
+  base: `${s.base}-macos`,
+  ...MAC_WORDS[s.id],
+}));
+
+const ANDROID_SHOTS: Shot[] = [
+  {
+    id: "passwords",
+    tab: "Passwords",
+    hint: "Logins, cards, codes",
+    icon: <Password weight="duotone" />,
+    base: "/shots/android-passwords",
+    width: 1080,
+    height: 1920,
+    alt: "The passwords list on Android, with search, filters and the entries",
+    caption:
+      "The same entries as on the computer, from the same silo. Copy a password or a code with a tap; autofill fills them in apps and browsers after your fingerprint.",
+    phone: true,
+  },
+  {
+    id: "unlock",
+    tab: "Unlock",
+    hint: "Fingerprint or a key",
+    icon: <Fingerprint weight="duotone" />,
+    base: "/shots/android-unlock",
+    width: 1080,
+    height: 1920,
+    alt: "The locked silo on Android, asking for a fingerprint, with a security key and the recovery code as the other ways in",
+    caption:
+      "The silo opens with your fingerprint, through a key kept in the phone's secure hardware, or with a security key over NFC or USB.",
+    phone: true,
+  },
+  {
+    id: "entry",
+    tab: "Entry",
+    hint: "The code beside the password",
+    icon: <Notepad weight="duotone" />,
+    base: "/shots/android-entry",
+    width: 1080,
+    height: 1920,
+    alt: "A GitHub login on Android with its username, hidden password, website and a one-time code counting down",
+    caption: "Each login with its two-factor code counting down beside the password.",
+    phone: true,
+  },
+  {
+    id: "files",
+    tab: "Files",
+    hint: "Folders and search",
+    icon: <FolderSimple weight="duotone" />,
+    base: "/shots/android-files",
+    width: 1080,
+    height: 1920,
+    alt: "The files on Android: folders and documents with their sizes and dates",
+    caption:
+      "Documents and photos in folders, encrypted on the phone. Open them, share them to other apps, or add a photo straight from the camera.",
+    phone: true,
+  },
+  {
+    id: "health",
+    tab: "Health",
+    hint: "Reused, no second factor",
+    icon: <Heartbeat weight="duotone" />,
+    base: "/shots/android-health",
+    width: 1080,
+    height: 1920,
+    alt: "Password health on Android: a reused password, logins without two-factor and the breach check",
+    caption:
+      "Reused passwords and logins without a second factor, checked on the phone. The breach check runs only when you ask, and sends five characters of a hash.",
+    phone: true,
+  },
+  {
+    id: "phone-backup",
+    tab: "Phone backup",
+    hint: "Photos, videos, contacts",
+    icon: <Images weight="duotone" />,
+    base: "/shots/android-phone-backup",
+    width: 1080,
+    height: 1920,
+    alt: "Phone backup on Android, with switches for photos, videos and contacts",
+    caption:
+      "New photos, videos and contacts, encrypted on the phone and sent to your storage, even while the silo is locked. Off until you turn it on.",
+    phone: true,
+  },
+  {
+    id: "storage",
+    tab: "Storage",
+    hint: "Where the copies live",
+    icon: <CloudArrowUp weight="duotone" />,
+    base: "/shots/android-storage",
+    width: 1080,
+    height: 1920,
+    alt: "Backup storage on Android: an SFTP server as the main copy and a Google Drive as another",
+    caption:
+      "The same storage as the computer: an SFTP server here, with a second copy in Google Drive.",
+    phone: true,
+  },
+  {
+    id: "keys",
+    tab: "Keys",
+    hint: "Every key by name",
+    icon: <Key weight="duotone" />,
+    base: "/shots/android-keys",
+    width: 1080,
+    height: 1920,
+    alt: "The keys that open the silo, seen on Android: the phone's own key, a YubiKey and an office computer",
+    caption:
+      "Every phone, computer and security key that opens the silo, by name. Add one, or take one away.",
+    phone: true,
+  },
+  {
+    id: "activity",
+    tab: "Activity",
+    hint: "Which device, which key",
+    icon: <ClockCounterClockwise weight="duotone" />,
+    base: "/shots/android-activity",
+    width: 1080,
+    height: 1920,
+    alt: "The activity log on Android, listing unlocks, copies and edits with the device behind each",
+    caption:
+      "What happened in the silo, from which device and with which key, encrypted with the silo.",
+    phone: true,
+  },
+];
+
+const SETS: Record<ShotPlatform, { label: string; shots: Shot[] }> = {
+  windows: { label: "Windows", shots: WINDOWS_SHOTS },
+  macos: { label: "macOS", shots: MAC_SHOTS },
+  android: { label: "Android", shots: ANDROID_SHOTS },
+};
+const PLATFORMS = Object.keys(SETS) as ShotPlatform[];
+
+/** The widths a shot's files come in. */
+const widthsOf = (s: Shot): [number, number] => (s.phone ? [540, 1080] : [1200, 2400]);
 
 export function Showcase() {
+  const visitor = useVisitor();
+  const [platform, setPlatform] = useState<ShotPlatform>("windows");
+  const SHOTS = SETS[platform].shots;
   const [active, setActive] = useState(0);
   const [zoomed, setZoomed] = useState(false);
   const [rotating, setRotating] = useState(true);
@@ -192,11 +355,23 @@ export function Showcase() {
   const closeRef = useRef<HTMLButtonElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const reelRef = useRef<HTMLUListElement>(null);
-  const shot = SHOTS[active]!;
+  const shot = SHOTS[Math.min(active, SHOTS.length - 1)]!;
+
+  /* The app for the system reading the page first; a choice made on the
+     page wins after that. */
+  useEffect(() => setPlatform(platformFor(visitor)), [visitor]);
 
   /* The first deliberate act hands the thing over for good. Someone who has
      started choosing does not want the page choosing again a moment later. */
   const takeOver = useCallback(() => setRotating(false), []);
+
+  const choose = (p: ShotPlatform) => {
+    takeOver();
+    setPlatform(p);
+    setActive(0);
+    setReel(0);
+    reelRef.current?.scrollTo({ left: 0 });
+  };
 
   /* One step through the shots, wrapping, shared by the tab arrow keys and
      by the lightbox. Wrapping rather than stopping at the ends: the tab list
@@ -206,7 +381,7 @@ export function Showcase() {
       takeOver();
       setActive((i) => (i + dir + SHOTS.length) % SHOTS.length);
     },
-    [takeOver],
+    [takeOver, SHOTS.length],
   );
 
   /* Someone who has asked the system for less movement has asked for this
@@ -244,7 +419,7 @@ export function Showcase() {
       AUTOPLAY_MS,
     );
     return () => window.clearTimeout(timer);
-  }, [timed, active]);
+  }, [timed, active, SHOTS.length]);
 
   /* Only the active shot is in the DOM on the tabs layout, so without this
      the first pass through would blank between tabs while each one
@@ -255,10 +430,10 @@ export function Showcase() {
       const near = SHOTS[(active + dir + SHOTS.length) % SHOTS.length];
       if (near) {
         const theme = document.documentElement.dataset.theme === "light" ? "light" : "dark";
-        new Image().src = `${near.base}-${theme}-1200.webp`;
+        new Image().src = `${near.base}-${theme}-${widthsOf(near)[0]}.webp`;
       }
     }
-  }, [active]);
+  }, [active, SHOTS]);
 
   /* Arrow keys move between tabs, as the tab role promises. The roving
      tabindex keeps a single Tab stop for the whole list. */
@@ -309,6 +484,19 @@ export function Showcase() {
 
   return (
     <div className="showcase" ref={rootRef}>
+      <div className="platform-switch" role="group" aria-label="Which app">
+        {PLATFORMS.map((p) => (
+          <button
+            key={p}
+            type="button"
+            aria-pressed={p === platform}
+            className={p === platform ? "is-active" : undefined}
+            onClick={() => choose(p)}
+          >
+            {SETS[p].label}
+          </button>
+        ))}
+      </div>
       {/* The list of screens beside one large shot, from 560px up. */}
       <div className="showcase-tabbed">
         <div className="tabs" role="tablist" aria-label="Screenshots" aria-orientation="vertical">
@@ -353,20 +541,12 @@ export function Showcase() {
         </div>
 
         <figure
-          className="showcase-figure"
+          className={`showcase-figure${shot.phone ? " is-phone" : ""}`}
           role="tabpanel"
           id={`shot-panel-${shot.id}`}
           aria-labelledby={`shot-tab-${shot.id}`}
         >
-          <div className="window shot-window">
-            <div className="window-bar" aria-hidden>
-              <span className="window-title">SilentSilo · {shot.tab}</span>
-              <span className="window-controls">
-                <i />
-                <i />
-                <i />
-              </span>
-            </div>
+          <AppFrame platform={platform} title={`SilentSilo · ${shot.tab}`} className="shot-window">
             <button
               type="button"
               className="shot-frame shot-zoomable"
@@ -380,7 +560,8 @@ export function Showcase() {
               <ThemedImg
                 key={shot.base}
                 base={shot.base}
-                sizes="(max-width: 960px) 92vw, 860px"
+                widths={widthsOf(shot)}
+                sizes={shot.phone ? "360px" : "(max-width: 960px) 92vw, 860px"}
                 alt={shot.alt}
                 width={shot.width}
                 height={shot.height}
@@ -389,7 +570,7 @@ export function Showcase() {
                 Click to enlarge
               </span>
             </button>
-          </div>
+          </AppFrame>
           <figcaption>{shot.caption}</figcaption>
         </figure>
       </div>
@@ -406,7 +587,7 @@ export function Showcase() {
           aria-label="Screenshots, scroll sideways"
         >
           {SHOTS.map((s, i) => (
-            <li key={s.id}>
+            <li key={`${platform}-${s.id}`} className={s.phone ? "is-phone" : undefined}>
               <button
                 type="button"
                 className="shot-frame shot-zoomable"
@@ -419,7 +600,8 @@ export function Showcase() {
               >
                 <ThemedImg
                   base={s.base}
-                  sizes="100vw"
+                  widths={widthsOf(s)}
+                  sizes={s.phone ? "70vw" : "100vw"}
                   alt={s.alt}
                   width={s.width}
                   height={s.height}
@@ -452,6 +634,7 @@ export function Showcase() {
           <ThemedImg
             base={shot.base}
             large
+            widths={widthsOf(shot)}
             alt={shot.alt}
             width={shot.width}
             height={shot.height}

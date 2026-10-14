@@ -588,6 +588,77 @@ a:hover {
   height: auto;
 }
 
+/* The Mac's window: the three lights on the left, the title centred. */
+.window.is-mac .window-bar {
+  position: relative;
+  justify-content: flex-start;
+  padding: 0 0.9rem;
+}
+
+.window.is-mac .window-title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  pointer-events: none;
+}
+
+.window-lights {
+  display: flex;
+  gap: 8px;
+}
+
+.window-lights i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff5f57;
+  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.18);
+}
+
+.window-lights i:nth-child(2) {
+  background: #febc2e;
+}
+
+.window-lights i:nth-child(3) {
+  background: #28c840;
+}
+
+/* A phone: the screenshot inside a dark bezel with round corners. */
+.phone {
+  padding: 9px;
+  border-radius: 42px;
+  background: #0b0e17;
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-lg);
+}
+
+.phone img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 33px;
+}
+
+.hero-visual.is-phone {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-visual.is-phone .phone {
+  width: min(300px, 72%);
+}
+
+.hero-visual.is-phone .float-a {
+  left: 0;
+  bottom: 12%;
+}
+
+.hero-visual.is-phone .float-b {
+  right: 0;
+  top: 18%;
+}
+
 .float {
   position: absolute;
   display: flex;
@@ -2057,6 +2128,51 @@ table.compare td.is-mine {
   box-shadow: none;
 }
 
+.phone.shot-window .shot-frame {
+  border-radius: 33px;
+  background: transparent;
+}
+
+.showcase-figure.is-phone .phone {
+  width: min(330px, 100%);
+  margin: 0 auto;
+}
+
+/* Which app the screenshots are of, chosen for the reader's system first. */
+.platform-switch {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  margin-bottom: 1.6rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-alt);
+}
+
+.platform-switch button {
+  min-height: 36px;
+  padding: 0.35rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.platform-switch button:hover {
+  color: var(--text);
+}
+
+.platform-switch button.is-active {
+  background: var(--surface);
+  color: var(--accent);
+  box-shadow: var(--edge), var(--shadow);
+}
+
 .showcase-figure figcaption {
   color: var(--muted);
   font-size: 0.93rem;
@@ -2129,6 +2245,12 @@ table.compare td.is-mine {
 
 .reel .shot-frame {
   max-width: none;
+}
+
+.reel > li.is-phone .shot-frame {
+  width: min(280px, 78%);
+  margin: 0 auto;
+  border-radius: 30px;
 }
 
 .reel-caption {
