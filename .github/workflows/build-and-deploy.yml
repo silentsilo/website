@@ -67,9 +67,18 @@ jobs:
             hook=$(echo "$hook" | xargs)
             [ -z "$hook" ] && continue
             echo "Triggering deploy hook"
+            # Coolify takes a POST to /api/v1/deploy with the options as JSON;
+            # the secret keeps the full webhook URL, so its query becomes the body.
+            base="${hook%%\?*}"
+            query=""
+            [ "$base" != "$hook" ] && query="${hook#*\?}"
+            body=$(jq -cn --arg q "$query" '
+              $q | split("&") | map(select(length > 0) | split("=") | {(.[0]): (.[1:] | join("="))}) | add // {}
+              | if has("force") then .force = (.force == "true") else . end')
             if [ -n "$COOLIFY_API_TOKEN" ]; then
-              curl -fsS -X GET "$hook" -H "Authorization: Bearer $COOLIFY_API_TOKEN"
+              curl -fsS -X POST "$base" -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
+                -H "Content-Type: application/json" --data "$body"
             else
-              curl -fsS -X GET "$hook"
+              curl -fsS -X POST "$base" -H "Content-Type: application/json" --data "$body"
             fi
           done
