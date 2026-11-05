@@ -2138,6 +2138,16 @@ table.compare td.is-mine {
   margin: 0 auto;
 }
 
+/* The iPhone screen is taller than the Android one: narrower, so both
+   phones stand about as high. */
+.showcase-figure.is-phone .phone.is-iphone {
+  width: min(272px, 100%);
+}
+
+.hero-visual.is-phone .phone.is-iphone {
+  width: min(250px, 62%);
+}
+
 /* Which app the screenshots are of, chosen for the reader's system first. */
 .platform-switch {
   display: inline-flex;
@@ -2459,6 +2469,149 @@ main.prose::before {
   max-width: 50rem;
   margin: 0 auto;
   padding: 3.2rem 1.5rem 4.5rem;
+}
+
+/* A screenshot in a tutorial, framed like the window it shows. */
+.prose .tut-shot {
+  margin: 1.6rem 0 1.8rem;
+}
+
+.prose .tut-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: var(--edge), var(--shadow);
+}
+
+/* The pictures of the several-devices guide: devices over the storage, and
+   the two kinds of key. HTML rather than SVG, so the labels wrap on a phone. */
+.prose .tut-diagram {
+  margin: 1.6rem 0 1.8rem;
+  padding: 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-alt);
+}
+
+.prose .tut-diagram figcaption {
+  color: var(--muted);
+  font-size: 0.93rem;
+  margin-top: 1.1rem;
+}
+
+.sd-devices,
+.sd-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+}
+
+.sd-node,
+.sd-store,
+.sd-keycard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--edge), var(--shadow);
+}
+
+.sd-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.9rem 0.5rem;
+  text-align: center;
+}
+
+.sd-node svg,
+.sd-store > svg {
+  font-size: 1.9rem;
+  color: var(--accent);
+}
+
+.sd-node span,
+.sd-store span {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.sd-links span {
+  display: flex;
+  justify-content: center;
+  padding: 0.45rem 0;
+  color: var(--accent);
+  font-size: 1.3rem;
+}
+
+.sd-store {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  border-color: var(--accent-line);
+}
+
+.sd-store > svg {
+  flex: none;
+}
+
+.sd-store strong,
+.sd-store span {
+  display: block;
+}
+
+.sd-keys {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+}
+
+.sd-keycard {
+  padding: 1rem 1.1rem;
+}
+
+.prose .sd-keycard p {
+  margin: 0;
+}
+
+.prose .sd-keyhead {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 650;
+}
+
+.sd-keyhead svg {
+  font-size: 1.4rem;
+  color: var(--accent);
+}
+
+.prose .sd-keycard ul {
+  margin: 0.7rem 0;
+  padding-left: 1.1rem;
+  font-size: 0.93rem;
+}
+
+.prose .sd-keyfoot {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+@media (max-width: 600px) {
+  .prose .tut-diagram {
+    padding: 1rem;
+  }
+
+  .sd-devices,
+  .sd-links {
+    gap: 0.5rem;
+  }
+
+  .sd-keys {
+    grid-template-columns: 1fr;
+  }
 }
 
 .prose h1 {

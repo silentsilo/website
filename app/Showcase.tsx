@@ -331,10 +331,45 @@ const ANDROID_SHOTS: Shot[] = [
   },
 ];
 
+/* The iPhone set, from tools/site-capturi/ios-shots.mjs at 1320x2868 in both
+   themes, scaled to the phone widths. */
+const IPHONE_WORDS: Record<string, Partial<Pick<Shot, "alt" | "caption" | "hint">>> = {
+  passwords: {
+    alt: "The passwords list on the iPhone, with search, filters and the entries",
+    caption:
+      "The same entries as on the computer, from the same silo. Copy a password or a code with a tap; AutoFill fills them in apps and Safari after Face ID.",
+  },
+  unlock: {
+    hint: "Face ID or a key",
+    alt: "The locked silo on the iPhone, with Unlock for Face ID, a security key and the recovery code as the other ways in",
+    caption:
+      "The silo opens with Face ID, through a key kept in the iPhone's Secure Enclave, or with a security key over NFC.",
+  },
+  entry: {
+    alt: "A GitHub login on the iPhone with its username, hidden password, website and a one-time code counting down",
+  },
+  files: {
+    alt: "The files on the iPhone: folders and documents with their sizes and dates",
+  },
+  health: {
+    alt: "Password health on the iPhone: a reused password, logins without two-factor and the breach check",
+  },
+  activity: {
+    alt: "The activity log on the iPhone, listing unlocks, copies and edits with the device behind each",
+  },
+};
+const IPHONE_SHOTS: Shot[] = ANDROID_SHOTS.filter((s) => s.id in IPHONE_WORDS).map((s) => ({
+  ...s,
+  base: `/shots/ios-${s.id}`,
+  height: 2347,
+  ...IPHONE_WORDS[s.id],
+}));
+
 const SETS: Record<ShotPlatform, { label: string; shots: Shot[] }> = {
   windows: { label: "Windows", shots: WINDOWS_SHOTS },
   macos: { label: "macOS", shots: MAC_SHOTS },
   android: { label: "Android", shots: ANDROID_SHOTS },
+  ios: { label: "iPhone", shots: IPHONE_SHOTS },
 };
 const PLATFORMS = Object.keys(SETS) as ShotPlatform[];
 

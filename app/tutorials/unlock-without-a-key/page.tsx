@@ -5,7 +5,7 @@ import { MoreGuides } from "../MoreGuides";
 export const metadata: Metadata = {
   title: "Unlock without a security key",
   description:
-    "Open a silo with Windows Hello, Touch ID on a Mac, a phone over the QR code, or an Android phone's fingerprint, and what to keep so a lost device does not lock you out.",
+    "Open a silo with Windows Hello, Touch ID on a Mac, a phone over the QR code, or the phone app's fingerprint or Face ID, and what to keep so a lost device does not lock you out.",
 };
 
 export default function UnlockWithoutAKey() {
@@ -13,10 +13,12 @@ export default function UnlockWithoutAKey() {
     <main id="main" className="wrap prose">
       <h1>Unlock without a security key</h1>
       <p className="lead">
-        A security key is the way in that works everywhere, but it is not the
-        only one. Windows Hello, Touch ID on a Mac, a phone and an Android
-        fingerprint each open a silo on their own. What they share is that each is tied to one
-        device, which is why the recovery code matters more without a key.
+        A security key is the way in that works everywhere, but you do not
+        need one. Windows Hello, Touch ID on a Mac, your phone on Windows 11
+        and the fingerprint or Face ID in the phone app each open a silo on
+        their own. Without a
+        key that travels, the recovery code matters more: it is the way back
+        when the device you unlock with is lost.
       </p>
 
       <nav className="toc" aria-label="On this page">
@@ -32,7 +34,7 @@ export default function UnlockWithoutAKey() {
             <a href="#a-phone-on-windows">A phone, on Windows</a>
           </li>
           <li>
-            <a href="#android">Android</a>
+            <a href="#android">Android and iPhone</a>
           </li>
           <li>
             <a href="#linux">Linux</a>
@@ -97,22 +99,44 @@ export default function UnlockWithoutAKey() {
 
       <h2 id="a-phone-on-windows">A phone, on Windows</h2>
       <p>
-        When Windows shows its prompt for a security key, it may also offer
-        a phone through a QR code. Scan it with the phone and confirm there;
-        the phone then acts as the key each time you unlock. Bluetooth checks
-        that it is nearby and the exchange goes over the internet, so both
-        need Bluetooth and a connection.
-        Recent Android phones work. A phone whose passkey provider cannot
-        produce what the silo needs is refused at that step, with a message
-        saying so. That passkey syncs with the account behind it, so it is
-        not pinned to one device the way a hardware key is.
+        On Windows 11 (version 22H2 or later) your phone can be the key. It
+        works with an iPhone on iOS 18 or later and with an Android phone
+        that keeps passkeys in Google Password Manager. Both need Bluetooth
+        on and a connection: Bluetooth checks that the phone is nearby, and
+        the exchange goes over the internet.
+      </p>
+      <ol>
+        <li>
+          When you set up a new silo, choose <strong>Use your phone</strong>{" "}
+          under <strong>Set up unlocking</strong>. For a silo you already
+          have, open it, then <strong>Settings &gt; Unlocking &gt; Add a
+          phone</strong>. The app checks this computer&apos;s Bluetooth
+          first and says if it is off or missing.
+        </li>
+        <li>
+          Choose <strong>Show the QR code</strong>, scan the code Windows
+          shows with the phone&apos;s camera and confirm on the phone.
+        </li>
+        <li>
+          To unlock later, choose the phone in the Windows prompt (or scan
+          the code again) and confirm on it.
+        </li>
+      </ol>
+      <p>
+        A phone whose passkey app cannot produce what the silo needs is
+        refused at that step, with a message saying so. That passkey syncs
+        with the account behind it, so it is not pinned to one device the
+        way a hardware key is. It opens the silo on Windows 11 only: on a
+        Mac, on Linux and in the SilentSilo phone app, use another way in.
+        Windows 10 cannot use a phone for this.
       </p>
 
-      <h2 id="android">Android</h2>
+      <h2 id="android">Android and iPhone</h2>
       <p>
-        On the phone itself, the fingerprint opens the silo. The phone joins
-        a silo that already exists with its recovery code (or a security key
-        over NFC), then makes a key of its own that the fingerprint unlocks.
+        On the phone itself, the fingerprint opens the silo, or Face ID on
+        the iPhone. The phone joins a silo that already exists with its
+        recovery code (or a security key over NFC), then makes a key of its
+        own in its secure hardware, released by the fingerprint or face.
         The <Link href="/tutorials/phone/">phone guide</Link> goes through
         it.
       </p>
@@ -136,8 +160,9 @@ export default function UnlockWithoutAKey() {
         </li>
         <li>
           <strong>A way in on each device you use.</strong> Hello or Touch
-          ID on each computer and the fingerprint on the phone are separate
-          keys, each added on its own device. Any one of them opens the silo.
+          ID on each computer, your phone on Windows 11 and the fingerprint
+          in the phone app are separate keys, each added on its own. Any one
+          of them opens the silo.
         </li>
         <li>
           <strong>A security key, if you can.</strong> One key opens the silo

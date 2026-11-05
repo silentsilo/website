@@ -1,4 +1,4 @@
-import { LATEST_INSTALLER, MAC_DMG, PLAY_STORE } from "./links";
+import { APP_STORE, LATEST_INSTALLER, MAC_DMG, PLAY_STORE } from "./links";
 
 /**
  * Every platform the site talks about, in one place. When macOS, iOS or
@@ -21,14 +21,14 @@ export const PLATFORMS: Platform[] = [
     id: "windows",
     name: "Windows",
     available: true,
-    detail: "Windows 10 or 11, 64-bit. Unlocks with a security key, or Windows Hello on an up-to-date Windows 11.",
+    detail: "Windows 10 (1903 or later) or 11, 64-bit. On Windows 11 it unlocks with Windows Hello or your phone (iPhone or Android, by QR code), with no key to buy; a security key works everywhere.",
     action: { label: "Download for Windows", href: LATEST_INSTALLER },
   },
   {
     id: "linux",
     name: "Linux",
     available: true,
-    detail: "A .deb for Debian and Ubuntu, an AppImage for the others, 64-bit. Unlocks with a security key.",
+    detail: "A .deb for Debian 12 and Ubuntu 22.04 or later, an AppImage for the others (glibc 2.35 or later), 64-bit. Unlocks with a security key.",
     action: { label: "Download for Linux", href: "/download/#linux" },
   },
   {
@@ -55,9 +55,9 @@ export const PLATFORMS: Platform[] = [
   {
     id: "ios",
     name: "iOS",
-    available: false,
-    soon: true,
-    detail: "iOS 17 or later. Face ID or a security key. Coming soon.",
+    available: true,
+    detail: "iOS 17 or later, iPhone. Unlocks with Face ID or a security key over NFC.",
+    action: { label: "Get it on the App Store", href: APP_STORE },
   },
 ];
 

@@ -8,7 +8,12 @@ import {
   Fingerprint,
   HardDrive,
   HardDrives,
+  Keyboard,
   LockKey,
+  Password,
+  ShareNetwork,
+  Devices,
+  RocketLaunch,
   TerminalWindow,
   UsersThree,
 } from "@phosphor-icons/react/dist/ssr";
@@ -28,6 +33,14 @@ export type Guide = {
 
 /** Storage most people already have: sign in and it is done. */
 export const ACCOUNTS: Guide[] = [
+  {
+    href: "/tutorials/backup-icloud/",
+    title: "iCloud Drive",
+    short: "iCloud Drive",
+    what: "Your own iCloud, set up from the iPhone app, then opened on a Mac or on Windows with iCloud for Windows.",
+    meta: ["An account you have", "5 minutes"],
+    icon: <Cloud weight="duotone" />,
+  },
   {
     href: "/tutorials/backup-onedrive/",
     title: "OneDrive",
@@ -103,14 +116,63 @@ export const BACKUP: Guide[] = [
   },
 ];
 
+/** The app itself, before and besides backup: where a new user starts. */
+export const START: Guide[] = [
+  {
+    href: "/tutorials/first-silo/",
+    title: "Your first silo",
+    short: "Your first silo",
+    what:
+      "From the download to a silo you can trust: how it unlocks, the recovery code, backup storage and a second computer.",
+    meta: ["Start here", "10 minutes"],
+    icon: <RocketLaunch weight="duotone" />,
+  },
+  {
+    href: "/tutorials/several-devices/",
+    title: "One silo on several devices",
+    short: "Several devices",
+    what:
+      "A laptop, a desktop and a phone on the same silo: how they stay in step through your backup storage, adding one, and retiring one.",
+    meta: ["Start here"],
+    icon: <Devices weight="duotone" />,
+  },
+  {
+    href: "/tutorials/passwords/",
+    title: "Passwords and one-time codes",
+    short: "Passwords",
+    what:
+      "Logins, cards, notes and SSH keys: one-time codes, the generator, extra fields, earlier versions and entries that ask for your key.",
+    meta: ["Desktop app"],
+    icon: <Password weight="duotone" />,
+  },
+  {
+    href: "/tutorials/share-passwords/",
+    title: "Share or move passwords",
+    short: "Share passwords",
+    what:
+      "Some or all of your entries, in one encrypted file, for someone else who uses SilentSilo or another silo of yours. Every entry comes back exactly.",
+    meta: ["Desktop app"],
+    icon: <ShareNetwork weight="duotone" />,
+  },
+  {
+    href: "/tutorials/auto-type/",
+    title: "Type logins into any program",
+    short: "Auto-type",
+    what:
+      "A shortcut types the username and password into a program outside the browser, after you confirm with your key.",
+    meta: ["Windows and macOS"],
+    icon: <Keyboard weight="duotone" />,
+  },
+];
+
 export const FURTHER: Guide[] = [
   {
     href: "/tutorials/phone/",
     title: "On your phone",
     short: "On your phone",
     what:
-      "Open the silo on Android, back up photos, videos and contacts into it, and fill logins in other apps.",
-    meta: ["Android 12 or later"],
+      "Open the silo on Android or iPhone, back up photos, videos and contacts into it, and fill logins in other apps.",
+    meta: ["Android 12+, iOS 17+"],
     icon: <DeviceMobile weight="duotone" />,
   },
   {
@@ -127,8 +189,8 @@ export const FURTHER: Guide[] = [
     title: "Unlock without a security key",
     short: "Without a security key",
     what:
-      "Windows Hello, Touch ID, a phone over the QR code, or an Android fingerprint, and what to keep when the way in is tied to one device.",
-    meta: ["Windows, Mac and Android"],
+      "Windows Hello, Touch ID, a phone over the QR code, or the phone app's fingerprint or Face ID, and what to keep when the way in is tied to one device.",
+    meta: ["Windows, Mac and phones"],
     icon: <Fingerprint weight="duotone" />,
   },
   {

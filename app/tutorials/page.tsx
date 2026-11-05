@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
-import { ACCOUNTS, BACKUP, FURTHER, MOVING, type Guide } from "./guides";
+import { ACCOUNTS, BACKUP, FURTHER, MOVING, START, type Guide } from "./guides";
 
 export const metadata: Metadata = {
   title: "Tutorials",
   description:
-    "Setting up a backup on every option SilentSilo offers, one guide each, moving in from another password manager, plus the phone, the browser extension, and getting your files out without the app.",
+    "Your first silo, passwords and one-time codes, auto-type, a backup on every option SilentSilo offers, moving in from another password manager, the phone, the browser extension, and getting your files out without the app.",
 };
 
 function Card({ g }: { g: Guide }) {
@@ -36,17 +36,25 @@ export default function Tutorials() {
     <main id="main" className="wrap prose">
       <h1>Tutorials</h1>
       <p className="lead">
-        Backing up a silo means pointing it at storage you own. The app side is
-        the same wherever you point it. What differs is what the storage asks
-        for first, so there is one guide for each kind.
+        Start with your first silo, then back it up to storage you own. The
+        app side of a backup is the same wherever you point it; what differs
+        is what the storage asks for first, so there is one guide for each
+        kind.
       </p>
+
+      <h2 id="start-here">Start here</h2>
+      <div className="tut-grid">
+        {START.map((g) => (
+          <Card key={g.href} g={g} />
+        ))}
+      </div>
 
       <div className="notice">
         <strong>The part that is the same everywhere:</strong> unlock the silo,
         then open <strong>Settings &gt; Backup</strong>. A second place is
         added on the same page, with <strong>Add another copy</strong>. The
         app writes to the storage before anything is saved. On
-        Android it is <strong>Silo &gt; Backup storage</strong>, and the phone takes
+        a phone it is <strong>Silo &gt; Backup storage</strong>, and the phone takes
         every kind here except a folder.
       </div>
 

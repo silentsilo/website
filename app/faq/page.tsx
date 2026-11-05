@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DOC_FORMATS, LATEST_RELEASE, PLAY_STORE, RELEASES } from "../links";
+import { APP_STORE, DOC_FORMATS, LATEST_RELEASE, PLAY_STORE, RELEASES } from "../links";
 
 export const metadata: Metadata = {
   title: "Questions",
   description:
-    "What happens if you lose the key, whether you have to buy anything, how to get files out without the app, the Android app, and the Linux and macOS versions.",
+    "What happens if you lose the key, whether you have to buy anything, how to get files out without the app, the Android and iPhone apps, and the Linux and macOS versions.",
 };
 
 export default function Faq() {
@@ -27,15 +27,17 @@ export default function Faq() {
 
       <h2>Do I need to buy a security key?</h2>
       <p>
-        Not always. The fingerprint on an Android phone unlocks a silo on
-        its own. On Windows, Hello (the fingerprint, face or PIN already set
-        up on your machine) does too, on Windows 11 with the February 2026
-        update (build 26200.7840 or later) and a TPM. On Windows 10, an
-        older Windows 11 or a computer without a TPM, Hello cannot derive
-        the silo key: use a FIDO2 security key, or an Android phone as a
-        passkey over Bluetooth. A key is worth it anyway if you want the
-        same silo on several devices, because a key travels and Hello or a
-        phone&apos;s fingerprint is sealed to that one device.
+        No, except on Linux. On Windows 11 your phone can be the key: the
+        app shows a QR code, you scan it with an iPhone (iOS 18 or later) or
+        an Android phone that keeps passkeys in Google Password Manager, and
+        the phone opens the silo from then on, with Bluetooth on and both
+        online. Windows Hello (the fingerprint, face or PIN already set up on
+        your machine) works too, on Windows 11 with the February 2026 update
+        (build 26200.7840 or later) and a TPM. On a Mac, Touch ID; on
+        Android, the phone&apos;s fingerprint. Windows 10 can use neither
+        Hello nor a phone for this, so there a security key is the way in.
+        A key is still worth having if you want the same silo on several
+        computers, because it works on every one of them, Linux included.
       </p>
 
       <h2>Which security keys work?</h2>
@@ -46,15 +48,14 @@ export default function Faq() {
         among them. On Windows the app talks to the same system service the
         browsers use, so a key that signs you into websites on that machine
         will work here, whatever the brand. Keys that carry only the older
-        U2F protocol do not work. A phone can work through the QR code, but
-        only if its passkey provider offers the same extension, which is
-        theirs to support or not and changes between versions. Rather than
-        guess on your behalf, the app tries: a phone that cannot produce it
-        is refused at enrolment with a message saying exactly that. One
-        thing to know
-        before choosing a phone: that passkey syncs with the account behind
-        it, so it is not pinned to one device the way a hardware key is, and
-        every unlock needs the phone nearby over Bluetooth.
+        U2F protocol do not work. A phone works through the QR code when
+        its passkey provider offers the same extension: Google Password
+        Manager on Android and iCloud Keychain on iOS 18 or later do. A
+        phone that cannot is refused at enrolment with a message saying
+        exactly that. Two things to know before choosing a phone: that
+        passkey syncs with the account behind it, so it is not pinned to one
+        device the way a hardware key is, and it opens the silo on Windows
+        11 only, with the phone nearby over Bluetooth at every unlock.
       </p>
 
       <h2>What if I lose my security key?</h2>
@@ -93,13 +94,14 @@ export default function Faq() {
 
       <h2>Is there a phone app?</h2>
       <p>
-        On Android, yes: Android 12 or later, from{" "}
-        <a href={PLAY_STORE}>Google Play</a>. It opens the same silo as the
-        desktop app, from the same backup storage. It unlocks with the phone&apos;s
-        fingerprint or a security key over NFC or USB, fills logins in other
-        apps through Android autofill, and can back up photos, videos and
-        contacts, encrypted on the phone, once you turn that on. The iPhone
-        app is coming soon.
+        Yes, for Android 12 or later from{" "}
+        <a href={PLAY_STORE}>Google Play</a>, and for the iPhone on iOS 17 or
+        later from the <a href={APP_STORE}>App Store</a>. Either opens the
+        same silo as the desktop app, from the same backup storage. Android
+        unlocks with the fingerprint or a security key over NFC or USB, the
+        iPhone with Face ID or a security key over NFC. Both fill logins in
+        other apps (Android autofill, iOS AutoFill) and can back up photos,
+        videos and contacts, encrypted on the phone, once you turn that on.
       </p>
 
       <h2>Is there a Linux or macOS version?</h2>

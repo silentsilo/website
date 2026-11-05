@@ -104,7 +104,7 @@ export default function BackupKDrive() {
 
       <h2 id="on-a-phone">On a phone</h2>
       <p>
-        The Android app has no kDrive form, but it takes the same address. In{" "}
+        The phone app has no kDrive form, but it takes the same address. In{" "}
         <strong>Silo &gt; Backup storage</strong>, or under{" "}
         <strong>Where is the backup?</strong> when you set the silo up on the
         phone, choose <strong>WebDAV</strong> and enter the address the

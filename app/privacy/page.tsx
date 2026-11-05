@@ -163,6 +163,11 @@ export default function Privacy() {
           unlocking needs with the key itself. Its PIN goes to the key and is
           not kept.
         </li>
+        <li>
+          <strong>Scanning a two-factor QR code</strong> turns the camera on
+          only while that screen is open. Each frame is read on the phone
+          and dropped; none is saved or sent anywhere.
+        </li>
       </ul>
       <p>
         None of this asks to be believed as prose. The{" "}
@@ -202,6 +207,11 @@ export default function Privacy() {
           take a photo for the silo or share them from another app, and are
           encrypted on the iPhone. Saving a file to Photos happens only when
           you choose it.
+        </li>
+        <li>
+          <strong>Scanning a two-factor QR code</strong> turns the camera on
+          only while that screen is open. Each frame is read on the iPhone
+          and dropped; none is saved or sent anywhere.
         </li>
         <li>
           <strong>Phone backup</strong>, only if you turn it on, reads the

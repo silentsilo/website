@@ -23,7 +23,7 @@ export const RELEASED = true;
  * the file names carry the version: one string per release, every name
  * built from it.
  */
-export const LATEST_VERSION = "1.5.0";
+export const LATEST_VERSION = "1.5.1";
 export const LATEST_TAG = `v${LATEST_VERSION}`;
 
 const LATEST_DOWNLOAD = `${REPO}/releases/latest/download`;
@@ -48,7 +48,7 @@ export const LINUX_PACKAGES = [
 export const EXTRACTORS = [
   { os: "Windows", arch: "x86-64", file: "silentsilo-extract-windows-x86_64.exe" },
   { os: "Linux", arch: "x86-64", file: "silentsilo-extract-linux-x86_64" },
-  { os: "macOS", arch: "Apple silicon", file: "silentsilo-extract-macos-aarch64" },
+  { os: "macOS", arch: "Apple silicon and Intel", file: "silentsilo-extract-macos-universal" },
 ].map((e) => ({ ...e, url: `${LATEST_DOWNLOAD}/${e.file}` }));
 
 /** The minisign signature published beside the installer, over the bytes as
@@ -70,11 +70,11 @@ export const LATEST_INSTALLER_SIG = `${LATEST_INSTALLER}.sig`;
  * each release; the report URL is built from the hash.
  */
 export const INSTALLER_SHA256 =
-  "7088aac5379ffd41a1623f1f6ca79e15ec0be3e7a75c14a485d58979934624c4";
+  "05d514bd540875751f46f495f51566a2041a5ed3dab5c68220c0cf140d7c22b8";
 export const VIRUSTOTAL_REPORT = `https://www.virustotal.com/gui/file/${INSTALLER_SHA256}`;
 export const VIRUSTOTAL_DETECTIONS: number = 0;
-export const VIRUSTOTAL_ENGINES = 69;
-export const VIRUSTOTAL_SCANNED = "12 October 2026";
+export const VIRUSTOTAL_ENGINES = 71;
+export const VIRUSTOTAL_SCANNED = "5 November 2026";
 
 /**
  * The Android app, on Google Play. The store delivers its updates, so there
@@ -83,6 +83,13 @@ export const VIRUSTOTAL_SCANNED = "12 October 2026";
 export const PLAY_STORE =
   "https://play.google.com/store/apps/details?id=com.silentsilo.mobile";
 export const MOBILE_REPO = "https://github.com/silentsilo/mobile";
+
+/**
+ * The iPhone app, on the App Store. The number is the app's Apple ID from
+ * App Store Connect (App Information). The App Store delivers its updates.
+ */
+export const APP_STORE_ID = "6822193711";
+export const APP_STORE = `https://apps.apple.com/app/silentsilo/id${APP_STORE_ID}`;
 
 /** The extension's store pages. Brave installs from the Chrome Web Store. */
 export const EXTENSION_STORES = [

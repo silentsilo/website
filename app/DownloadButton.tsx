@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { IconDownload, IconPhone } from "./Icons";
-import { LATEST_INSTALLER, MAC_DMG, PLAY_STORE } from "./links";
+import { APP_STORE, LATEST_INSTALLER, MAC_DMG, PLAY_STORE } from "./links";
 
 export type Visitor = "windows" | "android" | "linux" | "macos" | "ios" | "elsewhere";
 
@@ -27,10 +27,9 @@ export function useVisitor(): Visitor {
   return visitor;
 }
 
-/** The one button most visitors came for: Google Play on Android, the
- *  installer on Windows, the disk image on a Mac, the two Linux packages on
- *  Linux, and the download page anywhere else, where the honest answer is
- *  "not yet". */
+/** The one button most visitors came for: Google Play on Android, the App
+ *  Store on an iPhone, the installer on Windows, the disk image on a Mac,
+ *  the two Linux packages on Linux, and the download page anywhere else. */
 export function DownloadButton() {
   const visitor = useVisitor();
   const cls = "btn btn-primary";
@@ -39,6 +38,14 @@ export function DownloadButton() {
       <a className={cls} href={PLAY_STORE}>
         <IconPhone size={16} />
         Get it on Google Play
+      </a>
+    );
+  }
+  if (visitor === "ios") {
+    return (
+      <a className={cls} href={APP_STORE}>
+        <IconPhone size={16} />
+        Get it on the App Store
       </a>
     );
   }

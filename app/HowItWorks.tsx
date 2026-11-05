@@ -22,7 +22,7 @@ type Platform = {
 const WINDOWS: Platform = {
   name: "Windows",
   state: "Available now",
-  unlock: "Windows Hello · security key",
+  unlock: "Windows Hello · phone · security key",
   live: true,
   kind: "desktop",
 };
@@ -49,16 +49,15 @@ const ANDROID: Platform = {
 };
 const IOS: Platform = {
   name: "iOS",
-  state: "Coming soon",
-  short: "Soon",
+  state: "Available now",
   unlock: "Face ID · security key",
-  live: false,
+  live: true,
   kind: "phone",
 };
 
 /** The storage kinds, grouped as the app's own picker groups them. */
 const STORE_GROUPS: [string, string[]][] = [
-  ["An account you have", ["OneDrive", "Google Drive", "Dropbox", "kDrive"]],
+  ["An account you have", ["OneDrive", "Google Drive", "Dropbox", "iCloud Drive"]],
   ["Storage you run or rent", ["S3 bucket", "WebDAV", "SFTP server", "Folder or USB"]],
 ];
 
@@ -701,11 +700,11 @@ function Extension({
 const LIVE_BROWSERS = "Chrome, Edge, Brave, Firefox";
 
 const DESC =
-  "Each device encrypts on its own and writes to storage you choose: your OneDrive, Google Drive or Dropbox, an S3 " +
+  "Each device encrypts on its own and writes to storage you choose: your OneDrive, Google Drive, Dropbox or iCloud Drive, an S3 " +
   "bucket, WebDAV, an SFTP server or a folder. The storage holds only encrypted objects; it sees sizes, times, key labels, content hashes and the silo folder's name, but cannot read your file names, contents " +
   "or passwords. A change made on one device is sealed there, stored, and pulled by every other device; there is no " +
   "SilentSilo server in between. You unlock with a security key or the device's biometrics, and a " +
-  "recovery code on paper is the fallback. Windows, macOS, Linux and Android are available now, and iOS is coming soon. " +
+  "recovery code on paper is the fallback. Windows, macOS, Linux, Android and iOS are available now. " +
   "The browser extension for Chrome, Edge, Brave and Firefox works with the desktop app on Windows, Linux and macOS: it fills passwords through the desktop app, never from storage.";
 
 function Wide() {
@@ -759,7 +758,7 @@ function Wide() {
       <path className="how-link is-live how-link-2" d={phoneUp} />
       <path className="how-link is-live" d="M560 308 V 350" />
       <path className="how-link is-live" d={macUp} />
-      <path className="how-link is-planned" d="M820 571 H 730" />
+      <path className="how-link is-live" d="M820 571 H 730" />
 
       <Hub id="w" x={390} y={350} w={340} />
 
@@ -865,7 +864,7 @@ function Tall() {
         <path className="how-link is-live how-link-2" d={phoneUp} />
         <path className="how-link is-live" d={toLinux} />
         <path className="how-link is-live" d={toMac} />
-        <path className="how-link is-planned" d={`M310 ${top} C 310 ${cards - 32}, 348 ${cards - 32}, 348 ${cards}`} />
+        <path className="how-link is-live" d={`M310 ${top} C 310 ${cards - 32}, 348 ${cards - 32}, 348 ${cards}`} />
 
         <g>
           {[

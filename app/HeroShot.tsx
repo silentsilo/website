@@ -12,19 +12,21 @@ export function HeroShot() {
   const visitor = useVisitor();
   const [platform, setPlatform] = useState<ShotPlatform>("windows");
   useEffect(() => setPlatform(platformFor(visitor)), [visitor]);
-  const phone = platform === "android";
+  const phone = platform === "android" || platform === "ios";
+  const iphone = platform === "ios";
 
   return (
     <div className={`hero-visual${phone ? " is-phone" : ""}`}>
       <AppFrame platform={platform} title="SilentSilo">
         {phone ? (
           <ThemedImg
-            base="/shots/android-passwords"
+            key={platform}
+            base={iphone ? "/shots/ios-passwords" : "/shots/android-passwords"}
             widths={[540, 1080]}
             sizes="320px"
             width={1080}
-            height={1920}
-            alt="The Android app with a silo open on its passwords"
+            height={iphone ? 2347 : 1920}
+            alt={`The ${iphone ? "iPhone" : "Android"} app with a silo open on its passwords`}
           />
         ) : (
           <ThemedImg

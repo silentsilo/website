@@ -8,6 +8,7 @@ import {
   Cloud,
   Desktop,
   DeviceMobile,
+  DeviceMobileCamera,
   DownloadSimple,
   Fingerprint,
   FolderLock,
@@ -15,6 +16,7 @@ import {
   GithubLogo,
   HardDrives,
   Key,
+  Laptop,
   LockKey,
   MinusCircle,
   Password,
@@ -43,7 +45,7 @@ type Cell = [string, Tone];
 /** Row label, then one cell per column, in the order of the header. */
 const COMPARE: [string, Cell, Cell, Cell][] = [
   ["Account required", ["No", "good"], ["Usually", "bad"], ["No", "good"]],
-  ["Unlock", ["Hardware key or biometrics", "good"], ["Usually a master password", "meh"], ["Usually a passphrase", "meh"]],
+  ["Unlock", ["Biometrics, your phone or a key", "good"], ["Usually a master password", "meh"], ["Usually a passphrase", "meh"]],
   ["Sync between devices", ["Through your storage", "good"], ["Through their servers", "meh"], ["Through a synced folder", "meh"]],
   ["Works if the vendor disappears", ["Silos keep opening", "good"], ["Usually not", "bad"], ["Usually", "good"]],
   ["Source available", ["AGPL-3.0", "good"], ["Varies", "meh"], ["Usually", "meh"]],
@@ -79,7 +81,7 @@ const SMALL_FEATURES: { icon: React.ReactNode; title: string; text: string }[] =
   {
     icon: <DeviceMobile weight="duotone" />,
     title: "Phone backup",
-    text: "Photos, videos and contacts from Android, encrypted on the phone before they leave it.",
+    text: "Photos, videos and contacts from Android or the iPhone, encrypted on the phone before they leave it.",
   },
   {
     icon: <LockKey weight="duotone" />,
@@ -107,7 +109,7 @@ const TRUST: { icon: React.ReactNode; title: string; text: string; href: string;
   {
     icon: <Fingerprint weight="duotone" />,
     title: "Unlocked by hardware",
-    text: "A security key, Windows Hello or the phone's fingerprint opens the silo. The fallback is a recovery code on paper, so there is no password to guess.",
+    text: "Windows Hello, Touch ID, Face ID, your phone or a security key opens the silo. The fallback is a recovery code on paper, so there is no password to guess.",
     href: "/security/",
     more: "The threat model",
   },
@@ -134,12 +136,37 @@ const TRUST: { icon: React.ReactNode; title: string; text: string; href: string;
   },
 ];
 
+/** The ways in on each system, so nobody reads "security key" as "buy
+ *  hardware first". */
+const WAYS_IN: { icon: React.ReactNode; title: string; text: string }[] = [
+  {
+    icon: <Desktop weight="duotone" />,
+    title: "Windows",
+    text: "Windows Hello on an up-to-date Windows 11, or your phone: scan a QR code with an iPhone or an Android phone and it becomes the key.",
+  },
+  {
+    icon: <Laptop weight="duotone" />,
+    title: "macOS",
+    text: "Touch ID, on a Mac that has it or with a Magic Keyboard with Touch ID.",
+  },
+  {
+    icon: <DeviceMobile weight="duotone" />,
+    title: "Phones",
+    text: "The fingerprint on Android, Face ID on the iPhone, or a security key over NFC.",
+  },
+  {
+    icon: <Terminal weight="duotone" />,
+    title: "Linux",
+    text: "A security key for now: Linux has no built-in equivalent of Windows Hello.",
+  },
+];
+
 const PLATFORM_ICON: Record<Platform["id"], React.ReactNode> = {
   windows: <Desktop weight="duotone" />,
   android: <DeviceMobile weight="duotone" />,
   extension: <Browser weight="duotone" />,
   macos: <Desktop weight="duotone" />,
-  ios: <DeviceMobile weight="duotone" />,
+  ios: <DeviceMobileCamera weight="duotone" />,
   linux: <Terminal weight="duotone" />,
 };
 
@@ -160,8 +187,8 @@ export default function Home() {
               <span className="grad">encrypted on your own devices.</span>
             </h1>
             <p className="hero-lead">
-              Unlock with Windows Hello, Touch ID, your phone&apos;s
-              fingerprint or a security key. Keep the encrypted copy in your OneDrive, Dropbox,
+              Unlock with Windows Hello, Touch ID, Face ID or your phone, with
+              no hardware to buy, or with a security key. Keep the encrypted copy in your OneDrive, Dropbox,
               Google Drive or storage you own. There is no SilentSilo server
               in between.
             </p>
@@ -185,6 +212,33 @@ export default function Home() {
           </div>
 
           <HeroShot />
+        </div>
+      </section>
+
+      <section className="sec ways-in" id="unlock">
+        <div className="wrap">
+          <div className="sec-head">
+            <p className="kicker">No key to buy</p>
+            <h2>Unlock with what you already have</h2>
+            <p>
+              A hardware key is one way in, not a requirement. Whichever you
+              use, a recovery code on paper is the way back if a device is
+              lost.
+            </p>
+          </div>
+          <div className="trust-grid">
+            {WAYS_IN.map((w) => (
+              <article className="card" key={w.title}>
+                <span className="icon">{w.icon}</span>
+                <h3>{w.title}</h3>
+                <p>{w.text}</p>
+              </article>
+            ))}
+          </div>
+          <Link className="card-link" href="/tutorials/unlock-without-a-key/">
+            Unlock without a key, step by step
+            <ArrowRight />
+          </Link>
         </div>
       </section>
 
@@ -392,8 +446,7 @@ export default function Home() {
             <p className="kicker">Get it</p>
             <h2>On your computer and your phone</h2>
             <p>
-              Every device opens the same silo from the same storage. Platforms
-              that are not out yet say so: coming soon, or planned with no date.
+              Every device opens the same silo from the same storage.
             </p>
           </div>
           <div className="plat-grid">

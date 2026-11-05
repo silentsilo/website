@@ -6,7 +6,16 @@ import { PageToc } from "./PageToc";
 import { SiteHeader } from "./SiteHeader";
 import { THEME_SCRIPT } from "./ThemeToggle";
 import { IconGitHub } from "./Icons";
-import { CORE_REPO, DOC_CRYPTO, DOC_FORMATS, MOBILE_REPO, PLAY_STORE, RELEASED, REPO } from "./links";
+import {
+  APP_STORE,
+  CORE_REPO,
+  DOC_CRYPTO,
+  DOC_FORMATS,
+  MOBILE_REPO,
+  PLAY_STORE,
+  RELEASED,
+  REPO,
+} from "./links";
 
 export const metadata: Metadata = {
   title: {
@@ -14,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s · SilentSilo",
   },
   description:
-    "A local-first, end-to-end encrypted vault for files and passwords. Unlocked with a hardware security key, Windows Hello, Touch ID or a phone fingerprint. For Windows, macOS, Linux and Android. Optional sync to storage you already control.",
+    "A local-first, end-to-end encrypted vault for files and passwords. Unlocked with Windows Hello, Touch ID, your phone or a hardware security key. For Windows, macOS, Linux, Android and iPhone. Optional sync to storage you already control.",
   metadataBase: new URL("https://silentsilo.com"),
   applicationName: "SilentSilo",
   icons: { icon: "/icon.svg", shortcut: "/icon.svg", apple: "/icon.svg" },
@@ -37,7 +46,7 @@ const APP_SCHEMA = {
   "@type": "SoftwareApplication",
   name: "SilentSilo",
   applicationCategory: "SecurityApplication",
-  operatingSystem: "Windows 10, Windows 11, macOS 13+, Linux, Android 12+",
+  operatingSystem: "Windows 10, Windows 11, macOS 13+, Linux, Android 12+, iOS 17+",
   license: "https://www.gnu.org/licenses/agpl-3.0.html",
   url: "https://silentsilo.com",
   offers: { "@type": "Offer", price: 0, priceCurrency: "USD" },
@@ -112,6 +121,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <a href={REPO}>Source</a>
                   )}
                   <a href={PLAY_STORE}>Google Play</a>
+                  <a href={APP_STORE}>App Store</a>
                   <Link href="/tutorials/">Tutorials</Link>
                   <Link href="/faq/">Questions</Link>
                   <Link href="/europe/">In the EU</Link>

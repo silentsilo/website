@@ -59,7 +59,7 @@ export function CloudGuide({ c }: { c: Cloud }) {
       <h2 id="before-you-start">Before you start</h2>
       {c.account}
       <p>
-        It takes SilentSilo 1.3 or later on the computer, or the Android
+        It takes SilentSilo 1.3 or later on the computer, or the phone
         app. Update every computer that uses the silo first: one still on
         1.2 cannot reach {c.name}, and if {c.name} is the silo&apos;s only
         storage, that computer stops syncing.
@@ -141,7 +141,8 @@ export function CloudGuide({ c }: { c: Cloud }) {
         your recovery code.
       </p>
       <p>
-        <strong>Your phone:</strong> on the first screen of the Android app,
+        <strong>Your phone:</strong> on the first screen of the Android or
+        iPhone app,
         choose <strong>Set up from backup storage</strong>. Under{" "}
         <strong>Where is the backup?</strong>, choose {c.name}, sign in, pick
         the silo folder and press <strong>Continue</strong>. The phone then
@@ -149,6 +150,11 @@ export function CloudGuide({ c }: { c: Cloud }) {
         silo already open on the phone gets this copy under{" "}
         <strong>Silo &gt; Backup storage</strong>. The{" "}
         <Link href="/tutorials/phone/">phone guide</Link> has the rest.
+      </p>
+      <p>
+        How the devices stay in step, and what happens to a change made on
+        two of them, is in the{" "}
+        <Link href="/tutorials/several-devices/">several devices</Link> guide.
       </p>
 
       <h2 id="when-the-sign-in-stops-working">When the sign-in stops working</h2>

@@ -27,6 +27,7 @@ import {
   MAC_DMG_SIG,
   MOBILE_REPO,
   PLAY_STORE,
+  APP_STORE,
   RELEASES,
   REPO,
   VIRUSTOTAL_DETECTIONS,
@@ -40,7 +41,7 @@ import { ThisDevice } from "./ThisDevice";
 export const metadata: Metadata = {
   title: "Download SilentSilo",
   description:
-    "SilentSilo for Windows, macOS, Linux and Android, the browser extension and the extraction tool. Free, no account.",
+    "SilentSilo for Windows, macOS, Linux, Android and iPhone, the browser extension and the extraction tool. Free, no account.",
 };
 
 const detail = (id: Platform["id"]) => PLATFORMS.find((p) => p.id === id)?.detail ?? "";
@@ -179,9 +180,18 @@ export default function Download() {
                 </p>
               </article>
 
-              <article className="dl-card is-later" id="ios">
-                <CardHead icon={<DeviceMobileCamera weight="duotone" />} name="iOS" status="Coming soon" />
-                <p>{detail("ios")}</p>
+              <article className="dl-card" id="ios">
+                <CardHead icon={<DeviceMobileCamera weight="duotone" />} name="iOS" />
+                <p>{detail("ios")} The App Store keeps it up to date.</p>
+                <div className="dl-actions">
+                  <a className="btn btn-primary" href={APP_STORE}>
+                    <DeviceMobileCamera weight="bold" />
+                    Get it on the App Store
+                  </a>
+                </div>
+                <p className="dl-small">
+                  <a href={MOBILE_REPO}>Source on GitHub</a>
+                </p>
               </article>
             </div>
           </div>

@@ -1,14 +1,15 @@
 import type { Visitor } from "./DownloadButton";
 
 /** The apps the site shows screenshots of. */
-export type ShotPlatform = "windows" | "macos" | "android";
+export type ShotPlatform = "windows" | "macos" | "android" | "ios";
 
-/** Which app to show first: the one for the system reading the page. An
- *  iPhone gets the Mac until the iPhone app is out; Linux and anything
- *  unknown get Windows, which looks the same apart from the window. */
+/** Which app to show first: the one for the system reading the page.
+ *  Linux and anything unknown get Windows, which looks the same apart from
+ *  the window. */
 export function platformFor(visitor: Visitor): ShotPlatform {
   if (visitor === "android") return "android";
-  if (visitor === "macos" || visitor === "ios") return "macos";
+  if (visitor === "ios") return "ios";
+  if (visitor === "macos") return "macos";
   return "windows";
 }
 
@@ -25,8 +26,9 @@ export function AppFrame({
   className?: string;
   children: React.ReactNode;
 }) {
-  if (platform === "android") {
-    return <div className={`phone${className ? ` ${className}` : ""}`}>{children}</div>;
+  if (platform === "android" || platform === "ios") {
+    const kind = platform === "ios" ? "phone is-iphone" : "phone";
+    return <div className={`${kind}${className ? ` ${className}` : ""}`}>{children}</div>;
   }
   const mac = platform === "macos";
   return (

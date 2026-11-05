@@ -79,8 +79,10 @@ export default function BrowserExtension() {
       <ol>
         <li>
           With the silo unlocked, open the site&apos;s login page and click
-          the SilentSilo button in the browser. It lists{" "}
-          <strong>Logins for</strong> that site.
+          the SilentSilo button in the browser, or press Alt+Shift+L. It
+          lists <strong>Logins for</strong> that site, including those saved
+          for another address of the same site: a login for google.com also
+          shows on accounts.google.com.
         </li>
         <li>
           Click one. SilentSilo comes to the front with{" "}
@@ -165,8 +167,9 @@ export default function BrowserExtension() {
         removes what tells the browser where the app is, so tick it again.
       </p>
       <p>
-        The extension is for SilentSilo on Windows, Linux and macOS. On Android, the app fills
-        logins itself through Android autofill: see the{" "}
+        The extension is for SilentSilo on Windows, Linux and macOS. On a
+        phone, the app fills logins itself, through Android autofill or iOS
+        AutoFill: see the{" "}
         <Link href="/tutorials/phone/">phone guide</Link>.
       </p>
       <MoreGuides />

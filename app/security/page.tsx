@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  APP_STORE,
   LATEST_INSTALLER_NAME,
   LINUX_PACKAGES,
   MOBILE_REPO,
@@ -66,8 +67,8 @@ export default function Security() {
             <td>
               Wrapped separately for each way in: FIDO2{" "}
               <code>hmac-secret</code> for security keys and Windows Hello,
-              the Android Keystore, the Mac&apos;s Secure Enclave behind Touch
-              ID, and the recovery code through Argon2id (64 MiB, 3 passes)
+              the Android Keystore, the Secure Enclave behind Touch ID on a
+              Mac and Face ID on an iPhone, and the recovery code through Argon2id (64 MiB, 3 passes)
             </td>
           </tr>
         </tbody>
@@ -146,8 +147,9 @@ export default function Security() {
         passphrase is around forty bits, and offering one would quietly make
         it the real security of the whole design. Unlocking is therefore
         bound to hardware (a FIDO2 key, the TPM behind Windows Hello, the
-        Secure Enclave behind Touch ID on a Mac, or a key in an Android
-        phone&apos;s secure hardware that its fingerprint releases), and the
+        Secure Enclave behind Touch ID on a Mac or Face ID on an iPhone, or
+        a key in an Android phone&apos;s secure hardware that its fingerprint
+        releases), and the
         only fallback is a generated 160-bit recovery code meant to be
         written on paper.
       </p>
@@ -315,7 +317,9 @@ minisign -Vm ${LATEST_INSTALLER_NAME} -x ${LATEST_INSTALLER_NAME}.minisig -P ${U
         <a href={PLAY_STORE}>Google Play</a>, which signs what it delivers
         with a key Google holds, as it does for every app there. The source
         it is built from is in{" "}
-        <a href={MOBILE_REPO}>silentsilo/mobile</a>.
+        <a href={MOBILE_REPO}>silentsilo/mobile</a>. The iPhone app comes
+        from the <a href={APP_STORE}>App Store</a>, signed the way Apple
+        signs every app there, from the same source.
       </p>
       <p>
         This matters most for the extraction tool, which is what someone

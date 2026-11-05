@@ -118,6 +118,20 @@ export default function GetFilesOut() {
       <p>
         On Linux and macOS, make it runnable first with{" "}
         <code>chmod +x</code>. It needs no installation and nothing else.
+        The Linux build needs glibc 2.35 or later (Ubuntu 22.04, Debian 12
+        and newer). The macOS build runs on Apple silicon and Intel and is
+        signed and notarised by Apple, so a copy downloaded with a browser
+        starts like any other.
+      </p>
+      <p>
+        On Windows, run it from a terminal (PowerShell or Command Prompt):
+        started with a double-click, it only shows how it is used. From
+        1.5.1 it runs on any Windows 10 or 11 with nothing installed; the
+        tool from earlier releases needs the Microsoft Visual C++ runtime.
+      </p>
+      <p>
+        Take the tool from the newest release: it reads silos made by every
+        earlier version of the app.
       </p>
 
       <h2 id="list-then-extract">List, then extract</h2>
