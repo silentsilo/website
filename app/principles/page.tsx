@@ -71,9 +71,10 @@ export default function Principles() {
 
       <h2>Your storage, your exit</h2>
       <p>
-        Sync targets are storage you already have: a OneDrive, Dropbox or
-        Google Drive account, a bucket, a NAS, an SFTP account, a folder.
-        Passwords export to a KeePass file or to CSV, and the extraction tool
+        Sync targets are storage you already have: a OneDrive, Dropbox,
+        Google Drive or iCloud Drive account, a bucket, a NAS, a WebDAV or
+        SFTP server, a folder. Passwords export to a KeePass file, to CSV or
+        to a SilentSilo file, and the extraction tool
         reads a backup without the app, so you can leave whenever you want.
       </p>
     </main>

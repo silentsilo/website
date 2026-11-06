@@ -63,7 +63,9 @@ export default function BackupSftp() {
         </li>
         <li>
           Prefer a key over a password; the next section says how to make
-          one. If you run the server yourself and it does other things too,
+          one. The phone app signs in with a password only, so if a phone
+          will use this silo, give the account a password as well. If you
+          run the server yourself and it does other things too,
           consider restricting this account to file transfer only, with{" "}
           <code>ForceCommand internal-sftp</code> in{" "}
           <code>sshd_config</code>, so a leaked credential cannot become a

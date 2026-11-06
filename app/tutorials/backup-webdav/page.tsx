@@ -178,12 +178,14 @@ export default function BackupWebDav() {
 
       <h2 id="when-it-does-not-work">When it does not work</h2>
       <p>
-        The error the app shows carries a number from the server. 401 means
-        the password: if the account has two-factor authentication, you need
-        an app password rather than the one you type at the login page. 404
-        means the address is the web interface rather than the WebDAV path,
-        or a folder in it that the server will not create. 507 means the
-        server is out of space. If uploads start and then stall, check
+        If the app says <strong>Your backup storage refused the
+        sign-in</strong>, check the password: with two-factor authentication
+        on, you need an app password rather than the one you type at the
+        login page. If it says a folder or file <strong>is not there</strong>,
+        the address is probably the web interface rather than the WebDAV
+        path, or a folder the server will not create. Any other refusal
+        shows the server&apos;s number: 507 means the server is out of space.
+        If uploads start and then stall, check
         whether your server puts a size limit on a single request, since a
         large file goes up in one piece.
       </p>

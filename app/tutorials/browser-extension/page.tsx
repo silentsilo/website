@@ -61,25 +61,29 @@ export default function BrowserExtension() {
           . Brave installs from the Chrome Web Store.
         </li>
         <li>
-          The silo needs a security key, or Windows Hello or Touch ID, under{" "}
-          <strong>Unlocking</strong>: every fill is confirmed with one, so a
-          silo with neither cannot fill anything.
+          The silo needs a security key, a phone, Windows Hello or Touch ID
+          under <strong>Unlocking</strong>: every fill is confirmed with one,
+          so a silo with none of them cannot fill anything.
         </li>
       </ol>
       <p>
         On Linux and macOS, turning it on also tells Chrome, Chromium, Edge,
-        Brave and Firefox where SilentSilo is, in your home folder; turning
-        it off takes that away again. On a Mac, open each browser once
-        before you turn it on, so its folder exists. Firefox installed as a
-        snap on Ubuntu finds it too, after asking you once to allow it.
-        Chromium installed as a snap cannot reach it.
+        Brave, Vivaldi and Firefox where SilentSilo is, in your home folder,
+        and Arc on a Mac and LibreWolf on Linux; turning it off takes that
+        away again. Open each browser once before you turn it on, so its
+        folder exists. Firefox installed as a snap on Ubuntu finds it too,
+        after asking you once to allow it, and so does Firefox as a Flatpak.
+        Chrome, Chromium, Edge or Brave installed as a snap or a Flatpak
+        cannot reach it, and Settings names any it finds.
       </p>
 
       <h2 id="fill-a-login">Fill a login</h2>
       <ol>
         <li>
           With the silo unlocked, open the site&apos;s login page and click
-          the SilentSilo button in the browser, or press Alt+Shift+L. It
+          the SilentSilo button in the browser, or press Alt+Shift+L (change
+          it at <code>chrome://extensions/shortcuts</code>, or under Manage
+          Extension Shortcuts in Firefox&apos;s add-ons page). It
           lists <strong>Logins for</strong> that site, including those saved
           for another address of the same site: a login for google.com also
           shows on accounts.google.com.
@@ -87,12 +91,14 @@ export default function BrowserExtension() {
         <li>
           Click one. SilentSilo comes to the front with{" "}
           <strong>Fill a login in your browser?</strong>, naming the site and
-          the login. Press <strong>Fill</strong>, then touch your key, or use
-          Windows Hello or Touch ID.
+          the login. Press <strong>Fill</strong>, then touch your key, use
+          Windows Hello or Touch ID, or confirm on your phone.
         </li>
         <li>
           The username and password go into the page, and the browser comes
-          back to the front. Nothing is kept by the extension.
+          back to the front. Nothing is kept by the extension. On a sign-in
+          that asks for the username first, only the username goes in; fill
+          again on the next page for the password.
         </li>
       </ol>
       <p>
@@ -151,6 +157,10 @@ export default function BrowserExtension() {
           <strong>A login saved for another site</strong> is shown with a
           warning. When nothing is saved for a site, the popup says so before
           it offers a search: a lookalike address is the usual reason.
+        </li>
+        <li>
+          <strong>A login form inside a frame.</strong> Only the main page is
+          filled, and the popup says so.
         </li>
       </ul>
 

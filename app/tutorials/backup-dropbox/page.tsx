@@ -14,7 +14,7 @@ export default function BackupDropbox() {
         name: "Dropbox",
         company: "Dropbox",
         place: "Apps/SilentSilo in your Dropbox",
-        path: "Apps/SilentSilo/Silo",
+        path: "Apps/SilentSilo",
         account: (
           <p>
             Any Dropbox account, the free Basic one included, which has 2 GB.

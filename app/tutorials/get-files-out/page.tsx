@@ -64,25 +64,25 @@ export default function GetFilesOut() {
           <tr>
             <td>OneDrive</td>
             <td>
-              On onedrive.com, download <code>Apps/SilentSilo/Silo</code> and
-              unpack the ZIP. Past 10,000 files, use the OneDrive app or
-              rclone.
+              On onedrive.com, open <code>Apps/SilentSilo</code>, download the
+              folder named after the silo and unpack the ZIP. Past 10,000
+              files, use the OneDrive app or rclone.
             </td>
           </tr>
           <tr>
             <td>Dropbox</td>
             <td>
-              On dropbox.com, download <code>Apps/SilentSilo/Silo</code> and
-              unpack the ZIP. Past 250 GB or 10,000 files, use the Dropbox app
-              or rclone.
+              On dropbox.com, open <code>Apps/SilentSilo</code>, download the
+              folder named after the silo and unpack the ZIP. Past 250 GB or
+              10,000 files, use the Dropbox app or rclone.
             </td>
           </tr>
           <tr>
             <td>Google Drive</td>
             <td>
-              On drive.google.com, download <code>SilentSilo/Silo</code>. A
-              large folder may arrive as several ZIP files: unpack them all
-              into the same folder. rclone works here too.
+              On drive.google.com, open <code>SilentSilo</code> and download
+              the folder named after the silo. A large folder may arrive as
+              several ZIP files: unpack them all into the same folder. rclone works here too.
             </td>
           </tr>
           <tr>
@@ -96,8 +96,8 @@ export default function GetFilesOut() {
         </tbody>
       </table>
       <p>
-        <code>Silo</code> is the folder name the app suggests; use the one
-        you chose. A silo is many small files, so it reaches a website&apos;s
+        The app suggests the silo&apos;s name as the folder name; use the
+        one you chose. The examples below call it <code>Silo</code>. A silo is many small files, so it reaches a website&apos;s
         ZIP limit sooner than its size suggests. <a href="https://rclone.org/">rclone</a>{" "}
         reads OneDrive, Dropbox and Google Drive as well as S3, WebDAV and
         SFTP, and copies a folder down whole whatever its size.
@@ -174,8 +174,10 @@ export default function GetFilesOut() {
       <p>
         The tool writes the password entries to{" "}
         <code>_passwords/passwords.csv</code> and, whole, with passkeys and
-        cards, to <code>_passwords/entries.json</code>. Both are plain text.
-        Import them into a password manager, then delete both files.
+        cards, to <code>_passwords/entries.json</code>. The files attached
+        to those entries go to <code>_passwords/attachments/</code>. All of
+        it is plain text. Import the entries into a password manager, then
+        delete the <code>_passwords</code> folder.
       </p>
 
       <h2 id="the-activity-log">The activity log</h2>

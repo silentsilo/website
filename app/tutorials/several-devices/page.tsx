@@ -102,7 +102,8 @@ export default function SeveralDevices() {
       <p>
         The SilentSilo app for Android and iPhone joins the same way: choose{" "}
         <strong>Set up from backup storage</strong>, point it at the same
-        storage, then use the recovery code or a security key over NFC. After
+        storage, then use the recovery code or a security key (over NFC, or
+        USB on Android). After
         that the phone makes a key of its own that its fingerprint or Face ID
         opens. The <Link href="/tutorials/phone/">phone guide</Link> goes
         through it, along with backing up the phone&apos;s photos into the

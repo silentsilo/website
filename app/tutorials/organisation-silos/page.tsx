@@ -18,8 +18,9 @@ export default function OrganisationSilos() {
       <p className="lead">
         A company archiving into SilentSilo has one problem an individual does
         not: the archive has to survive the person leaving. This is the
-        procedure for that. It needs nothing bought and nothing hosted; every
-        copy of the app can do all of it.
+        procedure for that. It needs no licence and no hosted service, only
+        security keys. The desktop app on Windows, macOS or Linux does all of
+        it.
       </p>
 
       <nav className="toc" aria-label="On this page">
@@ -91,9 +92,8 @@ export default function OrganisationSilos() {
           <strong>Settings &gt; Backup</strong> holds the main connection,
           tagged <strong>main</strong> in the list of copies. It
           is a working copy: the app deletes from it when the trash is
-          emptied. Any of the four kinds of storage works; a folder on a
-          company share, like <code>\\server\vaults\popescu</code>, is the
-          simplest.
+          emptied. Any kind of storage works; a folder on a company share,
+          like <code>\\server\vaults\popescu</code>, is the simplest.
         </li>
         <li>
           <strong>Add another copy</strong>, on the same page, is where you
@@ -121,9 +121,10 @@ export default function OrganisationSilos() {
         <li>
           On their machine, create the silo, tick{" "}
           <strong>This silo is administered by an organisation</strong>, and
-          enrol the company&apos;s key. Windows Hello cannot be that key: it
-          is sealed to one computer, and the company&apos;s key has to open
-          the silo from anywhere. The app then offers a recovery code:
+          enrol the company&apos;s key. It has to be a security key. Windows
+          Hello and Touch ID are sealed to one computer, a phone&apos;s
+          passkey belongs to its owner, and the company&apos;s key has to
+          open the silo from anywhere. The app then offers a recovery code:
           create it, for the company safe (step 5). At the backup storage
           step, choose <strong>Set up later</strong>; step 4 covers it.
         </li>
@@ -200,6 +201,11 @@ export default function OrganisationSilos() {
         </li>
         <li>
           Remove their access to both company folders the same day.
+        </li>
+        <li>
+          If the silo goes on being used, add a new never-delete copy under{" "}
+          <strong>Settings &gt; Backup</strong>, as the app suggests. The old
+          one keeps what was there before step 3 and gets no new backups.
         </li>
       </ol>
       <p>

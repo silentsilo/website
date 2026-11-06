@@ -74,6 +74,13 @@ export default function Privacy() {
           written; everything inside is encrypted. Nothing reaches us.
         </li>
         <li>
+          <strong>Your phone as the key</strong> (Windows 11), only if you
+          add one. Windows, not the app, reaches the phone over Bluetooth and
+          the internet. The passkey stays in the phone&apos;s Google Password
+          Manager or iCloud Keychain and syncs under that Google or Apple
+          account. Nothing reaches us.
+        </li>
+        <li>
           <strong>The update check</strong> (desktop app only). The app asks
           releases.silentsilo.com whether a newer version exists: on its own
           at most once a day, and whenever you press{" "}
@@ -146,6 +153,11 @@ export default function Privacy() {
           gallery folders you choose, with where they were taken when the
           file records it, and your contacts. Each is encrypted on the phone
           and sent to your silo&apos;s storage. We receive none of it.
+        </li>
+        <li>
+          <strong>Files</strong> are read only when you pick them or share
+          them to SilentSilo from another app, and are encrypted on the
+          phone.
         </li>
         <li>
           <strong>Autofill and passkeys</strong> read the name of the app or
@@ -240,7 +252,8 @@ export default function Privacy() {
       </p>
       <ul>
         <li>
-          <strong>When you click its button</strong>, it reads the address
+          <strong>When you click its button</strong> or press Alt+Shift+L,
+          it reads the address
           of the tab you are on and sends it to the SilentSilo app on your
           computer, to find the logins saved for that site. It reads no other
           tab, and of the page only the type and position of the fields it
@@ -255,8 +268,8 @@ export default function Privacy() {
         </li>
         <li>
           <strong>When you confirm a fill</strong> in the app, with Windows
-          Hello, Touch ID or your security key, the app gives it one username and
-          password. It writes them into those two fields and does not keep
+          Hello, Touch ID, your security key or your phone, the app gives it
+          one username and password. It writes them into those two fields and does not keep
           them.
         </li>
         <li>
@@ -277,6 +290,8 @@ export default function Privacy() {
         from phones whose owners share diagnostics with it, naming the
         phone model and Android version, not the person. The Chrome, Edge
         and Firefox add-on stores show how many people use the extension.
+        App Store Connect shows download counts, and crash reports from
+        iPhones whose owners chose to share them with developers.
         And we keep the emails people send us, with the address they came
         from. That is what we hold. No keys, no plaintext and no file names:
         the design does not send them to us.

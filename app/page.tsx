@@ -96,7 +96,7 @@ const SMALL_FEATURES: { icon: React.ReactNode; title: string; text: string }[] =
   {
     icon: <ArrowsLeftRight weight="duotone" />,
     title: "In and out with KeePass or CSV",
-    text: "A KeePass .kdbx file both ways, CSV both ways, and Bitwarden JSON or zip in, with attachments. Also from LastPass, 1Password and the browsers.",
+    text: "A KeePass .kdbx file both ways, CSV both ways, a SilentSilo file both ways, and Bitwarden JSON or zip in, with attachments. Also from LastPass, 1Password and the browsers.",
   },
   {
     icon: <Scroll weight="duotone" />,
@@ -491,7 +491,7 @@ export default function Home() {
               <span>
                 <strong>A way out without the app.</strong> A small tool reads
                 a backup with only the recovery code, on Windows, Linux or a
-                Mac with Apple silicon.
+                Mac, Apple silicon or Intel.
               </span>
               <ArrowRight />
             </Link>

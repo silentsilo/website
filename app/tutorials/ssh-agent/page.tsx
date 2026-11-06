@@ -143,10 +143,7 @@ export default function SshAgent() {
         </li>
         <li>
           A key whose entry has{" "}
-          <strong>Ask for my security key or Windows Hello before showing
-          this entry</strong> ticked (on a Mac, with Touch ID in its place;
-          on Linux,{" "}
-          <strong>Ask for my security key before showing this entry</strong>)
+          <strong>Ask for my key before showing this entry</strong> ticked
           asks for it at each use too.
         </li>
         <li>

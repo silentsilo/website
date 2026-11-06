@@ -66,7 +66,8 @@ export default function Security() {
             <td>The vault key itself</td>
             <td>
               Wrapped separately for each way in: FIDO2{" "}
-              <code>hmac-secret</code> for security keys and Windows Hello,
+              <code>hmac-secret</code> for security keys, Windows Hello and
+              a phone over the QR code,
               the Android Keystore, the Secure Enclave behind Touch ID on a
               Mac and Face ID on an iPhone, and the recovery code through Argon2id (64 MiB, 3 passes)
             </td>
@@ -146,10 +147,11 @@ export default function Security() {
         A silo is exactly as strong as its weakest envelope. A memorable
         passphrase is around forty bits, and offering one would quietly make
         it the real security of the whole design. Unlocking is therefore
-        bound to hardware (a FIDO2 key, the TPM behind Windows Hello, the
-        Secure Enclave behind Touch ID on a Mac or Face ID on an iPhone, or
-        a key in an Android phone&apos;s secure hardware that its fingerprint
-        releases), and the
+        bound to a device (a FIDO2 key, the TPM behind Windows Hello, the
+        Secure Enclave behind Touch ID on a Mac or Face ID on an iPhone, a
+        key in an Android phone&apos;s secure hardware that its fingerprint
+        releases, or a phone&apos;s passkey over the QR code, which syncs
+        with its Google or Apple account), and the
         only fallback is a generated 160-bit recovery code meant to be
         written on paper.
       </p>
@@ -243,15 +245,20 @@ export default function Security() {
         process sets for itself prevents that.
       </p>
       <p>
-        On Android the app&apos;s screens are kept out of screenshots, screen
-        recordings and the recent-apps view. The same limit applies there:
+        On Windows and macOS the window is kept out of screenshots, screen
+        recordings and screen sharing, unless you turn that off under
+        General. On a Mac, copied passwords also stay off Universal
+        Clipboard. On Android the app&apos;s screens are kept out of
+        screenshots, screen recordings and the recent-apps view. The same
+        limit applies there:
         software that controls an unlocked phone can reach what is open.
       </p>
       <p>
         Also out of scope: someone using your already-unlocked session, and
         someone who has a copy of the silo together with a way in. One
-        enrolled security key is enough, with a touch and no PIN, and so is
-        the recovery code on its own. The threat model in CRYPTO.md
+        enrolled security key with its PIN is enough, and so is the
+        recovery code on its own. A key added before 1.5.1 without a PIN
+        needs only a touch. The threat model in CRYPTO.md
         describes both.
       </p>
 
@@ -261,12 +268,13 @@ export default function Security() {
         file beside them. The Windows installer is built on a machine here
         and carries an Authenticode signature from a certificate on a
         hardware token that no build server can reach. GitHub Actions builds
-        the Linux packages and the Linux and macOS extractors, unsigned, with
+        the Linux packages and the Linux extractor, unsigned, with
         build provenance anyone can check with{" "}
         <code>gh attestation verify &lt;file&gt; --repo silentsilo/desktop</code>
         . The release machine checks that provenance, then signs every file
-        with the update key, which is not on GitHub. The macOS app is built,
-        signed with the company&apos;s Developer ID and notarised on a Mac.
+        with the update key, which is not on GitHub. The macOS app and the
+        macOS extractor are built, signed with the company&apos;s Developer ID
+        and notarised on a Mac.
         The public half of the update key is published in both
         repositories, in{" "}
         <a href="https://github.com/silentsilo/core/blob/main/SIGNING-PUBKEY.txt">

@@ -49,8 +49,8 @@ export default function UnlockWithoutAKey() {
       <p>
         The PIN, fingerprint or face you already use to sign in to Windows.
         It needs Windows 11 with the February 2026 update (build 26200.7840
-        or later) and a TPM; on Windows 10, an older Windows 11 or a
-        computer without a TPM, Hello cannot derive the silo&apos;s key.
+        or later) and a TPM 2.0; on Windows 10, an older Windows 11 or a
+        computer without a TPM 2.0, Hello cannot derive the silo&apos;s key.
       </p>
       <ol>
         <li>
@@ -65,9 +65,10 @@ export default function UnlockWithoutAKey() {
         </li>
       </ol>
       <p>
-        If the button is missing, Hello is not set up on this computer: add a
-        PIN or a fingerprint in Windows&apos; sign-in settings and it
-        appears. Hello is sealed to this computer, so it opens the silo here
+        If the button is missing, Hello is not set up, or this computer
+        lacks one of the two things above. Add a PIN or a fingerprint in
+        Windows&apos; sign-in settings, and the button appears once both
+        are met. Hello is sealed to this computer, so it opens the silo here
         and nowhere else. An organisation&apos;s key cannot be Hello, for the
         same reason.
       </p>
@@ -135,9 +136,9 @@ export default function UnlockWithoutAKey() {
       <p>
         On the phone itself, the fingerprint opens the silo, or Face ID on
         the iPhone. The phone joins a silo that already exists with its
-        recovery code (or a security key over NFC), then makes a key of its
-        own in its secure hardware, released by the fingerprint or face.
-        The <Link href="/tutorials/phone/">phone guide</Link> goes through
+        recovery code (or a security key, over NFC or, on Android, USB),
+        then makes a key of its own in its secure hardware, released by the
+        fingerprint or face. The <Link href="/tutorials/phone/">phone guide</Link> goes through
         it.
       </p>
 
@@ -145,8 +146,9 @@ export default function UnlockWithoutAKey() {
       <p>
         Linux has no built-in equivalent the app can use, so on Linux a silo
         opens with a security key; the recovery code gets you in to enrol
-        one. Any FIDO2 key with the <code>hmac-secret</code> extension
-        works, and a key with a PIN asks for it in the app.
+        one. Any FIDO2 key with the <code>hmac-secret</code> extension and
+        a PIN works, and the app asks for the PIN. A key without one needs a
+        PIN set first.
       </p>
 
       <h2 id="what-to-keep">What to keep</h2>

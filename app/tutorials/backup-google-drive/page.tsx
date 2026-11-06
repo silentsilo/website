@@ -14,7 +14,7 @@ export default function BackupGoogleDrive() {
         name: "Google Drive",
         company: "Google",
         place: "the SilentSilo folder of your Google Drive",
-        path: "My Drive/SilentSilo/Silo",
+        path: "My Drive/SilentSilo",
         account: (
           <p>
             Any Google account. The free 15 GB is shared with Gmail and

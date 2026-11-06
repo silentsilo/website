@@ -183,16 +183,17 @@ export default function ImmutableCopies() {
       <p>
         Two more things to know before choosing the window. Content you
         delete in the silo reaches the storage as a deletion only 30 days
-        later, so even the ordinary copy keeps a deleted file for a month;
-        the lock is for the case where the deletion did not come from you.
-        And the lock cuts both ways for keys: when you remove a key from the
-        silo, the app deletes the small file that let that key open it, and
-        a locked bucket refuses that deletion like any other. A key you have
-        lost goes on opening the locked copy for as long as the bucket keeps
-        that file. Settings &gt; Advanced offers{" "}
-        <strong>Replace the encryption key</strong> for the copies that
-        accept overwrites; on a never-delete copy, the old file stays. Keep the window short, and keep your keys where you can find
-        them.
+        after it leaves the trash, so even the ordinary copy keeps a deleted
+        file for at least a month; the lock is for the case where the
+        deletion did not come from you. And a never-delete copy keeps keys
+        too. When you remove a key from the silo, the app deletes the small
+        file that let that key open it, but it sends no delete to a
+        never-delete copy. A key you have lost goes on opening what is
+        stored there for good. <strong>Replace the encryption key</strong>,
+        under Settings &gt; Advanced, keeps it out of anything saved from
+        then on. The old never-delete copy then gets no new backups: remove
+        it under Settings &gt; Backup and add a new one. Keep your keys where
+        you can find them.
       </p>
       <p className="notice">
         <strong>Compliance mode binds you too.</strong> If you put something

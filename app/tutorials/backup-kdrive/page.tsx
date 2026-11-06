@@ -80,10 +80,10 @@ export default function BackupKDrive() {
           <strong>Server</strong> choose <strong>kDrive (Infomaniak)</strong>.
         </li>
         <li>
-          Fill in <strong>kDrive ID</strong>. Keep{" "}
-          <strong>Folder in kDrive</strong> as <code>SilentSilo</code> or type
-          another; it is created if it does not exist. Give each silo its
-          own folder.
+          Fill in <strong>kDrive ID</strong>.{" "}
+          <strong>Folder in kDrive</strong> starts as <code>SilentSilo</code>{" "}
+          followed by the silo&apos;s name. Keep it or type another; it is
+          created if it does not exist. Give each silo its own folder.
         </li>
         <li>
           Fill in <strong>Infomaniak email</strong> and, under{" "}
@@ -97,8 +97,8 @@ export default function BackupKDrive() {
       </ol>
       <p>
         The app builds the address{" "}
-        <code>https://123456.connect.kdrive.infomaniak.com/SilentSilo</code>{" "}
-        from what you typed. The settings show it as a WebDAV copy, and{" "}
+        <code>https://123456.connect.kdrive.infomaniak.com/SilentSilo/Personal</code>{" "}
+        from what you typed, for a silo named Personal. The settings show it as a WebDAV copy, and{" "}
         <strong>Edit</strong> opens the kDrive form again.
       </p>
 
@@ -126,7 +126,7 @@ export default function BackupKDrive() {
         the other European options, see{" "}
         <Link href="/europe/">SilentSilo in the European Union</Link>. The{" "}
         <Link href="/tutorials/backup-webdav/">WebDAV guide</Link> covers the
-        error numbers a WebDAV server can answer with.
+        errors a WebDAV server can answer with.
       </p>
       <MoreGuides />
     </main>

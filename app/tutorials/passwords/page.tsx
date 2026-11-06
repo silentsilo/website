@@ -87,8 +87,8 @@ export default function Passwords() {
           On the computer, take a screenshot of the QR code (Win+Shift+S on
           Windows, Cmd+Ctrl+Shift+4 on a Mac), click into{" "}
           <strong>One-time code (TOTP)</strong> in the login&apos;s editor and
-          paste it with Ctrl+V. On the phone, tap the scan button beside the
-          field and point the camera at the code.
+          paste it (Ctrl+V, or Cmd+V on a Mac). On the phone, tap the scan
+          button beside the field and point the camera at the code.
         </li>
         <li>
           The current code shows at once. Type it on the site to finish

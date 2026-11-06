@@ -72,7 +72,7 @@ export function KeysDiagram() {
           <ul>
             <li>
               <strong>A security key</strong>: every computer, and the phone
-              over NFC
+              over NFC or, on Android, USB
             </li>
             <li>
               <strong>The recovery code</strong>: any device

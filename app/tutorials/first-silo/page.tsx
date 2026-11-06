@@ -147,8 +147,9 @@ export default function FirstSilo() {
         <strong>Step 2 of 2</strong> asks where an encrypted copy should go.
         Until there is one, the silo lives only on this computer. Choose{" "}
         <strong>Set up backup storage</strong> and pick what you already
-        have: OneDrive, Dropbox or Google Drive with a sign-in, or a drive,
-        NAS, S3 bucket, WebDAV or SFTP server. Each has its own guide under{" "}
+        have: OneDrive, Dropbox or Google Drive with a sign-in, a drive,
+        NAS, S3 bucket, WebDAV or SFTP server, or iCloud Drive once the
+        iPhone app has used it. Each has its own guide under{" "}
         <Link href="/tutorials/">Tutorials</Link>. The storage only ever sees
         encrypted data.
       </p>
@@ -186,9 +187,11 @@ export default function FirstSilo() {
           or sleeps.
         </li>
         <li>
-          <strong>Settings &gt; Test backup</strong> checks that the copies
-          are whole and tries a recovery with your code. Worth doing once
-          after the first backup.
+          <strong>Test backup</strong>, on{" "}
+          <strong>Settings &gt; Backup</strong>, reads the copies back to
+          check they are whole. <strong>Test a recovery</strong>, under{" "}
+          <strong>Settings &gt; Recovery code</strong>, tries a recovery
+          with your code. Worth doing both once after the first backup.
         </li>
       </ul>
 

@@ -55,7 +55,7 @@ export default function Tutorials() {
         added on the same page, with <strong>Add another copy</strong>. The
         app writes to the storage before anything is saved. On
         a phone it is <strong>Silo &gt; Backup storage</strong>, and the phone takes
-        every kind here except a folder.
+        every kind here except a folder, with iCloud Drive on the iPhone only.
       </div>
 
       <h2 id="set-up-a-backup">Set up a backup</h2>

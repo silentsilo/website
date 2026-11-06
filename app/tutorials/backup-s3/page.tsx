@@ -131,7 +131,7 @@ export default function BackupS3() {
       </table>
       <p>
         Pick your provider in the app first. It fills in the endpoint, the
-        region and the addressing style for you, which are the two settings
+        region and the addressing style for you. Those are the settings
         that produce errors looking like network faults.
       </p>
 

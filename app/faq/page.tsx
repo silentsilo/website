@@ -21,8 +21,8 @@ export default function Faq() {
       <p>
         No. The app is free under AGPL-3.0, with every feature, for anyone,
         personal or company. There is no pro tier and no licence. Backup goes
-        to storage you already have: your OneDrive, Dropbox or Google Drive,
-        any S3-compatible bucket, a folder or network share, WebDAV, or SFTP.
+        to storage you already have: your OneDrive, Dropbox, Google Drive or
+        iCloud Drive, any S3-compatible bucket, a folder or network share, WebDAV, or SFTP.
       </p>
 
       <h2>Do I need to buy a security key?</h2>
@@ -33,8 +33,8 @@ export default function Faq() {
         the phone opens the silo from then on, with Bluetooth on and both
         online. Windows Hello (the fingerprint, face or PIN already set up on
         your machine) works too, on Windows 11 with the February 2026 update
-        (build 26200.7840 or later) and a TPM. On a Mac, Touch ID; on
-        Android, the phone&apos;s fingerprint. Windows 10 can use neither
+        (build 26200.7840 or later) and a TPM 2.0. A Mac uses Touch ID, if it or
+        its keyboard has it; the iPhone, Face ID; Android, the fingerprint. Windows 10 can use neither
         Hello nor a phone for this, so there a security key is the way in.
         A key is still worth having if you want the same silo on several
         computers, because it works on every one of them, Linux included.
@@ -42,13 +42,15 @@ export default function Faq() {
 
       <h2>Which security keys work?</h2>
       <p>
-        Any FIDO2 key that implements the <code>hmac-secret</code> extension,
-        from any maker. That covers most current keys: YubiKey 5 and the
+        Any FIDO2 key that implements the <code>hmac-secret</code> extension
+        and has a PIN set, from any maker. That covers most current keys: YubiKey 5 and the
         Yubico Security Key series, Nitrokey 3, SoloKeys, Token2 and Feitian
         among them. On Windows the app talks to the same system service the
         browsers use, so a key that signs you into websites on that machine
-        will work here, whatever the brand. Keys that carry only the older
-        U2F protocol do not work. A phone works through the QR code when
+        will work here, whatever the brand. A key without a PIN is refused
+        when you add it: set one first, in the maker&apos;s tool or in
+        Windows Settings. Keys that carry only the older U2F protocol do not
+        work. A phone works through the QR code when
         its passkey provider offers the same extension: Google Password
         Manager on Android and iCloud Keychain on iOS 18 or later do. A
         phone that cannot is refused at enrolment with a message saying
@@ -84,7 +86,7 @@ export default function Faq() {
         Yes. A release ships <code>silentsilo-extract</code>, a command-line
         tool that reads a backup and writes the files out with nothing but
         the folder and your recovery code, as separate binaries for Windows
-        and Linux on x86-64 and for Macs with Apple silicon,{" "}
+        and Linux on x86-64 and one for every Mac, Apple silicon or Intel,{" "}
         <Link href="/tutorials/get-files-out/">downloadable here</Link>.
         The format is documented in{" "}
         <a href={DOC_FORMATS}>FORMATS.md</a> as well, so the archive can be
@@ -113,7 +115,7 @@ export default function Faq() {
         macOS, yes: one disk image for Apple silicon and Intel Macs, macOS 13
         or later, signed and notarised. It unlocks with Touch ID or a
         security key. The extraction tool above runs on Windows, Linux and
-        Macs with Apple silicon, so choosing this today does not tie your
+        every Mac, so choosing this today does not tie your
         files to one operating system.
       </p>
 

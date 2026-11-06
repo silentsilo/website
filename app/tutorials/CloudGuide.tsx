@@ -10,7 +10,7 @@ export type Cloud = {
   company: string;
   /** Where the app's folder sits, as the app's own hint words it. */
   place: string;
-  /** The path to look for on the provider's website. */
+  /** The app's folder on the provider's website; the silo's folder sits inside. */
   path: string;
   account: React.ReactNode;
   access: React.ReactNode;
@@ -85,9 +85,9 @@ export function CloudGuide({ c }: { c: Cloud }) {
           <strong>Connected as</strong> and your account.
         </li>
         <li>
-          Keep the <strong>Folder name</strong>, <code>Silo</code>, or type
-          another. It goes in {c.place}. One folder per silo: two silos
-          need two names.
+          The <strong>Folder name</strong> starts as the silo&apos;s name.
+          Keep it or type another. It goes in {c.place}. One folder per silo:
+          two silos need two names.
         </li>
         <li>
           Press <strong>Save and connect</strong>, or{" "}
@@ -123,7 +123,8 @@ export function CloudGuide({ c }: { c: Cloud }) {
       </p>
       {c.access}
       <p>
-        On {c.name}&apos;s website the folder is <code>{c.path}</code>. Do not
+        On {c.name}&apos;s website the folder is <code>{c.path}/Personal</code>{" "}
+        for a silo named Personal. Do not
         move, rename or edit what is inside it: to the app it is a database,
         and a file changed by hand is a file it can no longer open. Deleting
         it there deletes the copy.
@@ -146,7 +147,8 @@ export function CloudGuide({ c }: { c: Cloud }) {
         choose <strong>Set up from backup storage</strong>. Under{" "}
         <strong>Where is the backup?</strong>, choose {c.name}, sign in, pick
         the silo folder and press <strong>Continue</strong>. The phone then
-        asks for your recovery code and sets up its fingerprint as a key. A
+        asks for your recovery code, or one of the silo&apos;s security keys,
+        and sets up its fingerprint or face as a key. A
         silo already open on the phone gets this copy under{" "}
         <strong>Silo &gt; Backup storage</strong>. The{" "}
         <Link href="/tutorials/phone/">phone guide</Link> has the rest.

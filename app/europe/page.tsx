@@ -177,6 +177,9 @@ export default function Europe() {
         phone before anything is written to storage. The keys stay with you:
         a security key, the device&apos;s own biometrics, and a recovery code
         on paper. No copy of them reaches the storage, and none reaches us.
+        If your phone is the key on Windows 11, its passkey syncs under your
+        Google or Apple account. For keys that stay with you alone, use a
+        security key.
       </p>
       <p>
         We receive nothing from your silo. What Software Hive holds is listed

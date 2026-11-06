@@ -83,9 +83,10 @@ export default function FromKeePass() {
         </li>
       </ul>
       <p>
-        The way back is as short: <strong>Passwords &gt; Export</strong>{" "}
-        writes every entry to a KeePass file (KDBX 4) under a password you
-        choose, which KeePassXC and KeePassDX open.
+        The way back is as short:{" "}
+        <strong>Passwords &gt; Export all &gt; KeePass file</strong> writes
+        every entry to a KDBX 4 file under a password you choose, which
+        KeePassXC and KeePassDX open.
       </p>
 
       <OtherMoves here="/tutorials/from-keepass/" />

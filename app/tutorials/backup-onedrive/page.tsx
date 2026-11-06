@@ -15,7 +15,7 @@ export default function BackupOneDrive() {
         heading: "Sync through OneDrive",
         company: "Microsoft",
         place: "Apps/SilentSilo on your OneDrive",
-        path: "Apps/SilentSilo/Silo",
+        path: "Apps/SilentSilo",
         account: (
           <p>
             A personal Microsoft account: Outlook.com, Hotmail, or one that

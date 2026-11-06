@@ -17,8 +17,9 @@ export default function BackupFolder() {
         the silo at a directory and it writes its encrypted objects there.
         No account, no key, no endpoint. It covers an external disk, a NAS
         share, and a folder that Dropbox or OneDrive is already syncing.
-        This one is for the desktop app; the phone app takes every other
-        kind on the <Link href="/tutorials/">Tutorials page</Link>.
+        This one is for the desktop app. The phone app takes the other kinds
+        on the <Link href="/tutorials/">Tutorials page</Link>, with iCloud
+        Drive on the iPhone only.
       </p>
 
       <nav className="toc" aria-label="On this page">

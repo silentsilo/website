@@ -91,9 +91,10 @@ export default function Phone() {
         <li>
           Under <strong>Let this phone unlock the silo</strong>, name the key
           and press <strong>Create key</strong>. From now on your fingerprint
-          or Face ID opens the silo on this phone. On the iPhone, resetting
-          Face ID or adding a new appearance retires that key; the recovery
-          code then lets you set it up again.
+          or Face ID opens the silo on this phone. On Android, adding or
+          removing a fingerprint retires that key. On the iPhone, resetting
+          Face ID or adding a new appearance does. The recovery code then
+          lets you set it up again.
         </li>
       </ol>
       <p>
@@ -107,7 +108,10 @@ export default function Phone() {
         <Link href="/tutorials/backup-google-drive/">Google Drive</Link>,{" "}
         <Link href="/tutorials/backup-s3/">S3</Link>,{" "}
         <Link href="/tutorials/backup-webdav/">WebDAV</Link>,{" "}
-        <Link href="/tutorials/backup-sftp/">SFTP</Link>.
+        <Link href="/tutorials/backup-sftp/">SFTP</Link>,{" "}
+        <Link href="/tutorials/backup-kdrive/">kDrive</Link>, and{" "}
+        <Link href="/tutorials/backup-icloud/">iCloud Drive</Link> on the
+        iPhone.
       </p>
 
       <h2 id="phone-backup">Phone backup: photos, videos, contacts</h2>
@@ -211,7 +215,7 @@ export default function Phone() {
       <p>
         On Android the app&apos;s screens are kept out of screenshots and
         the recent apps view. A password copied from the app is cleared from
-        the clipboard when the silo locks.
+        the clipboard after 45 seconds, or sooner if the silo locks.
       </p>
       <MoreGuides />
     </main>

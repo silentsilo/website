@@ -75,8 +75,9 @@ export default function FromLastPass() {
       <ul>
         <li>
           Logins: name, address, username, password and notes. Folders become
-          categories. LastPass does not export one-time codes, so set those
-          up again in SilentSilo.
+          categories. One-time codes come over when LastPass put them in the
+          file. Codes kept only in LastPass Authenticator are not in it: set
+          those up again in SilentSilo.
         </li>
         <li>
           Left out: secure notes with no password (the summary counts them),
