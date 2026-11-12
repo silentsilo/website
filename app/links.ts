@@ -23,7 +23,7 @@ export const RELEASED = true;
  * the file names carry the version: one string per release, every name
  * built from it.
  */
-export const LATEST_VERSION = "1.5.1";
+export const LATEST_VERSION = "1.5.2";
 export const LATEST_TAG = `v${LATEST_VERSION}`;
 
 const LATEST_DOWNLOAD = `${REPO}/releases/latest/download`;
@@ -70,11 +70,11 @@ export const LATEST_INSTALLER_SIG = `${LATEST_INSTALLER}.sig`;
  * each release; the report URL is built from the hash.
  */
 export const INSTALLER_SHA256 =
-  "05d514bd540875751f46f495f51566a2041a5ed3dab5c68220c0cf140d7c22b8";
+  "515a36d5697d4deb377f1e69e5c128a390f84a597b37cea45b3546d62fbad24f";
 export const VIRUSTOTAL_REPORT = `https://www.virustotal.com/gui/file/${INSTALLER_SHA256}`;
 export const VIRUSTOTAL_DETECTIONS: number = 0;
 export const VIRUSTOTAL_ENGINES = 71;
-export const VIRUSTOTAL_SCANNED = "5 November 2026";
+export const VIRUSTOTAL_SCANNED = "12 November 2026";
 
 /**
  * The Android app, on Google Play. The store delivers its updates, so there
