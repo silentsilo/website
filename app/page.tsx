@@ -32,6 +32,7 @@ import { AlsoOn } from "./AlsoOn";
 import { DownloadButton } from "./DownloadButton";
 import { HeroShot } from "./HeroShot";
 import { HowItWorks } from "./HowItWorks";
+import { IntroFilm } from "./IntroFilm";
 import { Showcase } from "./Showcase";
 import { LATEST_TAG, REPO } from "./links";
 import { ExtensionStoreLink } from "./ExtensionStoreLink";
@@ -212,6 +213,22 @@ export default function Home() {
           </div>
 
           <HeroShot />
+        </div>
+      </section>
+
+      <section className="sec film" id="film">
+        <div className="wrap">
+          <div className="sec-head">
+            <p className="kicker">Two and a half minutes</p>
+            <h2>A silo on Windows, then on your phone</h2>
+            <p>
+              How it works, a first silo on Windows, and an Android phone or
+              iPhone joining it. Recorded in the app, with test data.
+            </p>
+          </div>
+          {/* Nothing loads until it is played, and it comes from this
+              server, not a video site. */}
+          <IntroFilm />
         </div>
       </section>
 

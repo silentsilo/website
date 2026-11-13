@@ -1,0 +1,145 @@
+WEBVTT
+
+1
+00:00:01.200 --> 00:00:04.604
+Your files and passwords, encrypted on your own devices,
+
+2
+00:00:04.604 --> 00:00:07.643
+and kept in step through storage you already have.
+
+3
+00:00:08.093 --> 00:00:09.480
+This is SilentSilo.
+
+4
+00:00:11.080 --> 00:00:15.069
+A silo is an encrypted folder on your computer, with its own keys.
+
+5
+00:00:15.519 --> 00:00:21.362
+Every change is encrypted on the device that made it, then written to storage you choose:
+
+6
+00:00:21.362 --> 00:00:25.695
+Google Drive, OneDrive or Dropbox, a NAS, or a server of your own.
+
+7
+00:00:26.145 --> 00:00:28.364
+Your other devices pick it up from there.
+
+8
+00:00:28.814 --> 00:00:34.537
+The storage only holds encrypted objects. It sees their sizes and when they changed,
+
+9
+00:00:34.537 --> 00:00:37.603
+never your file names, contents or passwords.
+
+10
+00:00:38.053 --> 00:00:42.234
+There is no SilentSilo server in between, and no account to create.
+
+11
+00:00:43.834 --> 00:00:47.119
+There is no password to remember, or for anyone to guess.
+
+12
+00:00:47.569 --> 00:00:51.131
+You open a silo with what your devices already have:
+
+13
+00:00:51.131 --> 00:00:55.377
+Windows Hello, your fingerprint or Face ID, or a security key.
+
+14
+00:00:55.827 --> 00:00:59.774
+A recovery code on paper is the way back if a device is lost.
+
+15
+00:01:01.374 --> 00:01:05.513
+Let's set one up on Windows. Give the silo a name and pick a folder.
+
+16
+00:01:05.963 --> 00:01:08.715
+Choose how it unlocks. Here, Windows Hello.
+
+17
+00:01:09.165 --> 00:01:12.216
+Next comes the recovery code. It is shown once.
+
+18
+00:01:12.666 --> 00:01:17.189
+Write it down, or print the emergency kit, and keep it away from the computer.
+
+19
+00:01:17.639 --> 00:01:23.271
+Then the backup storage. We'll use Google Drive: sign in, and the encrypted copy goes there.
+
+20
+00:01:23.721 --> 00:01:25.001
+The silo is ready.
+
+21
+00:01:26.601 --> 00:01:30.292
+Drop in files and folders, and open them with a double-click.
+
+22
+00:01:30.742 --> 00:01:35.030
+Logins, cards, notes and two-factor codes live under Passwords.
+
+23
+00:01:35.480 --> 00:01:39.768
+On disk, everything in the silo is encrypted, file names included.
+
+24
+00:01:40.218 --> 00:01:44.335
+And it locks itself when you lock the computer, or after a while unused.
+
+25
+00:01:45.935 --> 00:01:50.383
+Now the phone. Install SilentSilo from Google Play or the App Store,
+
+26
+00:01:50.383 --> 00:01:52.868
+and choose Set up from backup storage.
+
+27
+00:01:53.318 --> 00:01:56.219
+Connect the same Google Drive and pick your silo.
+
+28
+00:01:56.669 --> 00:02:00.258
+The first time, the phone is let in with your recovery code,
+
+29
+00:02:00.258 --> 00:02:02.770
+or with your security key held against it.
+
+30
+00:02:03.220 --> 00:02:07.487
+Then it makes a key of its own, opened by your fingerprint or Face ID.
+
+31
+00:02:07.937 --> 00:02:13.270
+From now on, the phone and the computer stay in step. Sync starts as soon as you unlock.
+
+32
+00:02:14.870 --> 00:02:18.391
+On the phone, SilentSilo can also back up new photos,
+
+33
+00:02:18.391 --> 00:02:21.846
+videos and contacts, encrypted before they leave it.
+
+34
+00:02:22.296 --> 00:02:25.112
+And it fills your logins in apps and in the browser.
+
+35
+00:02:26.612 --> 00:02:33.119
+SilentSilo is free and open source, on Windows, macOS, Linux, Android and iPhone.
+
+36
+00:02:33.569 --> 00:02:35.830
+Download it at silentsilo.com.
