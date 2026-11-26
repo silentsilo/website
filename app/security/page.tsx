@@ -77,44 +77,24 @@ export default function Security() {
 
       <h2>Who sees what</h2>
       <p>
-        <strong>Us: your app version.</strong> There is no account and no
-        server holding your data. The only thing that reaches us is the
-        update check. The automatic check runs at most once a day and carries
-        the app version, the platform and the processor type; the{" "}
-        <strong>Check for updates</strong> button asks whenever you press it.
-        The automatic check can be turned off in Settings. Everything else
-        the app does over the network is the sync you configured yourself,
-        the download from GitHub when you choose to install an update,
-        plus two things that involve neither us nor your storage and that
-        both stay silent until you ask for them: the breach check in Health,
-        which runs only when you press it and sends five characters of a
-        password hash to Have I Been Pwned, and site icons in Passwords,
-        off by default, which fetch each saved site&apos;s own icon from that
-        site. The <Link href="/privacy/">privacy page</Link> lists them all.
+        <strong>Us:</strong> there is no account and no server holding your
+        data. The only request that reaches us is the update check, which you
+        can turn off in Settings. Every request the app makes is listed on
+        the <Link href="/privacy/">privacy page</Link>.
       </p>
       <p>
-        <strong>Your storage provider:</strong> encrypted files, encrypted
-        operation records, and one envelope per key whose wrapped key is
-        encrypted. Readable without any key: one small manifest naming a
-        random vault id; each key&apos;s credential id and the label you gave
-        it; how many devices write to the silo and when each operation was
-        made; whether a recovery code exists and when it was made; the ids
-        of keys removed from the silo; and the ordinary shape of storage
-        itself, meaning how many objects exist, their sizes, and when they
-        change. Not readable without a key: contents, the names of your
-        files and folders, and the structure of the tree. The name of the
-        silo folder itself, which you type when you connect, is readable,
-        and at OneDrive, Dropbox and Google Drive so is the account it
-        belongs to. The full list is in{" "}
+        <strong>Your storage provider:</strong> encrypted files and records.
+        It cannot read contents, file and folder names, or the tree. It can
+        see the silo folder&apos;s name, the account at OneDrive, Dropbox and
+        Google Drive, how many objects there are with their sizes and times,
+        how many devices write, the label you gave each key, and whether a
+        recovery code exists. Each file also carries a hash of its content, so
+        a provider that already has a copy of that file can tell you stored
+        it. The full list is in{" "}
         <a href="https://github.com/silentsilo/core/blob/main/docs/CRYPTO.md#what-the-storage-provider-learns">
           CRYPTO.md
         </a>
         .
-      </p>
-      <p>
-        Each stored file also carries a hash of its unencrypted content in
-        the clear. A provider that already has a copy of a file can confirm
-        you stored it, and the same file in two silos carries the same hash.
       </p>
       <p>
         <strong>Someone holding your silo folder:</strong> what the storage
@@ -123,19 +103,10 @@ export default function Security() {
       </p>
       <p>
         <strong>Your employer, if they set the silo up for you:</strong> a silo
-        can be created as administered by an organisation, and then it carries a
-        key the company keeps. It is what lets a company still open its own
-        archive after somebody leaves. Two things are worth knowing if you are
-        the one using such a silo. The app does not offer it for a silo you
-        already have: the choice exists only while a silo is being created,
-        and it is off unless somebody ticks it. And it is shown to you: the
-        computer where the silo was created, and any computer set up with a
-        company key, list those keys with an Organisation badge. A computer
-        set up with your own key or the recovery code lists them too, as
-        ordinary keys. What the company can do is open the silo and
-        administer its keys. The design gives nobody, the company included,
-        a way to read anything without one of the enrolled keys or the
-        recovery code. The company&apos;s side of the procedure is in{" "}
+        created as administered by an organisation carries a key the company
+        keeps, so the company can open it after you leave. It can only be
+        chosen when the silo is created, and the company&apos;s keys are listed
+        in Settings with the others. Details are in{" "}
         <Link href="/tutorials/organisation-silos/">
           Silos for a team or a company
         </Link>
@@ -144,29 +115,21 @@ export default function Security() {
 
       <h2>Why there is no passphrase</h2>
       <p>
-        A silo is exactly as strong as its weakest envelope. A memorable
-        passphrase is around forty bits, and offering one would quietly make
-        it the real security of the whole design. Unlocking is therefore
-        bound to a device (a FIDO2 key, the TPM behind Windows Hello, the
-        Secure Enclave behind Touch ID on a Mac or Face ID on an iPhone, a
-        key in an Android phone&apos;s secure hardware that its fingerprint
-        releases, or a phone&apos;s passkey over the QR code, which syncs
-        with its Google or Apple account), and the
-        only fallback is a generated 160-bit recovery code meant to be
-        written on paper.
+        A silo is as strong as its weakest way in, and a password someone can
+        remember is far easier to guess than a key. So unlocking is tied to
+        hardware: a FIDO2 key, the TPM behind Windows Hello, the Secure
+        Enclave behind Touch ID and Face ID, the Android Keystore, or a
+        phone&apos;s passkey over the QR code. The fallback is a generated
+        160-bit recovery code you write on paper.
       </p>
 
       <h2>Protect the backup itself</h2>
       <p>
         Encryption does not stop a delete. Malware that reaches your storage
-        credentials, or a plain mistake, can erase ciphertext it cannot
-        read. For anything you would grieve over, keep one never-delete
-        copy: tick &quot;Never-delete copy&quot; when adding it, and on
-        providers with object lock, set a retention
-        window; in compliance mode not even the account owner can override
-        it before it expires. Versioning alone is not protection, and one
-        wrong lifecycle rule can quietly empty an archive. The full guide,
-        including provider-specific settings, is{" "}
+        credentials, or a mistake, can erase files it cannot read. Keep one
+        never-delete copy: tick &quot;Never-delete copy&quot; when you add it,
+        and where the provider offers object lock, set a retention period.
+        The guide, with provider settings, is{" "}
         <a href="https://github.com/silentsilo/desktop/blob/main/docs/STORAGE.md">
           docs/STORAGE.md
         </a>
@@ -175,12 +138,10 @@ export default function Security() {
 
       <h2>A malicious storage provider</h2>
       <p>
-        File contents, names and records are sealed with AES-256-GCM, and
-        each reader checks that an object&apos;s name matches what is inside
-        it. Storage can still withhold or delete objects, or put back older
-        ones, which can stop sync or bring back something you removed. The
-        design is meant to keep storage from reading your data or forging a
-        change.{" "}
+        Storage cannot read your data or forge a change: everything is sealed
+        with AES-256-GCM, and each object is checked against its name. It can
+        still withhold or delete objects, or put back older ones, which can
+        stop sync or bring back something you removed.{" "}
         <a href="https://github.com/silentsilo/core/blob/main/docs/CRYPTO.md">
           CRYPTO.md
         </a>{" "}
@@ -190,34 +151,20 @@ export default function Security() {
         installed.
       </p>
 
-      <h2>No independent audit, yet</h2>
+      <h2>No independent audit yet</h2>
       <p>
-        Nobody outside the project has been paid to attack this. That belongs
-        on this page rather than in a footnote, because it is the assurance
-        people assume is behind a product like this one.
-      </p>
-      <p>
-        What exists instead is everything needed to review the design: the
-        cryptography is specified in{" "}
+        No outside firm has audited SilentSilo. The cryptography is specified
+        in{" "}
         <a href="https://github.com/silentsilo/core/blob/main/docs/CRYPTO.md">
-          docs/CRYPTO.md
+          CRYPTO.md
         </a>
-        , the formats and their versions in{" "}
+        , the formats in{" "}
         <a href="https://github.com/silentsilo/core/blob/main/FORMATS.md">
           FORMATS.md
         </a>
-        , the threat model on this page including the parts that are
-        inconvenient, and the whole source is public and buildable. A
-        reviewable design is worth a great deal and is not an audit, and
-        saying otherwise would be the sort of claim this project exists to
-        avoid.
-      </p>
-      <p>
-        So: a serious flaw could sit in code that reads correctly and passes
-        its tests. If your threat model includes a well-resourced adversary,
-        or disclosure would be severe for you, that absence should weigh in
-        your decision. When an audit is done it will be published here,
-        whatever it finds.
+        , and all the source is public, so anyone can review it. A serious
+        flaw could still pass its tests. If you face a well-funded attacker,
+        weigh that. When an audit is done, the report goes here.
       </p>
 
       <h2>What this does not defend against</h2>
@@ -228,38 +175,20 @@ export default function Security() {
         one included.
       </p>
       <p>
-        What it does instead is remove the cheap ways in and shorten the
-        window. Silos lock when the workstation locks, disconnects or
-        suspends on Windows, and when the screen locks or the machine sleeps
-        on Linux and macOS, rather than waiting out the idle timer. Password entries
-        are encrypted individually, so they are not readable from the
-        working index. Copied passwords are kept out of Windows Clipboard
-        History and Cloud Clipboard, and cleared after 45 seconds. At startup
-        the process asks Windows to disable extension points, the injection
-        paths such as AppInit_DLLs and window hooks that the system would
-        otherwise walk on an attacker&apos;s behalf. That is a request to the
-        operating system: a Windows build that does not know the policy
-        declines it, and the app starts anyway. It does not stop a DLL
-        dropped beside the executable. The install is per-user, so whoever
-        can write there can replace the executable itself, and no policy a
-        process sets for itself prevents that.
-      </p>
-      <p>
-        On Windows and macOS the window is kept out of screenshots, screen
-        recordings and screen sharing, unless you turn that off under
-        General. On a Mac, copied passwords also stay off Universal
-        Clipboard. On Android the app&apos;s screens are kept out of
-        screenshots, screen recordings and the recent-apps view. The same
-        limit applies there:
-        software that controls an unlocked phone can reach what is open.
+        What the app does is shorten the window. Silos lock when the computer
+        locks or sleeps. Each password entry is encrypted on its own. Copied
+        passwords stay out of clipboard history and cloud clipboards and are
+        cleared after 45 seconds. On Windows, macOS and Android the app is
+        kept out of screenshots and screen sharing unless you turn that off. On Windows the app also turns
+        off the usual ways other programs inject code into it. The same limit
+        holds on a phone: software that controls an unlocked phone can reach
+        what is open.
       </p>
       <p>
         Also out of scope: someone using your already-unlocked session, and
-        someone who has a copy of the silo together with a way in. One
-        enrolled security key with its PIN is enough, and so is the
-        recovery code on its own. A key added before 1.5.1 without a PIN
-        needs only a touch. The threat model in CRYPTO.md
-        describes both.
+        someone who has a copy of the silo and a way in: one enrolled key with
+        its PIN, or the recovery code. A key added before 1.5.1 without a PIN
+        needs only a touch.
       </p>
 
       <h2 id="checking-what-you-downloaded">Checking what you downloaded</h2>
@@ -328,12 +257,6 @@ minisign -Vm ${LATEST_INSTALLER_NAME} -x ${LATEST_INSTALLER_NAME}.minisig -P ${U
         <a href={MOBILE_REPO}>silentsilo/mobile</a>. The iPhone app comes
         from the <a href={APP_STORE}>App Store</a>, signed the way Apple
         signs every app there, from the same source.
-      </p>
-      <p>
-        This matters most for the extraction tool, which is what someone
-        reaches for when they have lost confidence in everything else. Being
-        able to answer &quot;is this the binary the project published&quot;
-        should not require trusting the place it was downloaded from.
       </p>
 
       <h2>Reporting</h2>

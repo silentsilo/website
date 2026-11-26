@@ -271,7 +271,7 @@ function Hub({ id, x, y, w }: { id: string; x: number; y: number; w: number }) {
         Your storage
       </text>
       <text className="how-hub-sub" x={cx} y={y + 111} textAnchor="middle">
-        Your account, your bill, your choice
+        Storage you already have
       </text>
       {STORE_GROUPS.map(([tag, stores], g) => {
         const groupY = y + 142 + g * 98;

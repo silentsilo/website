@@ -12,14 +12,14 @@ export default function Privacy() {
     <main id="main" className="wrap prose">
       <h1>Privacy</h1>
       <p className="lead">
-        The complete list of what is collected, by the site and by the app.
-        It is short because there is little to tell.
+        What this site and the SilentSilo apps collect, and every request they
+        make.
       </p>
 
       <h2>This website</h2>
       <p>
-        No cookies, no analytics, no third-party requests. The font is served
-        from this domain. The site is static files. Cloudflare passes each
+        The site sets no cookies and loads nothing from other domains, the
+        font included. The site is static files. Cloudflare passes each
         request to our server, which keeps no access log; its error log can
         note the address behind a request that fails. Cloudflare sees your
         IP address and the pages you request.
@@ -90,8 +90,7 @@ export default function Privacy() {
           Cloudflare&apos;s analytics service with the platform, the processor
           type, the version and the outcome, which is how we estimate active
           installs; no row
-          can tell one install from another. Versions before 1.2.0 often
-          wrote two to four rows for one check. Cloudflare relays the request
+          can tell one install from another. Cloudflare relays the request
           and sees your IP address. SilentSilo does not receive it or keep
           it. The automatic check can be turned off in Settings, and turning
           it off removes you from the count, unless you press{" "}
@@ -120,14 +119,9 @@ export default function Privacy() {
           <strong>Site icons</strong> (desktop app only), only if you switch them on. Off by
           default. Turned on, the passwords list asks each saved site for
           its <code>favicon.ico</code> directly, which tells that site your IP
-          address and the fact that you hold an account there, every time the
-          list is drawn. It is the one request that goes to somebody we have
-          no relationship with and you did not configure, which is why it is
-          off until you decide otherwise. A site saved as a private or
-          loopback address, as localhost, or under .local or .internal is
-          never asked. Any other name is asked, including a name on your own
-          network that the app cannot tell from a public one. The toggle sits
-          above the list, in Passwords.
+          address and that you hold an account there. Private and local
+          addresses are never asked. The toggle is above the list, in
+          Passwords.
         </li>
       </ul>
       <p>
@@ -137,6 +131,11 @@ export default function Privacy() {
           Google API Services User Data Policy
         </a>
         , including the Limited Use requirements.
+      </p>
+      <p>
+        The <a href={REPO}>app</a> and the{" "}
+        <a href={RELEASES_REPO}>update endpoint</a> are open source, so each
+        claim on this page can be checked against the code that makes it.
       </p>
       <h2>The Android app</h2>
       <p>
@@ -181,12 +180,6 @@ export default function Privacy() {
           and dropped; none is saved or sent anywhere.
         </li>
       </ul>
-      <p>
-        None of this asks to be believed as prose. The{" "}
-        <a href={REPO}>app</a> and the{" "}
-        <a href={RELEASES_REPO}>update endpoint</a> are both open source, so
-        each claim above can be checked against the code that makes it.
-      </p>
 
       <h2>The iPhone app</h2>
       <p>

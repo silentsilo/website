@@ -380,7 +380,7 @@ export default function BackupS3() {
       </p>
       <p>
         The deeper reasoning about bucket settings, versioning and the
-        lifecycle rule that can quietly delete an archive is in{" "}
+        lifecycle rule that can delete an archive is in{" "}
         <a href={DOC_STORAGE}>STORAGE.md</a> in the repository.
       </p>
       <MoreGuides />

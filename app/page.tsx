@@ -92,7 +92,7 @@ const SMALL_FEATURES: { icon: React.ReactNode; title: string; text: string }[] =
   {
     icon: <Stack weight="duotone" />,
     title: "Several silos",
-    text: "Personal, family, work, each with its own keys. A company silo can carry a company key the app does not let the employee remove on the computer it was set up on; the company's never-delete copy is what makes it stick.",
+    text: "Personal, family, work, each with its own keys and its own storage. A company can keep a key to an employee's silo.",
   },
   {
     icon: <ArrowsLeftRight weight="duotone" />,
@@ -188,8 +188,8 @@ export default function Home() {
               <span className="grad">encrypted on your own devices.</span>
             </h1>
             <p className="hero-lead">
-              Unlock with Windows Hello, Touch ID, Face ID or your phone, with
-              no hardware to buy, or with a security key. Keep the encrypted copy in your OneDrive, Dropbox,
+              Unlock with Windows Hello, Touch ID, Face ID, your phone or a
+              security key. Keep the encrypted copy in your OneDrive, Dropbox,
               Google Drive or storage you own. There is no SilentSilo server
               in between.
             </p>
@@ -203,7 +203,7 @@ export default function Home() {
             <AlsoOn />
             <p className="hero-meta">
               {[
-                LATEST_TAG,
+                `Desktop ${LATEST_TAG}`,
                 SOON.length > 0 && `${names(SOON)} coming soon`,
                 PLANNED.length > 0 && `${names(PLANNED)} planned`,
               ]
@@ -298,8 +298,7 @@ export default function Home() {
             <p className="kicker">What it does</p>
             <h2>Everything in the app, free for everyone</h2>
             <p>
-              Every feature is in every copy. No paid tier, no licence key,
-              nothing metered.
+              Every feature is in every copy, with no paid tier.
             </p>
           </div>
 
@@ -399,10 +398,9 @@ export default function Home() {
                 <h3>Change the key, not the data</h3>
                 <p>
                   Lose a key, remove it, then replace the encryption key.
-                  Every copy that accepts overwrites moves to the new key
-                  without re-encrypting a single file, and the lost key no
-                  longer opens them. A never-delete copy keeps the old
-                  key&apos;s envelope.
+                  Your copies move to the new key without re-encrypting the
+                  files, and the lost key stops opening them, except on a
+                  never-delete copy.
                 </p>
               </div>
               <div className="mini mini-keys" aria-hidden>
@@ -521,7 +519,7 @@ export default function Home() {
         <div className="wrap">
           <div className="sec-head">
             <p className="kicker">Why trust it</p>
-            <h2>Built so you do not have to take our word for it</h2>
+            <h2>What it is built on</h2>
           </div>
           <div className="trust-grid">
             {TRUST.map((t) => (
@@ -585,7 +583,7 @@ export default function Home() {
         <div className="wrap">
           <div className="closing">
             <div>
-              <h2>Open source, so you can check rather than believe</h2>
+              <h2>Open source</h2>
               <p>
                 The app is AGPL-3.0, the threat model says what is encrypted
                 with what, and the list of what is unfinished is public. Built
