@@ -81,29 +81,29 @@ export default function Privacy() {
           account. Nothing reaches us.
         </li>
         <li>
-          <strong>The update check</strong> (desktop app only). The app asks
-          releases.silentsilo.com whether a newer version exists: on its own
-          at most once a day, and whenever you press{" "}
-          <strong>Check for updates</strong>. The request carries your app
-          version, platform and processor type. The
-          endpoint runs on Cloudflare. Each check writes one row to
-          Cloudflare&apos;s analytics service with the platform, the processor
-          type, the version and the outcome, which is how we estimate active
-          installs; no row
-          can tell one install from another. Cloudflare relays the request
-          and sees your IP address. SilentSilo does not receive it or keep
-          it. The automatic check can be turned off in Settings, and turning
-          it off removes you from the count, unless you press{" "}
-          <strong>Check for updates</strong>.
+          <strong>The update check</strong> (desktop app only). The app reads{" "}
+          <code>silentsilo.com/latest.json</code>, which holds only the
+          latest version number: on its own at most once a day, and whenever
+          you press <strong>Check for updates</strong>. When this site does
+          not answer, it reads the same file from the website&apos;s
+          repository on GitHub. The request carries nothing about your
+          install: no version, platform or identifier. Cloudflare, or GitHub
+          for the second address, sees your IP address; our server keeps no
+          access log. The app downloads and installs nothing:{" "}
+          <strong>Get latest version</strong> opens the download page in
+          your browser. The automatic check can be turned off in Settings.
         </li>
         <li>
-          <strong>Downloading an update</strong> (desktop app only), only when
-          you choose to install one. The file comes from GitHub, from the
-          release page of{" "}
-          <a href={RELEASES}>silentsilo/desktop</a>
-          . GitHub sees your IP address and which file you downloaded, as it
-          does for any download from that page. The app checks the
-          file&apos;s signature before installing it.
+          <strong>Versions up to 1.5.2</strong> (desktop app only) ask
+          releases.silentsilo.com instead, which offers them 1.6.0 and
+          nothing after it. That request carries the app version, platform
+          and processor type. The endpoint runs on Cloudflare, which sees
+          your IP address; it records nothing. The update comes from GitHub,
+          from the release page of{" "}
+          <a href={RELEASES}>silentsilo/desktop</a>, only when you choose to
+          install it. GitHub sees your IP address and which file you
+          downloaded, and the app checks the file&apos;s signature before
+          installing it.
         </li>
         <li>
           <strong>The breach check</strong>, only when you press its button in
@@ -273,9 +273,10 @@ export default function Privacy() {
 
       <h2>What we could hand over</h2>
       <p>
-        If compelled, we could produce what we hold: the update check rows
-        on Cloudflare, each with a platform, a version, an outcome and a
-        time. The consoles where Software Hive registered the app with
+        If compelled, we could produce what we hold: until they are deleted,
+        the update check rows Cloudflare kept before 1.6.0, each with a
+        platform, a version, an outcome and a time. No new ones are written.
+        The consoles where Software Hive registered the app with
         Microsoft, Dropbox and Google show how many accounts have connected
         it, as a number; they do not show us who, and no file, token or
         address passes through us. Google Play Console shows install counts

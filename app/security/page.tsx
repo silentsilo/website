@@ -12,6 +12,8 @@ import {
 
 /** The minisign public key, as in core's SIGNING-PUBKEY.txt. */
 const UPDATE_PUBKEY = "RWS3eVy3IDLlean9BrZWUaxbTyj+oKfoc4g+IJ6xaAhUwbV8v8WnDbZP";
+/** The key that signs SHA256SUMS, as in desktop's release-checksums.pub. */
+const CHECKSUMS_PUBKEY = "RWRAWSxOMH1Dl6fHrVvTKc2NzrYkwMhW5UvPR96mKXLjyHUnTzY0xtvO";
 const LINUX_DEB = LINUX_PACKAGES[0].file;
 
 export const metadata: Metadata = {
@@ -78,8 +80,9 @@ export default function Security() {
       <h2>Who sees what</h2>
       <p>
         <strong>Us:</strong> there is no account and no server holding your
-        data. The only request that reaches us is the update check, which you
-        can turn off in Settings. Every request the app makes is listed on
+        data. The only request that reaches us is the update check, which
+        reads one version number from this site, carries nothing about your
+        install, and can be turned off in Settings. Every request the app makes is listed on
         the <Link href="/privacy/">privacy page</Link>.
       </p>
       <p>
@@ -145,7 +148,8 @@ export default function Security() {
         <a href="https://github.com/silentsilo/core/blob/main/docs/CRYPTO.md">
           CRYPTO.md
         </a>{" "}
-        lists what storage can and cannot do. Updates from the{" "}
+        lists what storage can and cannot do. From 1.6.0 the app installs
+        no updates itself. Up to 1.5.2, updates from the{" "}
         <a href={RELEASES_REPO}>update endpoint</a> are checked against a
         signing key built into the app, and one that does not verify is not
         installed.
@@ -213,11 +217,31 @@ export default function Security() {
         <a href="https://github.com/silentsilo/desktop/blob/main/src-tauri/tauri.conf.json">
           tauri.conf.json
         </a>
-        . The app carries that same key compiled in and verifies every update
-        before installing it, and refuses one the key did not sign.
+        . Versions up to 1.5.2 carry that same key compiled in and refuse an
+        update it did not sign. From 1.6.0 the app installs nothing itself.
       </p>
       <p>
-        To check a file yourself, download it and its <code>.sig</code> from
+        From 1.6.0, every release also carries <code>SHA256SUMS</code>, the
+        SHA-256 of each of its files, and <code>SHA256SUMS.minisig</code>,
+        its signature with a separate key that signs only these lists. With
+        the files downloaded into one folder:
+      </p>
+      <pre>
+        <code>
+          {`minisign -Vm SHA256SUMS -P ${CHECKSUMS_PUBKEY}
+sha256sum -c --ignore-missing SHA256SUMS`}
+        </code>
+      </pre>
+      <p>
+        On Windows, <code>Get-FileHash &lt;file&gt;</code> gives the hash to
+        compare with its line in <code>SHA256SUMS</code>. The key is also in{" "}
+        <a href="https://github.com/silentsilo/desktop/blob/main/release-checksums.pub">
+          release-checksums.pub
+        </a>
+        .
+      </p>
+      <p>
+        To check a file with the update key, download it and its <code>.sig</code> from
         the <a href={RELEASES}>release page</a>. The <code>.sig</code> is a{" "}
         <a href="https://jedisct1.github.io/minisign/">minisign</a> signature
         wrapped in base64, so decode it first, then verify. On Linux or macOS:

@@ -33,8 +33,9 @@ export default function Principles() {
         is on the <a href="/privacy/">privacy page</a>: sync to storage you
         configured, with the provider&apos;s sign-in when that storage is
         your OneDrive, Dropbox or Google Drive, an automatic update check at
-        most once a day carrying the app version, the platform and the
-        processor type, the same check whenever you press{" "}
+        most once a day that reads the latest version number from this site
+        and carries nothing about your install, the same check whenever you
+        press{" "}
         <strong>Check for updates</strong>, a breach check only when you
         press its button, and site icons in Passwords, which are off until
         you switch them on. The breach check and site icons do nothing
