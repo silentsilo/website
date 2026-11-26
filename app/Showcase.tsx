@@ -123,7 +123,7 @@ const WINDOWS_SHOTS: Shot[] = [
     height: 1600,
     alt: "The unlocking settings listing a YubiKey and Windows Hello, with a form to add another key",
     caption:
-      "Every key that opens the silo, by name. Add a YubiKey or Windows Hello, remove one you lost, and the files stay exactly as they are.",
+      "Every key that opens the silo, by name. Add a YubiKey or Windows Hello, remove one you lost and replace the encryption key, and the files stay exactly as they are.",
   },
   {
     id: "activity",
@@ -203,7 +203,7 @@ const MAC_WORDS: Record<string, Partial<Shot>> = {
   keys: {
     alt: "The unlocking settings listing a YubiKey and Touch ID, with a form to add another key",
     caption:
-      "Every key that opens the silo, by name. Add a YubiKey or Touch ID, remove one you lost, and the files stay exactly as they are.",
+      "Every key that opens the silo, by name. Add a YubiKey or Touch ID, remove one you lost and replace the encryption key, and the files stay exactly as they are.",
   },
 };
 const MAC_SHOTS: Shot[] = WINDOWS_SHOTS.map((s) => ({

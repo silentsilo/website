@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { APP_STORE, DOC_FORMATS, LATEST_RELEASE, PLAY_STORE, RELEASES } from "../links";
+import { APP_STORE, DOC_FORMATS, PLAY_STORE, RELEASES } from "../links";
 
 export const metadata: Metadata = {
   title: "Questions",
@@ -27,7 +27,8 @@ export default function Faq() {
 
       <h2>Do I need to buy a security key?</h2>
       <p>
-        No, except on Linux. On Windows 11 your phone can be the key: the
+        Not on Windows 11, a Mac with Touch ID or a phone; yes on Linux and
+        Windows 10. On Windows 11 your phone can be the key: the
         app shows a QR code, you scan it with an iPhone (iOS 18 or later) or
         an Android phone that keeps passkeys in Google Password Manager, and
         the phone opens the silo from then on, with Bluetooth on and both
@@ -109,7 +110,7 @@ export default function Faq() {
       <h2>Is there a Linux or macOS version?</h2>
       <p>
         Linux, yes: a .deb for Debian and Ubuntu and an AppImage for the
-        others, on the <a href={LATEST_RELEASE}>release page</a>. It unlocks
+        others, on the <Link href="/download/#linux">download page</Link>. It unlocks
         with a security key; Linux has no built-in equivalent of Windows
         Hello the app can use. The browser extension works with it too.
         macOS, yes: one disk image for Apple silicon and Intel Macs, macOS 13

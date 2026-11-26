@@ -104,7 +104,7 @@ export default function Who() {
       <h2>If I stop</h2>
       <p>
         One developer is a real risk, and I am not going to answer it with a
-        promise to be around forever. A silo is a file on your disk. It opens
+        promise to be around forever. A silo is a folder on your disk. It opens
         with the version you already installed, without a server to ask and
         without a licence to check, for as long as that machine runs.
       </p>
@@ -113,7 +113,9 @@ export default function Who() {
         <a href={DOC_FORMATS}>FORMATS.md</a>, so a silo stays readable from
         the specification alone, and the licence lets anyone fork the client
         and keep building it. What would stop is new work: features, ports,
-        signed updates. Nothing already in a silo depends on me.
+        fixes. Sync through OneDrive, Dropbox or Google Drive goes through
+        Software Hive's app registrations with them and could stop too; the
+        other kinds of storage would not. Nothing already in a silo depends on me.
       </p>
       <p>
         One developer is also where this starts, not where it is meant to

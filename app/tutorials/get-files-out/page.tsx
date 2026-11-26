@@ -119,8 +119,9 @@ export default function GetFilesOut() {
         On Linux and macOS, make it runnable first with{" "}
         <code>chmod +x</code>. It needs no installation and nothing else.
         The Linux build needs glibc 2.35 or later (Ubuntu 22.04, Debian 12
-        and newer). The macOS build runs on Apple silicon and Intel and is
-        signed and notarised by Apple, so a copy downloaded with a browser
+        and newer). The macOS build runs on Apple silicon and Intel, is signed
+        with Software Hive's Developer ID and notarised by Apple, so a copy
+        downloaded with a browser
         starts like any other.
       </p>
       <p>

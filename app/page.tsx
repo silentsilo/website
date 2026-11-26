@@ -235,12 +235,13 @@ export default function Home() {
       <section className="sec ways-in" id="unlock">
         <div className="wrap">
           <div className="sec-head">
-            <p className="kicker">No key to buy</p>
+            <p className="kicker">Keys you may already have</p>
             <h2>Unlock with what you already have</h2>
             <p>
-              A hardware key is one way in, not a requirement. Whichever you
-              use, a recovery code on paper is the way back if a device is
-              lost.
+              On Windows 11, a Mac with Touch ID and a phone, a hardware key is
+              one way in, not a requirement. On Linux and Windows 10 it is the
+              way in. Whichever you use, a recovery code on paper is the way
+              back if a device is lost.
             </p>
           </div>
           <div className="trust-grid">

@@ -117,9 +117,9 @@ export default function Security() {
         you stored it, and the same file in two silos carries the same hash.
       </p>
       <p>
-        <strong>Someone holding your silo folder:</strong> ciphertext and a
-        public salt. Without an enrolled security key or the recovery code,
-        that is where it ends.
+        <strong>Someone holding your silo folder:</strong> what the storage
+        provider sees, listed above, and nothing more. Without an enrolled
+        key or the recovery code, that is where it ends.
       </p>
       <p>
         <strong>Your employer, if they set the silo up for you:</strong> a silo

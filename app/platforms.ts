@@ -21,7 +21,7 @@ export const PLATFORMS: Platform[] = [
     id: "windows",
     name: "Windows",
     available: true,
-    detail: "Windows 10 (1903 or later) or 11, 64-bit. On Windows 11 it unlocks with Windows Hello or your phone (iPhone or Android, by QR code), with no key to buy; a security key works everywhere.",
+    detail: "Windows 10 (1903 or later) or 11, 64-bit. On Windows 11 it unlocks with your phone (iPhone or Android, by QR code), or Windows Hello from build 26200.7840 with a TPM 2.0; on Windows 10, with a security key, which works everywhere.",
     action: { label: "Download for Windows", href: LATEST_INSTALLER },
   },
   {

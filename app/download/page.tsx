@@ -120,7 +120,7 @@ export default function Download() {
 
               <article className="dl-card" id="linux">
                 <CardHead icon={<Terminal weight="duotone" />} name="Linux" />
-                <p>64-bit. Unlocks with a security key.</p>
+                <p>{detail("linux")}</p>
                 <div className="dl-actions">
                   {LINUX_PACKAGES.map((p, i) => (
                     <a

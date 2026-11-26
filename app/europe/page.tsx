@@ -163,7 +163,7 @@ export default function Europe() {
             <a href="#us-companies-with-european-regions">US companies with European regions</a>
           </li>
           <li>
-            <a href="#onedrive-dropbox-google-drive">OneDrive, Dropbox, Google Drive</a>
+            <a href="#onedrive-dropbox-google-drive">OneDrive, Dropbox, Google Drive, iCloud Drive</a>
           </li>
           <li>
             <a href="#a-setup-that-stays-in-europe">A setup that stays in Europe</a>
@@ -255,9 +255,9 @@ export default function Europe() {
         .
       </p>
 
-      <h2 id="onedrive-dropbox-google-drive">OneDrive, Dropbox, Google Drive</h2>
+      <h2 id="onedrive-dropbox-google-drive">OneDrive, Dropbox, Google Drive, iCloud Drive</h2>
       <p>
-        Microsoft, Dropbox and Google are US companies, so the section above
+        Microsoft, Dropbox, Google and Apple are US companies, so the section above
         applies to them as well. Where they store your account&apos;s files
         depends on the account and on their own policies, not on SilentSilo.
         For a silo they are a convenient place for an encrypted copy, since
@@ -266,7 +266,8 @@ export default function Europe() {
         a second, or not at all. The guides:{" "}
         <Link href="/tutorials/backup-onedrive/">OneDrive</Link>,{" "}
         <Link href="/tutorials/backup-dropbox/">Dropbox</Link>,{" "}
-        <Link href="/tutorials/backup-google-drive/">Google Drive</Link>.
+        <Link href="/tutorials/backup-google-drive/">Google Drive</Link>,{" "}
+        <Link href="/tutorials/backup-icloud/">iCloud Drive</Link>.
       </p>
 
       <h2 id="a-setup-that-stays-in-europe">A setup that stays in Europe</h2>
