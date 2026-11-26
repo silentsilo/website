@@ -97,7 +97,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </Link>
                 <p>
                   An encrypted vault for files and passwords that runs on your
-                  own computer and phone and answers to nobody else.
+                  own computer and phone, with no account and no server of
+                  ours.
                 </p>
                 <p className="footer-source">
                   <IconGitHub size={15} />

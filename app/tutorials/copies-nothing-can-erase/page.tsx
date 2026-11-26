@@ -6,7 +6,7 @@ import { MoreGuides } from "../MoreGuides";
 export const metadata: Metadata = {
   title: "A copy nothing can erase",
   description:
-    "Write-once storage in practice: object lock in a bucket, immutable snapshots on a NAS, and M-DISC. What each one actually protects against, and how to prove it works.",
+    "Write-once storage in practice: object lock in a bucket, immutable snapshots on a NAS, and M-DISC. What each one protects against, and how to check it works.",
 };
 
 const DOC_STORAGE = `${REPO}/blob/main/docs/STORAGE.md`;
@@ -17,16 +17,15 @@ export default function ImmutableCopies() {
     <main id="main" className="wrap prose">
       <h1>A copy nothing can erase</h1>
       <p className="lead">
-        Encryption stops someone reading your files. It does nothing at all
-        to stop someone deleting them. This is the guide to the copy that
-        survives the deletion.
+        Encryption stops someone reading your files, not deleting them. This
+        guide is about a copy that survives a delete.
       </p>
 
       <nav className="toc" aria-label="On this page">
         <p className="toc-head">On this page</p>
         <ol>
           <li>
-            <a href="#the-problem-stated-properly">The problem, stated properly</a>
+            <a href="#why">Why</a>
           </li>
           <li>
             <a href="#which-one-you-want">Which one you want</a>
@@ -38,34 +37,24 @@ export default function ImmutableCopies() {
             <a href="#immutable-snapshots-on-a-nas">Immutable snapshots on a NAS</a>
           </li>
           <li>
-            <a href="#m-disc-when-you-want-it-to-be-physical">M-DISC, when you want it to be physical</a>
+            <a href="#m-disc">M-DISC</a>
           </li>
           <li>
-            <a href="#what-a-finished-arrangement-looks-like">What a finished arrangement looks like</a>
+            <a href="#a-finished-arrangement">A finished arrangement</a>
           </li>
         </ol>
       </nav>
 
-      <h2 id="the-problem-stated-properly">The problem, stated properly</h2>
+      <h2 id="why">Why</h2>
       <p>
-        Ransomware does not need to break your encryption. It runs as you, on
-        your machine, with your rights, and that means it holds whatever your
-        backup tool holds. Your bucket keys are in the app. Your external
-        drive is plugged in. It encrypts the lot, including the backup, and
-        then asks for money.
+        Ransomware runs as you, with the same access as your backup app: your
+        bucket keys and your plugged-in drive. It can encrypt or delete the
+        backup along with the originals. A wrong click, a lifecycle rule or a
+        lapsed account can do the same without an attacker.
       </p>
       <p>
-        The same thing happens without an attacker. A wrong click empties a
-        folder, a lifecycle rule you set up last year quietly cleans the
-        archive, an account lapses. In every version of the story the backup
-        obeys the same person or process that destroyed the original, which
-        is why a second copy under the same control is not really a second
-        copy.
-      </p>
-      <p>
-        The answer is one copy that cannot be told to delete, by anyone,
-        including you, for a period you choose in advance. Three ways to get
-        one, and they suit different things.
+        The fix is one copy that refuses deletes, from anyone, you included,
+        for a period you set in advance.
       </p>
 
       <h2 id="which-one-you-want">Which one you want</h2>
@@ -74,290 +63,166 @@ export default function ImmutableCopies() {
           <tr>
             <th>Approach</th>
             <th>Good for</th>
-            <th>Real cost</th>
+            <th>Cost</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>Object lock in a bucket</td>
-            <td>The whole silo, automatically, for as long as the lock is set</td>
+            <td>The whole silo, automatically</td>
             <td>A few euros a month, one careful setup</td>
           </tr>
           <tr>
             <td>Immutable snapshots on a NAS</td>
-            <td>A whole silo you keep at home</td>
+            <td>A whole silo kept at home</td>
             <td>The NAS you may already own</td>
           </tr>
           <tr>
             <td>M-DISC</td>
-            <td>The small set you would grieve over</td>
-            <td>A burner, and doing it by hand</td>
+            <td>The few files you could not replace</td>
+            <td>A Blu-ray burner and some manual work</td>
           </tr>
         </tbody>
       </table>
-      <p>
-        Most people want the first. The third is worth doing anyway for the
-        handful of things that would actually hurt: photographs of people who
-        are gone, the documents that prove something, the recovery code
-        itself.
-      </p>
 
       <h2 id="object-lock-in-a-bucket">Object lock in a bucket</h2>
       <p>
-        Object lock tells the storage to refuse deletion of an object until a
-        date passes. In <strong>compliance mode</strong> that refusal applies
-        to everyone: not the app, not stolen credentials, not the account
-        owner, not the provider&apos;s support desk. That last part is the
-        point and also the catch, so read the warning below before you pick a
-        long window.
-      </p>
-      <p>
-        Backblaze B2, Wasabi, Amazon S3 and MinIO offer it. Cloudflare R2
-        has bucket locks instead, which an account administrator can remove,
-        so a locked copy does not belong there.
+        Object lock makes the storage refuse to delete an object until a date
+        passes. In <strong>compliance mode</strong> nobody can override it:
+        not the app, not stolen credentials, not the account owner. Backblaze
+        B2, Wasabi, Amazon S3 and MinIO offer it. Cloudflare R2&apos;s bucket
+        locks can be removed by an administrator, so they do not count.
       </p>
 
       <h3>Setting it up</h3>
       <ol>
         <li>
-          Create a <strong>new bucket</strong>. Wasabi allows object lock
-          only when a bucket is created; Amazon S3 and Backblaze B2 can add it
-          later, but a fresh bucket keeps older, unlocked files out of it.
-          Versioning is required and is switched on with it.
+          Create a <strong>new bucket</strong> with object lock on. Versioning
+          comes with it.
         </li>
         <li>
-          Set a <strong>default retention</strong>, in compliance mode. Two
-          weeks is a sensible starting point. Without this step nothing is
-          actually locked: turning the feature on only makes locking
-          possible, and the default retention is what actually locks each
-          new file as it arrives.
+          Set a <strong>default retention</strong> in compliance mode, two
+          weeks to start. Without it nothing is locked.
         </li>
         <li>
           Add a <strong>lifecycle rule</strong> that removes noncurrent
-          versions after the same period, so the bucket does not grow for
-          ever, and one with the action{" "}
-          <strong>AbortIncompleteMultipartUpload</strong> after 7 days, which
-          clears the pieces of a large upload that a crash cut short. Never
-          add a plain expiration rule: SilentSilo&apos;s files are never
-          overwritten, so they are all current versions, and a rule expiring
-          current versions deletes the archive rather than the rubbish.
+          versions after the same period. Never add a rule that expires
+          current versions: it deletes the archive. The rules for each provider
+          are in <a href={DOC_STORAGE}>STORAGE.md</a>.
         </li>
         <li>
-          Add the bucket in SilentSilo as a second copy: open{" "}
-          <strong>Settings &gt; Backup</strong>, press{" "}
+          In SilentSilo, open <strong>Settings &gt; Backup</strong>, press{" "}
           <strong>Add another copy</strong>, fill in the bucket and tick{" "}
-          <strong>Never-delete copy</strong>. The app then never
-          sends a delete to it, so the two agree instead of the app being
-          refused all day. The box is only offered for another copy, not
-          for the main one, and that is the right shape: the main copy is
-          the one the app keeps tidy.
+          <strong>Never-delete copy</strong>. The app then never sends it a
+          delete. It also checks that the bucket has object lock and warns you
+          if not; on Amazon S3 the key needs the permissions listed in the{" "}
+          <Link href="/tutorials/backup-s3/">S3 guide</Link> for that check.
         </li>
       </ol>
-      <p>
-        When you tick the box the app asks the bucket whether it really has
-        object lock and warns you if it does not. On a bucket that is locked
-        the warning still appears when the access key is not allowed to ask,
-        so on Amazon S3 give the key{" "}
-        <code>s3:GetBucketObjectLockConfiguration</code> and{" "}
-        <code>s3:GetBucketVersioning</code>, as in the{" "}
-        <Link href="/tutorials/backup-s3/">S3 guide</Link>.
-      </p>
 
-      <h3>What it actually protects</h3>
+      <h3>What it protects</h3>
       <p>
-        The retention window runs from when each object is{" "}
-        <strong>written</strong>, not from when something tries to delete it.
-        With a fourteen day window, nothing written in the last fortnight can
-        be deleted through the storage, by you or by anyone holding your
-        credentials. Something written six months ago is
-        outside its window: an accidental delete leaves it recoverable for as
-        long as your lifecycle rule keeps noncurrent versions, but a
-        deliberate one, made with stolen credentials that name the version
-        directly, removes it for good.
+        The window counts from when each object was written. With two weeks,
+        nothing written in the last two weeks can be deleted, by anyone. Older
+        objects can be deleted on purpose by someone holding your keys, so the
+        lock keeps a recent, complete state, not every state forever.
       </p>
       <p>
-        A longer window does not change that. The lock is there to keep a
-        recent, complete state restorable whatever happens to the
-        credentials.
-      </p>
-      <p>
-        Two more things to know before choosing the window. Content you
-        delete in the silo reaches the storage as a deletion only 30 days
-        after it leaves the trash, so even the ordinary copy keeps a deleted
-        file for at least a month; the lock is for the case where the
-        deletion did not come from you. And a never-delete copy keeps keys
-        too. When you remove a key from the silo, the app deletes the small
-        file that let that key open it, but it sends no delete to a
-        never-delete copy. A key you have lost goes on opening what is
-        stored there for good. <strong>Replace the encryption key</strong>,
-        under Settings &gt; Advanced, keeps it out of anything saved from
-        then on. The old never-delete copy then gets no new backups: remove
-        it under Settings &gt; Backup and add a new one. Keep your keys where
-        you can find them.
+        A never-delete copy also keeps the envelope of a key you removed, so a
+        lost key still opens that copy. Use{" "}
+        <strong>Replace the encryption key</strong> in Settings &gt; Advanced,
+        then replace the never-delete copy with a new one.
       </p>
       <p className="notice">
-        <strong>Compliance mode binds you too.</strong> If you put something
-        in that bucket that must genuinely be erased, a subject access
-        request, a file uploaded by mistake, you cannot erase it before the
-        retention expires, and neither can anyone else with access to the
-        bucket. Choose the window knowing that, and
-        choose it short rather than long.
+        <strong>Compliance mode binds you too.</strong> Something that must be
+        erased, such as a file uploaded by mistake, stays until the window
+        ends. Choose a short window.
       </p>
 
       <h2 id="immutable-snapshots-on-a-nas">Immutable snapshots on a NAS</h2>
       <p>
-        If your backup lives at home on a NAS, the equivalent is a snapshot
-        the sharing protocol cannot reach. A snapshot is a frozen view of the
-        filesystem: deleting the live files does not touch it, and neither
-        does anything writing through the share.
+        At home, the equivalent is a snapshot the file share cannot touch. On
+        ZFS or btrfs (TrueNAS, Unraid, plain Linux), take snapshots on a
+        schedule and keep two weeks of them. Synology and QNAP offer scheduled
+        snapshots, and newer models an immutable option: turn it on.
       </p>
-      <ul>
-        <li>
-          <strong>ZFS or btrfs</strong>, on TrueNAS, Unraid or a plain Linux
-          box: take a snapshot on a schedule and keep a fortnight of them.
-        </li>
-        <li>
-          <strong>Synology and QNAP</strong> offer scheduled snapshots in the
-          interface, and newer models a write-once folder mode, which is the
-          closest thing to object lock that lives in a house.
-        </li>
-      </ul>
       <p>
-        The protection is real but it has a ceiling. On plain ZFS or btrfs,
-        an attacker who gets{" "}
-        <strong>administrator access to the NAS itself</strong> can destroy
-        snapshots, where an attacker holding compliance-locked bucket
-        credentials cannot. Synology and QNAP immutable snapshots refuse that
-        until they expire, so turn that option on where you have it. So give the NAS its own password, not the one
-        from your laptop, and do not mount the admin interface on a machine
-        you also browse the web from.
+        On plain ZFS or btrfs, anyone with administrator access to the NAS can
+        delete snapshots. Give the NAS its own password and do not open its
+        admin page on the computer you browse from.
       </p>
 
-      <h2 id="m-disc-when-you-want-it-to-be-physical">M-DISC, when you want it to be physical</h2>
+      <h2 id="m-disc">M-DISC</h2>
       <p>
-        M-DISC is a Blu-ray disc whose recording layer is inorganic rather
-        than dye. Writing changes the material, so the result is write-once
-        in the way a photograph is: there is no command that unwrites it,
-        because there is no mechanism that could. Discs come in 25, 50 and
-        100 GB and are rated for centuries by accelerated ageing tests, which no one has
-        confirmed in real time and which
-        matters less than the fact that they cannot be rewritten this
-        afternoon.
+        M-DISC is a Blu-ray disc that can be written once and never changed.
+        Discs hold 25, 50 or 100 GB.
       </p>
 
       <h3>Burning a silo</h3>
       <ol>
         <li>
-          Add a <strong>plain folder</strong> on your hard disk as another
-          copy in <strong>Settings &gt; Backup</strong>, and let it fill
-          completely. That folder is a full copy of the silo. Inside it you
-          will find <code>vault.json</code>, <code>recovery.env</code>, a{" "}
-          <code>keys/</code> folder, a <code>snapshots/</code> folder, an{" "}
-          <code>ops/</code> folder and a <code>blobs/</code> folder. Every
-          one of them is needed to read the silo back: the recovery tool
-          opens the silo with <code>recovery.env</code> and{" "}
-          <code>keys/</code>, and rebuilds the file list from{" "}
-          <code>snapshots/</code> and <code>ops/</code> together.
+          In <strong>Settings &gt; Backup</strong>, add a <strong>plain
+          folder</strong> on your disk as another copy and let it fill. It
+          holds <code>vault.json</code>, <code>recovery.env</code> and the{" "}
+          <code>keys/</code>, <code>snapshots/</code>, <code>ops/</code> and{" "}
+          <code>blobs/</code> folders. All of them are needed.
         </li>
         <li>
-          Burn that folder to the disc with any burning software, as data,
-          and <strong>finalise</strong> the disc so it reads in other drives.
+          Burn that folder to the disc as data and <strong>finalise</strong>{" "}
+          the disc.
         </li>
         <li>
-          If the silo does not fit on one disc, split it deliberately:
-          everything except <code>blobs/</code> on <strong>every</strong>{" "}
-          disc, since those parts are small and they describe the structure,
-          and <code>blobs/</code> divided across the rest. Then a disc that
-          goes missing costs you the files whose contents were on it, rather
-          than the ability to read anything at all.
+          If it needs several discs, put everything except{" "}
+          <code>blobs/</code> on <strong>every</strong> disc and split{" "}
+          <code>blobs/</code> across them. A lost disc then costs only the
+          files on it.
         </li>
-        <li>
-          Write the date on the disc. It is a snapshot of that moment;
-          nothing you do afterwards changes it.
-        </li>
+        <li>Write the date on the disc.</li>
       </ol>
 
-      <h3>Proving it works, today</h3>
+      <h3>Check it works</h3>
       <p>
-        This is the step people skip and the one that matters. Download{" "}
-        <a href={RELEASES}>silentsilo-extract</a>, the recovery tool, and
-        point it at the disc:
+        Download <a href={RELEASES}>silentsilo-extract</a> and run:
       </p>
       <pre>
         <code>silentsilo-extract list --from D:\</code>
       </pre>
       <p>
-        It asks for your recovery code, reads the disc and prints what is in
-        the silo. It never writes to
-        the source, so it works on a disc that cannot be written to at all.
-        If that command lists your files, your archive is real. If it does
-        not, you have found out now rather than in five years.
+        It asks for your recovery code and lists the files. It never writes to
+        the source. To get the files out:{" "}
+        <code>silentsilo-extract extract --from D:\ --to C:\restored</code>.
+        Passwords come out in a <code>_passwords</code> folder that anyone can
+        read: import them and delete the folder.
       </p>
       <p>
-        It needs a recovery code to exist. If you turned yours off in
-        Settings, the disc holds nothing the tool can open: create a code
-        before you burn, and burn again after you replace one.
+        The tool needs a recovery code. If you turned yours off, create one
+        before you burn, and burn again after you replace it.
       </p>
       <p>
-        To get files back out, the same tool with a destination:{" "}
-        <code>
-          silentsilo-extract extract --from D:\ --to C:\restored
-        </code>
-        . No SilentSilo installation, no account, no key. That is the point
-        of it existing. If the silo holds passwords, they come out too, in a{" "}
-        <code>_passwords</code> folder, <strong>readable by anyone</strong>{" "}
-        who opens those files. Import them into a password manager and
-        delete that folder as soon as you have.
+        Keep an external Blu-ray drive with the discs, since new computers do
+        not have one. Keep the recovery code somewhere else: the disc alone
+        opens nothing, the disc with the code opens everything.
       </p>
 
-      <h3>Two things a good archive plan says out loud</h3>
-      <p>
-        <strong>Keep a reader.</strong> A disc rated for centuries is useless
-        without a Blu-ray drive, and computers stopped shipping them years
-        ago. Buy a cheap external one and put it in the same box as the
-        discs. It is the part of the plan most likely to be missing in ten
-        years.
-      </p>
-      <p>
-        <strong>Store the code somewhere else.</strong> The disc holds
-        encrypted files plus what any archive shows, how many files, how big
-        and from when; nobody can read a file from it. That makes the disc
-        alone safe to keep at a relative&apos;s house. The disc plus your
-        written recovery code is the whole silo, so those two things do not
-        belong in the same drawer.
-      </p>
-
-      <h2 id="what-a-finished-arrangement-looks-like">What a finished arrangement looks like</h2>
+      <h2 id="a-finished-arrangement">A finished arrangement</h2>
       <ol>
         <li>
           Your computer, with <em>Keep a full copy on this computer</em> on.
         </li>
         <li>
-          A working target the app keeps tidy: a bucket, a NAS, a folder on a
-          drive that stays connected.
+          A working copy the app keeps tidy: a bucket, a NAS, or a drive that
+          stays connected.
         </li>
         <li>
-          One copy nothing can erase: a locked bucket, snapshots on a NAS, or
-          a drive that lives unplugged. Being offline stops the same attack
-          that immutability stops, for a different reason, and costs one
-          habit instead of one subscription.
+          One copy nothing can erase: a locked bucket, NAS snapshots, or a
+          drive you keep unplugged.
         </li>
-        <li>
-          M-DISC for the small set you would grieve over, refreshed once a
-          year, verified the day you burn it.
-        </li>
+        <li>M-DISC for what you could not replace, renewed once a year.</li>
       </ol>
       <p>
-        The list of copies in Settings &gt; Backup shows when each one was
-        last written to, which
-        is the fact that quietly tells you a drive has been unplugged since
-        spring.
-      </p>
-      <p>
-        The provider-by-provider settings, the exact lifecycle rules and the
-        trap where versioning breaks key revocation are in{" "}
-        <a href={DOC_STORAGE}>docs/STORAGE.md</a>. The threat model behind all
-        of it is on the <Link href="/security/">security page</Link>.
+        Settings &gt; Backup shows when each copy was last written, so you
+        can see when a drive has stayed unplugged too long. The threat model
+        is on the <Link href="/security/">security page</Link>.
       </p>
       <MoreGuides />
     </main>

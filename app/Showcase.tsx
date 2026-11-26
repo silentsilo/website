@@ -99,7 +99,7 @@ const WINDOWS_SHOTS: Shot[] = [
     height: 1600,
     alt: "The app asking whether to fill the GitHub login on github.com in the browser",
     caption:
-      "The extension asks, the app answers. Each fill names the site and the login, and the browser gets nothing until you confirm with Windows Hello or your key.",
+      "Each fill names the site and the login, and the browser gets nothing until you confirm with Windows Hello or your key.",
   },
   {
     id: "unlock",
@@ -192,7 +192,7 @@ const WINDOWS_SHOTS: Shot[] = [
 const MAC_WORDS: Record<string, Partial<Shot>> = {
   fill: {
     caption:
-      "The extension asks, the app answers. Each fill names the site and the login, and the browser gets nothing until you confirm with Touch ID or your key.",
+      "Each fill names the site and the login, and the browser gets nothing until you confirm with Touch ID or your key.",
   },
   unlock: {
     hint: "A key or Touch ID",

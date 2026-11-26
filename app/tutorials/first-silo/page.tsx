@@ -15,8 +15,8 @@ export default function FirstSilo() {
       <h1>Your first silo</h1>
       <p className="lead">
         A silo is an encrypted folder on your computer with its own keys and
-        its own backup. Setting one up takes about ten minutes, and two of
-        those minutes decide whether you can get it back on a bad day.
+        its own backup. Setting one up takes about ten minutes. The two that
+        matter most are the recovery code and the backup.
       </p>
 
       <nav className="toc" aria-label="On this page">
