@@ -5,6 +5,7 @@
   "description": "silentsilo.com landing site",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/check-latest-json.mjs",
     "build": "next build",
     "og": "node scripts/og-image.mjs",
     "start": "next start",
