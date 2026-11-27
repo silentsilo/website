@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { IconDownload, IconPhone } from "./Icons";
-import { APP_STORE, LATEST_INSTALLER, MAC_DMG, PLAY_STORE } from "./links";
+import { APP_STORE, DAPPCDN, LATEST_INSTALLER, MAC_DMG, PLAY_STORE } from "./links";
 
 export type Visitor = "windows" | "android" | "linux" | "macos" | "ios" | "elsewhere";
 
@@ -28,7 +28,7 @@ export function useVisitor(): Visitor {
 }
 
 /** The one button most visitors came for: Google Play on Android, the App
- *  Store on an iPhone, the installer on Windows, the disk image on a Mac,
+ *  Store on an iPhone, the dAppCDN page on Windows, the disk image on a Mac,
  *  the two Linux packages on Linux, and the download page anywhere else. */
 export function DownloadButton() {
   const visitor = useVisitor();
@@ -74,9 +74,21 @@ export function DownloadButton() {
     );
   }
   return (
-    <a className={cls} href={LATEST_INSTALLER}>
+    <a className={cls} href={DAPPCDN}>
       <IconDownload size={16} />
-      Download for Windows
+      Download from dAppCDN
     </a>
+  );
+}
+
+/** Under the hero button on Windows: the same installer straight from the
+ *  GitHub release. */
+export function DirectDownload() {
+  const visitor = useVisitor();
+  if (visitor !== "windows") return null;
+  return (
+    <p className="hero-direct">
+      <a href={LATEST_INSTALLER}>Direct download from GitHub</a>
+    </p>
   );
 }

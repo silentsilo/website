@@ -29,7 +29,7 @@ import {
   XCircle,
 } from "@phosphor-icons/react/dist/ssr";
 import { AlsoOn } from "./AlsoOn";
-import { DownloadButton } from "./DownloadButton";
+import { DirectDownload, DownloadButton } from "./DownloadButton";
 import { HeroShot } from "./HeroShot";
 import { HowItWorks } from "./HowItWorks";
 import { IntroFilm } from "./IntroFilm";
@@ -200,6 +200,7 @@ export default function Home() {
                 <ArrowRight />
               </a>
             </div>
+            <DirectDownload />
             <AlsoOn />
             <p className="hero-meta">
               {[

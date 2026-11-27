@@ -31,6 +31,9 @@ const LATEST_DOWNLOAD = `${REPO}/releases/latest/download`;
 export const LATEST_INSTALLER_NAME = `SilentSilo_${LATEST_VERSION}_x64-setup.exe`;
 export const LATEST_INSTALLER = `${LATEST_DOWNLOAD}/${LATEST_INSTALLER_NAME}`;
 
+/** The installer on dAppCDN, the author's CDN; the same file as GitHub's. */
+export const DAPPCDN = "https://dappcdn.com/download/password-managers/silentsilo";
+
 /** The Mac app: one disk image for Apple silicon and Intel, signed and
  *  notarised, with its minisign signature beside it. */
 export const MAC_DMG_NAME = `SilentSilo_${LATEST_VERSION}_universal.dmg`;

@@ -833,6 +833,21 @@ a:hover {
   max-width: 34rem;
 }
 
+.hero-direct {
+  margin: 0.55rem 0 0;
+  font-size: 0.8rem;
+}
+
+.hero-direct a {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.hero-direct a:hover {
+  color: var(--accent);
+}
+
 .hero-stores {
   display: flex;
   flex-wrap: wrap;
