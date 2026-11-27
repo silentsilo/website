@@ -213,10 +213,10 @@ export const FURTHER: Guide[] = [
   },
   {
     href: "/tutorials/copies-nothing-can-erase/",
-    title: "A copy nothing can erase",
-    short: "A copy nothing can erase",
+    title: "A copy that refuses deletes",
+    short: "A copy that refuses deletes",
     what:
-      "Ransomware that reaches your machine reaches your backup credentials with it. This is the copy that survives that.",
+      "Ransomware that reaches your machine reaches your backup credentials with it. This copy survives that when the storage refuses deletes.",
     meta: ["After the first backup"],
     icon: <LockKey weight="duotone" />,
   },
@@ -225,7 +225,7 @@ export const FURTHER: Guide[] = [
     title: "Silos for a team or a company",
     short: "For a team or a company",
     what:
-      "Silos an employee cannot lock the company out of: the organisation key, onboarding, and the day somebody leaves.",
+      "Silos the company keeps a way into: the organisation key, onboarding, and the day somebody leaves.",
     meta: ["For companies"],
     icon: <UsersThree weight="duotone" />,
   },

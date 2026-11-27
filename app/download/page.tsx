@@ -264,8 +264,7 @@ export default function Download() {
                 </dd>
                 <dt>Signature</dt>
                 <dd>
-                  <a href={LATEST_INSTALLER_SIG}>{LATEST_INSTALLER_NAME}.sig</a> (minisign,
-                  the key the app checks updates against).{" "}
+                  <a href={LATEST_INSTALLER_SIG}>{LATEST_INSTALLER_NAME}.sig</a> (minisign, the key the updater of releases up to 1.5.2 checked against).{" "}
                   <Link href="/security/#checking-what-you-downloaded">How to check it</Link>
                 </dd>
               </dl>

@@ -85,17 +85,14 @@ export default function BackupFolder() {
         Uploading several hundred gigabytes over a home connection takes
         weeks. Filling an external disk takes an afternoon. If the silo
         already backs up somewhere, use <strong>Fill from the main copy</strong>{" "}
-        on the disk&apos;s row in Settings &gt; Backup: it copies the
-        encrypted files straight across, never needs your key and decrypts
-        nothing, shows how many bytes have moved so a large file does not look
+        on the disk&apos;s row in Settings &gt; Backup: it copies the encrypted files straight across and decrypts none of your files (the silo has to be unlocked, because the app uses its key to check which records are current), shows how many bytes have moved so a large file does not look
         like a stall, can be stopped at any point, and carries on from where
         it stopped when you run it again.
       </p>
       <p>
         The source is always the main copy, the row tagged{" "}
         <strong>main</strong>. To go the other way, fill a bucket from a disk
-        seeded at the office, make the disk the main copy and add the bucket
-        as another copy.
+        seeded at the office, press Edit on the main connection in Settings &gt; Backup and point it at the disk, then add the bucket with Add another copy and fill it.
       </p>
 
       <h2 id="the-synced-folder-trap">The synced-folder trap</h2>
@@ -105,10 +102,7 @@ export default function BackupFolder() {
       </p>
       <p>
         Putting the <strong>backup</strong> in a Dropbox, OneDrive or Google
-        Drive folder is fine and works well. The backup is made of files that
-        are written once and never changed afterwards, each with its own
-        name, so two computers never fight over the same file and there is
-        nothing for a sync client to conflict over.
+        Drive folder is fine and works well. Nearly every file in the backup is written once under a name of its own, so two computers rarely touch the same file and a sync client has little to conflict over.
       </p>
       <p>
         Putting the <strong>silo itself</strong> in one of those folders is a
@@ -143,7 +137,7 @@ export default function BackupFolder() {
         is enforced by the storage instead, which is the difference explained
         in{" "}
         <Link href="/tutorials/copies-nothing-can-erase/">
-          a copy nothing can erase
+          a copy that refuses deletes
         </Link>
         .
       </p>

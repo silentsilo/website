@@ -18,8 +18,7 @@ export function ImportInApp({ file, after }: { file: ReactNode; after?: ReactNod
         {after}
         <li>
           Under <strong>Where should these go?</strong>, keep the categories
-          from the file or put everything into one category. Nothing is
-          stored until you choose.
+          from the file or put everything into one category. No entry is saved until you choose. Attached files read so far are removed if you cancel.
         </li>
         <li>
           A line at the bottom says how many came in and what was left out.

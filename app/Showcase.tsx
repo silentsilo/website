@@ -111,7 +111,7 @@ const WINDOWS_SHOTS: Shot[] = [
     height: 1600,
     alt: "The unlock screen waiting for a security key to be touched",
     caption:
-      "No master password to forget, and none for anyone else to take. A key you touch or a face Windows already knows, with a code on paper as the only way back.",
+      "No master password to forget, and none for anyone else to take. A key you touch, Windows Hello or your phone, with a code on paper as the only way back.",
   },
   {
     id: "keys",
@@ -159,7 +159,7 @@ const WINDOWS_SHOTS: Shot[] = [
     height: 1600,
     alt: "The backup page, connected to a folder, with the list of copies below it",
     caption:
-      "Point it at a bucket, a share or a folder you already own. It lists every copy and how current each one is, and everything is encrypted before it leaves.",
+      "Point it at a bucket, a share or a folder you already own. It lists every copy and how current each one is, and file contents and names are encrypted before they leave.",
   },
   {
     id: "kit",

@@ -83,7 +83,7 @@ export default function Privacy() {
         <li>
           <strong>The update check</strong> (desktop app only). The app reads{" "}
           <code>silentsilo.com/latest.json</code>, which holds only the
-          latest version number: on its own at most once a day, and whenever
+          latest version number: on its own once a day, and again an hour later when a check fails, and whenever
           you press <strong>Check for updates</strong>. When this site does
           not answer, it reads the same file from the website&apos;s
           repository on GitHub. The request carries nothing about your
@@ -249,8 +249,7 @@ export default function Privacy() {
           it reads the address
           of the tab you are on and sends it to the SilentSilo app on your
           computer, to find the logins saved for that site. It reads no other
-          tab, and of the page only the type and position of the fields it
-          may fill, never what is typed or shown.
+          tab, and of the page only the fields it may fill and where their form sends, never what is typed or shown.
         </li>
         <li>
           <strong>When you choose Save this login</strong> (from version
@@ -287,7 +286,7 @@ export default function Privacy() {
         App Store Connect shows download counts, and crash reports from
         iPhones whose owners chose to share them with developers.
         And we keep the emails people send us, with the address they came
-        from. That is what we hold. No keys, no plaintext and no file names:
+        from. Add the web server&apos;s error log, which can name the address behind a request that failed. That is what we hold. No keys, no plaintext and no file names:
         the design does not send them to us.
       </p>
 

@@ -198,7 +198,7 @@ export function CloudGuide({ c }: { c: Cloud }) {
         on another kind of storage too: a{" "}
         <Link href="/tutorials/backup-folder/">drive</Link>, or a{" "}
         <Link href="/tutorials/copies-nothing-can-erase/">
-          copy nothing can erase
+          copy that refuses deletes
         </Link>
         .
       </p>

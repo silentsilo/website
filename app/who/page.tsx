@@ -33,8 +33,7 @@ export default function Who() {
       <h2>Why there is no account</h2>
       <p>
         I don&apos;t use social networks, and I wouldn&apos;t want an account
-        just to open my own files. SilentSilo has no account and no server of
-        its own. It sends no tracking or analytics. Storage you connect
+        just to open my own files. SilentSilo has no account, and no server of ours holds your data. It sends no tracking or analytics. Storage you connect
         receives encrypted data and the few details listed on the{" "}
         <Link href="/security/">security page</Link>.
       </p>

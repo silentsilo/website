@@ -6,7 +6,7 @@ import { MoreGuides } from "../MoreGuides";
 export const metadata: Metadata = {
   title: "Silos for a team or a company",
   description:
-    "Provisioning silos employees cannot lock the company out of: the organisation key, how to onboard someone, and what to do the day somebody leaves.",
+    "Provisioning silos the company keeps a way into: the organisation key, how to onboard someone, and what to do the day somebody leaves.",
 };
 
 const DOC_ORGS = `${REPO}/blob/main/docs/ORGANISATIONS.md`;
@@ -91,8 +91,7 @@ export default function OrganisationSilos() {
         <li>
           <strong>Settings &gt; Backup</strong> holds the main connection,
           tagged <strong>main</strong> in the list of copies. It
-          is a working copy: the app deletes from it when the trash is
-          emptied. Any kind of storage works; a folder on a company share,
+          is a working copy: the app deletes from it 30 days after a file is deleted for good. Any kind of storage works; a folder on a company share,
           like <code>\\server\vaults\popescu</code>, is the simplest.
         </li>
         <li>
@@ -102,7 +101,7 @@ export default function OrganisationSilos() {
           too: a company share where the employee&apos;s account can write
           files but not delete them, or a bucket with object lock as in{" "}
           <Link href="/tutorials/copies-nothing-can-erase/">
-            a copy nothing can erase
+            a copy that refuses deletes
           </Link>
           .
         </li>

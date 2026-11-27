@@ -183,18 +183,14 @@ export default function Europe() {
       </p>
       <p>
         We receive nothing from your silo. What Software Hive holds is listed
-        on the <Link href="/privacy/">privacy page</Link>: the rows the update
-        check writes, which carry a platform, a version and an outcome, and
-        nothing that tells one install from another.
+        on the <Link href="/privacy/">privacy page</Link>: update check rows kept from before 1.6.0, each with a platform, a version and an outcome, and the emails people send us. Nothing tells one install from another.
       </p>
 
       <h2 id="what-encryption-changes">What encryption changes, and what it does not</h2>
       <p>
         Whoever holds the storage holds ciphertext. They cannot read your
         files, and a request to them, from anyone, can only produce what they
-        hold. They can still see the outline: the account, the name of the
-        silo folder, how many objects there are, their sizes and when they
-        change. The{" "}
+        hold. They can still see the outline: the account, the silo folder&apos;s name, how many objects there are with their sizes and times, the names you gave your keys, and a hash of each file that confirms a copy they already have. The{" "}
         <a href="https://github.com/silentsilo/core/blob/main/docs/CRYPTO.md#what-the-storage-provider-learns">
           cryptography specification
         </a>{" "}
@@ -285,7 +281,7 @@ export default function Europe() {
         <li>
           If the silo matters, make one of them a{" "}
           <Link href="/tutorials/copies-nothing-can-erase/">
-            copy nothing can erase
+            copy that refuses deletes
           </Link>
           .
         </li>

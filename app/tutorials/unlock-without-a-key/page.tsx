@@ -168,8 +168,7 @@ export default function UnlockWithoutAKey() {
         </li>
         <li>
           <strong>A security key, if you can.</strong> One key opens the silo
-          on every computer, Linux included, and on the phone over NFC or
-          USB. Two,
+          on every computer, Linux included, and on the phone over NFC, or USB on Android. Two,
           kept apart, cover losing one.
         </li>
       </ul>

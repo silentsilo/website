@@ -150,8 +150,7 @@ export default function FirstSilo() {
         have: OneDrive, Dropbox or Google Drive with a sign-in, a drive,
         NAS, S3 bucket, WebDAV or SFTP server, or iCloud Drive once the
         iPhone app has used it. Each has its own guide under{" "}
-        <Link href="/tutorials/">Tutorials</Link>. The storage only ever sees
-        encrypted data.
+        <Link href="/tutorials/">Tutorials</Link>. What goes to the storage is encrypted. It sees the silo&apos;s folder name and how much you store, not what is inside.
       </p>
       <figure className="tut-shot">
         <ThemedImg

@@ -32,8 +32,7 @@ export default function Principles() {
         The app tracks nothing, and every kind of network request it can make
         is on the <a href="/privacy/">privacy page</a>: sync to storage you
         configured, with the provider&apos;s sign-in when that storage is
-        your OneDrive, Dropbox or Google Drive, an automatic update check at
-        most once a day that reads the latest version number from this site
+        your OneDrive, Dropbox or Google Drive, an automatic update check once a day, retried an hour later if it fails that reads the latest version number from this site
         and carries nothing about your install, the same check whenever you
         press{" "}
         <strong>Check for updates</strong>, a breach check only when you
@@ -49,13 +48,13 @@ export default function Principles() {
         Today the client is free in full and there is nothing to buy: no
         tier, no licence key, no metering. Backup goes to storage you already
         have, so whatever you pay for that you pay to your own provider, not
-        to us. These are the parts we commit to keep free:
+        to us. These are free today, and we intend to keep them free for as long as we publish SilentSilo:
       </p>
       <ul>
         <li>Encryption and unlocking, including hardware keys.</li>
         <li>The recovery code.</li>
         <li>Reading and exporting your own data.</li>
-        <li>Security patches.</li>
+        <li>Every release, security fixes included.</li>
       </ul>
 
       <h2>Open source</h2>

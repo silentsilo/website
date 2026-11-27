@@ -555,7 +555,7 @@ function Sees({
           Storage sees
         </text>
         <text x={x} y={y + 21} textAnchor={anchor}>
-          sizes, times, key labels, content hashes
+          sizes, times, key labels, content hashes, how many files
         </text>
         <text className="how-never-label" x={x} y={y + 50} textAnchor={anchor}>
           Cannot read
@@ -570,7 +570,7 @@ function Sees({
     <g className="how-sees">
       <text x={x} y={y} textAnchor={anchor}>
         <tspan className="how-sees-label">Storage sees </tspan>
-        <tspan>sizes, times, key labels, content hashes</tspan>
+        <tspan>sizes, times, key labels, content hashes, how many files</tspan>
       </text>
       <text x={x} y={y + 22} textAnchor={anchor}>
         <tspan className="how-never-label">Cannot read </tspan>
@@ -701,7 +701,7 @@ const LIVE_BROWSERS = "Chrome, Edge, Brave, Firefox";
 
 const DESC =
   "Each device encrypts on its own and writes to storage you choose: your OneDrive, Google Drive, Dropbox or iCloud Drive, an S3 " +
-  "bucket, WebDAV, an SFTP server or a folder. The storage holds only encrypted objects; it sees sizes, times, key labels, content hashes and the silo folder's name, but cannot read your file names, contents " +
+  "bucket, WebDAV, an SFTP server or a folder. The storage keeps your files, names and passwords only in encrypted form; it sees sizes, times, key labels, content hashes and the silo folder's name, but cannot read your file names, contents " +
   "or passwords. A change made on one device is sealed there, stored, and pulled by every other device; there is no " +
   "SilentSilo server in between. You unlock with a security key or the device's biometrics, and a " +
   "recovery code on paper is the fallback. Windows, macOS, Linux, Android and iOS are available now. " +
@@ -937,8 +937,7 @@ export function HowItWorks() {
         <li>
           <strong>Your devices</strong>
           <span>
-            encrypt everything before it leaves them, and only your keys can
-            open it.
+            encrypt your files, names and passwords before they leave them, and only your keys can open them.
           </span>
         </li>
         <li>

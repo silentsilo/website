@@ -180,10 +180,7 @@ export default function Security() {
       </p>
       <p>
         What the app does is shorten the window. Silos lock when the computer
-        locks or sleeps. Each password entry is encrypted on its own. Copied
-        passwords stay out of clipboard history and cloud clipboards and are
-        cleared after 45 seconds. On Windows, macOS and Android the app is
-        kept out of screenshots and screen sharing unless you turn that off. On Windows the app also turns
+        locks or sleeps. Each password entry is encrypted on its own. Copied passwords are cleared after 45 seconds. Except on Linux, they are also marked so clipboard history and cloud clipboards skip them. On Windows and macOS the app is kept out of screenshots and screen sharing unless you turn that off in Settings. On Android it always is. On Windows the app also turns
         off the usual ways other programs inject code into it. The same limit
         holds on a phone: software that controls an unlocked phone can reach
         what is open.

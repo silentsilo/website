@@ -40,8 +40,7 @@ export default function BackupS3() {
     <main id="main" className="wrap prose">
       <h1>Back up to an S3 bucket</h1>
       <p className="lead">
-        The option most people end up on: cheap, unlimited in practice, and
-        yours. It asks for six values that are easy to get wrong, so this
+        A bucket costs little and has no practical size limit. It asks for six values that are easy to get wrong, so this
         page walks each provider&apos;s console as it stands in August 2026
         and says exactly which button to press.
       </p>
@@ -154,7 +153,7 @@ export default function BackupS3() {
         can add it later, Wasabi cannot, and doing it at creation works
         everywhere. That is a guide of its own, with the warnings it deserves, in{" "}
         <Link href="/tutorials/copies-nothing-can-erase/">
-          a copy nothing can erase
+          a copy that refuses deletes
         </Link>
         .
       </p>
@@ -164,8 +163,7 @@ export default function BackupS3() {
         Files over 16 MB go up in parts. If the app is closed or the computer
         dies in the middle of one, the parts already sent stay in the bucket,
         billed, and no file listing shows them. The app clears them the next
-        time it uploads that file, and once a day it clears any older than a
-        day. As a second line of defence, add a lifecycle rule to the bucket
+        time it uploads that file, and once a day it clears any older than a day, except on a never-delete copy, which it sends no deletes. As a second line of defence, add a lifecycle rule to the bucket
         with the action <strong>AbortIncompleteMultipartUpload</strong>, set
         to 7 days. Backblaze B2, Cloudflare R2 (which applies one by default),
         Wasabi and Amazon S3 all accept it, and it costs nothing.
@@ -220,7 +218,7 @@ export default function BackupS3() {
         painless. The token flow lives in a different place from the rest of
         Cloudflare&apos;s API tokens, which is the only confusing part. R2 has
         bucket locks, but not S3 Object Lock, which is what the app checks
-        for, so it is not the place for the copy nothing can erase.
+        for, so it is not the place for the copy that refuses deletes.
       </p>
       <ol>
         <li>
@@ -285,7 +283,7 @@ export default function BackupS3() {
 
       <h2 id="amazon-s3">Amazon S3</h2>
       <p>
-        It works, and it is the most expensive way to do this. The app needs a
+        It works. Check AWS&apos;s current storage and transfer prices before you choose it. The app needs a
         permanent access key, so treat it as something to scope tightly and
         replace now and then.
       </p>

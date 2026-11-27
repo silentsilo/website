@@ -56,8 +56,7 @@ export default function BackupGoogleDrive() {
             figure for Workspace accounts). A first sync larger than that
             pauses with{" "}
             <strong>
-              Google Drive&apos;s daily upload limit is reached; it resumes
-              tomorrow
+              Google Drive&apos;s daily upload limit is reached. Uploads resume tomorrow.
             </strong>
             , and goes on by itself.
           </p>

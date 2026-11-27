@@ -4,7 +4,7 @@ import { REPO } from "../../links";
 import { MoreGuides } from "../MoreGuides";
 
 export const metadata: Metadata = {
-  title: "A copy nothing can erase",
+  title: "A copy that refuses deletes",
   description:
     "Write-once storage in practice: object lock in a bucket, immutable snapshots on a NAS, and M-DISC. What each one protects against, and how to check it works.",
 };
@@ -15,7 +15,7 @@ const RELEASES = `${REPO}/releases`;
 export default function ImmutableCopies() {
   return (
     <main id="main" className="wrap prose">
-      <h1>A copy nothing can erase</h1>
+      <h1>A copy that refuses deletes</h1>
       <p className="lead">
         Encryption stops someone reading your files, not deleting them. This
         guide is about a copy that survives a delete.
@@ -161,8 +161,7 @@ export default function ImmutableCopies() {
       <h3>Burning a silo</h3>
       <ol>
         <li>
-          In <strong>Settings &gt; Backup</strong>, add a <strong>plain
-          folder</strong> on your disk as another copy and let it fill. It
+          In <strong>Settings &gt; Backup</strong>, add a <strong>Drive or NAS folder</strong> on your disk as another copy and let it fill. It
           holds <code>vault.json</code>, <code>recovery.env</code> and the{" "}
           <code>keys/</code>, <code>snapshots/</code>, <code>ops/</code> and{" "}
           <code>blobs/</code> folders. All of them are needed.
@@ -214,7 +213,7 @@ export default function ImmutableCopies() {
           stays connected.
         </li>
         <li>
-          One copy nothing can erase: a locked bucket, NAS snapshots, or a
+          One copy that refuses deletes: a locked bucket, NAS snapshots, or a
           drive you keep unplugged.
         </li>
         <li>M-DISC for what you could not replace, renewed once a year.</li>

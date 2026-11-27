@@ -4,7 +4,6 @@ import {
   ArrowsClockwise,
   ArrowsLeftRight,
   Browser,
-  CheckCircle,
   Cloud,
   Desktop,
   DeviceMobile,
@@ -18,7 +17,6 @@ import {
   Key,
   Laptop,
   LockKey,
-  MinusCircle,
   Password,
   Scroll,
   ShieldCheck,
@@ -26,7 +24,6 @@ import {
   Terminal,
   Timer,
   Vault,
-  XCircle,
 } from "@phosphor-icons/react/dist/ssr";
 import { AlsoOn } from "./AlsoOn";
 import { DirectDownload, DownloadButton } from "./DownloadButton";
@@ -39,37 +36,6 @@ import { ExtensionStoreLink } from "./ExtensionStoreLink";
 import { PLANNED, PLATFORMS, SOON, type Platform } from "./platforms";
 import { STORAGE_GUIDES } from "./tutorials/guides";
 
-/** How each answer reads for the person choosing: good, a cost, or neither. */
-type Tone = "good" | "bad" | "meh";
-type Cell = [string, Tone];
-
-/** Row label, then one cell per column, in the order of the header. */
-const COMPARE: [string, Cell, Cell, Cell][] = [
-  ["Account required", ["No", "good"], ["Usually", "bad"], ["No", "good"]],
-  ["Unlock", ["Biometrics, your phone or a key", "good"], ["Usually a master password", "meh"], ["Usually a passphrase", "meh"]],
-  ["Sync between devices", ["Through your storage", "good"], ["Through their servers", "meh"], ["Through a synced folder", "meh"]],
-  ["Works if the vendor disappears", ["Silos keep opening", "good"], ["Usually not", "bad"], ["Usually", "good"]],
-  ["Source available", ["AGPL-3.0", "good"], ["Varies", "meh"], ["Usually", "meh"]],
-];
-
-const TONE_ICON: Record<Tone, React.ReactNode> = {
-  good: <CheckCircle weight="fill" />,
-  bad: <XCircle weight="fill" />,
-  meh: <MinusCircle weight="fill" />,
-};
-
-function CompareCell({ cell, label, mine = false }: { cell: Cell; label: string; mine?: boolean }) {
-  const [text, tone] = cell;
-  return (
-    <td role="cell" className={`tone-${tone}${mine ? " is-mine" : ""}`} data-label={label}>
-      <span className="tone-icon" aria-hidden>
-        {TONE_ICON[tone]}
-      </span>
-      {text}
-    </td>
-  );
-}
-
 /** Names only: the providers' brand rules do not allow their logos here
  *  without a licence, and the text says the same thing. */
 
@@ -77,7 +43,7 @@ const SMALL_FEATURES: { icon: React.ReactNode; title: string; text: string }[] =
   {
     icon: <FolderSimple weight="duotone" />,
     title: "Files, like a folder",
-    text: "Drag in, search, open. On disk everything is encrypted, file names included.",
+    text: "Drag in, search, open. Inside the silo everything is encrypted, file names included. A file you open is decrypted to a working folder until the silo locks.",
   },
   {
     icon: <DeviceMobile weight="duotone" />,
@@ -133,7 +99,7 @@ const TRUST: { icon: React.ReactNode; title: string; text: string; href: string;
     title: "Copies that outlast a bad day",
     text: "Several destinations, a drive that is usually unplugged, and a copy the app never deletes from.",
     href: "/tutorials/copies-nothing-can-erase/",
-    more: "A copy nothing can erase",
+    more: "A copy that refuses deletes",
   },
 ];
 
@@ -284,8 +250,7 @@ export default function Home() {
             <p className="kicker">How it works</p>
             <h2>Encrypted on your device, synced through your storage</h2>
             <p>
-              Your devices encrypt, your storage keeps only ciphertext, and
-              only your keys open it. A change made on one device reaches the
+              Your devices encrypt your files, names and passwords before they upload them, and only your keys open them. A change made on one device reaches the
               others through that storage.
             </p>
           </div>
@@ -536,41 +501,6 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Below 560px the rows become cards, which is why every element
-              carries its role explicitly: `display: block` on a table strips
-              the implicit ones. The labels come from data-label. */}
-          <div className="table-wrap">
-            <table className="compare" role="table">
-              <thead role="rowgroup">
-                <tr role="row">
-                  <th role="columnheader" scope="col" />
-                  <th role="columnheader" scope="col" className="is-mine">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/icon.svg" alt="" width={18} height={18} />
-                    SilentSilo
-                  </th>
-                  <th role="columnheader" scope="col">
-                    Hosted vaults
-                  </th>
-                  <th role="columnheader" scope="col">
-                    Folder encryptors
-                  </th>
-                </tr>
-              </thead>
-              <tbody role="rowgroup">
-                {COMPARE.map(([row, mine, hosted, folder]) => (
-                  <tr key={row} role="row">
-                    <th role="rowheader" scope="row">
-                      {row}
-                    </th>
-                    <CompareCell cell={mine} label="SilentSilo" mine />
-                    <CompareCell cell={hosted} label="Hosted vaults" />
-                    <CompareCell cell={folder} label="Folder encryptors" />
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
           <p className="compare-note">
             If Software Hive stopped, silos keep opening, and storage you run
             or rent keeps working. Sync through OneDrive, Dropbox or Google

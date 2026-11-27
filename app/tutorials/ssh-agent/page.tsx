@@ -68,7 +68,7 @@ export default function SshAgent() {
         </li>
       </ol>
       <p>
-        Ed25519, RSA and ECDSA keys work, in OpenSSH&apos;s format or as an
+        Ed25519, RSA and ECDSA P-256 or P-384 keys work, in OpenSSH&apos;s format or as an
         RSA key in PEM. A key with a passphrase asks for it once when you
         tick the box, and is kept without it from then on: the silo protects
         it, and the version with the passphrase stays in the entry&apos;s
@@ -167,7 +167,7 @@ export default function SshAgent() {
         <li>
           <strong>Requests forwarded from a server.</strong> With agent
           forwarding, a server you signed in to could ask your agent to sign
-          elsewhere as you. The agent refuses them.
+          elsewhere as you. With OpenSSH 8.9 or later the agent refuses them. An older ssh, such as the one in Windows 10, cannot tell them apart, so a forwarded request gets the dialog like any other.
         </li>
         <li>
           <strong>Adding or removing keys</strong> from outside: the keys are

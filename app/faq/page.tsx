@@ -62,7 +62,7 @@ export default function Faq() {
         Open the silo another way: another key, Windows Hello or Touch ID, the
         phone, or the recovery code. Then remove the lost key and use{" "}
         <strong>Replace the encryption key</strong> in Settings &gt; Advanced.
-        Removing the key alone does not stop it working.
+        Removing it stops it opening the silo. On a never-delete copy, or storage that keeps old versions, it still opens what is already there; replacing the encryption key keeps it out of everything saved after.
       </p>
 
       <h2>What if I lose the key and the recovery code?</h2>
@@ -148,8 +148,7 @@ export default function Faq() {
 
       <h2>How do I know the download is the real one?</h2>
       <p>
-        Every file on the <a href={RELEASES}>releases page</a> has a signature
-        beside it, and the app refuses an update that key did not sign. The
+        Every file on the <a href={RELEASES}>releases page</a> has a signature beside it. The app installs nothing by itself: it says when a new version is out, and you download it from this site. The
         Windows installer and the Mac app are also signed by Software Hive.
         Details are on <Link href="/security/">Security</Link>.
       </p>

@@ -223,7 +223,7 @@ export default function BackupSftp() {
         which is a promise the app keeps rather than one the server enforces.
         For a copy that refuses deletion at its own level, see{" "}
         <Link href="/tutorials/copies-nothing-can-erase/">
-          a copy nothing can erase
+          a copy that refuses deletes
         </Link>
         . Some SFTP hosts offer snapshots that cannot be changed, which is the
         same idea one layer down.
